@@ -8,7 +8,7 @@ class BottomSheetWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(20.0),
-      child: Container(
+      child: SizedBox(
         width: double.infinity,
         height: 320.0,
         child: Column(

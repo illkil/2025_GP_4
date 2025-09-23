@@ -150,6 +150,8 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
 
+              Image.asset('lib/assets/images/reCAPTCHA.png', width: 400,),
+
               SizedBox(height: 30.0),
 
               FilledButton(

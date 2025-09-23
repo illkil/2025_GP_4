@@ -175,7 +175,9 @@ class _SignupPageState extends State<SignupPage> {
                 ],
               ),
 
-              SizedBox(height: 50.0),
+              Image.asset('lib/assets/images/reCAPTCHA.png', width: 400,),
+
+              SizedBox(height: 30.0),
 
               FilledButton(
                 onPressed: () {

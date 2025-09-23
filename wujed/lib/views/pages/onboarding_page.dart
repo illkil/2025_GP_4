@@ -13,7 +13,7 @@ class OnboardingPage extends StatefulWidget {
 }
 
 class _OnboardingPageState extends State<OnboardingPage> {
-  PageController _controller = PageController();
+  PageController controller = PageController();
   bool onLastPage = false;
 
   @override
@@ -23,7 +23,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
       body: Stack(
         children: [
           PageView(
-            controller: _controller,
+            controller: controller,
             onPageChanged: (value) {
               setState(() {
                 onLastPage = (value == 2);
@@ -66,7 +66,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
           Align(
             alignment: Alignment(0, 0.4),
             child: SmoothPageIndicator(
-              controller: _controller,
+              controller: controller,
               count: 3,
               effect: WormEffect(
                 dotHeight: 8,
@@ -118,7 +118,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     )
                   : FilledButton(
                       onPressed: () {
-                        _controller.nextPage(
+                        controller.nextPage(
                           duration: Duration(milliseconds: 500),
                           curve: Curves.easeIn,
                         );
