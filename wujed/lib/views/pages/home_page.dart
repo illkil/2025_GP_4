@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter/icons/material_symbols.dart';
+import 'package:wujed/views/pages/notifications_page.dart';
 import 'package:wujed/views/pages/report_found_page.dart';
 import 'package:wujed/views/pages/report_lost_page.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
@@ -44,11 +45,33 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                         IconButton(
-                          onPressed: () {},
-                          icon: Icon(
-                            Icons.notifications_active_rounded,
-                            color: Color.fromRGBO(46, 23, 21, 1),
-                            size: 40,
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return NotificationsPage();
+                                },
+                              ),
+                            );
+                          },
+                          icon: Stack(
+                            children: [
+                              Icon(
+                                Icons.notifications_rounded,
+                                color: Color.fromRGBO(46, 23, 21, 1),
+                                size: 40,
+                              ),
+                              Positioned(
+                                right: 2,
+                                top: 2,
+                                child: Icon(
+                                  Icons.circle,
+                                  color: Color.fromRGBO(255, 0, 0, 1),
+                                  size: 15,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
@@ -248,7 +271,7 @@ class _HomePageState extends State<HomePage> {
                             boxShadow: [
                               BoxShadow(
                                 color: Color.fromRGBO(0, 0, 0, 0.05),
-                                offset: Offset(4, 4),
+                                offset: Offset(0, 4),
                                 blurRadius: 16,
                                 spreadRadius: 0,
                               ),
@@ -324,7 +347,7 @@ class _HomePageState extends State<HomePage> {
                             boxShadow: [
                               BoxShadow(
                                 color: Color.fromRGBO(0, 0, 0, 0.05),
-                                offset: Offset(4, 4),
+                                offset: Offset(0, 4),
                                 blurRadius: 16,
                                 spreadRadius: 0,
                               ),
@@ -403,7 +426,7 @@ class _HomePageState extends State<HomePage> {
                       boxShadow: [
                         BoxShadow(
                           color: Color.fromRGBO(0, 0, 0, 0.05),
-                          offset: Offset(4, 4),
+                          offset: Offset(0, 4),
                           blurRadius: 16,
                           spreadRadius: 0,
                         ),
@@ -421,7 +444,7 @@ class _HomePageState extends State<HomePage> {
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(20),
                                 child: Image.asset(
-                                  'lib/assets/images/CoffeeBrewer.png',
+                                  'lib/assets/images/CoffeeBrew.WEBP',
                                 ),
                               ),
                             ),

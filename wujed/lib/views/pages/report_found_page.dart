@@ -333,7 +333,7 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
       uploadPhoto = Stack(
         clipBehavior: Clip.none,
         children: [
-          Image.asset('lib/assets/images/CoffeeBrewer.png'),
+          Image.asset('lib/assets/images/CoffeeBrew.WEBP'),
           Positioned(
             bottom: -10,
             right: -10,
@@ -371,8 +371,8 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset('lib/assets/images/CoffeeBrewer.png'),
-              Image.asset('lib/assets/images/CoffeeBrewer2.png'),
+              Image.asset('lib/assets/images/CoffeeBrew.WEBP'),
+              Image.asset('lib/assets/images/CoffeeBrew2.jpg'),
             ],
           ),
         ],

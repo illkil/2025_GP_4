@@ -40,7 +40,20 @@ class NavbarWidget extends StatelessWidget {
                   label: 'History',
                 ),
                 NavigationDestination(
-                  icon: Icon(Icons.email_rounded, size: 30),
+                  icon: Stack(
+                    children: [
+                      Icon(Icons.email_rounded, size: 30),
+                      Positioned(
+                        right: 0,
+                        bottom: 0,
+                        child: Icon(
+                          Icons.circle,
+                          color: Color.fromRGBO(255, 0, 0, 1),
+                          size: 15,
+                        ),
+                      ),
+                    ],
+                  ),
                   label: 'Messages',
                 ),
                 NavigationDestination(

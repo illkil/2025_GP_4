@@ -347,14 +347,13 @@ class _ReportLostPageState extends State<ReportLostPage> {
               decoration: BoxDecoration(
                 color: Colors.white,
                 border: Border.all(
-                  // colored border
                   color: Color.fromRGBO(46, 23, 21, 1),
                   width: 0.5,
                 ),
                 borderRadius: BorderRadius.circular(16),
               ),
               child: IconButton(
-                icon: const Icon(
+                icon: Icon(
                   IconlyBold.camera,
                   color: Color.fromRGBO(46, 23, 21, 1),
                   size: 37,
