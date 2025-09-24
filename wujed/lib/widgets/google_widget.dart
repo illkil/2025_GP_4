@@ -19,9 +19,9 @@ class GsiMaterialButton extends StatelessWidget {
       label: Text(text),
       style: OutlinedButton.styleFrom(
         backgroundColor: const Color.fromARGB(255, 0, 0, 0),
-        foregroundColor: const Color.fromARGB(255, 255, 255, 255), // Google text color
+        foregroundColor: const Color.fromARGB(255, 255, 255, 255),
         textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-        side: const BorderSide(color: Color(0xFFdadce0)), // subtle border
+        side: const BorderSide(color: Color(0xFFdadce0)),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         elevation: 0,

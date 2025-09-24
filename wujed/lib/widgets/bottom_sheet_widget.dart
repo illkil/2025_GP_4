@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 
 class BottomSheetWidget extends StatelessWidget {
-  const BottomSheetWidget({super.key});
+  const BottomSheetWidget({super.key, required this.page});
+
+  final String page;
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +133,9 @@ class BottomSheetWidget extends StatelessWidget {
             FilledButton(
               onPressed: () {
                 Navigator.pop(context);
-                Navigator.pop(context);
+                Navigator.pop(context, {
+                  'location': true
+                });
               },
               style: FilledButton.styleFrom(
                 minimumSize: Size(double.infinity, 55),
@@ -141,7 +145,7 @@ class BottomSheetWidget extends StatelessWidget {
                 ),
               ),
               child: Text(
-                'Confirm',
+                page == 'PickLocationPage' ? 'Confirm' : 'Send',
                 style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
               ),
             ),

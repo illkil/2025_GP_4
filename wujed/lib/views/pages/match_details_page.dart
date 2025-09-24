@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 
@@ -16,6 +15,7 @@ class _MatchDetailsPageState extends State<MatchDetailsPage> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
+        surfaceTintColor: Colors.transparent,
         title: Title(
           color: Color.fromRGBO(46, 23, 21, 1),
           child: Text(
@@ -258,7 +258,7 @@ class _MatchDetailsPageState extends State<MatchDetailsPage> {
                         ),
                       );
                       if (confirmed == 'Confirm') {
-                        if (!mounted) return;
+                        if (!context.mounted) return;
                         Navigator.pop(
                           context,
                           'Accepted',

@@ -24,7 +24,10 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(backgroundColor: Colors.white),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.transparent,
+      ),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -110,8 +113,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
     setState(() {
       resetPasswordBtnColor = filled
-          ? Color.fromRGBO(46, 23, 21, 1) // active color
-          : Colors.grey.shade400; // inactive color
+          ? Color.fromRGBO(46, 23, 21, 1)
+          : Colors.grey.shade400;
     });
   }
 }

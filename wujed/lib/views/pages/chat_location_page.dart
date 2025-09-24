@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:wujed/widgets/bottom_sheet_widget.dart';
 
-class PickLocationPage extends StatefulWidget {
-  const PickLocationPage({super.key});
+class ChatLocationPage extends StatefulWidget {
+  const ChatLocationPage({super.key});
 
   @override
-  State<PickLocationPage> createState() => _PickLocationPageState();
+  State<ChatLocationPage> createState() => _PickLocationPageState();
 }
 
-class _PickLocationPageState extends State<PickLocationPage> {
+class _PickLocationPageState extends State<ChatLocationPage> {
   screenTapped() {
     showModalBottomSheet(
       context: context,
-      builder: (ctx) => BottomSheetWidget(page: 'PickLocationPage'),
+      builder: (ctx) => BottomSheetWidget(page: 'ChatLocationPage'),
     );
   }
 

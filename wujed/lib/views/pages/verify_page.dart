@@ -14,7 +14,10 @@ class _VerifyPageState extends State<VerifyPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(backgroundColor: Colors.white),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.transparent,
+      ),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(20.0),

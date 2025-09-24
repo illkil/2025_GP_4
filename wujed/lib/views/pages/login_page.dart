@@ -242,8 +242,8 @@ class _LoginPageState extends State<LoginPage> {
 
     setState(() {
       loginBtnColor = filled
-          ? Color.fromRGBO(46, 23, 21, 1) // active color
-          : Colors.grey.shade400; // inactive color
+          ? Color.fromRGBO(46, 23, 21, 1)
+          : Colors.grey.shade400;
     });
   }
 

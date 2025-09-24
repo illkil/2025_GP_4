@@ -341,7 +341,6 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
               decoration: BoxDecoration(
                 color: Colors.white,
                 border: Border.all(
-                  // colored border
                   color: Color.fromRGBO(46, 23, 21, 1),
                   width: 0.5,
                 ),

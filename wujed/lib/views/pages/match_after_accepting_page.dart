@@ -16,6 +16,7 @@ class _MatchAfterAcceptingPageState extends State<MatchAfterAcceptingPage> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
+        surfaceTintColor: Colors.transparent,
         title: Title(
           color: Color.fromRGBO(46, 23, 21, 1),
           child: Text(
@@ -238,7 +239,7 @@ class _MatchAfterAcceptingPageState extends State<MatchAfterAcceptingPage> {
                         ),
                       );
                       if (done == 'Continue') {
-                        if (!mounted) return;
+                        if (!context.mounted) return;
                         Navigator.pop(context);
                         Navigator.pop(
                           context,
@@ -362,7 +363,7 @@ class _MatchAfterAcceptingPageState extends State<MatchAfterAcceptingPage> {
                         ),
                       );
                       if (confirmed == 'Confirm') {
-                        if (!mounted) return;
+                        if (!context.mounted) return;
                         Navigator.pop(context, 'Revoked');
                       }
                     },

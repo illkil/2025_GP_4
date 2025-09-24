@@ -9,6 +9,7 @@ class NotificationsPage extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
+        surfaceTintColor: Colors.transparent,
         title: Title(
           color: Color.fromRGBO(46, 23, 21, 1),
           child: Text(

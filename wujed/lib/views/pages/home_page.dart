@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:iconify_flutter/icons/material_symbols.dart';
+import 'package:wujed/views/pages/item_reported_lost.dart';
 import 'package:wujed/views/pages/notifications_page.dart';
 import 'package:wujed/views/pages/report_found_page.dart';
 import 'package:wujed/views/pages/report_lost_page.dart';
@@ -58,13 +60,13 @@ class _HomePageState extends State<HomePage> {
                           icon: Stack(
                             children: [
                               Icon(
-                                Icons.notifications_rounded,
+                                IconlyBold.notification,
                                 color: Color.fromRGBO(46, 23, 21, 1),
                                 size: 40,
                               ),
                               Positioned(
-                                right: 2,
-                                top: 2,
+                                right: 3,
+                                top: 0,
                                 child: Icon(
                                   Icons.circle,
                                   color: Color.fromRGBO(255, 0, 0, 1),
@@ -481,7 +483,16 @@ class _HomePageState extends State<HomePage> {
                                   shape: BoxShape.circle,
                                 ),
                                 child: IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) {
+                                          return ItemReportedLost();
+                                        },
+                                      ),
+                                    );
+                                  },
                                   icon: Icon(
                                     Icons.arrow_forward_ios_rounded,
                                     size: 20,

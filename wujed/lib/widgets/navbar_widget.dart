@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wujed/data/notifiers.dart';
+import 'package:flutter_iconly/flutter_iconly.dart';
 
 class NavbarWidget extends StatelessWidget {
   const NavbarWidget({super.key});
@@ -32,17 +33,17 @@ class NavbarWidget extends StatelessWidget {
               backgroundColor: Colors.white,
               destinations: [
                 NavigationDestination(
-                  icon: Icon(Icons.home_rounded, size: 30),
+                  icon: Icon(IconlyBold.home, size: 30),
                   label: 'Home',
                 ),
                 NavigationDestination(
-                  icon: Icon(Icons.history_rounded, size: 30),
+                  icon: Icon(IconlyBold.timeCircle, size: 30),
                   label: 'History',
                 ),
                 NavigationDestination(
                   icon: Stack(
                     children: [
-                      Icon(Icons.email_rounded, size: 30),
+                      Icon(IconlyBold.message, size: 30),
                       Positioned(
                         right: 0,
                         bottom: 0,
@@ -57,7 +58,7 @@ class NavbarWidget extends StatelessWidget {
                   label: 'Messages',
                 ),
                 NavigationDestination(
-                  icon: Icon(Icons.person_rounded, size: 30),
+                  icon: Icon(IconlyBold.profile, size: 30),
                   label: 'Profile',
                 ),
               ],
