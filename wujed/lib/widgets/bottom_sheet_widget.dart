@@ -49,18 +49,19 @@ class BottomSheetWidget extends StatelessWidget {
                 height: 70.0,
                 width: double.infinity,
                 child: Stack(
-                  fit: StackFit.expand,
                   children: [
-                    Align(
-                      alignment: Alignment(-1.05, 0),
+                    Positioned(
+                      top: 0,
+                      bottom: 0,
                       child: Icon(
                         IconlyBold.location,
                         color: Color.fromRGBO(46, 23, 21, 1),
                         size: 45,
                       ),
                     ),
-                    Align(
-                      alignment: Alignment(-0.3, -0.5),
+                    Positioned(
+                      top: 15,
+                      left: 60,
                       child: Text(
                         'Your current location',
                         style: TextStyle(
@@ -71,8 +72,9 @@ class BottomSheetWidget extends StatelessWidget {
                         textAlign: TextAlign.center,
                       ),
                     ),
-                    Align(
-                      alignment: Alignment(0.6, 0.5),
+                    Positioned(
+                      top: 35,
+                      left: 60,
                       child: Text(
                         'King Saud University, Riyadh 12372',
                         style: TextStyle(
@@ -101,18 +103,19 @@ class BottomSheetWidget extends StatelessWidget {
                 height: 70.0,
                 width: double.infinity,
                 child: Stack(
-                  fit: StackFit.expand,
                   children: [
-                    Align(
-                      alignment: Alignment(-1.05, 0),
+                    Positioned(
+                      top: 0,
+                      bottom: 0,
                       child: Icon(
                         IconlyBold.location,
                         color: Color.fromRGBO(46, 23, 21, 1),
                         size: 45,
                       ),
                     ),
-                    Align(
-                      alignment: Alignment(-0.4, 0),
+                    Positioned(
+                      top: 25,
+                      left: 60,
                       child: Text(
                         'Choose Manually',
                         style: TextStyle(

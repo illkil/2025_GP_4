@@ -177,18 +177,19 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
                   height: 55.0,
                   width: double.infinity,
                   child: Stack(
-                    fit: StackFit.expand,
                     children: [
-                      Align(
-                        alignment: Alignment(-1, 0),
+                      Positioned(
+                        top: 0,
+                        bottom: 0,
                         child: Icon(
                           IconlyBold.location,
                           color: Color.fromRGBO(46, 23, 21, 1),
                           size: 37,
                         ),
                       ),
-                      Align(
-                        alignment: Alignment(0.3, 0),
+                      Positioned(
+                        top: 17,
+                        left: 70,
                         child: Text(
                           'Click here to add a Location',
                           style: TextStyle(
@@ -304,18 +305,19 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
         height: 55.0,
         width: double.infinity,
         child: Stack(
-          fit: StackFit.expand,
           children: [
-            Align(
-              alignment: Alignment(-1, 0),
+            Positioned(
+              top: 0,
+              bottom: 0,
               child: Icon(
                 IconlyBold.camera,
                 color: Color.fromRGBO(46, 23, 21, 1),
                 size: 37,
               ),
             ),
-            Align(
-              alignment: Alignment(0.3, 0),
+            Positioned(
+              top: 17,
+              left: 60,
               child: Text(
                 'Click here to add up to 2 Photos',
                 style: TextStyle(color: Colors.grey.shade400, fontSize: 14),
@@ -333,7 +335,20 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
       uploadPhoto = Stack(
         clipBehavior: Clip.none,
         children: [
-          Image.asset('lib/assets/images/CoffeeBrew.WEBP'),
+          Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: Color.fromRGBO(0, 0, 0, 0.2), width: 1),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Image.asset(
+                'lib/assets/images/CoffeeBrew.WEBP',
+                height: 160,
+                width: 160,
+              ),
+            ),
+          ),
           Positioned(
             bottom: -10,
             right: -10,
@@ -347,7 +362,7 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
                 borderRadius: BorderRadius.circular(16),
               ),
               child: IconButton(
-                icon: const Icon(
+                icon: Icon(
                   IconlyBold.camera,
                   color: Color.fromRGBO(46, 23, 21, 1),
                   size: 37,
@@ -370,8 +385,53 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset('lib/assets/images/CoffeeBrew.WEBP'),
-              Image.asset('lib/assets/images/CoffeeBrew2.jpg'),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Color.fromRGBO(0, 0, 0, 0.2),
+                    width: 1,
+                  ),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    bottomLeft: Radius.circular(20),
+                  ),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(17),
+                    bottomLeft: Radius.circular(17),
+                  ),
+                  child: Image.asset(
+                    'lib/assets/images/CoffeeBrew.WEBP',
+                    height: 160,
+                    width: 160,
+                  ),
+                ),
+              ),
+              SizedBox(width: 5.0),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Color.fromRGBO(0, 0, 0, 0.2),
+                    width: 1,
+                  ),
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(17),
+                    bottomRight: Radius.circular(17),
+                  ),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(20),
+                    bottomRight: Radius.circular(20),
+                  ),
+                  child: Image.asset(
+                    'lib/assets/images/CoffeeBrew2.jpg',
+                    height: 160,
+                    width: 160,
+                  ),
+                ),
+              ),
             ],
           ),
         ],

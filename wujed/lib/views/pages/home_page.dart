@@ -23,135 +23,132 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Color.fromRGBO(249, 249, 249, 1),
       body: Column(
         children: [
-          Align(
-            alignment: Alignment(0, -1),
-            child: Container(
-              width: double.infinity,
-              height: 280.0,
-              color: Color.fromRGBO(255, 204, 92, 0.4),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(height: 20.0),
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        SizedBox(
-                          height: 50.0,
-                          width: 50.0,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(15),
-                            child: Image.asset('lib/assets/images/Logo.png'),
-                          ),
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return NotificationsPage();
-                                },
-                              ),
-                            );
-                          },
-                          icon: Stack(
-                            children: [
-                              Icon(
-                                IconlyBold.notification,
-                                color: Color.fromRGBO(46, 23, 21, 1),
-                                size: 40,
-                              ),
-                              Positioned(
-                                right: 3,
-                                top: 0,
-                                child: Icon(
-                                  Icons.circle,
-                                  color: Color.fromRGBO(255, 0, 0, 1),
-                                  size: 15,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Text(
-                    'What item are you reporting?',
-                    style: TextStyle(
-                      fontSize: 22,
-                      color: Color.fromRGBO(46, 23, 21, 1),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-
-                  SizedBox(height: 30.0),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+          Container(
+            width: double.infinity,
+            height: 280.0,
+            color: Color.fromRGBO(255, 204, 92, 0.4),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(height: 20.0),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      FilledButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return ReportLostPage();
-                              },
-                            ),
-                          );
-                        },
-                        style: FilledButton.styleFrom(
-                          minimumSize: Size(150.0, 40.0),
-                          backgroundColor: Color.fromRGBO(46, 23, 21, 1),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        child: Text(
-                          'Lost',
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.bold,
-                          ),
+                      SizedBox(
+                        height: 50.0,
+                        width: 50.0,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(15),
+                          child: Image.asset('lib/assets/images/Logo.png'),
                         ),
                       ),
-
-                      SizedBox(width: 20.0),
-
-                      FilledButton(
+                      IconButton(
                         onPressed: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) {
-                                return ReportFoundPage();
+                                return NotificationsPage();
                               },
                             ),
                           );
                         },
-                        style: FilledButton.styleFrom(
-                          minimumSize: Size(150.0, 40.0),
-                          backgroundColor: Color.fromRGBO(46, 23, 21, 1),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        child: Text(
-                          'Found',
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        icon: Stack(
+                          children: [
+                            Icon(
+                              IconlyBold.notification,
+                              color: Color.fromRGBO(46, 23, 21, 1),
+                              size: 40,
+                            ),
+                            Positioned(
+                              right: 3,
+                              top: 0,
+                              child: Icon(
+                                Icons.circle,
+                                color: Color.fromRGBO(255, 0, 0, 1),
+                                size: 15,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
                   ),
-                ],
-              ),
+                ),
+                Text(
+                  'What item are you reporting?',
+                  style: TextStyle(
+                    fontSize: 22,
+                    color: Color.fromRGBO(46, 23, 21, 1),
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+          
+                SizedBox(height: 30.0),
+          
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    FilledButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return ReportLostPage();
+                            },
+                          ),
+                        );
+                      },
+                      style: FilledButton.styleFrom(
+                        minimumSize: Size(150.0, 40.0),
+                        backgroundColor: Color.fromRGBO(46, 23, 21, 1),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: Text(
+                        'Lost',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+          
+                    SizedBox(width: 20.0),
+          
+                    FilledButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return ReportFoundPage();
+                            },
+                          ),
+                        );
+                      },
+                      style: FilledButton.styleFrom(
+                        minimumSize: Size(150.0, 40.0),
+                        backgroundColor: Color.fromRGBO(46, 23, 21, 1),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: Text(
+                        'Found',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
           SizedBox(height: 20.0),
@@ -205,8 +202,9 @@ class _HomePageState extends State<HomePage> {
                           ),
                           child: Stack(
                             children: [
-                              Align(
-                                alignment: Alignment(-0.8, -0.7),
+                              Positioned(
+                                top: 20,
+                                left: 15,
                                 child: Container(
                                   height: 60.0,
                                   width: 60.0,
@@ -222,8 +220,9 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ),
                               ),
-                              Align(
-                                alignment: Alignment(0.5, -0.6),
+                              Positioned(
+                                top: 30,
+                                left: 85,
                                 child: Text(
                                   'Reports\nSubmitted',
                                   style: TextStyle(
@@ -233,8 +232,9 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ),
                               ),
-                              Align(
-                                alignment: Alignment(1, 1),
+                              Positioned(
+                                bottom: 0,
+                                right: 0,
                                 child: Container(
                                   height: 80,
                                   width: 145,
@@ -281,8 +281,9 @@ class _HomePageState extends State<HomePage> {
                           ),
                           child: Stack(
                             children: [
-                              Align(
-                                alignment: Alignment(-0.8, -0.7),
+                              Positioned(
+                                top: 20,
+                                left: 15,
                                 child: Container(
                                   height: 60.0,
                                   width: 60.0,
@@ -298,8 +299,9 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ),
                               ),
-                              Align(
-                                alignment: Alignment(0.5, -0.6),
+                              Positioned(
+                                top: 30,
+                                left: 85,
                                 child: Text(
                                   'Items\nRecovered',
                                   style: TextStyle(
@@ -309,8 +311,9 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ),
                               ),
-                              Align(
-                                alignment: Alignment(1, 1),
+                              Positioned(
+                                bottom: 0,
+                                right: 0,
                                 child: Container(
                                   height: 80,
                                   width: 145,
@@ -357,8 +360,9 @@ class _HomePageState extends State<HomePage> {
                           ),
                           child: Stack(
                             children: [
-                              Align(
-                                alignment: Alignment(-0.8, -0.7),
+                              Positioned(
+                                top: 20,
+                                left: 15,
                                 child: Container(
                                   height: 60.0,
                                   width: 60.0,
@@ -374,8 +378,9 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ),
                               ),
-                              Align(
-                                alignment: Alignment(0.35, -0.6),
+                              Positioned(
+                                top: 30,
+                                left: 85,
                                 child: Text(
                                   'Matches\nFound',
                                   style: TextStyle(
@@ -385,8 +390,9 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ),
                               ),
-                              Align(
-                                alignment: Alignment(1, 1),
+                              Positioned(
+                                bottom: 0,
+                                right: 0,
                                 child: Container(
                                   height: 80,
                                   width: 145,
@@ -452,8 +458,9 @@ class _HomePageState extends State<HomePage> {
                             ),
                             Stack(
                               children: [
-                                Align(
-                                  alignment: Alignment(-0.2, -0.7),
+                                Positioned(
+                                  top: 10,
+                                  left: 95,
                                   child: Text(
                                     'Coffee Brewer',
                                     style: TextStyle(
@@ -463,8 +470,9 @@ class _HomePageState extends State<HomePage> {
                                     ),
                                   ),
                                 ),
-                                Align(
-                                  alignment: Alignment(-0.12, 0.2),
+                                Positioned(
+                                  top: 30,
+                                  left: 95,
                                   child: Text(
                                     'Check back with your\nprevious report',
                                     style: TextStyle(
@@ -475,8 +483,10 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ],
                             ),
-                            Align(
-                              alignment: Alignment(0.85, 0),
+                            Positioned(
+                              top: 0,
+                              bottom: 0,
+                              right: 10,
                               child: Container(
                                 decoration: BoxDecoration(
                                   color: Color.fromRGBO(255, 204, 92, 0.4),

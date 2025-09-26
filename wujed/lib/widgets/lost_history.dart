@@ -60,8 +60,9 @@ class _LostHistoryState extends State<LostHistory> {
                     ),
                     Stack(
                       children: [
-                        Align(
-                          alignment: Alignment(-0.2, -0.8),
+                        Positioned(
+                          top: 5,
+                          left: 95,
                           child: Text(
                             'Coffee Brewer',
                             style: TextStyle(
@@ -70,8 +71,9 @@ class _LostHistoryState extends State<LostHistory> {
                             ),
                           ),
                         ),
-                        Align(
-                          alignment: Alignment(-0.2, -0.1),
+                        Positioned(
+                          top: 30,
+                          left: 95,
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -91,8 +93,9 @@ class _LostHistoryState extends State<LostHistory> {
                             ],
                           ),
                         ),
-                        Align(
-                          alignment: Alignment(-0.31, 0.7),
+                        Positioned(
+                          top: 57,
+                          left: 95,
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -119,8 +122,10 @@ class _LostHistoryState extends State<LostHistory> {
                         ),
                       ],
                     ),
-                    Align(
-                      alignment: Alignment(1, 0),
+                    Positioned(
+                      top: 0,
+                      bottom: 0,
+                      right: 0,
                       child: IconButton(
                         onPressed: () async {
                           final result = await Navigator.push(
@@ -196,8 +201,9 @@ class _LostHistoryState extends State<LostHistory> {
                     ),
                     Stack(
                       children: [
-                        Align(
-                          alignment: Alignment(-0.37, -0.8),
+                        Positioned(
+                          top: 5,
+                          left: 95,
                           child: Text(
                             'Item2',
                             style: TextStyle(
@@ -206,8 +212,9 @@ class _LostHistoryState extends State<LostHistory> {
                             ),
                           ),
                         ),
-                        Align(
-                          alignment: Alignment(-0.2, -0.1),
+                        Positioned(
+                          top: 30,
+                          left: 95,
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -227,8 +234,9 @@ class _LostHistoryState extends State<LostHistory> {
                             ],
                           ),
                         ),
-                        Align(
-                          alignment: Alignment(-0.36, 0.7),
+                        Positioned(
+                          top: 57,
+                          left: 95,
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -251,8 +259,10 @@ class _LostHistoryState extends State<LostHistory> {
                         ),
                       ],
                     ),
-                    Align(
-                      alignment: Alignment(1, 0),
+                    Positioned(
+                      top: 0,
+                      bottom: 0,
+                      right: 0,
                       child: IconButton(
                         onPressed: () {},
                         icon: Icon(Icons.arrow_forward_ios_rounded, size: 20),
@@ -314,8 +324,9 @@ class _LostHistoryState extends State<LostHistory> {
                     ),
                     Stack(
                       children: [
-                        Align(
-                          alignment: Alignment(-0.37, -0.8),
+                        Positioned(
+                          top: 5,
+                          left: 95,
                           child: Text(
                             'Item3',
                             style: TextStyle(
@@ -324,8 +335,9 @@ class _LostHistoryState extends State<LostHistory> {
                             ),
                           ),
                         ),
-                        Align(
-                          alignment: Alignment(-0.2, -0.1),
+                        Positioned(
+                          top: 30,
+                          left: 95,
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -345,8 +357,9 @@ class _LostHistoryState extends State<LostHistory> {
                             ],
                           ),
                         ),
-                        Align(
-                          alignment: Alignment(-0.31, 0.7),
+                        Positioned(
+                          top: 57,
+                          left: 95,
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -369,8 +382,10 @@ class _LostHistoryState extends State<LostHistory> {
                         ),
                       ],
                     ),
-                    Align(
-                      alignment: Alignment(1, 0),
+                    Positioned(
+                      top: 0,
+                      bottom: 0,
+                      right: 0,
                       child: IconButton(
                         onPressed: () {},
                         icon: Icon(Icons.arrow_forward_ios_rounded, size: 20),
@@ -432,8 +447,9 @@ class _LostHistoryState extends State<LostHistory> {
                     ),
                     Stack(
                       children: [
-                        Align(
-                          alignment: Alignment(-0.37, -0.8),
+                        Positioned(
+                          top: 5,
+                          left: 95,
                           child: Text(
                             'Item4',
                             style: TextStyle(
@@ -442,8 +458,9 @@ class _LostHistoryState extends State<LostHistory> {
                             ),
                           ),
                         ),
-                        Align(
-                          alignment: Alignment(-0.2, -0.1),
+                        Positioned(
+                          top: 30,
+                          left: 95,
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -463,8 +480,9 @@ class _LostHistoryState extends State<LostHistory> {
                             ],
                           ),
                         ),
-                        Align(
-                          alignment: Alignment(-0.235, 0.7),
+                        Positioned(
+                          top: 57,
+                          left: 95,
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -487,8 +505,10 @@ class _LostHistoryState extends State<LostHistory> {
                         ),
                       ],
                     ),
-                    Align(
-                      alignment: Alignment(1, 0),
+                    Positioned(
+                      top: 0,
+                      bottom: 0,
+                      right: 0,
                       child: IconButton(
                         onPressed: () {},
                         icon: Icon(Icons.arrow_forward_ios_rounded, size: 20),
@@ -550,8 +570,9 @@ class _LostHistoryState extends State<LostHistory> {
                     ),
                     Stack(
                       children: [
-                        Align(
-                          alignment: Alignment(-0.37, -0.8),
+                        Positioned(
+                          top: 5,
+                          left: 95,
                           child: Text(
                             'Item5',
                             style: TextStyle(
@@ -560,8 +581,9 @@ class _LostHistoryState extends State<LostHistory> {
                             ),
                           ),
                         ),
-                        Align(
-                          alignment: Alignment(-0.2, -0.1),
+                        Positioned(
+                          top: 30,
+                          left: 95,
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -581,8 +603,9 @@ class _LostHistoryState extends State<LostHistory> {
                             ],
                           ),
                         ),
-                        Align(
-                          alignment: Alignment(-0.33, 0.7),
+                        Positioned(
+                          top: 57,
+                          left: 95,
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -605,8 +628,10 @@ class _LostHistoryState extends State<LostHistory> {
                         ),
                       ],
                     ),
-                    Align(
-                      alignment: Alignment(1, 0),
+                    Positioned(
+                      top: 0,
+                      bottom: 0,
+                      right: 0,
                       child: IconButton(
                         onPressed: () {},
                         icon: Icon(Icons.arrow_forward_ios_rounded, size: 20),

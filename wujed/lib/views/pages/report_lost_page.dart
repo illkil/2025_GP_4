@@ -170,18 +170,19 @@ class _ReportLostPageState extends State<ReportLostPage> {
                   height: 55.0,
                   width: double.infinity,
                   child: Stack(
-                    fit: StackFit.expand,
                     children: [
-                      Align(
-                        alignment: Alignment(-1, 0),
+                      Positioned(
+                        top: 0,
+                        bottom: 0,
                         child: Icon(
                           IconlyBold.location,
                           color: Color.fromRGBO(46, 23, 21, 1),
                           size: 37,
                         ),
                       ),
-                      Align(
-                        alignment: Alignment(0.3, 0),
+                      Positioned(
+                        top: 17,
+                        left: 70,
                         child: Text(
                           'Click here to add a Location',
                           style: TextStyle(
@@ -297,18 +298,19 @@ class _ReportLostPageState extends State<ReportLostPage> {
         height: 55.0,
         width: double.infinity,
         child: Stack(
-          fit: StackFit.expand,
           children: [
-            Align(
-              alignment: Alignment(-1, 0),
+            Positioned(
+              top: 0,
+              bottom: 0,
               child: Icon(
                 IconlyBold.camera,
                 color: Color.fromRGBO(46, 23, 21, 1),
                 size: 37,
               ),
             ),
-            Align(
-              alignment: Alignment(0.3, 0),
+            Positioned(
+              top: 17,
+              left: 60,
               child: Text(
                 'Click here to add up to 2 Photos',
                 style: TextStyle(color: Colors.grey.shade400, fontSize: 14),

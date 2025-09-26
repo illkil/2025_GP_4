@@ -30,14 +30,15 @@ class _OnboardingPageState extends State<OnboardingPage> {
               });
             },
             children: [
-              Align(alignment: Alignment(0, -1), child: IntroPage1()),
+              IntroPage1(),
               IntroPage2(),
               IntroPage3(),
             ],
           ),
 
-          Align(
-            alignment: Alignment(0.95, -0.85),
+          Positioned(
+            top: 55,
+            right: 15,
             child: TextButton(
               onPressed: () {
                 Navigator.pushAndRemoveUntil(
@@ -63,8 +64,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
             ),
           ),
 
-          Align(
-            alignment: Alignment(0, 0.4),
+          Positioned(
+            bottom: 280,
+            left: 155,
             child: SmoothPageIndicator(
               controller: controller,
               count: 3,
@@ -78,8 +80,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
             ),
           ),
 
-          Align(
-            alignment: Alignment(0, 0.6),
+          Positioned(
+            bottom: 160,
+            left: 128,
             child: SizedBox(
               height: 50.0,
               width: 150.0,
