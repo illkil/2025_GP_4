@@ -1,0 +1,198 @@
+{
+  "@@locale": "en",
+
+  "intro1_title_part1": "Welcome to ",
+  "intro1_title_part2": "Wujed",
+  "intro1_description": "Every lost item has a way back home. With\nWujed, you can find what’s missing or help\nreturn what’s found.",
+
+  "intro2_title_part1": "We’ll help you ",
+  "intro2_title_part2": "find it",
+  "intro2_description": "Simply report what’s lost or found, and Wujed’s\nAI works to bring people and their belongings\nback together.",
+
+  "intro3_title_part1": "Your part ",
+  "intro3_title_part2": "matters",
+  "intro3_description": "Your reports help someone find what they’ve\nlost and together, we make a difference.",
+
+  "login_title": "Welcome Back!",
+  "login_subtitle": "Please Log in to continue",
+  "login_email_label": "Email",
+  "login_password_label": "Password",
+  "login_forgot_password": "Forgot Password?",
+  "login_button": "Log In",
+  "login_no_account": "Don't have an account?",
+  "login_signup_link": "Sign Up",
+  "common_or": "OR",
+  "google_continue": "Continue with Google",
+  "login_error_fill_all": "Please fill all the details",
+  "login_error_invalid": "Invalid email or password",
+
+  "signup_title": "Join Us!",
+  "signup_subtitle": "Fill all the details to create your account",
+  "signup_username_label": "Username",
+  "signup_email_label": "Email",
+  "signup_password_label": "Password",
+  "signup_username_taken": "This username is taken",
+  "signup_email_exists": "This email already exists",
+  "signup_password_weak": "Use 8 or more characters with a mix of\nuppercase and lowercase letters and\nnumbers",
+  "signup_age_checkbox": "I am 18 years old or older",
+  "signup_button": "Sign Up",
+  "signup_have_account": "Already have an account?",
+  "signup_login_link": "Log In",
+  "google_signup": "Sign up with Google",
+
+  "forgot_title": "Forgot Password",
+  "forgot_subtitle": "Enter your email account to\nreset your password",
+  "forgot_email_label": "Email",
+  "forgot_reset_button": "Reset Password",
+
+  "verify_title": "OTP Verification",
+  "verify_subtitle": "Please check your email for the\nverification code",
+  "verify_button": "Verify",
+  "verify_resend": "Resend code",
+
+  "home_what_item_question": "What item are you reporting?",
+  "home_lost_button": "Lost",
+  "home_found_button": "Found",
+
+  "home_stats_brand": "Wujed ",
+  "home_stats_suffix": "in numbers",
+
+  "home_stat_reports_title": "Reports\nSubmitted",
+  "home_stat_items_title": "Items\nRecovered",
+  "home_stat_matches_title": "Matches\nFound",
+
+  "home_stat_reports_value": "2100+",
+  "home_stat_items_value": "1600+",
+  "home_stat_matches_value": "1800+",
+
+  "home_card_title": "Coffee Brewer",
+  "home_card_subtitle": "Check back with your\nprevious report",
+  "home_card_view_arrow_aria": "View report details",
+
+  "navbar_home": "Home",
+  "navbar_history": "History",
+  "navbar_messages": "Messages",
+  "navbar_profile": "Profile",
+
+  "notifications_title": "Notifications",
+  "notifications_expired_title": "Report Expired ",
+  "notifications_expired_body": "your report of Item5 has expired\ndue to unconfirmed receipt.",
+  "notifications_new_match_title": "New Match Found",
+  "notifications_new_match_body": "A new match has been found for\nyour report of Coffee Brewer.",
+  "notifications_expiring_soon_title": "Report Expiring Soon ",
+  "notifications_expiring_soon_body": "Your report of Coffee Brewer will\nexpire in 5 days unless you renew it\nor accept a match.",
+  "notifications_time_2d": "2 days ago",
+  "notifications_time_6d": "6 days ago",
+  "notifications_time_9d": "9 days ago",
+
+  "report_found_title": "Report A Found Item",
+  "report_lost_title": "Report A Lost Item",
+  "report_required_details": "Please fill all required details",
+
+  "report_title_label": "Title ",
+  "report_title_hint": "Example: Brown wallet",
+
+  "report_photo_label": "Photo ",
+  "report_location_label": "Location ",
+  "report_location_button_hint": "Click here to add a Location",
+
+  "report_description_label": "Description ",
+  "report_description_hint": "Describe your item (Type, Color, Brand, etc)",
+
+  "report_counter_left": "{remaining} characters left",
+  "@report_counter_left": {
+    "placeholders": {
+      "remaining": { "type": "int", "example": "120" }
+    }
+  },
+
+  "report_submit_button": "Submit",
+  "report_upload_photos_hint": "Click here to add up to 2 Photos",
+
+  "sheet_choose_location_title": "Choose a Location",
+  "sheet_current_location_title": "Your current location",
+  "sheet_current_location_sub": "King Saud University, Riyadh 12372",
+  "sheet_choose_manually": "Choose Manually",
+  "sheet_confirm": "Confirm",
+  "sheet_send": "Send",
+
+  "history_title": "History",
+  "history_tab_lost": "Lost",
+  "history_tab_found": "Found",
+
+  "status_ongoing": "Ongoing",
+  "status_done": "Done",
+  "status_rejected": "Rejected",
+  "status_match_found": "Match Found",
+  "status_expired": "Expired",
+
+  "item_title_coffee_brewer": "Coffee Brewer",
+  "item_title_coffee_mug": "Coffee Mug",
+
+  "details_location_label": "Location",
+  "details_description_label": "Description",
+
+  "lost_found_matches_title": "Found Matches",
+  "match_confidence": "{percent}% Your Item",
+  "@match_confidence": {
+    "placeholders": {
+      "percent": { "type": "int", "example": "90" }
+    }
+  },
+
+  "dialog_are_you_sure_item": "Are you sure this is your item?",
+  "dialog_accept_match_note": "Accepting this match will hide the others. If it's not your item, just tap 'Revoke' to bring them back.",
+  "dialog_are_you_sure": "Are you sure?",
+  "dialog_remove_permanently_note": "This match will be removed permanently. Continue only if you're sure it's not your item.",
+
+  "btn_accept": "Accept",
+  "btn_reject": "Reject",
+  "btn_revoke": "Revoke",
+  "btn_confirm": "Confirm",
+  "btn_cancel": "Cancel",
+  "btn_confirm_receipt": "Confirm Receipt",
+  "btn_continue": "Continue",
+
+  "toast_congrats": "Congratulations!",
+  "toast_got_item_back": "You got your item back!\nEnjoy having it safe and sound again",
+
+  "submit_success_title": "All done! your report has been\nsubmitted successfully",
+
+  "appTitle": "Wujed",
+
+  "messages_title": "Messages",
+  "messages_you_prefix": "You:",
+  "messages_typing": "Typing...",
+  "messages_items_matched": "Your Items Matched!",
+  "action_block": "Block",
+
+  "chat_hello_found_item": "Hello, I think I found your item",
+  "chat_great_do": "Great! Let's do",
+  "chat_lets_decide": "Let's decide on a place and time to meet!",
+  "chat_yes_match": "Yes in fact it does match",
+  "chat_id_request": "That sounds like mine. Inside there should be a student ID with the name Ghaida Mo. Can you check if it matches?",
+  "chat_hello": "Hello!",
+
+  "chat_hint": "Type Your Message...",
+
+  "profile_title": "Profile",
+  "menu_switch_language": "Switch Language",
+  "language_en": "English",
+  "language_ar": "العربية",
+  "action_log_out": "Log Out",
+
+  "label_first_name": "First Name",
+  "label_last_name": "Last Name",
+  "label_phone_number": "Phone Number",
+  "placeholder_not_provided": "Not provided",
+
+  "edit_profile_title": "Edit Profile",
+  "edit_profile_change_picture": "Change Profile Picture",
+  "action_done": "Done",
+
+  "onboarding_skip": "Skip",
+  "onboarding_next": "Next",
+  "onboarding_done": "Done",
+
+  "btn_send": "Send"
+}

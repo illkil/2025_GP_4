@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wujed/views/pages/item_reported_lost.dart';
+import 'package:wujed/l10n/generated/app_localizations.dart';
+import 'package:intl/intl.dart';
 
 class LostHistory extends StatefulWidget {
   const LostHistory({super.key});
@@ -10,8 +12,16 @@ class LostHistory extends StatefulWidget {
 
 class _LostHistoryState extends State<LostHistory> {
   bool notFound = true;
+
+  String formatDate(BuildContext context, DateTime date) {
+    return DateFormat.yMMMMd(Localizations.localeOf(context).toString())
+        .format(date);
+  }
+
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+
     return ListView(
       clipBehavior: Clip.none,
       children: [
@@ -60,20 +70,20 @@ class _LostHistoryState extends State<LostHistory> {
                     ),
                     Stack(
                       children: [
-                        Positioned(
+                        PositionedDirectional(
                           top: 5,
-                          left: 95,
+                          start: 95,
                           child: Text(
-                            'Coffee Brewer',
+                            t.item_title_coffee_brewer,
                             style: TextStyle(
                               color: Color.fromRGBO(46, 23, 21, 1),
                               fontSize: 16,
                             ),
                           ),
                         ),
-                        Positioned(
+                        PositionedDirectional(
                           top: 30,
-                          left: 95,
+                          start: 95,
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -84,7 +94,7 @@ class _LostHistoryState extends State<LostHistory> {
                               ),
                               SizedBox(width: 5.0),
                               Text(
-                                '1 January 2025',
+                                formatDate(context, DateTime(2025, 1, 1)),
                                 style: TextStyle(
                                   color: Colors.grey.shade500,
                                   fontSize: 12,
@@ -93,9 +103,9 @@ class _LostHistoryState extends State<LostHistory> {
                             ],
                           ),
                         ),
-                        Positioned(
+                        PositionedDirectional(
                           top: 57,
-                          left: 95,
+                          start: 95,
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -108,7 +118,7 @@ class _LostHistoryState extends State<LostHistory> {
                               ),
                               SizedBox(width: 5.0),
                               Text(
-                                notFound ? 'Ongoing' : 'Done',
+                                notFound ? t.status_ongoing : t.status_done,
                                 style: TextStyle(
                                   color: notFound
                                       ? Color.fromRGBO(255, 204, 92, 1)
@@ -122,10 +132,10 @@ class _LostHistoryState extends State<LostHistory> {
                         ),
                       ],
                     ),
-                    Positioned(
+                    PositionedDirectional(
                       top: 0,
                       bottom: 0,
-                      right: 0,
+                      end: 0,
                       child: IconButton(
                         onPressed: () async {
                           final result = await Navigator.push(
@@ -136,7 +146,7 @@ class _LostHistoryState extends State<LostHistory> {
                               },
                             ),
                           );
-                          if(result == 'Done') {
+                          if (result == 'Done') {
                             setState(() {
                               notFound = false;
                             });
@@ -151,499 +161,151 @@ class _LostHistoryState extends State<LostHistory> {
             ),
           ),
         ),
-    
+
         SizedBox(height: 15.0),
-    
-        Container(
-          height: 100.0,
-          width: 360.0,
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Color.fromRGBO(0, 0, 0, 0.05),
-                offset: Offset(0, 4),
-                blurRadius: 16,
-                spreadRadius: 0,
-              ),
-            ],
-          ),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: Colors.white,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                height: 100.0,
-                child: Stack(
-                  children: [
-                    SizedBox(
-                      height: 80.0,
-                      width: 80.0,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Color.fromRGBO(0, 0, 0, 0.2),
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Icon(
-                            Icons.image,
-                            size: 50.0,
-                            color: Colors.grey.shade400,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Stack(
-                      children: [
-                        Positioned(
-                          top: 5,
-                          left: 95,
-                          child: Text(
-                            'Item2',
-                            style: TextStyle(
-                              color: Color.fromRGBO(46, 23, 21, 1),
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          top: 30,
-                          left: 95,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                Icons.calendar_month_rounded,
-                                size: 16,
-                                color: Colors.grey.shade500,
-                              ),
-                              SizedBox(width: 5.0),
-                              Text(
-                                '1 January 2000',
-                                style: TextStyle(
-                                  color: Colors.grey.shade500,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Positioned(
-                          top: 57,
-                          left: 95,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                Icons.circle,
-                                size: 12,
-                                color: Color.fromRGBO(25, 176, 0, 1),
-                              ),
-                              SizedBox(width: 5.0),
-                              Text(
-                                'Done',
-                                style: TextStyle(
-                                  color: Color.fromRGBO(25, 176, 0, 1),
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    Positioned(
-                      top: 0,
-                      bottom: 0,
-                      right: 0,
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.arrow_forward_ios_rounded, size: 20),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-    
+
+        // Item 2
+        historyItem(context, "Item2", DateTime(2000, 1, 1), t.status_done,
+            Color.fromRGBO(25, 176, 0, 1)),
+
         SizedBox(height: 15.0),
-    
-        Container(
-          height: 100.0,
-          width: 360.0,
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Color.fromRGBO(0, 0, 0, 0.05),
-                offset: Offset(0, 4),
-                blurRadius: 16,
-                spreadRadius: 0,
-              ),
-            ],
-          ),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: Colors.white,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                height: 100.0,
-                child: Stack(
-                  children: [
-                    SizedBox(
-                      height: 80.0,
-                      width: 80.0,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Color.fromRGBO(0, 0, 0, 0.2),
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Icon(
-                            Icons.image,
-                            size: 50.0,
-                            color: Colors.grey.shade400,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Stack(
-                      children: [
-                        Positioned(
-                          top: 5,
-                          left: 95,
-                          child: Text(
-                            'Item3',
-                            style: TextStyle(
-                              color: Color.fromRGBO(46, 23, 21, 1),
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          top: 30,
-                          left: 95,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                Icons.calendar_month_rounded,
-                                size: 16,
-                                color: Colors.grey.shade500,
-                              ),
-                              SizedBox(width: 5.0),
-                              Text(
-                                '1 January 2000',
-                                style: TextStyle(
-                                  color: Colors.grey.shade500,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Positioned(
-                          top: 57,
-                          left: 95,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                Icons.circle,
-                                size: 12,
-                                color: Color.fromRGBO(211, 47, 47, 1),
-                              ),
-                              SizedBox(width: 5.0),
-                              Text(
-                                'Rejected',
-                                style: TextStyle(
-                                  color: Color.fromRGBO(211, 47, 47, 1),
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    Positioned(
-                      top: 0,
-                      bottom: 0,
-                      right: 0,
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.arrow_forward_ios_rounded, size: 20),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-    
+
+        // Item 3
+        historyItem(context, "Item3", DateTime(2000, 1, 1), t.status_rejected,
+            Color.fromRGBO(211, 47, 47, 1)),
+
         SizedBox(height: 15.0),
-    
-        Container(
-          height: 100.0,
-          width: 360.0,
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Color.fromRGBO(0, 0, 0, 0.05),
-                offset: Offset(0, 4),
-                blurRadius: 16,
-                spreadRadius: 0,
-              ),
-            ],
-          ),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: Colors.white,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                height: 100.0,
-                child: Stack(
-                  children: [
-                    SizedBox(
-                      height: 80.0,
-                      width: 80.0,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Color.fromRGBO(0, 0, 0, 0.2),
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Icon(
-                            Icons.image,
-                            size: 50.0,
-                            color: Colors.grey.shade400,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Stack(
-                      children: [
-                        Positioned(
-                          top: 5,
-                          left: 95,
-                          child: Text(
-                            'Item4',
-                            style: TextStyle(
-                              color: Color.fromRGBO(46, 23, 21, 1),
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          top: 30,
-                          left: 95,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                Icons.calendar_month_rounded,
-                                size: 16,
-                                color: Colors.grey.shade500,
-                              ),
-                              SizedBox(width: 5.0),
-                              Text(
-                                '1 January 2000',
-                                style: TextStyle(
-                                  color: Colors.grey.shade500,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Positioned(
-                          top: 57,
-                          left: 95,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                Icons.circle,
-                                size: 12,
-                                color: Color.fromRGBO(0, 111, 255, 1),
-                              ),
-                              SizedBox(width: 5.0),
-                              Text(
-                                'Match Found',
-                                style: TextStyle(
-                                  color: Color.fromRGBO(0, 111, 255, 1),
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    Positioned(
-                      top: 0,
-                      bottom: 0,
-                      right: 0,
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.arrow_forward_ios_rounded, size: 20),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-    
+
+        // Item 4
+        historyItem(context, "Item4", DateTime(2000, 1, 1), t.status_match_found,
+            Color.fromRGBO(0, 111, 255, 1)),
+
         SizedBox(height: 15.0),
-    
-        Container(
-          height: 100.0,
-          width: 360.0,
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Color.fromRGBO(0, 0, 0, 0.05),
-                offset: Offset(0, 4),
-                blurRadius: 16,
-                spreadRadius: 0,
-              ),
-            ],
-          ),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: Colors.white,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                height: 100.0,
-                child: Stack(
-                  children: [
-                    SizedBox(
-                      height: 80.0,
-                      width: 80.0,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Color.fromRGBO(0, 0, 0, 0.2),
-                              width: 1,
-                            ),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Icon(
-                            Icons.image,
-                            size: 50.0,
-                            color: Colors.grey.shade400,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Stack(
-                      children: [
-                        Positioned(
-                          top: 5,
-                          left: 95,
-                          child: Text(
-                            'Item5',
-                            style: TextStyle(
-                              color: Color.fromRGBO(46, 23, 21, 1),
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                        Positioned(
-                          top: 30,
-                          left: 95,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                Icons.calendar_month_rounded,
-                                size: 16,
-                                color: Colors.grey.shade500,
-                              ),
-                              SizedBox(width: 5.0),
-                              Text(
-                                '1 January 2000',
-                                style: TextStyle(
-                                  color: Colors.grey.shade500,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Positioned(
-                          top: 57,
-                          left: 95,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                Icons.circle,
-                                size: 12,
-                                color: Color.fromRGBO(125, 132, 141, 1),
-                              ),
-                              SizedBox(width: 5.0),
-                              Text(
-                                'Expired',
-                                style: TextStyle(
-                                  color: Color.fromRGBO(125, 132, 141, 1),
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    Positioned(
-                      top: 0,
-                      bottom: 0,
-                      right: 0,
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.arrow_forward_ios_rounded, size: 20),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
+
+        // Item 5
+        historyItem(context, "Item5", DateTime(2000, 1, 1), t.status_expired,
+            Color.fromRGBO(125, 132, 141, 1)),
       ],
+    );
+  }
+
+  Widget historyItem(BuildContext context, String title, DateTime date,
+      String status, Color color) {
+    return Container(
+      height: 100.0,
+      width: 360.0,
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Color.fromRGBO(0, 0, 0, 0.05),
+            offset: Offset(0, 4),
+            blurRadius: 16,
+            spreadRadius: 0,
+          ),
+        ],
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: Colors.white,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SizedBox(
+            height: 100.0,
+            child: Stack(
+              children: [
+                SizedBox(
+                  height: 80.0,
+                  width: 80.0,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Color.fromRGBO(0, 0, 0, 0.2),
+                          width: 1,
+                        ),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Icon(
+                        Icons.image,
+                        size: 50.0,
+                        color: Colors.grey.shade400,
+                      ),
+                    ),
+                  ),
+                ),
+                Stack(
+                  children: [
+                    PositionedDirectional(
+                      top: 5,
+                      start: 95,
+                      child: Text(
+                        title,
+                        style: TextStyle(
+                          color: Color.fromRGBO(46, 23, 21, 1),
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    PositionedDirectional(
+                      top: 30,
+                      start: 95,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.calendar_month_rounded,
+                            size: 16,
+                            color: Colors.grey.shade500,
+                          ),
+                          SizedBox(width: 5.0),
+                          Text(
+                            formatDate(context, date),
+                            style: TextStyle(
+                              color: Colors.grey.shade500,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    PositionedDirectional(
+                      top: 57,
+                      start: 95,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.circle, size: 12, color: color),
+                          SizedBox(width: 5.0),
+                          Text(
+                            status,
+                            style: TextStyle(
+                              color: color,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                PositionedDirectional(
+                  top: 0,
+                  bottom: 0,
+                  end: 0,
+                  child: IconButton(
+                    onPressed: () {},
+                    icon: Icon(Icons.arrow_forward_ios_rounded, size: 20),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

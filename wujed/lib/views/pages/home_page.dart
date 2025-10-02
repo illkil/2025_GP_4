@@ -8,6 +8,7 @@ import 'package:wujed/views/pages/report_lost_page.dart';
 import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/ri.dart';
 import 'package:iconify_flutter/icons/bi.dart';
+import 'package:wujed/l10n/generated/app_localizations.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -19,18 +20,20 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+
     return Scaffold(
-      backgroundColor: Color.fromRGBO(249, 249, 249, 1),
+      backgroundColor: const Color.fromRGBO(249, 249, 249, 1),
       body: Column(
         children: [
           Container(
             width: double.infinity,
             height: 280.0,
-            color: Color.fromRGBO(255, 204, 92, 0.4),
+            color: const Color.fromRGBO(255, 204, 92, 0.4),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SizedBox(height: 20.0),
+                const SizedBox(height: 20.0),
                 Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Row(
@@ -49,21 +52,19 @@ class _HomePageState extends State<HomePage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) {
-                                return NotificationsPage();
-                              },
+                              builder: (context) => const NotificationsPage(),
                             ),
                           );
                         },
                         icon: Stack(
                           children: [
-                            Icon(
+                            const Icon(
                               IconlyBold.notification,
                               color: Color.fromRGBO(46, 23, 21, 1),
                               size: 40,
                             ),
-                            Positioned(
-                              right: 3,
+                            const PositionedDirectional(
+                              end: 3,
                               top: 0,
                               child: Icon(
                                 Icons.circle,
@@ -78,16 +79,16 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 Text(
-                  'What item are you reporting?',
-                  style: TextStyle(
+                  t.home_what_item_question,
+                  style: const TextStyle(
                     fontSize: 22,
                     color: Color.fromRGBO(46, 23, 21, 1),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-          
-                SizedBox(height: 30.0),
-          
+
+                const SizedBox(height: 30.0),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -96,51 +97,47 @@ class _HomePageState extends State<HomePage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) {
-                              return ReportLostPage();
-                            },
+                            builder: (context) => const ReportLostPage(),
                           ),
                         );
                       },
                       style: FilledButton.styleFrom(
-                        minimumSize: Size(150.0, 40.0),
-                        backgroundColor: Color.fromRGBO(46, 23, 21, 1),
+                        minimumSize: const Size(150.0, 40.0),
+                        backgroundColor: const Color.fromRGBO(46, 23, 21, 1),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
                       child: Text(
-                        'Lost',
-                        style: TextStyle(
+                        t.home_lost_button,
+                        style: const TextStyle(
                           fontSize: 16.0,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
-          
-                    SizedBox(width: 20.0),
-          
+
+                    const SizedBox(width: 20.0),
+
                     FilledButton(
                       onPressed: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) {
-                              return ReportFoundPage();
-                            },
+                            builder: (context) => const ReportFoundPage(),
                           ),
                         );
                       },
                       style: FilledButton.styleFrom(
-                        minimumSize: Size(150.0, 40.0),
-                        backgroundColor: Color.fromRGBO(46, 23, 21, 1),
+                        minimumSize: const Size(150.0, 40.0),
+                        backgroundColor: const Color.fromRGBO(46, 23, 21, 1),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
                       child: Text(
-                        'Found',
-                        style: TextStyle(
+                        t.home_found_button,
+                        style: const TextStyle(
                           fontSize: 16.0,
                           fontWeight: FontWeight.bold,
                         ),
@@ -151,7 +148,7 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
           ),
-          SizedBox(height: 20.0),
+          const SizedBox(height: 20.0),
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
@@ -159,16 +156,16 @@ class _HomePageState extends State<HomePage> {
                 Row(
                   children: [
                     Text(
-                      'Wujed ',
-                      style: TextStyle(
+                      t.home_stats_brand,
+                      style: const TextStyle(
                         color: Color.fromRGBO(255, 175, 0, 1),
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
-                      'in numbers',
-                      style: TextStyle(
+                      t.home_stats_suffix,
+                      style: const TextStyle(
                         color: Color.fromRGBO(46, 23, 21, 1),
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
@@ -177,252 +174,35 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
 
-                SizedBox(height: 25.0),
+                const SizedBox(height: 25.0),
 
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   clipBehavior: Clip.none,
                   child: Row(
                     children: [
-                      SizedBox(
-                        height: 200.0,
-                        width: 190,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Color.fromRGBO(0, 0, 0, 0.05),
-                                offset: Offset(0, 4),
-                                blurRadius: 16,
-                                spreadRadius: 0,
-                              ),
-                            ],
-                          ),
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                top: 20,
-                                left: 15,
-                                child: Container(
-                                  height: 60.0,
-                                  width: 60.0,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    color: Color.fromRGBO(255, 204, 92, 0.4),
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: Iconify(
-                                    MaterialSymbols.fact_check_rounded,
-                                    size: 37,
-                                    color: Color.fromRGBO(46, 23, 21, 1),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                top: 30,
-                                left: 85,
-                                child: Text(
-                                  'Reports\nSubmitted',
-                                  style: TextStyle(
-                                    color: Color.fromRGBO(46, 23, 21, 1),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                bottom: 0,
-                                right: 0,
-                                child: Container(
-                                  height: 80,
-                                  width: 145,
-                                  decoration: BoxDecoration(
-                                    color: Color.fromRGBO(255, 204, 92, 0.4),
-                                    shape: BoxShape.rectangle,
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: Align(
-                                    alignment: Alignment(0, 0),
-                                    child: Text(
-                                      '2100+',
-                                      style: TextStyle(
-                                        color: Color.fromRGBO(46, 23, 21, 1),
-                                        fontSize: 35,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                      _buildStatCard(
+                        icon: MaterialSymbols.fact_check_rounded,
+                        title: t.home_stat_reports_title,
+                        value: t.home_stat_reports_value,
                       ),
-
-                      SizedBox(width: 20.0),
-
-                      SizedBox(
-                        height: 200.0,
-                        width: 190,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Color.fromRGBO(0, 0, 0, 0.05),
-                                offset: Offset(0, 4),
-                                blurRadius: 16,
-                                spreadRadius: 0,
-                              ),
-                            ],
-                          ),
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                top: 20,
-                                left: 15,
-                                child: Container(
-                                  height: 60.0,
-                                  width: 60.0,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    color: Color.fromRGBO(255, 204, 92, 0.4),
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: Iconify(
-                                    Ri.hand_coin_fill,
-                                    size: 37,
-                                    color: Color.fromRGBO(46, 23, 21, 1),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                top: 30,
-                                left: 85,
-                                child: Text(
-                                  'Items\nRecovered',
-                                  style: TextStyle(
-                                    color: Color.fromRGBO(46, 23, 21, 1),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                bottom: 0,
-                                right: 0,
-                                child: Container(
-                                  height: 80,
-                                  width: 145,
-                                  decoration: BoxDecoration(
-                                    color: Color.fromRGBO(255, 204, 92, 0.4),
-                                    shape: BoxShape.rectangle,
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: Align(
-                                    alignment: Alignment(0, 0),
-                                    child: Text(
-                                      '1600+',
-                                      style: TextStyle(
-                                        color: Color.fromRGBO(46, 23, 21, 1),
-                                        fontSize: 35,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                      const SizedBox(width: 20.0),
+                      _buildStatCard(
+                        icon: Ri.hand_coin_fill,
+                        title: t.home_stat_items_title,
+                        value: t.home_stat_items_value,
                       ),
-
-                      SizedBox(width: 20.0),
-
-                      SizedBox(
-                        height: 200.0,
-                        width: 190,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Color.fromRGBO(0, 0, 0, 0.05),
-                                offset: Offset(0, 4),
-                                blurRadius: 16,
-                                spreadRadius: 0,
-                              ),
-                            ],
-                          ),
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                top: 20,
-                                left: 15,
-                                child: Container(
-                                  height: 60.0,
-                                  width: 60.0,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    color: Color.fromRGBO(255, 204, 92, 0.4),
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: Iconify(
-                                    Bi.stars,
-                                    size: 37,
-                                    color: Color.fromRGBO(46, 23, 21, 1),
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                top: 30,
-                                left: 85,
-                                child: Text(
-                                  'Matches\nFound',
-                                  style: TextStyle(
-                                    color: Color.fromRGBO(46, 23, 21, 1),
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                bottom: 0,
-                                right: 0,
-                                child: Container(
-                                  height: 80,
-                                  width: 145,
-                                  decoration: BoxDecoration(
-                                    color: Color.fromRGBO(255, 204, 92, 0.4),
-                                    shape: BoxShape.rectangle,
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  child: Align(
-                                    alignment: Alignment(0, 0),
-                                    child: Text(
-                                      '1800+',
-                                      style: TextStyle(
-                                        color: Color.fromRGBO(46, 23, 21, 1),
-                                        fontSize: 35,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
+                      const SizedBox(width: 20.0),
+                      _buildStatCard(
+                        icon: Bi.stars,
+                        title: t.home_stat_matches_title,
+                        value: t.home_stat_matches_value,
                       ),
                     ],
                   ),
                 ),
 
-                SizedBox(height: 50.0),
+                const SizedBox(height: 50.0),
 
                 SizedBox(
                   height: 100.0,
@@ -433,8 +213,8 @@ class _HomePageState extends State<HomePage> {
                       color: Colors.white,
                       boxShadow: [
                         BoxShadow(
-                          color: Color.fromRGBO(0, 0, 0, 0.05),
-                          offset: Offset(0, 4),
+                          color: const Color.fromRGBO(0, 0, 0, 0.05),
+                          offset: const Offset(0, 4),
                           blurRadius: 16,
                           spreadRadius: 0,
                         ),
@@ -458,37 +238,37 @@ class _HomePageState extends State<HomePage> {
                             ),
                             Stack(
                               children: [
-                                Positioned(
+                                PositionedDirectional(
                                   top: 10,
-                                  left: 95,
+                                  start: 95,
                                   child: Text(
-                                    'Coffee Brewer',
-                                    style: TextStyle(
+                                    t.home_card_title,
+                                    style: const TextStyle(
                                       color: Color.fromRGBO(46, 23, 21, 1),
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
                                 ),
-                                Positioned(
-                                  top: 30,
-                                  left: 95,
+                                PositionedDirectional(
+                                  top: 35,
+                                  start: 95,
                                   child: Text(
-                                    'Check back with your\nprevious report',
+                                    t.home_card_subtitle,
                                     style: TextStyle(
-                                      color: Colors.grey.shade400,
+                                      color: Colors.grey.shade500,
                                       fontSize: 12,
                                     ),
                                   ),
                                 ),
                               ],
                             ),
-                            Positioned(
+                            PositionedDirectional(
                               top: 0,
                               bottom: 0,
-                              right: 10,
+                              end: 10,
                               child: Container(
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   color: Color.fromRGBO(255, 204, 92, 0.4),
                                   shape: BoxShape.circle,
                                 ),
@@ -497,13 +277,12 @@ class _HomePageState extends State<HomePage> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) {
-                                          return ItemReportedLost();
-                                        },
+                                        builder: (context) =>
+                                            const ItemReportedLost(),
                                       ),
                                     );
                                   },
-                                  icon: Icon(
+                                  icon: const Icon(
                                     Icons.arrow_forward_ios_rounded,
                                     size: 20,
                                   ),
@@ -520,6 +299,88 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildStatCard({
+    required String icon,
+    required String title,
+    required String value,
+  }) {
+    return SizedBox(
+      height: 200.0,
+      width: 190,
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            const BoxShadow(
+              color: Color.fromRGBO(0, 0, 0, 0.05),
+              offset: Offset(0, 4),
+              blurRadius: 16,
+              spreadRadius: 0,
+            ),
+          ],
+        ),
+        child: Stack(
+          children: [
+            PositionedDirectional(
+              top: 20,
+              start: 15,
+              child: Container(
+                height: 60.0,
+                width: 60.0,
+                alignment: Alignment.center,
+                decoration: const BoxDecoration(
+                  color: Color.fromRGBO(255, 204, 92, 0.4),
+                  shape: BoxShape.circle,
+                ),
+                child: Iconify(
+                  icon,
+                  size: 37,
+                  color: const Color.fromRGBO(46, 23, 21, 1),
+                ),
+              ),
+            ),
+            PositionedDirectional(
+              top: 30,
+              start: 85,
+              child: Text(
+                title,
+                style: const TextStyle(
+                  color: Color.fromRGBO(46, 23, 21, 1),
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            PositionedDirectional(
+              bottom: 0,
+              end: 0,
+              child: Container(
+                height: 80,
+                width: 145,
+                decoration: BoxDecoration(
+                  color: const Color.fromRGBO(255, 204, 92, 0.4),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Align(
+                  alignment: const Alignment(0, 0),
+                  child: Text(
+                    value,
+                    style: const TextStyle(
+                      color: Color.fromRGBO(46, 23, 21, 1),
+                      fontSize: 35,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

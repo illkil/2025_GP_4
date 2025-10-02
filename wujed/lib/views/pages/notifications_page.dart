@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:wujed/l10n/generated/app_localizations.dart';
 
 class NotificationsPage extends StatelessWidget {
   const NotificationsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.transparent,
         title: Title(
-          color: Color.fromRGBO(46, 23, 21, 1),
+          color: const Color.fromRGBO(46, 23, 21, 1),
           child: Text(
-            'Notifications',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            t.notifications_title,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
           ),
         ),
         centerTitle: true,
@@ -22,7 +25,7 @@ class NotificationsPage extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Divider(),
+          const Divider(),
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: SizedBox(
@@ -30,19 +33,19 @@ class NotificationsPage extends StatelessWidget {
               width: double.infinity,
               child: Stack(
                 children: [
-                  Positioned(
-                    left: 20,
+                  PositionedDirectional(
+                    start: 20,
                     child: Row(
                       children: [
                         Text(
-                          'Report Expired ',
-                          style: TextStyle(
+                          t.notifications_expired_title,
+                          style: const TextStyle(
                             color: Color.fromRGBO(46, 23, 21, 1),
                             fontWeight: FontWeight.bold,
                             fontSize: 14,
                           ),
                         ),
-                        Icon(
+                        const Icon(
                           Icons.circle,
                           size: 10,
                           color: Color.fromRGBO(255, 0, 0, 1),
@@ -50,99 +53,110 @@ class NotificationsPage extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Positioned(
-                    left: 20,
+                  PositionedDirectional(
+                    start: 20,
                     top: 20,
                     child: Text(
-                      'your report of Item5 has expired\ndue  to unconfirmed receipt.',style: TextStyle(
-                        color: Colors.grey.shade600,
-                        fontSize: 14,
-                      ),
-                    ),
-                  ),
-                  Positioned(right: 20, child: Text('2 days ago')),
-                ],
-              ),
-            ),
-          ),
-          Divider(),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: SizedBox(
-              height: 80,
-              width: double.infinity,
-              child: Stack(
-                children: [
-                  Positioned(
-                    left: 20,
-                    child: Row(
-                      children: [
-                        Text(
-                          'New Match Found',
-                          style: TextStyle(
-                            color: Color.fromRGBO(46, 23, 21, 1),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Positioned(
-                    left: 20,
-                    top: 20,
-                    child: Text(
-                      'A new match has been found for\nyour report of Coffee Brewer.',style: TextStyle(
-                        color: Colors.grey.shade600,
-                        fontSize: 14,
-                      ),
-                    ),
-                  ),
-                  Positioned(right: 20, child: Text('6 days ago')),
-                ],
-              ),
-            ),
-          ),
-          Divider(),
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: SizedBox(
-              height: 80,
-              width: double.infinity,
-              child: Stack(
-                children: [
-                  Positioned(
-                    left: 20,
-                    child: Row(
-                      children: [
-                        Text(
-                          'Report Expiring Soon ',
-                          style: TextStyle(
-                            color: Color.fromRGBO(46, 23, 21, 1),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Positioned(
-                    left: 20,
-                    top: 20,
-                    child: Text(
-                      'Your report of Coffee Brewer will\nexpire in 5 days unless you renew it\nor accept a match.',
+                      t.notifications_expired_body,
                       style: TextStyle(
                         color: Colors.grey.shade600,
                         fontSize: 14,
                       ),
                     ),
                   ),
-                  Positioned(right: 20, child: Text('9 days ago')),
+                  PositionedDirectional(
+                    end: 20,
+                    child: Text(t.notifications_time_2d),
+                  ),
                 ],
               ),
             ),
           ),
-          Divider(),
+          const Divider(),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: SizedBox(
+              height: 80,
+              width: double.infinity,
+              child: Stack(
+                children: [
+                  PositionedDirectional(
+                    start: 20,
+                    child: Row(
+                      children: [
+                        Text(
+                          t.notifications_new_match_title,
+                          style: const TextStyle(
+                            color: Color.fromRGBO(46, 23, 21, 1),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  PositionedDirectional(
+                    start: 20,
+                    top: 20,
+                    child: Text(
+                      t.notifications_new_match_body,
+                      style: TextStyle(
+                        color: Colors.grey.shade600,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
+                  PositionedDirectional(
+                    end: 20,
+                    child: Text(t.notifications_time_6d),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const Divider(),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: SizedBox(
+              height: 80,
+              width: double.infinity,
+              child: Stack(
+                children: [
+                  PositionedDirectional(
+                    start: 20,
+                    child: Row(
+                      children: [
+                        Text(
+                          t.notifications_expiring_soon_title,
+                          style: const TextStyle(
+                            color: Color.fromRGBO(46, 23, 21, 1),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  PositionedDirectional(
+                    start: 20,
+                    top: 20,
+                    child: Text(
+                      t.notifications_expiring_soon_body,
+                      style: TextStyle(
+                        color: Colors.grey.shade600,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
+                  PositionedDirectional(
+                    end: 20,
+                    child: Text(t.notifications_time_9d),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const Divider(),
         ],
       ),
     );

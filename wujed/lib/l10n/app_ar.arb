@@ -1,0 +1,198 @@
+{
+  "@@locale": "ar",
+
+  "intro1_title_part1": "مرحبًا بك في ",
+  "intro1_title_part2": "وُجِد",
+  "intro1_description": "كل غرض مفقود له طريق للعودة. مع وجد، يمكنك العثور على ما فقدته\nأو المساعدة في إعادة ما تم العثور عليه.",
+
+  "intro2_title_part1": "سوف نساعدك ",
+  "intro2_title_part2": "في العثور عليه",
+  "intro2_description": "ببساطة أبلغ عما فُقد أو وُجد، ويعمل ذكاء وجد الاصطناعي\nعلى جمع الناس بمقتنياتهم من جديد.",
+
+  "intro3_title_part1": "مساهمتك ",
+  "intro3_title_part2": "مهمة",
+  "intro3_description": "تقاريرك تساعد الآخرين في إيجاد ما فقدوه\nومعًا نصنع الفرق.",
+
+  "login_title": "أهلاً بعودتك!",
+  "login_subtitle": "يرجى تسجيل الدخول للمتابعة",
+  "login_email_label": "البريد الإلكتروني",
+  "login_password_label": "كلمة المرور",
+  "login_forgot_password": "نسيت كلمة المرور؟",
+  "login_button": "تسجيل الدخول",
+  "login_no_account": "ليس لديك حساب؟",
+  "login_signup_link": "إنشاء حساب",
+  "common_or": "أو",
+  "google_continue": "المتابعة باستخدام Google",
+  "login_error_fill_all": "يرجى تعبئة جميع البيانات",
+  "login_error_invalid": "البريد الإلكتروني أو كلمة المرور غير صحيحة",
+
+  "signup_title": "انضم إلينا!",
+  "signup_subtitle": "املأ جميع البيانات لإنشاء حسابك",
+  "signup_username_label": "اسم المستخدم",
+  "signup_email_label": "البريد الإلكتروني",
+  "signup_password_label": "كلمة المرور",
+  "signup_username_taken": "اسم المستخدم مستخدم بالفعل",
+  "signup_email_exists": "البريد الإلكتروني مسجّل بالفعل",
+  "signup_password_weak": "استخدم 8 أحرف أو أكثر مع مزيج من\nحروف كبيرة وصغيرة وأرقام",
+  "signup_age_checkbox": "عمري 18 سنة أو أكثر",
+  "signup_button": "إنشاء حساب",
+  "signup_have_account": "لديك حساب بالفعل؟",
+  "signup_login_link": "تسجيل الدخول",
+  "google_signup": "التسجيل باستخدام Google",
+
+  "forgot_title": "استعادة كلمة المرور",
+  "forgot_subtitle": "أدخل بريدك الإلكتروني لإعادة تعيين كلمة المرور",
+  "forgot_email_label": "البريد الإلكتروني",
+  "forgot_reset_button": "إعادة تعيين كلمة المرور",
+
+  "verify_title": "التحقق برمز التأكيد",
+  "verify_subtitle": "يرجى تفقد بريدك الإلكتروني للحصول على رمز التحقق",
+  "verify_button": "تأكيد",
+  "verify_resend": "إعادة إرسال الرمز",
+
+  "home_what_item_question": "ما العنصر الذي تريد الإبلاغ عنه؟",
+  "home_lost_button": "مفقود",
+  "home_found_button": "معثور عليه",
+
+  "home_stats_brand": "وُجِد ",
+  "home_stats_suffix": "بالأرقام",
+
+  "home_stat_reports_title": "التقارير\nالمقدمة",
+  "home_stat_items_title": "العناصر\nالمستعادة",
+  "home_stat_matches_title": "التطابقات\nالموجودة",
+
+  "home_stat_reports_value": "+2100",
+  "home_stat_items_value": "+1600",
+  "home_stat_matches_value": "+1800",
+
+  "home_card_title": "آلة تحضير القهوة",
+  "home_card_subtitle": "راجع تقريرك السابق",
+  "home_card_view_arrow_aria": "عرض تفاصيل التقرير",
+
+  "navbar_home": "الرئيسية",
+  "navbar_history": "السجل",
+  "navbar_messages": "الرسائل",
+  "navbar_profile": "الملف الشخصي",
+
+  "notifications_title": "الإشعارات",
+  "notifications_expired_title": "انتهت صلاحية التقرير ",
+  "notifications_expired_body": "انتهت صلاحية تقريرك عن Item5 بسبب عدم\nتأكيد الاستلام.",
+  "notifications_new_match_title": "تم العثور على تطابق جديد",
+  "notifications_new_match_body": "تم العثور على تطابق جديد لتقريرك عن\nآلة تحضير القهوة.",
+  "notifications_expiring_soon_title": "تقرير سينتهي قريبًا ",
+  "notifications_expiring_soon_body": "سينتهي تقريرك عن آلة تحضير القهوة خلال 5 أيام\nما لم تقم بتجديده أو قبول تطابق.",
+  "notifications_time_2d": "قبل يومين",
+  "notifications_time_6d": "قبل 6 أيام",
+  "notifications_time_9d": "قبل 9 أيام",
+
+  "report_found_title": "الإبلاغ عن عنصر معثور عليه",
+  "report_lost_title": "الإبلاغ عن عنصر مفقود",
+  "report_required_details": "يرجى تعبئة جميع الحقول المطلوبة",
+
+  "report_title_label": "العنوان ",
+  "report_title_hint": "مثال: محفظة بنية",
+
+  "report_photo_label": "الصورة ",
+  "report_location_label": "الموقع ",
+  "report_location_button_hint": "انقر هنا لإضافة موقع",
+
+  "report_description_label": "الوصف ",
+  "report_description_hint": "صف عنصرَك (النوع، اللون، العلامة التجارية، إلخ)",
+
+  "report_counter_left": "عدد الأحرف المتبقية: {remaining}",
+  "@report_counter_left": {
+    "placeholders": {
+      "remaining": { "type": "int", "example": "120" }
+    }
+  },
+
+  "report_submit_button": "إرسال",
+  "report_upload_photos_hint": "انقر هنا لإضافة ما يصل إلى صورتين",
+
+  "sheet_choose_location_title": "اختر موقعًا",
+  "sheet_current_location_title": "موقعك الحالي",
+  "sheet_current_location_sub": "جامعة الملك سعود، الرياض 12372",
+  "sheet_choose_manually": "اختر يدويًا",
+  "sheet_confirm": "تأكيد",
+  "sheet_send": "إرسال",
+
+  "history_title": "السجل",
+  "history_tab_lost": "مفقود",
+  "history_tab_found": "معثور عليه",
+
+  "status_ongoing": "قيد المتابعة",
+  "status_done": "تم",
+  "status_rejected": "مرفوض",
+  "status_match_found": "تم العثور على تطابق",
+  "status_expired": "منتهي الصلاحية",
+
+  "item_title_coffee_brewer": "آلة تحضير القهوة",
+  "item_title_coffee_mug": "كوب قهوة",
+
+  "details_location_label": "الموقع",
+  "details_description_label": "الوصف",
+
+  "lost_found_matches_title": "التطابقات الموجودة",
+  "match_confidence": "{percent}% عنصرُك",
+  "@match_confidence": {
+    "placeholders": {
+      "percent": { "type": "int", "example": "90" }
+    }
+  },
+
+  "dialog_are_you_sure_item": "هل أنت متأكد أن هذا هو عنصرُك؟",
+  "dialog_accept_match_note": "قبول هذا التطابق سيخفي الباقي. إذا لم يكن عنصرَك، اضغط \"سحب\" لإعادتها.",
+  "dialog_are_you_sure": "هل أنت متأكد؟",
+  "dialog_remove_permanently_note": "سيُحذف هذا التطابق نهائيًا. تابع فقط إذا كنت متأكدًا أنه ليس عنصرَك.",
+
+  "btn_accept": "قبول",
+  "btn_reject": "رفض",
+  "btn_revoke": "سحب",
+  "btn_confirm": "تأكيد",
+  "btn_cancel": "إلغاء",
+  "btn_confirm_receipt": "تأكيد الاستلام",
+  "btn_continue": "متابعة",
+
+  "toast_congrats": "تهانينا!",
+  "toast_got_item_back": "لقد استعدت عنصرَك!\nاستمتع بعودته بأمان",
+
+  "submit_success_title": "تم! تم إرسال تقريرك\nبنجاح",
+
+  "appTitle": "وُجد",
+
+  "messages_title": "الرسائل",
+  "messages_you_prefix": "أنت:",
+  "messages_typing": "يكتب...",
+  "messages_items_matched": "تم تطابق عناصرِك!",
+  "action_block": "حظر",
+
+  "chat_hello_found_item": "مرحبًا، أعتقد أنني وجدت عنصرَك",
+  "chat_great_do":  "رائع! لنفعل ذلك",
+  "chat_lets_decide": "دعنا نقرر مكانًا ووقتًا للقاء!",
+  "chat_yes_match": "نعم في الواقع إنه يطابق",
+  "chat_id_request": "يبدو أنه يخصني. بالداخل يجب أن تكون هناك بطاقة طالب باسم Ghaida Mo. هل يمكنك التحقق إذا كانت متطابقة؟",
+  "chat_hello": "مرحبًا!",
+
+  "chat_hint": "اكتب رسالتك...",
+
+  "profile_title": "الملف الشخصي",
+  "menu_switch_language": "تبديل اللغة",
+  "language_en": "English",
+  "language_ar": "العربية",
+  "action_log_out": "تسجيل الخروج",
+
+  "label_first_name": "الاسم الأول",
+  "label_last_name": "اسم العائلة",
+  "label_phone_number": "رقم الجوال",
+  "placeholder_not_provided": "غير متوفر",
+
+  "edit_profile_title": "تعديل الملف الشخصي",
+  "edit_profile_change_picture": "تغيير صورة الملف الشخصي",
+  "action_done": "تم",
+
+  "onboarding_skip": "تخطي",
+  "onboarding_next": "التالي",
+  "onboarding_done": "تم",
+
+  "btn_send": "إرسال"
+}

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wujed/views/pages/verify_page.dart';
+import 'package:wujed/l10n/generated/app_localizations.dart';
 
 class ForgotPasswordPage extends StatefulWidget {
   const ForgotPasswordPage({super.key});
@@ -22,6 +23,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -34,30 +37,36 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(height: 60.0),
+              const SizedBox(height: 60.0),
 
               Text(
-                'Forgot Password',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26.0),
+                t.forgot_title,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 26.0,
+                ),
               ),
 
-              SizedBox(height: 10.0),
+              const SizedBox(height: 10.0),
 
               Text(
-                'Enter your email account to\nreset your password',
+                t.forgot_subtitle,
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16.0, color: Colors.grey.shade600),
+                style: TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.grey.shade600,
+                ),
               ),
 
-              SizedBox(height: 50.0),
+              const SizedBox(height: 50.0),
 
               TextField(
                 controller: controllerEmail,
                 decoration: InputDecoration(
-                  labelText: 'Email',
-                  labelStyle: TextStyle(fontSize: 16.0),
+                  labelText: t.forgot_email_label,
+                  labelStyle: const TextStyle(fontSize: 16.0),
                   floatingLabelBehavior: FloatingLabelBehavior.always,
-                  floatingLabelStyle: TextStyle(
+                  floatingLabelStyle: const TextStyle(
                     color: Color.fromRGBO(46, 23, 21, 1),
                   ),
                   border: OutlineInputBorder(
@@ -65,40 +74,39 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(14),
-                    borderSide: BorderSide(
+                    borderSide: const BorderSide(
                       color: Color.fromRGBO(46, 23, 21, 1),
                       width: 2.0,
                     ),
                   ),
                 ),
-                onEditingComplete: () {
-                  setState(() {});
-                },
+                onEditingComplete: () => setState(() {}),
               ),
 
-              SizedBox(height: 30.0),
+              const SizedBox(height: 30.0),
 
               FilledButton(
                 onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) {
-                        return VerifyPage();
-                      },
+                      builder: (context) => const VerifyPage(),
                     ),
                   );
                 },
                 style: FilledButton.styleFrom(
-                  minimumSize: Size(double.infinity, 50),
+                  minimumSize: const Size(double.infinity, 50),
                   backgroundColor: resetPasswordBtnColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),
                 ),
                 child: Text(
-                  'Reset Password',
-                  style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                  t.forgot_reset_button,
+                  style: const TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ],
@@ -112,9 +120,8 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     final filled = controllerEmail.text.trim().isNotEmpty;
 
     setState(() {
-      resetPasswordBtnColor = filled
-          ? Color.fromRGBO(46, 23, 21, 1)
-          : Colors.grey.shade400;
+      resetPasswordBtnColor =
+          filled ? const Color.fromRGBO(46, 23, 21, 1) : Colors.grey.shade400;
     });
   }
 }

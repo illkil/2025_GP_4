@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:wujed/l10n/generated/app_localizations.dart';
 
 class BottomSheetWidget extends StatelessWidget {
   const BottomSheetWidget({super.key, required this.page});
@@ -8,6 +9,8 @@ class BottomSheetWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: SizedBox(
@@ -24,23 +27,23 @@ class BottomSheetWidget extends StatelessWidget {
               ),
             ),
 
-            SizedBox(height: 15.0),
+            const SizedBox(height: 15.0),
 
             Text(
-              'Choose a Location',
-              style: TextStyle(
+              t.sheet_choose_location_title,
+              style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 16.0,
                 color: Color.fromRGBO(46, 23, 21, 1),
               ),
             ),
 
-            SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
 
             OutlinedButton(
               onPressed: () {},
               style: OutlinedButton.styleFrom(
-                minimumSize: Size(double.infinity, 70),
+                minimumSize: const Size(double.infinity, 70),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
@@ -50,7 +53,7 @@ class BottomSheetWidget extends StatelessWidget {
                 width: double.infinity,
                 child: Stack(
                   children: [
-                    Positioned(
+                    const PositionedDirectional(
                       top: 0,
                       bottom: 0,
                       child: Icon(
@@ -59,12 +62,12 @@ class BottomSheetWidget extends StatelessWidget {
                         size: 45,
                       ),
                     ),
-                    Positioned(
+                    PositionedDirectional(
                       top: 15,
-                      left: 60,
+                      start: 60,
                       child: Text(
-                        'Your current location',
-                        style: TextStyle(
+                        t.sheet_current_location_title,
+                        style: const TextStyle(
                           color: Color.fromRGBO(46, 23, 21, 1),
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
@@ -72,11 +75,11 @@ class BottomSheetWidget extends StatelessWidget {
                         textAlign: TextAlign.center,
                       ),
                     ),
-                    Positioned(
+                    PositionedDirectional(
                       top: 35,
-                      left: 60,
+                      start: 60,
                       child: Text(
-                        'King Saud University, Riyadh 12372',
+                        t.sheet_current_location_sub,
                         style: TextStyle(
                           color: Colors.grey.shade400,
                           fontSize: 14,
@@ -89,12 +92,12 @@ class BottomSheetWidget extends StatelessWidget {
               ),
             ),
 
-            SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
 
             OutlinedButton(
               onPressed: () {},
               style: OutlinedButton.styleFrom(
-                minimumSize: Size(double.infinity, 70),
+                minimumSize: const Size(double.infinity, 70),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
@@ -104,7 +107,7 @@ class BottomSheetWidget extends StatelessWidget {
                 width: double.infinity,
                 child: Stack(
                   children: [
-                    Positioned(
+                    const PositionedDirectional(
                       top: 0,
                       bottom: 0,
                       child: Icon(
@@ -113,12 +116,12 @@ class BottomSheetWidget extends StatelessWidget {
                         size: 45,
                       ),
                     ),
-                    Positioned(
+                    PositionedDirectional(
                       top: 25,
-                      left: 60,
+                      start: 60,
                       child: Text(
-                        'Choose Manually',
-                        style: TextStyle(
+                        t.sheet_choose_manually,
+                        style: const TextStyle(
                           color: Color.fromRGBO(46, 23, 21, 1),
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
@@ -131,25 +134,28 @@ class BottomSheetWidget extends StatelessWidget {
               ),
             ),
 
-            SizedBox(height: 20.0),
+            const SizedBox(height: 20.0),
 
             FilledButton(
               onPressed: () {
                 Navigator.pop(context);
-                Navigator.pop(context, {
-                  'location': true
-                });
+                Navigator.pop(context, {'location': true});
               },
               style: FilledButton.styleFrom(
-                minimumSize: Size(double.infinity, 55),
-                backgroundColor: Color.fromRGBO(46, 23, 21, 1),
+                minimumSize: const Size(double.infinity, 55),
+                backgroundColor: const Color.fromRGBO(46, 23, 21, 1),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
               ),
               child: Text(
-                page == 'PickLocationPage' ? 'Confirm' : 'Send',
-                style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                page == 'PickLocationPage'
+                    ? t.sheet_confirm
+                    : t.sheet_send,
+                style: const TextStyle(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ],

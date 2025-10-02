@@ -2,6 +2,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:remixicon/remixicon.dart';
+import 'package:wujed/l10n/generated/app_localizations.dart';
 
 class MessageTile extends StatelessWidget {
   const MessageTile({
@@ -25,12 +26,19 @@ class MessageTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final haveCheck = check ? (doubleTick ? Remix.check_double_line : Remix.check_line) : null ;
-    final checkIcon = doubleTick ? Remix.check_double_line : Remix.check_line;
+    final t = AppLocalizations.of(context);
+
+    final haveCheck = check
+        ? (doubleTick ? Remix.check_double_line : Remix.check_line)
+        : null;
+    final checkIcon =
+        doubleTick ? Remix.check_double_line : Remix.check_line;
 
     final checkColor = doubleTickGreen
         ? const Color.fromRGBO(25, 176, 0, 1)
         : Colors.grey.shade600;
+
+    final isItemsMatched = subtitle == t.messages_items_matched;
 
     return Slidable(
       endActionPane: ActionPane(
@@ -41,7 +49,7 @@ class MessageTile extends StatelessWidget {
             onPressed: (_) {},
             backgroundColor: const Color(0xFFFFE5E5),
             foregroundColor: const Color(0xFFE53935),
-            label: 'Block',
+            label: t.action_block,
             autoClose: true,
             borderRadius: BorderRadius.circular(12),
           ),
@@ -56,9 +64,9 @@ class MessageTile extends StatelessWidget {
         ),
         child: Stack(
           children: [
-            Positioned(
+            PositionedDirectional(
               top: 12,
-              left: 0,
+              start: 0,
               child: Stack(
                 clipBehavior: Clip.none,
                 children: [
@@ -76,17 +84,17 @@ class MessageTile extends StatelessWidget {
                     ),
                   ),
                   if (dotColor != null)
-                    Positioned(
+                    PositionedDirectional(
                       bottom: -2,
-                      right: -2,
+                      end: -2,
                       child: Icon(Icons.circle, color: dotColor, size: 14),
                     ),
                 ],
               ),
             ),
-            Positioned(
+            PositionedDirectional(
               top: 15,
-              left: 70,
+              start: 70,
               child: Text(
                 name,
                 style: const TextStyle(
@@ -95,38 +103,39 @@ class MessageTile extends StatelessWidget {
                 ),
               ),
             ),
-            Positioned(
+            PositionedDirectional(
               top: 40,
-              left: 70,
+              start: 70,
               child: Text(
                 subtitle,
                 style: TextStyle(
                   fontSize: 14,
-                  color: subtitle == 'Your Items Matched!'
+                  color: isItemsMatched
                       ? const Color.fromRGBO(0, 111, 255, 1)
                       : Colors.grey.shade600,
-                  fontWeight: subtitle == 'Your Items Matched!'
-                      ? FontWeight.bold
-                      : FontWeight.normal,
+                  fontWeight:
+                      isItemsMatched ? FontWeight.bold : FontWeight.normal,
                 ),
               ),
             ),
-            
-            if(haveCheck != null)
-            Positioned(
-              top: 25,
-              right: 0,
-              child: Row(
-                children: [
-                  Icon(checkIcon, color: checkColor, size: 20),
-                  const SizedBox(width: 6),
-                  Text(
-                    time,
-                    style: TextStyle(fontSize: 11, color: Colors.grey.shade600),
-                  ),
-                ],
+            if (haveCheck != null)
+              PositionedDirectional(
+                top: 25,
+                end: 0,
+                child: Row(
+                  children: [
+                    Icon(checkIcon, color: checkColor, size: 20),
+                    const SizedBox(width: 6),
+                    Text(
+                      time,
+                      style: TextStyle(
+                        fontSize: 11,
+                        color: Colors.grey.shade600,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
           ],
         ),
       ),

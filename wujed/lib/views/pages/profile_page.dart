@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:wujed/data/notifiers.dart';
+import 'package:wujed/main.dart';
 import 'package:wujed/views/pages/edit_profile_page.dart';
 import 'package:wujed/views/pages/login_page.dart';
+import 'package:wujed/l10n/generated/app_localizations.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({
@@ -35,38 +37,45 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+
     return Scaffold(
-      backgroundColor: Color.fromRGBO(249, 249, 249, 1),
+      backgroundColor: const Color.fromRGBO(249, 249, 249, 1),
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(249, 249, 249, 1),
+        backgroundColor: const Color.fromRGBO(249, 249, 249, 1),
         surfaceTintColor: Colors.transparent,
         leading: IconButton(
-          onPressed: () async{
-            final result = await
-            Navigator.push(
+          onPressed: () async {
+            final result = await Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) {
-                  return EditProfilePage();
+                  return const EditProfilePage();
                 },
               ),
             );
 
-            if(result != null) {
+            if (result != null) {
               setState(() {
-                _firstName = (result['firstName'] ?? '').isEmpty ? null : result['firstName'];
-                _lastName = (result['lastName'] ?? '').isEmpty ? null : result['lastName'];
-                _phoneNumber = (result['phoneNumber'] ?? '').isEmpty ? null : result['phoneNumber'];
+                _firstName = (result['firstName'] ?? '').isEmpty
+                    ? null
+                    : result['firstName'];
+                _lastName = (result['lastName'] ?? '').isEmpty
+                    ? null
+                    : result['lastName'];
+                _phoneNumber = (result['phoneNumber'] ?? '').isEmpty
+                    ? null
+                    : result['phoneNumber'];
               });
             }
           },
           icon: Icon(IconlyBold.edit, color: Colors.grey.shade600),
         ),
         title: Title(
-          color: Color.fromRGBO(46, 23, 21, 1),
+          color: const Color.fromRGBO(46, 23, 21, 1),
           child: Text(
-            'Profile',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            t.profile_title,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
           ),
         ),
         actions: [
@@ -80,7 +89,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     padding: const EdgeInsets.all(20),
                     height: 230,
                     width: double.infinity,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.vertical(
                         top: Radius.circular(20),
@@ -91,18 +100,33 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: Column(
                         children: [
                           GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              final currentLocale = Localizations.localeOf(
+                                context,
+                              ).languageCode;
+
+                              if (currentLocale == 'ar') {
+                                MyApp.of(context)!.setLocale(const Locale('en'));
+                              } else {
+                                MyApp.of(context)!.setLocale(const Locale('ar'));
+                              }
+
+                              Navigator.pop(context);
+                            },
                             child: Row(
                               children: [
-                                Icon(
+                                const Icon(
                                   Icons.swap_horiz_rounded,
                                   color: Color.fromRGBO(46, 23, 21, 1),
                                   size: 40,
                                 ),
-                                SizedBox(width: 10.0),
+                                const SizedBox(width: 10.0),
                                 Text(
-                                  'العربية',
-                                  style: TextStyle(
+                                  Localizations.localeOf(context).languageCode ==
+                                          'ar'
+                                      ? t.language_en
+                                      : t.language_ar,
+                                  style: const TextStyle(
                                     color: Color.fromRGBO(46, 23, 21, 1),
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
@@ -111,11 +135,9 @@ class _ProfilePageState extends State<ProfilePage> {
                               ],
                             ),
                           ),
-
-                          SizedBox(height: 20.0),
-                          Divider(),
-                          SizedBox(height: 20.0),
-
+                          const SizedBox(height: 20.0),
+                          const Divider(),
+                          const SizedBox(height: 20.0),
                           GestureDetector(
                             onTap: () {
                               setState(() {
@@ -125,7 +147,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) {
-                                    return LoginPage();
+                                    return const LoginPage();
                                   },
                                 ),
                                 (route) => false,
@@ -133,15 +155,15 @@ class _ProfilePageState extends State<ProfilePage> {
                             },
                             child: Row(
                               children: [
-                                Icon(
+                                const Icon(
                                   IconlyLight.logout,
                                   color: Color.fromRGBO(46, 23, 21, 1),
                                   size: 40,
                                 ),
-                                SizedBox(width: 10.0),
+                                const SizedBox(width: 10.0),
                                 Text(
-                                  'Log Out',
-                                  style: TextStyle(
+                                  t.action_log_out,
+                                  style: const TextStyle(
                                     color: Color.fromRGBO(46, 23, 21, 1),
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
@@ -173,10 +195,11 @@ class _ProfilePageState extends State<ProfilePage> {
                   shape: BoxShape.circle,
                   color: Colors.grey.shade500,
                 ),
-                child: Icon(IconlyBold.profile, color: Colors.white, size: 70),
+                child: const Icon(IconlyBold.profile,
+                    color: Colors.white, size: 70),
               ),
-              SizedBox(height: 10.0),
-              Text(
+              const SizedBox(height: 10.0),
+              const Text(
                 'R4neem',
                 style: TextStyle(
                   color: Color.fromRGBO(46, 23, 21, 1),
@@ -188,157 +211,90 @@ class _ProfilePageState extends State<ProfilePage> {
                 'raneememail@mail.com',
                 style: TextStyle(color: Colors.grey.shade600, fontSize: 14),
               ),
-
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
 
               Row(
                 children: [
                   Text(
-                    'First Name',
-                    style: TextStyle(
+                    t.label_first_name,
+                    style: const TextStyle(
                       color: Color.fromRGBO(46, 23, 21, 1),
                       fontSize: 18,
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 10.0),
+              const SizedBox(height: 10.0),
+              _buildInfoBox(_firstName ?? t.placeholder_not_provided),
 
-              Container(
-                height: 50,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Color.fromRGBO(249, 249, 249, 1),
-                  border: Border.all(
-                    color: Color.fromRGBO(0, 0, 0, 0.2),
-                    width: 1,
-                  ),
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color.fromRGBO(0, 0, 0, 0.05),
-                      offset: Offset(0, 4),
-                      blurRadius: 16,
-                      spreadRadius: 0,
-                    ),
-                  ],
-                ),
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 20),
-                    child: Row(
-                      children: [
-                        Text(
-                          _firstName ?? 'Not provided',
-                          style: TextStyle(
-                            color: Colors.grey.shade600,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
 
               Row(
                 children: [
                   Text(
-                    'Last Name',
-                    style: TextStyle(
+                    t.label_last_name,
+                    style: const TextStyle(
                       color: Color.fromRGBO(46, 23, 21, 1),
                       fontSize: 18,
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 10.0),
+              const SizedBox(height: 10.0),
+              _buildInfoBox(_lastName ?? t.placeholder_not_provided),
 
-              Container(
-                height: 50,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Color.fromRGBO(249, 249, 249, 1),
-                  border: Border.all(
-                    color: Color.fromRGBO(0, 0, 0, 0.2),
-                    width: 1,
-                  ),
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color.fromRGBO(0, 0, 0, 0.05),
-                      offset: Offset(0, 4),
-                      blurRadius: 16,
-                      spreadRadius: 0,
-                    ),
-                  ],
-                ),
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 20),
-                    child: Row(
-                      children: [
-                        Text(
-                          _lastName ?? 'Not provided',
-                          style: TextStyle(
-                            color: Colors.grey.shade600,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
+
               Row(
                 children: [
                   Text(
-                    'Phone Number',
-                    style: TextStyle(
+                    t.label_phone_number,
+                    style: const TextStyle(
                       color: Color.fromRGBO(46, 23, 21, 1),
                       fontSize: 18,
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 10.0),
+              const SizedBox(height: 10.0),
+              _buildInfoBox(_phoneNumber ?? t.placeholder_not_provided),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
-              Container(
-                height: 50,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Color.fromRGBO(249, 249, 249, 1),
-                  border: Border.all(
-                    color: Color.fromRGBO(0, 0, 0, 0.2),
-                    width: 1,
-                  ),
-                  borderRadius: BorderRadius.circular(16),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color.fromRGBO(0, 0, 0, 0.05),
-                      offset: Offset(0, 4),
-                      blurRadius: 16,
-                      spreadRadius: 0,
-                    ),
-                  ],
-                ),
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 20),
-                    child: Row(
-                      children: [
-                        Text(
-                          _phoneNumber?.toString() ?? 'Not provided',
-                          style: TextStyle(
-                            color: Colors.grey.shade600,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+  Widget _buildInfoBox(String text) {
+    return Container(
+      height: 50,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: const Color.fromRGBO(249, 249, 249, 1),
+        border: Border.all(
+          color: const Color.fromRGBO(0, 0, 0, 0.2),
+          width: 1,
+        ),
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: const [
+          BoxShadow(
+            color: Color.fromRGBO(0, 0, 0, 0.05),
+            offset: Offset(0, 4),
+            blurRadius: 16,
+            spreadRadius: 0,
+          ),
+        ],
+      ),
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsetsDirectional.only(start: 20),
+          child: Row(
+            children: [
+              Text(
+                text,
+                style: TextStyle(
+                  color: Colors.grey.shade600,
+                  fontSize: 16,
                 ),
               ),
             ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wujed/main.dart';
 import 'package:wujed/views/pages/onboarding_page.dart';
 
 class LanguagePage extends StatefulWidget {
@@ -60,24 +61,19 @@ class _LanguagePageState extends State<LanguagePage> {
                 ),
               ],
             ),
-            SizedBox(height: 100.0,),
-            FilledButton(
-              onPressed: () {},
-              style: FilledButton.styleFrom(
-                minimumSize: Size(double.infinity, 50),
-                backgroundColor: Color.fromRGBO(46, 23, 21, 1),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-              ),
-              child: Text('العربية', style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
-            ),
-            SizedBox(height: 40.0,),
+            SizedBox(height: 100.0),
             FilledButton(
               onPressed: () {
-                Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) {
-                  return OnboardingPage();
-                },), (route) => false);
+                MyApp.of(context)!.setLocale(const Locale('ar'));
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return OnboardingPage();
+                    },
+                  ),
+                  (route) => false,
+                );
               },
               style: FilledButton.styleFrom(
                 minimumSize: Size(double.infinity, 50),
@@ -86,7 +82,36 @@ class _LanguagePageState extends State<LanguagePage> {
                   borderRadius: BorderRadius.circular(16),
                 ),
               ),
-              child: Text('English', style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold)),
+              child: Text(
+                'العربية',
+                style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+              ),
+            ),
+            SizedBox(height: 40.0),
+            FilledButton(
+              onPressed: () {
+                MyApp.of(context)!.setLocale(const Locale('en'));
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) {
+                      return OnboardingPage();
+                    },
+                  ),
+                  (route) => false,
+                );
+              },
+              style: FilledButton.styleFrom(
+                minimumSize: Size(double.infinity, 50),
+                backgroundColor: Color.fromRGBO(46, 23, 21, 1),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+              ),
+              child: Text(
+                'English',
+                style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+              ),
             ),
           ],
         ),

@@ -3,6 +3,7 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:remixicon/remixicon.dart';
 import 'package:wujed/views/pages/chat_location_page.dart';
 import 'package:wujed/widgets/chat_bubble.dart';
+import 'package:wujed/l10n/generated/app_localizations.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key, required this.location});
@@ -19,19 +20,21 @@ class _ChatPageState extends State<ChatPage> {
   @override
   void initState() {
     super.initState();
-    _location = widget.location; // initial value if passed
+    _location = widget.location;
   }
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+
     return Scaffold(
-      backgroundColor: Color.fromRGBO(249, 249, 249, 1),
+      backgroundColor: const Color.fromRGBO(249, 249, 249, 1),
       appBar: AppBar(
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.transparent,
         title: Title(
-          color: Color.fromRGBO(46, 23, 21, 1),
-          child: Text(
+          color: const Color.fromRGBO(46, 23, 21, 1),
+          child: const Text(
             'Ghaida44',
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
           ),
@@ -58,11 +61,11 @@ class _ChatPageState extends State<ChatPage> {
                         ),
                         margin: const EdgeInsets.symmetric(vertical: 4),
                         decoration: BoxDecoration(
-                          color: Color(0xFFFFE4B3),
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(18),
-                            topRight: Radius.circular(18),
-                            bottomLeft: Radius.circular(18),
+                          color: const Color(0xFFFFE4B3),
+                          borderRadius: const BorderRadiusDirectional.only(
+                            topStart: Radius.circular(18),
+                            topEnd: Radius.circular(18),
+                            bottomStart: Radius.circular(18),
                           ),
                         ),
                         child: Column(
@@ -85,7 +88,7 @@ class _ChatPageState extends State<ChatPage> {
                                     fontSize: 12,
                                   ),
                                 ),
-                                SizedBox(width: 3.0),
+                                const SizedBox(width: 3.0),
                                 Icon(
                                   Remix.check_double_line,
                                   size: 18,
@@ -98,39 +101,39 @@ class _ChatPageState extends State<ChatPage> {
                       ),
                     ],
                   ),
+
                 ChatBubble(
-                  text: 'Great! Let\'s do',
+                  text: t.chat_great_do,
                   time: '9:39 PM',
                   isSender: true,
                   isRead: false,
                 ),
                 ChatBubble(
-                  text: 'Let\'s decide on a place and time to meet!',
+                  text: t.chat_lets_decide,
                   time: '9:35 PM',
                   isSender: false,
                   isRead: true,
                 ),
                 ChatBubble(
-                  text: 'Yes in fact it does match',
+                  text: t.chat_yes_match,
                   time: '9:35 PM',
                   isSender: false,
                   isRead: true,
                 ),
                 ChatBubble(
-                  text: 'Hello!',
+                  text: t.chat_hello,
                   time: '9:34 PM',
                   isSender: false,
                   isRead: true,
                 ),
                 ChatBubble(
-                  text:
-                      'That sounds like mine. Inside there should be a student ID with the name Ghaida Mo Can you check if it matches?',
+                  text: t.chat_id_request,
                   time: '9:30 PM',
                   isSender: true,
                   isRead: true,
                 ),
                 ChatBubble(
-                  text: 'Hello!',
+                  text: t.chat_hello,
                   time: '9:24 PM',
                   isSender: true,
                   isRead: true,
@@ -142,9 +145,9 @@ class _ChatPageState extends State<ChatPage> {
           Container(
             height: 110.0,
             width: double.infinity,
-            decoration: BoxDecoration(color: Colors.white),
+            decoration: const BoxDecoration(color: Colors.white),
             child: Padding(
-              padding: const EdgeInsets.only(bottom: 12),
+              padding: const EdgeInsetsDirectional.only(bottom: 12),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -152,7 +155,7 @@ class _ChatPageState extends State<ChatPage> {
                     onPressed: () async {
                       final result = await Navigator.push<Map<String, dynamic>>(
                         context,
-                        MaterialPageRoute(builder: (_) => ChatLocationPage()),
+                        MaterialPageRoute(builder: (_) => const ChatLocationPage()),
                       );
                       if (result?['location'] == true) {
                         setState(() => _location = true);
@@ -164,32 +167,29 @@ class _ChatPageState extends State<ChatPage> {
                       size: 30,
                     ),
                   ),
-
                   Container(
                     height: 40,
                     width: 300,
-
                     decoration: BoxDecoration(
                       color: Colors.grey.shade200,
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: TextField(
                       decoration: InputDecoration(
-                        hintText: 'Type Your Message...',
+                        hintText: t.chat_hint,
                         border: InputBorder.none,
-                        contentPadding: EdgeInsets.symmetric(
+                        contentPadding: const EdgeInsets.symmetric(
                           horizontal: 12,
                           vertical: 10,
                         ),
                       ),
                     ),
                   ),
-
                   IconButton(
                     onPressed: () {},
                     icon: Transform.rotate(
                       angle: 0.8,
-                      child: Icon(
+                      child: const Icon(
                         IconlyBold.send,
                         color: Color.fromRGBO(46, 23, 21, 1),
                         size: 30,

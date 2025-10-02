@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:wujed/l10n/generated/app_localizations.dart';
 
 class IntroPage3 extends StatelessWidget {
   const IntroPage3({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
@@ -28,7 +31,7 @@ class IntroPage3 extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Your part ',
+                  t.intro3_title_part1,
                   style: TextStyle(
                     color: Color.fromRGBO(46, 23, 21, 1),
                     fontSize: 26,
@@ -36,7 +39,7 @@ class IntroPage3 extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'matters',
+                  t.intro3_title_part2,
                   style: TextStyle(
                     color: Color.fromRGBO(255, 175, 0, 1),
                     fontSize: 26,
@@ -49,7 +52,7 @@ class IntroPage3 extends StatelessWidget {
             SizedBox(height: 30.0),
 
             Text(
-              'Your reports help someone find what they’ve\nlost and together, we make a difference.',
+              t.intro3_description,
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Color.fromRGBO(46, 23, 21, 1),

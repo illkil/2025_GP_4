@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:wujed/l10n/generated/app_localizations.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key});
@@ -16,16 +17,18 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+
     return Scaffold(
-      backgroundColor: Color.fromRGBO(249, 249, 249, 1),
+      backgroundColor: const Color.fromRGBO(249, 249, 249, 1),
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(249, 249, 249, 1),
+        backgroundColor: const Color.fromRGBO(249, 249, 249, 1),
         surfaceTintColor: Colors.transparent,
         title: Title(
-          color: Color.fromRGBO(46, 23, 21, 1),
+          color: const Color.fromRGBO(46, 23, 21, 1),
           child: Text(
-            'Edit Profile',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            t.edit_profile_title,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
           ),
         ),
         centerTitle: true,
@@ -35,7 +38,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               onDonePressed();
             },
             child: Text(
-              'Done',
+              t.action_done,
               style: TextStyle(
                 color: Colors.grey.shade600,
                 fontSize: 16,
@@ -58,164 +61,107 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   shape: BoxShape.circle,
                   color: Colors.grey.shade500,
                 ),
-                child: Icon(IconlyBold.profile, color: Colors.white, size: 70),
+                child: const Icon(IconlyBold.profile,
+                    color: Colors.white, size: 70),
               ),
-              SizedBox(height: 10.0),
+              const SizedBox(height: 10.0),
               Text(
-                'Change Profile Picture',
-                style: TextStyle(
+                t.edit_profile_change_picture,
+                style: const TextStyle(
                   color: Color.fromRGBO(46, 23, 21, 1),
                   fontSize: 16,
                 ),
               ),
-
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
 
               Row(
                 children: [
                   Text(
-                    'First Name',
-                    style: TextStyle(
+                    t.label_first_name,
+                    style: const TextStyle(
                       color: Color.fromRGBO(46, 23, 21, 1),
                       fontSize: 18,
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 10.0),
+              const SizedBox(height: 10.0),
+              _buildTextField(controllerFirstName, TextInputType.text,
+                  [FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]'))],
+                  hint: t.placeholder_not_provided),
 
-              SizedBox(
-                height: 50,
-                width: double.infinity,
-
-                child: TextField(
-                  controller: controllerFirstName,
-                  keyboardType: TextInputType.text,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')),
-                  ],
-                  autocorrect: false,
-                  decoration: InputDecoration(
-                    hintText: 'Not provided',
-                    hintStyle: TextStyle(
-                      color: Colors.grey.shade400,
-                      fontSize: 16,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(14),
-                      borderSide: BorderSide(
-                        color: Color.fromRGBO(46, 23, 21, 1),
-                        width: 2.0,
-                      ),
-                    ),
-                    suffixIcon: Icon(
-                      IconlyBold.edit,
-                      color: Colors.grey.shade400,
-                    ),
-                  ),
-                ),
-              ),
-
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
 
               Row(
                 children: [
                   Text(
-                    'Last Name',
-                    style: TextStyle(
+                    t.label_last_name,
+                    style: const TextStyle(
                       color: Color.fromRGBO(46, 23, 21, 1),
                       fontSize: 18,
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 10.0),
+              const SizedBox(height: 10.0),
+              _buildTextField(controllerLastName, TextInputType.text,
+                  [FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]'))],
+                  hint: t.placeholder_not_provided),
 
-              SizedBox(
-                height: 50,
-                width: double.infinity,
+              const SizedBox(height: 20.0),
 
-                child: TextField(
-                  controller: controllerLastName,
-                  keyboardType: TextInputType.text,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')),
-                  ],
-                  autocorrect: false,
-                  decoration: InputDecoration(
-                    hintText: 'Not provided',
-                    hintStyle: TextStyle(
-                      color: Colors.grey.shade400,
-                      fontSize: 16,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(14),
-                      borderSide: BorderSide(
-                        color: Color.fromRGBO(46, 23, 21, 1),
-                        width: 2.0,
-                      ),
-                    ),
-                    suffixIcon: Icon(
-                      IconlyBold.edit,
-                      color: Colors.grey.shade400,
-                    ),
-                  ),
-                ),
-              ),
-
-              SizedBox(height: 20.0),
               Row(
                 children: [
                   Text(
-                    'Phone Number',
-                    style: TextStyle(
+                    t.label_phone_number,
+                    style: const TextStyle(
                       color: Color.fromRGBO(46, 23, 21, 1),
                       fontSize: 18,
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 10.0),
-
-              SizedBox(
-                height: 50,
-                width: double.infinity,
-
-                child: TextField(
-                  controller: controllerPhoneNumber,
-                  keyboardType: TextInputType.phone,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                  autocorrect: false,
-                  decoration: InputDecoration(
-                    hintText: 'Not provided',
-                    hintStyle: TextStyle(
-                      color: Colors.grey.shade400,
-                      fontSize: 16,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(14),
-                      borderSide: BorderSide(
-                        color: Color.fromRGBO(46, 23, 21, 1),
-                        width: 2.0,
-                      ),
-                    ),
-                    suffixIcon: Icon(
-                      IconlyBold.edit,
-                      color: Colors.grey.shade400,
-                    ),
-                  ),
-                ),
-              ),
+              const SizedBox(height: 10.0),
+              _buildTextField(controllerPhoneNumber, TextInputType.phone,
+                  [FilteringTextInputFormatter.digitsOnly],
+                  hint: t.placeholder_not_provided),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTextField(TextEditingController controller,
+      TextInputType type, List<TextInputFormatter> formatters,
+      {required String hint}) {
+    return SizedBox(
+      height: 50,
+      width: double.infinity,
+      child: TextField(
+        controller: controller,
+        keyboardType: type,
+        inputFormatters: formatters,
+        autocorrect: false,
+        decoration: InputDecoration(
+          hintText: hint,
+          hintStyle: TextStyle(
+            color: Colors.grey.shade400,
+            fontSize: 16,
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(14),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(14),
+            borderSide: const BorderSide(
+              color: Color.fromRGBO(46, 23, 21, 1),
+              width: 2.0,
+            ),
+          ),
+          suffixIcon: Icon(
+            IconlyBold.edit,
+            color: Colors.grey.shade400,
           ),
         ),
       ),

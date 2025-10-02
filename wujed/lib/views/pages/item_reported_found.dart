@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:wujed/l10n/generated/app_localizations.dart';
 
 class ItemReportedFound extends StatefulWidget {
   const ItemReportedFound({super.key});
@@ -33,9 +34,9 @@ class _ItemReportedFoundState extends State<ItemReportedFound> {
                     ),
                   ),
                 ),
-                Positioned(
+                PositionedDirectional(
                   top: MediaQuery.of(context).padding.top + 8,
-                  right: 8,
+                  end: 8,
                   child: IconButton(
                     onPressed: () => Navigator.pop(context),
                     icon: const Icon(Icons.close, color: Colors.white),
@@ -53,8 +54,10 @@ class _ItemReportedFoundState extends State<ItemReportedFound> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+
     return Scaffold(
-      backgroundColor: Color.fromRGBO(249, 249, 249, 1),
+      backgroundColor: const Color.fromRGBO(249, 249, 249, 1),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -73,37 +76,37 @@ class _ItemReportedFoundState extends State<ItemReportedFound> {
                     ),
                   ),
                 ),
-                Positioned(
+                PositionedDirectional(
                   top: 70,
-                  left: 20,
+                  start: 20,
                   child: Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Colors.white,
                       shape: BoxShape.circle,
                     ),
-                    child: BackButton(),
+                    child: const BackButton(),
                   ),
                 ),
-                Positioned(
-                  left: 0,
-                  right: 0,
+                PositionedDirectional(
+                  start: 0,
+                  end: 0,
                   bottom: 0,
                   child: SizedBox(
                     width: double.infinity,
                     height: 50,
                     child: Container(
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Color.fromRGBO(255, 235, 190, 1),
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(20),
-                          topRight: Radius.circular(20),
+                        borderRadius: BorderRadiusDirectional.only(
+                          topStart: Radius.circular(20),
+                          topEnd: Radius.circular(20),
                         ),
                       ),
                       child: Align(
-                        alignment: Alignment(0, 0),
+                        alignment: const Alignment(0, 0),
                         child: Text(
-                          'Coffee Brewer',
-                          style: TextStyle(
+                          t.item_title_coffee_brewer,
+                          style: const TextStyle(
                             color: Color.fromRGBO(46, 23, 21, 1),
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
@@ -123,15 +126,15 @@ class _ItemReportedFoundState extends State<ItemReportedFound> {
                   Row(
                     children: [
                       Text(
-                        'Location',
-                        style: TextStyle(
+                        t.details_location_label,
+                        style: const TextStyle(
                           color: Color.fromRGBO(43, 23, 21, 1),
                           fontSize: 16,
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(height: 10.0),
+                  const SizedBox(height: 10.0),
 
                   Container(
                     height: 55,
@@ -139,26 +142,26 @@ class _ItemReportedFoundState extends State<ItemReportedFound> {
                     decoration: BoxDecoration(
                       color: Colors.white,
                       border: Border.all(
-                        color: Color.fromRGBO(0, 0, 0, 0.2),
+                        color: const Color.fromRGBO(0, 0, 0, 0.2),
                         width: 1,
                       ),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Stack(
                       children: [
-                        Positioned(
+                        const PositionedDirectional(
                           top: 0,
                           bottom: 0,
-                          left: 20,
+                          start: 20,
                           child: Icon(
                             IconlyBold.location,
                             color: Color.fromRGBO(46, 23, 21, 1),
                             size: 37,
                           ),
                         ),
-                        Positioned(
+                        const PositionedDirectional(
                           top: 18,
-                          left: 100,
+                          start: 100,
                           child: Text(
                             'XYZLOCATIONXYZXYZXYZ',
                             style: TextStyle(
@@ -167,14 +170,13 @@ class _ItemReportedFoundState extends State<ItemReportedFound> {
                             ),
                           ),
                         ),
-                        Positioned(
+                        PositionedDirectional(
                           top: 0,
                           bottom: 0,
-                          right: 10,
-
+                          end: 10,
                           child: IconButton(
                             onPressed: () {},
-                            icon: Icon(
+                            icon: const Icon(
                               Icons.arrow_forward_ios_rounded,
                               size: 20,
                               color: Color.fromRGBO(46, 23, 21, 1),
@@ -185,13 +187,13 @@ class _ItemReportedFoundState extends State<ItemReportedFound> {
                     ),
                   ),
 
-                  SizedBox(height: 20.0),
+                  const SizedBox(height: 20.0),
 
                   Row(
                     children: [
                       Text(
-                        'Description',
-                        style: TextStyle(
+                        t.details_description_label,
+                        style: const TextStyle(
                           color: Color.fromRGBO(43, 23, 21, 1),
                           fontSize: 16,
                         ),
@@ -199,7 +201,7 @@ class _ItemReportedFoundState extends State<ItemReportedFound> {
                     ],
                   ),
 
-                  SizedBox(height: 10.0),
+                  const SizedBox(height: 10.0),
 
                   Container(
                     height: 169,
@@ -207,15 +209,19 @@ class _ItemReportedFoundState extends State<ItemReportedFound> {
                     decoration: BoxDecoration(
                       color: Colors.white,
                       border: Border.all(
-                        color: Color.fromRGBO(0, 0, 0, 0.2),
+                        color: const Color.fromRGBO(0, 0, 0, 0.2),
                         width: 1,
                       ),
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
+                    child: const Padding(
+                      padding: EdgeInsets.all(10.0),
                       child: Text(
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur',
+                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
+                        'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. '
+                        'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut '
+                        'aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in '
+                        'voluptate velit esse cillum dolore eu fugiat nulla pariatur',
                         style: TextStyle(
                           color: Color.fromRGBO(46, 23, 21, 1),
                           fontSize: 13,

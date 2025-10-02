@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wujed/l10n/generated/app_localizations.dart';
 import 'package:wujed/views/pages/forgot_password_page.dart';
 import 'package:wujed/views/pages/signup_page.dart';
 import 'package:wujed/views/widget_tree.dart';
@@ -24,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
   String confirmedEmail = '123';
   String confirmedPassword = '456';
 
-  String text = 'Please Log in to continue';
+  String? textKey;
   Color textColor = Colors.grey.shade600;
   Color loginBtnColor = Colors.grey.shade400;
 
@@ -32,6 +33,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
@@ -41,27 +44,30 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Welcome Back!',
-                style: TextStyle(
+                t.login_title,
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 26.0,
                   color: Color.fromRGBO(46, 23, 21, 1),
                 ),
               ),
 
-              SizedBox(height: 10.0),
+              const SizedBox(height: 10.0),
 
-              Text(text, style: TextStyle(fontSize: 16.0, color: textColor)),
+              Text(
+                textKey != null ? _resolveText(t, textKey!) : t.login_subtitle,
+                style: TextStyle(fontSize: 16.0, color: textColor),
+              ),
 
-              SizedBox(height: 50.0),
+              const SizedBox(height: 50.0),
 
               TextField(
                 controller: controllerEmail,
                 decoration: InputDecoration(
-                  labelText: 'Email',
-                  labelStyle: TextStyle(fontSize: 16.0),
+                  labelText: t.login_email_label,
+                  labelStyle: const TextStyle(fontSize: 16.0),
                   floatingLabelBehavior: FloatingLabelBehavior.always,
-                  floatingLabelStyle: TextStyle(
+                  floatingLabelStyle: const TextStyle(
                     color: Color.fromRGBO(46, 23, 21, 1),
                   ),
                   border: OutlineInputBorder(
@@ -69,18 +75,16 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(14),
-                    borderSide: BorderSide(
+                    borderSide: const BorderSide(
                       color: Color.fromRGBO(46, 23, 21, 1),
                       width: 2.0,
                     ),
                   ),
                 ),
-                onEditingComplete: () {
-                  setState(() {});
-                },
+                onEditingComplete: () => setState(() {}),
               ),
 
-              SizedBox(height: 30.0),
+              const SizedBox(height: 30.0),
 
               TextField(
                 controller: controllerPassword,
@@ -88,10 +92,10 @@ class _LoginPageState extends State<LoginPage> {
                 obscuringCharacter: '*',
                 keyboardType: TextInputType.visiblePassword,
                 decoration: InputDecoration(
-                  labelText: 'Password',
-                  labelStyle: TextStyle(fontSize: 16.0),
+                  labelText: t.login_password_label,
+                  labelStyle: const TextStyle(fontSize: 16.0),
                   floatingLabelBehavior: FloatingLabelBehavior.always,
-                  floatingLabelStyle: TextStyle(
+                  floatingLabelStyle: const TextStyle(
                     color: Color.fromRGBO(46, 23, 21, 1),
                   ),
                   border: OutlineInputBorder(
@@ -99,17 +103,13 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(14),
-                    borderSide: BorderSide(
+                    borderSide: const BorderSide(
                       color: Color.fromRGBO(46, 23, 21, 1),
                       width: 2.0,
                     ),
                   ),
                   suffixIcon: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        hidePassword = !hidePassword;
-                      });
-                    },
+                    onPressed: () => setState(() => hidePassword = !hidePassword),
                     icon: Icon(
                       hidePassword
                           ? Icons.visibility_off_outlined
@@ -118,9 +118,7 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-                onEditingComplete: () {
-                  setState(() {});
-                },
+                onEditingComplete: () => setState(() {}),
               ),
 
               Row(
@@ -131,14 +129,12 @@ class _LoginPageState extends State<LoginPage> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) {
-                            return ForgotPasswordPage();
-                          },
+                          builder: (context) => const ForgotPasswordPage(),
                         ),
                       );
                     },
                     child: Text(
-                      'Forgot Password?',
+                      t.login_forgot_password,
                       style: TextStyle(
                         color: Colors.grey.shade600,
                         decoration: TextDecoration.underline,
@@ -150,34 +146,32 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
 
-              Image.asset('lib/assets/images/reCAPTCHA.png', width: 400,),
+              Image.asset('lib/assets/images/reCAPTCHA.png', width: 400),
 
-              SizedBox(height: 30.0),
+              const SizedBox(height: 30.0),
 
               FilledButton(
-                onPressed: () {
-                  onLoginPressed();
-                },
+                onPressed: onLoginPressed,
                 style: FilledButton.styleFrom(
-                  minimumSize: Size(double.infinity, 50),
+                  minimumSize: const Size(double.infinity, 50),
                   backgroundColor: loginBtnColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),
                 ),
                 child: Text(
-                  'Log In',
-                  style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                  t.login_button,
+                  style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
                 ),
               ),
 
-              SizedBox(height: 10.0),
+              const SizedBox(height: 10.0),
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Don\'t have an account?',
+                    t.login_no_account,
                     style: TextStyle(color: Colors.grey.shade600),
                   ),
                   TextButton(
@@ -185,16 +179,14 @@ class _LoginPageState extends State<LoginPage> {
                       Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
-                          builder: (context) {
-                            return SignupPage();
-                          },
+                          builder: (context) => const SignupPage(),
                         ),
                         (route) => false,
                       );
                     },
                     child: Text(
-                      'Sign Up',
-                      style: TextStyle(
+                      t.login_signup_link,
+                      style: const TextStyle(
                         color: Color.fromRGBO(0, 111, 255, 1),
                         decoration: TextDecoration.underline,
                         decorationThickness: 1,
@@ -205,29 +197,28 @@ class _LoginPageState extends State<LoginPage> {
                 ],
               ),
 
-              SizedBox(height: 10.0),
+              const SizedBox(height: 10.0),
 
               Row(
                 children: [
-                  Expanded(
-                    child: Divider(color: Colors.grey.shade400, thickness: 1),
-                  ),
+                  Expanded(child: Divider(color: Colors.grey.shade400, thickness: 1)),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Text(
-                      'OR',
+                      t.common_or,
                       style: TextStyle(color: Colors.grey.shade600),
                     ),
                   ),
-                  Expanded(
-                    child: Divider(color: Colors.grey.shade400, thickness: 1),
-                  ),
+                  Expanded(child: Divider(color: Colors.grey.shade400, thickness: 1)),
                 ],
               ),
 
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
 
-              GsiMaterialButton(onPressed: () {}, text: 'Continue with Google'),
+              GsiMaterialButton(
+                onPressed: () {},
+                text: t.google_continue,
+              ),
             ],
           ),
         ),
@@ -236,14 +227,12 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void updateButtonColor() {
-    final filled =
-        controllerEmail.text.trim().isNotEmpty &&
+    final filled = controllerEmail.text.trim().isNotEmpty &&
         controllerPassword.text.isNotEmpty;
 
     setState(() {
-      loginBtnColor = filled
-          ? Color.fromRGBO(46, 23, 21, 1)
-          : Colors.grey.shade400;
+      loginBtnColor =
+          filled ? const Color.fromRGBO(46, 23, 21, 1) : Colors.grey.shade400;
     });
   }
 
@@ -253,25 +242,32 @@ class _LoginPageState extends State<LoginPage> {
 
     if (email.isEmpty || password.isEmpty) {
       setState(() {
-        text = "Please fill all the details";
-        textColor = Color.fromRGBO(211, 47, 47, 1);
+        textKey = "login_error_fill_all";
+        textColor = const Color.fromRGBO(211, 47, 47, 1);
       });
     } else {
       if (email == confirmedEmail && password == confirmedPassword) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(
-            builder: (context) {
-              return WidgetTree();
-            },
-          ),
+          MaterialPageRoute(builder: (context) => const WidgetTree()),
         );
       } else {
         setState(() {
-          text = "Invalid email or password";
-          textColor = Color.fromRGBO(211, 47, 47, 1);
+          textKey = "login_error_invalid";
+          textColor = const Color.fromRGBO(211, 47, 47, 1);
         });
       }
+    }
+  }
+
+  String _resolveText(AppLocalizations t, String key) {
+    switch (key) {
+      case "login_error_fill_all":
+        return t.login_error_fill_all;
+      case "login_error_invalid":
+        return t.login_error_invalid;
+      default:
+        return "";
     }
   }
 }

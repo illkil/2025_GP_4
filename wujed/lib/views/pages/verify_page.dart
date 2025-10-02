@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wujed/views/pages/login_page.dart';
 import 'package:wujed/widgets/otp_fields.dart';
+import 'package:wujed/l10n/generated/app_localizations.dart';
 
 class VerifyPage extends StatefulWidget {
   const VerifyPage({super.key});
@@ -12,6 +13,8 @@ class VerifyPage extends StatefulWidget {
 class _VerifyPageState extends State<VerifyPage> {
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -24,59 +27,67 @@ class _VerifyPageState extends State<VerifyPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(height: 60.0),
+              const SizedBox(height: 60.0),
 
               Text(
-                'OTP Verification',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26.0),
+                t.verify_title,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 26.0,
+                ),
               ),
 
-              SizedBox(height: 10.0),
+              const SizedBox(height: 10.0),
 
               Text(
-                'Please check you email for the\nverification code',
+                t.verify_subtitle,
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16.0, color: Colors.grey.shade600),
+                style: TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.grey.shade600,
+                ),
               ),
 
-              SizedBox(height: 50.0),
+              const SizedBox(height: 50.0),
 
               OtpFields(onCompleted: (code) {}),
 
-              SizedBox(height: 20.0),
+              const SizedBox(height: 20.0),
 
               FilledButton(
                 onPressed: () {
                   Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(
-                      builder: (context) {
-                        return LoginPage();
-                      },
+                      builder: (context) => const LoginPage(),
                     ),
                     (route) => false,
                   );
                 },
                 style: FilledButton.styleFrom(
-                  minimumSize: Size(double.infinity, 50),
-                  backgroundColor: Color.fromRGBO(46, 23, 21, 1),
+                  minimumSize: const Size(double.infinity, 50),
+                  backgroundColor: const Color.fromRGBO(46, 23, 21, 1),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16),
                   ),
                 ),
                 child: Text(
-                  'Verify',
-                  style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                  t.verify_button,
+                  style: const TextStyle(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   TextButton(
                     onPressed: () {},
                     child: Text(
-                      'Resend code',
-                      style: TextStyle(
+                      t.verify_resend,
+                      style: const TextStyle(
                         color: Color.fromRGBO(0, 111, 255, 1),
                         decoration: TextDecoration.underline,
                         decorationThickness: 1,
@@ -84,7 +95,7 @@ class _VerifyPageState extends State<VerifyPage> {
                       ),
                     ),
                   ),
-                  Text('0:00'),
+                  const Text('0:00'),
                 ],
               ),
             ],

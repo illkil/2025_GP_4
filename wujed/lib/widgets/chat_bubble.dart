@@ -24,15 +24,15 @@ class ChatBubble extends StatelessWidget {
     final textColor = Colors.black;
     final align = isSender ? CrossAxisAlignment.end : CrossAxisAlignment.start;
     final radius = isSender
-        ? const BorderRadius.only(
-            topLeft: Radius.circular(18),
-            topRight: Radius.circular(18),
-            bottomLeft: Radius.circular(18),
+        ? const BorderRadiusDirectional.only(
+            topStart: Radius.circular(18),
+            topEnd: Radius.circular(18),
+            bottomStart: Radius.circular(18),
           )
-        : const BorderRadius.only(
-            topLeft: Radius.circular(18),
-            topRight: Radius.circular(18),
-            bottomRight: Radius.circular(18),
+        : const BorderRadiusDirectional.only(
+            topStart: Radius.circular(18),
+            topEnd: Radius.circular(18),
+            bottomEnd: Radius.circular(18),
           );
 
     return Column(

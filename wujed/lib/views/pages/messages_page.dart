@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wujed/l10n/generated/app_localizations.dart';
 import 'package:wujed/widgets/message_row.dart';
 import 'package:wujed/views/pages/chat_page.dart';
 
@@ -10,17 +11,18 @@ class MessagesPage extends StatefulWidget {
 }
 
 class _MessagesPageState extends State<MessagesPage> {
-
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+
     return Scaffold(
       backgroundColor: const Color.fromRGBO(249, 249, 249, 1),
       appBar: AppBar(
         backgroundColor: const Color.fromRGBO(249, 249, 249, 1),
         surfaceTintColor: Colors.transparent,
         centerTitle: true,
-        title: const Text(
-          'Messages',
+        title: Text(
+          t.messages_title,
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
         ),
       ),
@@ -29,13 +31,18 @@ class _MessagesPageState extends State<MessagesPage> {
         children: [
           GestureDetector(
             onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return ChatPage(location: false,);
-              },));
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) {
+                    return ChatPage(location: false);
+                  },
+                ),
+              );
             },
             child: MessageTile(
               name: 'Ghaida44',
-              subtitle: "You: Great! Let's do",
+              subtitle: "${t.messages_you_prefix} ${t.chat_great_do}",
               time: '09:46 PM',
               check: true,
             ),
@@ -45,9 +52,9 @@ class _MessagesPageState extends State<MessagesPage> {
 
           MessageTile(
             name: 'AhlamQ',
-            subtitle: 'Hello, I think I found your item',
+            subtitle: t.chat_hello_found_item,
             time: '09:46 PM',
-              check: true,
+            check: true,
             doubleTick: true,
             dotColor: const Color(0xFFFF0000),
           ),
@@ -56,9 +63,9 @@ class _MessagesPageState extends State<MessagesPage> {
 
           MessageTile(
             name: 'Ghena123',
-            subtitle: 'Typing...',
+            subtitle: t.messages_typing,
             time: '09:46 PM',
-              check: true,
+            check: true,
             doubleTick: true,
             doubleTickGreen: true,
           ),
@@ -67,7 +74,7 @@ class _MessagesPageState extends State<MessagesPage> {
 
           MessageTile(
             name: 'almunyifjwhrt',
-            subtitle: 'Your Items Matched!',
+            subtitle: t.messages_items_matched,
             time: '',
             dotColor: const Color(0xFF006FFF),
           ),

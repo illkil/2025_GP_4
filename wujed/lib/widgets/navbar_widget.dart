@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:wujed/data/notifiers.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:wujed/l10n/generated/app_localizations.dart';
 
 class NavbarWidget extends StatelessWidget {
   const NavbarWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+
     return ValueListenableBuilder(
       valueListenable: selectedPageNotifier,
       builder: (context, selectedPage, child) {
@@ -18,9 +21,7 @@ class NavbarWidget extends StatelessWidget {
           child: NavigationBarTheme(
             data: NavigationBarThemeData(
               indicatorColor: Colors.transparent,
-              iconTheme: WidgetStateProperty.resolveWith<IconThemeData>((
-                states,
-              ) {
+              iconTheme: WidgetStateProperty.resolveWith<IconThemeData>((states) {
                 if (states.contains(WidgetState.selected)) {
                   return const IconThemeData(
                     color: Color.fromRGBO(46, 23, 21, 1),
@@ -33,19 +34,19 @@ class NavbarWidget extends StatelessWidget {
               backgroundColor: Colors.white,
               destinations: [
                 NavigationDestination(
-                  icon: Icon(IconlyBold.home, size: 30),
-                  label: 'Home',
+                  icon: const Icon(IconlyBold.home, size: 30),
+                  label: t.navbar_home,
                 ),
                 NavigationDestination(
-                  icon: Icon(IconlyBold.timeCircle, size: 30),
-                  label: 'History',
+                  icon: const Icon(IconlyBold.timeCircle, size: 30),
+                  label: t.navbar_history,
                 ),
                 NavigationDestination(
                   icon: Stack(
                     children: [
-                      Icon(IconlyBold.message, size: 30),
-                      Positioned(
-                        right: 0,
+                      const Icon(IconlyBold.message, size: 30),
+                      const PositionedDirectional(
+                        end: 0,
                         bottom: 0,
                         child: Icon(
                           Icons.circle,
@@ -55,11 +56,11 @@ class NavbarWidget extends StatelessWidget {
                       ),
                     ],
                   ),
-                  label: 'Messages',
+                  label: t.navbar_messages,
                 ),
                 NavigationDestination(
-                  icon: Icon(IconlyBold.profile, size: 30),
-                  label: 'Profile',
+                  icon: const Icon(IconlyBold.profile, size: 30),
+                  label: t.navbar_profile,
                 ),
               ],
               onDestinationSelected: (int value) {

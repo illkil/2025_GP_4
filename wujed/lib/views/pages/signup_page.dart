@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wujed/views/pages/login_page.dart';
 import 'package:wujed/widgets/google_widget.dart';
+import 'package:wujed/l10n/generated/app_localizations.dart';
 
 class SignupPage extends StatefulWidget {
   const SignupPage({super.key});
@@ -23,7 +24,7 @@ class _SignupPageState extends State<SignupPage> {
   String takenUsername = '111';
   String existedEmail = '123';
 
-  String text = 'Fill all the details to create your account';
+  String text = '';
   String takenUsernameWarning = "";
   String existingEmailWarning = "";
   String weakPasswordWarning = "";
@@ -35,6 +36,9 @@ class _SignupPageState extends State<SignupPage> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+    text = text.isEmpty ? t.signup_subtitle : text;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -45,23 +49,26 @@ class _SignupPageState extends State<SignupPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Join Us!',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26.0),
+                  t.signup_title,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 26.0,
+                  ),
                 ),
-                  
-                SizedBox(height: 10.0),
-                  
+
+                const SizedBox(height: 10.0),
+
                 Text(text, style: TextStyle(fontSize: 16.0, color: textColor)),
-                  
-                SizedBox(height: 50.0),
-                  
+
+                const SizedBox(height: 50.0),
+
                 TextField(
                   controller: controllerUsername,
                   decoration: InputDecoration(
-                    labelText: 'Username',
-                    labelStyle: TextStyle(fontSize: 16.0),
+                    labelText: t.signup_username_label,
+                    labelStyle: const TextStyle(fontSize: 16.0),
                     floatingLabelBehavior: FloatingLabelBehavior.always,
-                    floatingLabelStyle: TextStyle(
+                    floatingLabelStyle: const TextStyle(
                       color: Color.fromRGBO(46, 23, 21, 1),
                     ),
                     border: OutlineInputBorder(
@@ -69,7 +76,7 @@ class _SignupPageState extends State<SignupPage> {
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(14),
-                      borderSide: BorderSide(
+                      borderSide: const BorderSide(
                         color: Color.fromRGBO(46, 23, 21, 1),
                         width: 2.0,
                       ),
@@ -84,20 +91,20 @@ class _SignupPageState extends State<SignupPage> {
                   children: [
                     Text(
                       takenUsernameWarning,
-                      style: TextStyle(color: Color.fromRGBO(211, 47, 47, 1)),
+                      style: const TextStyle(color: Color.fromRGBO(211, 47, 47, 1)),
                     ),
                   ],
                 ),
-                  
-                SizedBox(height: 10.0),
-                  
+
+                const SizedBox(height: 10.0),
+
                 TextField(
                   controller: controllerEmail,
                   decoration: InputDecoration(
-                    labelText: 'Email',
-                    labelStyle: TextStyle(fontSize: 16.0),
+                    labelText: t.signup_email_label,
+                    labelStyle: const TextStyle(fontSize: 16.0),
                     floatingLabelBehavior: FloatingLabelBehavior.always,
-                    floatingLabelStyle: TextStyle(
+                    floatingLabelStyle: const TextStyle(
                       color: Color.fromRGBO(46, 23, 21, 1),
                     ),
                     border: OutlineInputBorder(
@@ -105,7 +112,7 @@ class _SignupPageState extends State<SignupPage> {
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(14),
-                      borderSide: BorderSide(
+                      borderSide: const BorderSide(
                         color: Color.fromRGBO(46, 23, 21, 1),
                         width: 2.0,
                       ),
@@ -120,23 +127,23 @@ class _SignupPageState extends State<SignupPage> {
                   children: [
                     Text(
                       existingEmailWarning,
-                      style: TextStyle(color: Color.fromRGBO(211, 47, 47, 1)),
+                      style: const TextStyle(color: Color.fromRGBO(211, 47, 47, 1)),
                     ),
                   ],
                 ),
-                  
-                SizedBox(height: 10.0),
-                  
+
+                const SizedBox(height: 10.0),
+
                 TextField(
                   controller: controllerPassword,
                   obscureText: hidePassword,
                   obscuringCharacter: '*',
                   keyboardType: TextInputType.visiblePassword,
                   decoration: InputDecoration(
-                    labelText: 'Password',
-                    labelStyle: TextStyle(fontSize: 16.0),
+                    labelText: t.signup_password_label,
+                    labelStyle: const TextStyle(fontSize: 16.0),
                     floatingLabelBehavior: FloatingLabelBehavior.always,
-                    floatingLabelStyle: TextStyle(
+                    floatingLabelStyle: const TextStyle(
                       color: Color.fromRGBO(46, 23, 21, 1),
                     ),
                     border: OutlineInputBorder(
@@ -144,7 +151,7 @@ class _SignupPageState extends State<SignupPage> {
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(14),
-                      borderSide: BorderSide(
+                      borderSide: const BorderSide(
                         color: Color.fromRGBO(46, 23, 21, 1),
                         width: 2.0,
                       ),
@@ -172,15 +179,15 @@ class _SignupPageState extends State<SignupPage> {
                   children: [
                     Text(
                       weakPasswordWarning,
-                      style: TextStyle(color: Color.fromRGBO(211, 47, 47, 1)),
+                      style: const TextStyle(color: Color.fromRGBO(211, 47, 47, 1)),
                     ),
                   ],
                 ),
-                  
+
                 Image.asset('lib/assets/images/reCAPTCHA.png', width: 400),
-                  
-                SizedBox(height: 5.0),
-                  
+
+                const SizedBox(height: 5.0),
+
                 Row(
                   children: [
                     Theme(
@@ -213,39 +220,42 @@ class _SignupPageState extends State<SignupPage> {
                         },
                       ),
                     ),
-                    const Expanded(
+                    Expanded(
                       child: Text(
-                        "I am 18 years old or older",
-                        style: TextStyle(fontSize: 14.0),
+                        t.signup_age_checkbox,
+                        style: const TextStyle(fontSize: 14.0),
                       ),
                     ),
                   ],
                 ),
-                  
+
                 FilledButton(
                   onPressed: () {
                     onLoginPressed();
                   },
                   style: FilledButton.styleFrom(
-                    minimumSize: Size(double.infinity, 50),
+                    minimumSize: const Size(double.infinity, 50),
                     backgroundColor: signupBtnColor,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(16),
                     ),
                   ),
                   child: Text(
-                    'Sign Up',
-                    style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                    t.signup_button,
+                    style: const TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-                  
-                SizedBox(height: 10.0),
-                  
+
+                const SizedBox(height: 10.0),
+
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Already have an account?',
+                      t.signup_have_account,
                       style: TextStyle(color: Colors.grey.shade600),
                     ),
                     TextButton(
@@ -254,15 +264,15 @@ class _SignupPageState extends State<SignupPage> {
                           context,
                           MaterialPageRoute(
                             builder: (context) {
-                              return LoginPage();
+                              return const LoginPage();
                             },
                           ),
                           (route) => false,
                         );
                       },
                       child: Text(
-                        'Log In',
-                        style: TextStyle(
+                        t.signup_login_link,
+                        style: const TextStyle(
                           color: Color.fromRGBO(0, 111, 255, 1),
                           decoration: TextDecoration.underline,
                           decorationThickness: 1,
@@ -272,9 +282,9 @@ class _SignupPageState extends State<SignupPage> {
                     ),
                   ],
                 ),
-                  
-                SizedBox(height: 10.0),
-                  
+
+                const SizedBox(height: 10.0),
+
                 Row(
                   children: [
                     Expanded(
@@ -283,7 +293,7 @@ class _SignupPageState extends State<SignupPage> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: Text(
-                        'OR',
+                        t.common_or,
                         style: TextStyle(color: Colors.grey.shade600),
                       ),
                     ),
@@ -292,10 +302,13 @@ class _SignupPageState extends State<SignupPage> {
                     ),
                   ],
                 ),
-                  
-                SizedBox(height: 20.0),
-                  
-                GsiMaterialButton(onPressed: () {}, text: 'Sign up with Google'),
+
+                const SizedBox(height: 20.0),
+
+                GsiMaterialButton(
+                  onPressed: () {},
+                  text: t.google_signup,
+                ),
               ],
             ),
           ),
@@ -313,7 +326,7 @@ class _SignupPageState extends State<SignupPage> {
 
     setState(() {
       signupBtnColor = filled
-          ? Color.fromRGBO(46, 23, 21, 1)
+          ? const Color.fromRGBO(46, 23, 21, 1)
           : Colors.grey.shade400;
     });
   }
@@ -322,11 +335,12 @@ class _SignupPageState extends State<SignupPage> {
     final username = controllerUsername.text.trim();
     final email = controllerEmail.text.trim();
     final password = controllerPassword.text;
+    final t = AppLocalizations.of(context);
 
     if (username.isEmpty || email.isEmpty || password.isEmpty) {
       setState(() {
-        text = 'Please fill all the details';
-        textColor = Color.fromRGBO(211, 47, 47, 1);
+        text = t.login_error_fill_all;
+        textColor = const Color.fromRGBO(211, 47, 47, 1);
       });
       return;
     }
@@ -335,7 +349,7 @@ class _SignupPageState extends State<SignupPage> {
         password.length < 8) {
       if (username == takenUsername) {
         setState(() {
-          takenUsernameWarning = 'This username is taken';
+          takenUsernameWarning = t.signup_username_taken;
         });
       } else {
         setState(() {
@@ -344,7 +358,7 @@ class _SignupPageState extends State<SignupPage> {
       }
       if (email == existedEmail) {
         setState(() {
-          existingEmailWarning = 'This email already exists';
+          existingEmailWarning = t.signup_email_exists;
         });
       } else {
         setState(() {
@@ -353,8 +367,7 @@ class _SignupPageState extends State<SignupPage> {
       }
       if (password.length < 8) {
         setState(() {
-          weakPasswordWarning =
-              'Use 8 or more characters with a mix of\nuppercase and lowercase letters and\nnumbers';
+          weakPasswordWarning = t.signup_password_weak;
         });
       } else {
         setState(() {
@@ -366,7 +379,7 @@ class _SignupPageState extends State<SignupPage> {
         context,
         MaterialPageRoute(
           builder: (context) {
-            return LoginPage();
+            return const LoginPage();
           },
         ),
         (route) => false,

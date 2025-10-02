@@ -29,19 +29,14 @@ class _OtpFieldsState extends State<OtpFields> {
   }
 
   void _onChanged(int index, String value) {
-    // only keep 1 char
     if (value.length > 1) {
-      // handle paste: keep the last char here;
-      // optional: distribute pasted digits across fields.
       _controllers[index].text = value.characters.last;
       _controllers[index].selection = TextSelection.collapsed(offset: 1);
     }
     if (value.isNotEmpty) {
-      // move to next
       if (index + 1 < widget.length) {
         _nodes[index + 1].requestFocus();
       } else {
-        // completed
         final code = _controllers.map((c) => c.text).join();
         widget.onCompleted(code);
         _nodes[index].unfocus();

@@ -21,15 +21,15 @@ class LoadingPage extends StatelessWidget {
         backgroundColor: Color.fromRGBO(46, 23, 21, 1),
         body: Stack(
           children: [
-            Positioned(
+            PositionedDirectional(
               top: 0,
               bottom: 0,
-              right: 0,
-              left: 0,
+              end: 0,
+              start: 0,
               child: Image.asset('lib/assets/images/LogoArabic.png')),
-            Positioned(
+            PositionedDirectional(
               bottom: 40,
-              left: 145,
+              start: 145,
               child: Text(
                 'Wujed',
                 style: TextStyle(

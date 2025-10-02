@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wujed/widgets/found_history.dart';
 import 'package:wujed/widgets/lost_history.dart';
+import 'package:wujed/l10n/generated/app_localizations.dart';
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({super.key});
@@ -11,18 +12,21 @@ class HistoryPage extends StatefulWidget {
 
 class _HistoryPageState extends State<HistoryPage> {
   int selectedIndex = 0;
+
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+
     return Scaffold(
-      backgroundColor: Color.fromRGBO(249, 249, 249, 1),
+      backgroundColor: const Color.fromRGBO(249, 249, 249, 1),
       appBar: AppBar(
-        backgroundColor: Color.fromRGBO(249, 249, 249, 1),
+        backgroundColor: const Color.fromRGBO(249, 249, 249, 1),
         surfaceTintColor: Colors.transparent,
         title: Title(
-          color: Color.fromRGBO(46, 23, 21, 1),
+          color: const Color.fromRGBO(46, 23, 21, 1),
           child: Text(
-            'History',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            t.history_title,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
           ),
         ),
         bottom: PreferredSize(
@@ -40,20 +44,20 @@ class _HistoryPageState extends State<HistoryPage> {
                     child: GestureDetector(
                       onTap: () => setState(() => selectedIndex = 0),
                       child: Container(
-                        padding: EdgeInsets.symmetric(vertical: 12),
+                        padding: const EdgeInsets.symmetric(vertical: 12),
                         decoration: BoxDecoration(
                           color: selectedIndex == 0
-                              ? Color.fromRGBO(46, 23, 21, 1)
+                              ? const Color.fromRGBO(46, 23, 21, 1)
                               : Colors.transparent,
                           borderRadius: BorderRadius.circular(8),
                         ),
                         alignment: Alignment.center,
                         child: Text(
-                          'Lost',
+                          t.history_tab_lost,
                           style: TextStyle(
                             color: selectedIndex == 0
                                 ? Colors.white
-                                : Color.fromRGBO(46, 23, 21, 1),
+                                : const Color.fromRGBO(46, 23, 21, 1),
                             fontWeight: selectedIndex == 0
                                 ? FontWeight.bold
                                 : FontWeight.normal,
@@ -66,20 +70,20 @@ class _HistoryPageState extends State<HistoryPage> {
                     child: GestureDetector(
                       onTap: () => setState(() => selectedIndex = 1),
                       child: Container(
-                        padding: EdgeInsets.symmetric(vertical: 12),
+                        padding: const EdgeInsets.symmetric(vertical: 12),
                         decoration: BoxDecoration(
                           color: selectedIndex == 1
-                              ? Color.fromRGBO(46, 23, 21, 1)
+                              ? const Color.fromRGBO(46, 23, 21, 1)
                               : Colors.transparent,
                           borderRadius: BorderRadius.circular(8),
                         ),
                         alignment: Alignment.center,
                         child: Text(
-                          'Found',
+                          t.history_tab_found,
                           style: TextStyle(
                             color: selectedIndex == 1
                                 ? Colors.white
-                                : Color.fromRGBO(46, 23, 21, 1),
+                                : const Color.fromRGBO(46, 23, 21, 1),
                             fontWeight: selectedIndex == 1
                                 ? FontWeight.bold
                                 : FontWeight.normal,
@@ -95,12 +99,12 @@ class _HistoryPageState extends State<HistoryPage> {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(20.0),
         child: SafeArea(
           child: Column(
             children: [
               Expanded(
-                child: selectedIndex == 0 ? LostHistory() : FoundHistory(),
+                child: selectedIndex == 0 ? const LostHistory() : const FoundHistory(),
               ),
             ],
           ),
