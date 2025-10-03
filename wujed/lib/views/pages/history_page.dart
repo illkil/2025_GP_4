@@ -29,6 +29,7 @@ class _HistoryPageState extends State<HistoryPage> {
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
           ),
         ),
+        centerTitle: true,
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(50.0),
           child: Padding(

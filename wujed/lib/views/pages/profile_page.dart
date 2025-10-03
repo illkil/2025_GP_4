@@ -78,6 +78,7 @@ class _ProfilePageState extends State<ProfilePage> {
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
           ),
         ),
+        centerTitle: true,
         actions: [
           IconButton(
             icon: const Icon(Icons.menu, color: Colors.black),
