@@ -71,6 +71,7 @@ class _ReportLostPageState extends State<ReportLostPage> {
 
               TextField(
                 controller: controllerTitle,
+                autocorrect: false,
                 decoration: InputDecoration(
                   hintText: t.report_title_hint,
                   hintStyle: TextStyle(
@@ -159,6 +160,7 @@ class _ReportLostPageState extends State<ReportLostPage> {
 
               TextField(
                 controller: controllerDescription,
+                autocorrect: false,
                 maxLength: _maxLength,
                 maxLines: 6,
                 decoration: InputDecoration(
@@ -283,7 +285,10 @@ class _ReportLostPageState extends State<ReportLostPage> {
         children: [
           Container(
             decoration: BoxDecoration(
-              border: Border.all(color: const Color.fromRGBO(0, 0, 0, 0.2), width: 1),
+              border: Border.all(
+                color: const Color.fromRGBO(0, 0, 0, 0.2),
+                width: 1,
+              ),
               borderRadius: BorderRadius.circular(20),
             ),
             child: ClipRRect(
@@ -390,9 +395,7 @@ class _ReportLostPageState extends State<ReportLostPage> {
     } else {
       Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(
-          builder: (context) => const SubmitSuccessfullyPage(),
-        ),
+        MaterialPageRoute(builder: (context) => const SubmitSuccessfullyPage()),
         (route) => false,
       );
     }

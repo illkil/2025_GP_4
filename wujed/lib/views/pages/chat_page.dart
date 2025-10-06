@@ -138,6 +138,22 @@ class _ChatPageState extends State<ChatPage> {
                   isSender: true,
                   isRead: true,
                 ),
+
+                SizedBox(height: 20),
+
+                Center(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 6,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade200,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Text(t.chat_date),
+                  ),
+                ),
               ],
             ),
           ),
@@ -155,7 +171,9 @@ class _ChatPageState extends State<ChatPage> {
                     onPressed: () async {
                       final result = await Navigator.push<Map<String, dynamic>>(
                         context,
-                        MaterialPageRoute(builder: (_) => const ChatLocationPage()),
+                        MaterialPageRoute(
+                          builder: (_) => const ChatLocationPage(),
+                        ),
                       );
                       if (result?['location'] == true) {
                         setState(() => _location = true);
@@ -175,6 +193,7 @@ class _ChatPageState extends State<ChatPage> {
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: TextField(
+                      autocorrect: false,
                       decoration: InputDecoration(
                         hintText: t.chat_hint,
                         border: InputBorder.none,

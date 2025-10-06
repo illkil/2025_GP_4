@@ -872,6 +872,12 @@ abstract class AppLocalizations {
   /// **'Hello!'**
   String get chat_hello;
 
+  /// No description provided for @chat_date.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get chat_date;
+
   /// No description provided for @chat_hint.
   ///
   /// In en, this message translates to:

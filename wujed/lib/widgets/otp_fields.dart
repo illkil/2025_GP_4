@@ -70,7 +70,10 @@ class _OtpFieldsState extends State<OtpFields> {
     ),
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),
-      borderSide: const BorderSide(color: Color.fromRGBO(46, 23, 21, 1), width: 2),
+      borderSide: const BorderSide(
+        color: Color.fromRGBO(46, 23, 21, 1),
+        width: 2,
+      ),
     ),
   );
 
@@ -89,6 +92,7 @@ class _OtpFieldsState extends State<OtpFields> {
               onKeyEvent: (node, event) => _handleKey(node, event, i),
               child: TextField(
                 controller: _controllers[i],
+                autocorrect: false,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontSize: 22,

@@ -71,6 +71,7 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
 
               TextField(
                 controller: controllerTitle,
+                autocorrect: false,
                 decoration: InputDecoration(
                   hintText: t.report_title_hint,
                   hintStyle: TextStyle(
@@ -159,6 +160,7 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
 
               TextField(
                 controller: controllerDescription,
+                autocorrect: false,
                 maxLength: _maxLength,
                 maxLines: 6,
                 decoration: InputDecoration(
