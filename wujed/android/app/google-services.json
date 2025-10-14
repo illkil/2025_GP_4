@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "743280664993",
+    "project_id": "wujed-ffc1f",
+    "storage_bucket": "wujed-ffc1f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:743280664993:android:d42e19b09296f59ba52be0",
+        "android_client_info": {
+          "package_name": "com.gp.wujed"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAipLcfz7Visp0dV00ZizUOQqmnXvDyuSs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
