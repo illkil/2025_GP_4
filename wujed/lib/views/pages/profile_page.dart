@@ -183,83 +183,85 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Container(
-                width: 95,
-                height: 95,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.grey.shade500,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  width: 95,
+                  height: 95,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.grey.shade500,
+                  ),
+                  child: const Icon(IconlyBold.profile,
+                      color: Colors.white, size: 70),
                 ),
-                child: const Icon(IconlyBold.profile,
-                    color: Colors.white, size: 70),
-              ),
-              const SizedBox(height: 10.0),
-              const Text(
-                'R4neem',
-                style: TextStyle(
-                  color: Color.fromRGBO(46, 23, 21, 1),
-                  fontWeight: FontWeight.bold,
-                  fontSize: 24,
+                const SizedBox(height: 10.0),
+                const Text(
+                  'R4neem',
+                  style: TextStyle(
+                    color: Color.fromRGBO(46, 23, 21, 1),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24,
+                  ),
                 ),
-              ),
-              Text(
-                'raneememail@mail.com',
-                style: TextStyle(color: Colors.grey.shade600, fontSize: 14),
-              ),
-              const SizedBox(height: 20.0),
-
-              Row(
-                children: [
-                  Text(
-                    t.label_first_name,
-                    style: const TextStyle(
-                      color: Color.fromRGBO(46, 23, 21, 1),
-                      fontSize: 18,
+                Text(
+                  'raneememail@mail.com',
+                  style: TextStyle(color: Colors.grey.shade600, fontSize: 14),
+                ),
+                const SizedBox(height: 20.0),
+        
+                Row(
+                  children: [
+                    Text(
+                      t.label_first_name,
+                      style: const TextStyle(
+                        color: Color.fromRGBO(46, 23, 21, 1),
+                        fontSize: 18,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10.0),
-              _buildInfoBox(_firstName ?? t.placeholder_not_provided),
-
-              const SizedBox(height: 20.0),
-
-              Row(
-                children: [
-                  Text(
-                    t.label_last_name,
-                    style: const TextStyle(
-                      color: Color.fromRGBO(46, 23, 21, 1),
-                      fontSize: 18,
+                  ],
+                ),
+                const SizedBox(height: 10.0),
+                _buildInfoBox(_firstName ?? t.placeholder_not_provided),
+        
+                const SizedBox(height: 20.0),
+        
+                Row(
+                  children: [
+                    Text(
+                      t.label_last_name,
+                      style: const TextStyle(
+                        color: Color.fromRGBO(46, 23, 21, 1),
+                        fontSize: 18,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10.0),
-              _buildInfoBox(_lastName ?? t.placeholder_not_provided),
-
-              const SizedBox(height: 20.0),
-
-              Row(
-                children: [
-                  Text(
-                    t.label_phone_number,
-                    style: const TextStyle(
-                      color: Color.fromRGBO(46, 23, 21, 1),
-                      fontSize: 18,
+                  ],
+                ),
+                const SizedBox(height: 10.0),
+                _buildInfoBox(_lastName ?? t.placeholder_not_provided),
+        
+                const SizedBox(height: 20.0),
+        
+                Row(
+                  children: [
+                    Text(
+                      t.label_phone_number,
+                      style: const TextStyle(
+                        color: Color.fromRGBO(46, 23, 21, 1),
+                        fontSize: 18,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10.0),
-              _buildInfoBox(_phoneNumber ?? t.placeholder_not_provided),
-            ],
+                  ],
+                ),
+                const SizedBox(height: 10.0),
+                _buildInfoBox(_phoneNumber ?? t.placeholder_not_provided),
+              ],
+            ),
           ),
         ),
       ),

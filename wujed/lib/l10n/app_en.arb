@@ -172,6 +172,7 @@
   "chat_yes_match": "Yes in fact it does match",
   "chat_id_request": "That sounds like mine. Inside there should be a student ID with the name Ghaida Mo. Can you check if it matches?",
   "chat_hello": "Hello!",
+  "chat_date": "Today",
 
   "chat_hint": "Type Your Message...",
 

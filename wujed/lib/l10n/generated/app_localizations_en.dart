@@ -415,6 +415,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get chat_hello => 'Hello!';
 
   @override
+  String get chat_date => 'Today';
+
+  @override
   String get chat_hint => 'Type Your Message...';
 
   @override

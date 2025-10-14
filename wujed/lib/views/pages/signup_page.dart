@@ -64,6 +64,7 @@ class _SignupPageState extends State<SignupPage> {
 
                 TextField(
                   controller: controllerUsername,
+                  autocorrect: false,
                   decoration: InputDecoration(
                     labelText: t.signup_username_label,
                     labelStyle: const TextStyle(fontSize: 16.0),
@@ -91,7 +92,9 @@ class _SignupPageState extends State<SignupPage> {
                   children: [
                     Text(
                       takenUsernameWarning,
-                      style: const TextStyle(color: Color.fromRGBO(211, 47, 47, 1)),
+                      style: const TextStyle(
+                        color: Color.fromRGBO(211, 47, 47, 1),
+                      ),
                     ),
                   ],
                 ),
@@ -100,6 +103,7 @@ class _SignupPageState extends State<SignupPage> {
 
                 TextField(
                   controller: controllerEmail,
+                  autocorrect: false,
                   decoration: InputDecoration(
                     labelText: t.signup_email_label,
                     labelStyle: const TextStyle(fontSize: 16.0),
@@ -127,7 +131,9 @@ class _SignupPageState extends State<SignupPage> {
                   children: [
                     Text(
                       existingEmailWarning,
-                      style: const TextStyle(color: Color.fromRGBO(211, 47, 47, 1)),
+                      style: const TextStyle(
+                        color: Color.fromRGBO(211, 47, 47, 1),
+                      ),
                     ),
                   ],
                 ),
@@ -136,6 +142,7 @@ class _SignupPageState extends State<SignupPage> {
 
                 TextField(
                   controller: controllerPassword,
+                  autocorrect: false,
                   obscureText: hidePassword,
                   obscuringCharacter: '*',
                   keyboardType: TextInputType.visiblePassword,
@@ -179,7 +186,9 @@ class _SignupPageState extends State<SignupPage> {
                   children: [
                     Text(
                       weakPasswordWarning,
-                      style: const TextStyle(color: Color.fromRGBO(211, 47, 47, 1)),
+                      style: const TextStyle(
+                        color: Color.fromRGBO(211, 47, 47, 1),
+                      ),
                     ),
                   ],
                 ),
@@ -305,10 +314,7 @@ class _SignupPageState extends State<SignupPage> {
 
                 const SizedBox(height: 20.0),
 
-                GsiMaterialButton(
-                  onPressed: () {},
-                  text: t.google_signup,
-                ),
+                GsiMaterialButton(onPressed: () {}, text: t.google_signup),
               ],
             ),
           ),

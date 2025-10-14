@@ -414,6 +414,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get chat_hello => 'مرحبًا!';
 
   @override
+  String get chat_date => 'اليوم';
+
+  @override
   String get chat_hint => 'اكتب رسالتك...';
 
   @override

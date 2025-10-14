@@ -52,15 +52,13 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               Text(
                 t.forgot_subtitle,
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16.0,
-                  color: Colors.grey.shade600,
-                ),
+                style: TextStyle(fontSize: 16.0, color: Colors.grey.shade600),
               ),
 
               const SizedBox(height: 50.0),
 
               TextField(
+                autocorrect: false,
                 controller: controllerEmail,
                 decoration: InputDecoration(
                   labelText: t.forgot_email_label,
@@ -89,9 +87,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => const VerifyPage(),
-                    ),
+                    MaterialPageRoute(builder: (context) => const VerifyPage()),
                   );
                 },
                 style: FilledButton.styleFrom(
@@ -120,8 +116,9 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     final filled = controllerEmail.text.trim().isNotEmpty;
 
     setState(() {
-      resetPasswordBtnColor =
-          filled ? const Color.fromRGBO(46, 23, 21, 1) : Colors.grey.shade400;
+      resetPasswordBtnColor = filled
+          ? const Color.fromRGBO(46, 23, 21, 1)
+          : Colors.grey.shade400;
     });
   }
 }

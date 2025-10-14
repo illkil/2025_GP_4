@@ -38,188 +38,199 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                t.login_title,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 26.0,
-                  color: Color.fromRGBO(46, 23, 21, 1),
-                ),
-              ),
-
-              const SizedBox(height: 10.0),
-
-              Text(
-                textKey != null ? _resolveText(t, textKey!) : t.login_subtitle,
-                style: TextStyle(fontSize: 16.0, color: textColor),
-              ),
-
-              const SizedBox(height: 50.0),
-
-              TextField(
-                controller: controllerEmail,
-                decoration: InputDecoration(
-                  labelText: t.login_email_label,
-                  labelStyle: const TextStyle(fontSize: 16.0),
-                  floatingLabelBehavior: FloatingLabelBehavior.always,
-                  floatingLabelStyle: const TextStyle(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  t.login_title,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 26.0,
                     color: Color.fromRGBO(46, 23, 21, 1),
                   ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(14),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(14),
-                    borderSide: const BorderSide(
-                      color: Color.fromRGBO(46, 23, 21, 1),
-                      width: 2.0,
-                    ),
-                  ),
                 ),
-                onEditingComplete: () => setState(() {}),
-              ),
 
-              const SizedBox(height: 30.0),
+                const SizedBox(height: 10.0),
 
-              TextField(
-                controller: controllerPassword,
-                obscureText: hidePassword,
-                obscuringCharacter: '*',
-                keyboardType: TextInputType.visiblePassword,
-                decoration: InputDecoration(
-                  labelText: t.login_password_label,
-                  labelStyle: const TextStyle(fontSize: 16.0),
-                  floatingLabelBehavior: FloatingLabelBehavior.always,
-                  floatingLabelStyle: const TextStyle(
-                    color: Color.fromRGBO(46, 23, 21, 1),
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(14),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(14),
-                    borderSide: const BorderSide(
-                      color: Color.fromRGBO(46, 23, 21, 1),
-                      width: 2.0,
-                    ),
-                  ),
-                  suffixIcon: IconButton(
-                    onPressed: () => setState(() => hidePassword = !hidePassword),
-                    icon: Icon(
-                      hidePassword
-                          ? Icons.visibility_off_outlined
-                          : Icons.visibility_outlined,
-                      color: Colors.grey.shade600,
-                    ),
-                  ),
+                Text(
+                  textKey != null
+                      ? _resolveText(t, textKey!)
+                      : t.login_subtitle,
+                  style: TextStyle(fontSize: 16.0, color: textColor),
                 ),
-                onEditingComplete: () => setState(() {}),
-              ),
 
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const ForgotPasswordPage(),
-                        ),
-                      );
-                    },
-                    child: Text(
-                      t.login_forgot_password,
-                      style: TextStyle(
+                const SizedBox(height: 50.0),
+
+                TextField(
+                  controller: controllerEmail,
+                  autocorrect: false,
+                  decoration: InputDecoration(
+                    labelText: t.login_email_label,
+                    labelStyle: const TextStyle(fontSize: 16.0),
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    floatingLabelStyle: const TextStyle(
+                      color: Color.fromRGBO(46, 23, 21, 1),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: const BorderSide(
+                        color: Color.fromRGBO(46, 23, 21, 1),
+                        width: 2.0,
+                      ),
+                    ),
+                  ),
+                  onEditingComplete: () => setState(() {}),
+                ),
+
+                const SizedBox(height: 30.0),
+
+                TextField(
+                  controller: controllerPassword,
+                  autocorrect: false,
+                  obscureText: hidePassword,
+                  obscuringCharacter: '*',
+                  keyboardType: TextInputType.visiblePassword,
+                  decoration: InputDecoration(
+                    labelText: t.login_password_label,
+                    labelStyle: const TextStyle(fontSize: 16.0),
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    floatingLabelStyle: const TextStyle(
+                      color: Color.fromRGBO(46, 23, 21, 1),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: const BorderSide(
+                        color: Color.fromRGBO(46, 23, 21, 1),
+                        width: 2.0,
+                      ),
+                    ),
+                    suffixIcon: IconButton(
+                      onPressed: () =>
+                          setState(() => hidePassword = !hidePassword),
+                      icon: Icon(
+                        hidePassword
+                            ? Icons.visibility_off_outlined
+                            : Icons.visibility_outlined,
                         color: Colors.grey.shade600,
-                        decoration: TextDecoration.underline,
-                        decorationThickness: 1,
-                        decorationColor: Colors.grey.shade600,
                       ),
                     ),
                   ),
-                ],
-              ),
-
-              Image.asset('lib/assets/images/reCAPTCHA.png', width: 400),
-
-              const SizedBox(height: 30.0),
-
-              FilledButton(
-                onPressed: onLoginPressed,
-                style: FilledButton.styleFrom(
-                  minimumSize: const Size(double.infinity, 50),
-                  backgroundColor: loginBtnColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
+                  onEditingComplete: () => setState(() {}),
                 ),
-                child: Text(
-                  t.login_button,
-                  style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
-                ),
-              ),
 
-              const SizedBox(height: 10.0),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    t.login_no_account,
-                    style: TextStyle(color: Colors.grey.shade600),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const SignupPage(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ForgotPasswordPage(),
+                          ),
+                        );
+                      },
+                      child: Text(
+                        t.login_forgot_password,
+                        style: TextStyle(
+                          color: Colors.grey.shade600,
+                          decoration: TextDecoration.underline,
+                          decorationThickness: 1,
+                          decorationColor: Colors.grey.shade600,
                         ),
-                        (route) => false,
-                      );
-                    },
-                    child: Text(
-                      t.login_signup_link,
-                      style: const TextStyle(
-                        color: Color.fromRGBO(0, 111, 255, 1),
-                        decoration: TextDecoration.underline,
-                        decorationThickness: 1,
-                        decorationColor: Color.fromRGBO(0, 111, 255, 1),
                       ),
                     ),
+                  ],
+                ),
+
+                Image.asset('lib/assets/images/reCAPTCHA.png', width: 400),
+
+                const SizedBox(height: 30.0),
+
+                FilledButton(
+                  onPressed: onLoginPressed,
+                  style: FilledButton.styleFrom(
+                    minimumSize: const Size(double.infinity, 50),
+                    backgroundColor: loginBtnColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
                   ),
-                ],
-              ),
+                  child: Text(
+                    t.login_button,
+                    style: const TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
 
-              const SizedBox(height: 10.0),
+                const SizedBox(height: 10.0),
 
-              Row(
-                children: [
-                  Expanded(child: Divider(color: Colors.grey.shade400, thickness: 1)),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Text(
-                      t.common_or,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      t.login_no_account,
                       style: TextStyle(color: Colors.grey.shade600),
                     ),
-                  ),
-                  Expanded(child: Divider(color: Colors.grey.shade400, thickness: 1)),
-                ],
-              ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SignupPage(),
+                          ),
+                          (route) => false,
+                        );
+                      },
+                      child: Text(
+                        t.login_signup_link,
+                        style: const TextStyle(
+                          color: Color.fromRGBO(0, 111, 255, 1),
+                          decoration: TextDecoration.underline,
+                          decorationThickness: 1,
+                          decorationColor: Color.fromRGBO(0, 111, 255, 1),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
 
-              const SizedBox(height: 20.0),
+                const SizedBox(height: 10.0),
 
-              GsiMaterialButton(
-                onPressed: () {},
-                text: t.google_continue,
-              ),
-            ],
+                Row(
+                  children: [
+                    Expanded(
+                      child: Divider(color: Colors.grey.shade400, thickness: 1),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text(
+                        t.common_or,
+                        style: TextStyle(color: Colors.grey.shade600),
+                      ),
+                    ),
+                    Expanded(
+                      child: Divider(color: Colors.grey.shade400, thickness: 1),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 20.0),
+
+                GsiMaterialButton(onPressed: () {}, text: t.google_continue),
+              ],
+            ),
           ),
         ),
       ),
@@ -227,12 +238,14 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void updateButtonColor() {
-    final filled = controllerEmail.text.trim().isNotEmpty &&
+    final filled =
+        controllerEmail.text.trim().isNotEmpty &&
         controllerPassword.text.isNotEmpty;
 
     setState(() {
-      loginBtnColor =
-          filled ? const Color.fromRGBO(46, 23, 21, 1) : Colors.grey.shade400;
+      loginBtnColor = filled
+          ? const Color.fromRGBO(46, 23, 21, 1)
+          : Colors.grey.shade400;
     });
   }
 

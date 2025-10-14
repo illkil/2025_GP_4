@@ -48,84 +48,86 @@ class _EditProfilePageState extends State<EditProfilePage> {
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Container(
-                width: 95,
-                height: 95,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.grey.shade500,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  width: 95,
+                  height: 95,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.grey.shade500,
+                  ),
+                  child: const Icon(IconlyBold.profile,
+                      color: Colors.white, size: 70),
                 ),
-                child: const Icon(IconlyBold.profile,
-                    color: Colors.white, size: 70),
-              ),
-              const SizedBox(height: 10.0),
-              Text(
-                t.edit_profile_change_picture,
-                style: const TextStyle(
-                  color: Color.fromRGBO(46, 23, 21, 1),
-                  fontSize: 16,
+                const SizedBox(height: 10.0),
+                Text(
+                  t.edit_profile_change_picture,
+                  style: const TextStyle(
+                    color: Color.fromRGBO(46, 23, 21, 1),
+                    fontSize: 16,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 20.0),
-
-              Row(
-                children: [
-                  Text(
-                    t.label_first_name,
-                    style: const TextStyle(
-                      color: Color.fromRGBO(46, 23, 21, 1),
-                      fontSize: 18,
+                const SizedBox(height: 20.0),
+        
+                Row(
+                  children: [
+                    Text(
+                      t.label_first_name,
+                      style: const TextStyle(
+                        color: Color.fromRGBO(46, 23, 21, 1),
+                        fontSize: 18,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10.0),
-              _buildTextField(controllerFirstName, TextInputType.text,
-                  [FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]'))],
-                  hint: t.placeholder_not_provided),
-
-              const SizedBox(height: 20.0),
-
-              Row(
-                children: [
-                  Text(
-                    t.label_last_name,
-                    style: const TextStyle(
-                      color: Color.fromRGBO(46, 23, 21, 1),
-                      fontSize: 18,
+                  ],
+                ),
+                const SizedBox(height: 10.0),
+                _buildTextField(controllerFirstName, TextInputType.text,
+                    [FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]'))],
+                    hint: t.placeholder_not_provided),
+        
+                const SizedBox(height: 20.0),
+        
+                Row(
+                  children: [
+                    Text(
+                      t.label_last_name,
+                      style: const TextStyle(
+                        color: Color.fromRGBO(46, 23, 21, 1),
+                        fontSize: 18,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10.0),
-              _buildTextField(controllerLastName, TextInputType.text,
-                  [FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]'))],
-                  hint: t.placeholder_not_provided),
-
-              const SizedBox(height: 20.0),
-
-              Row(
-                children: [
-                  Text(
-                    t.label_phone_number,
-                    style: const TextStyle(
-                      color: Color.fromRGBO(46, 23, 21, 1),
-                      fontSize: 18,
+                  ],
+                ),
+                const SizedBox(height: 10.0),
+                _buildTextField(controllerLastName, TextInputType.text,
+                    [FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]'))],
+                    hint: t.placeholder_not_provided),
+        
+                const SizedBox(height: 20.0),
+        
+                Row(
+                  children: [
+                    Text(
+                      t.label_phone_number,
+                      style: const TextStyle(
+                        color: Color.fromRGBO(46, 23, 21, 1),
+                        fontSize: 18,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 10.0),
-              _buildTextField(controllerPhoneNumber, TextInputType.phone,
-                  [FilteringTextInputFormatter.digitsOnly],
-                  hint: t.placeholder_not_provided),
-            ],
+                  ],
+                ),
+                const SizedBox(height: 10.0),
+                _buildTextField(controllerPhoneNumber, TextInputType.phone,
+                    [FilteringTextInputFormatter.digitsOnly],
+                    hint: t.placeholder_not_provided),
+              ],
+            ),
           ),
         ),
       ),
