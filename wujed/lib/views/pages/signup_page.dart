@@ -24,8 +24,6 @@ class _SignupPageState extends State<SignupPage> {
   final TextEditingController _controllerUsername = TextEditingController();
   final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerPassword = TextEditingController();
-  String takenUsername = '111';
-  String existedEmail = '123';
 
   String text = '';
   String takenUsernameWarning = "";
@@ -38,13 +36,15 @@ class _SignupPageState extends State<SignupPage> {
   bool is18OrOlder = false;
 
   bool isStrongPassword(String password) {
-    // Must be 8+ characters, include upper/lowercase, and numbers
+    //password must be 8+ characters, include upper/lowercase, and numbers
     final regex = RegExp(r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$');
     return regex.hasMatch(password);
   }
 
   bool isValidEmail(String email) {
-    final validEmailRegex = RegExp(
+    //set only valid emails, which are gmail/outlook/hotmail/yahoo/icloud so user does not used not existing emails like ghaida@dhfjgjf.fhsjaf
+    //this also inforce email format it must has @ and . (dot)
+    final validEmailRegex = RegExp( 
       r'^[a-zA-Z0-9._%+-]+@(gmail\.com|outlook\.com|hotmail\.com|yahoo\.com|icloud\.com)$',
     );
     return validEmailRegex.hasMatch(email);
@@ -53,15 +53,16 @@ class _SignupPageState extends State<SignupPage> {
   Future onSignup() async {
     final t = AppLocalizations.of(context);
 
-    takenUsernameWarning = "";
+    //set these as empty at the start of the method so error messages dont stay on screen all the time when there is no longer an error
+    takenUsernameWarning = ""; 
     emailWarning = "";
     weakPasswordWarning = "";
 
-    final username = _controllerUsername.text.trim().toLowerCase();
+    final username = _controllerUsername.text.trim().toLowerCase(); //controllers connected to its designated textfields
     final email = _controllerEmail.text.trim().toLowerCase();
     final password = _controllerPassword.text.trim();
 
-    if (username.isEmpty || email.isEmpty || password.isEmpty) {
+    if (username.isEmpty || email.isEmpty || password.isEmpty) { //check if any of the fields are empty first
       setState(() {
         text = t.login_error_fill_all;
         textColor = const Color.fromRGBO(211, 47, 47, 1);
@@ -69,7 +70,7 @@ class _SignupPageState extends State<SignupPage> {
       return;
     }
 
-    if (is18OrOlder == false) {
+    if (is18OrOlder == false) { //check if the user has checked the 18 years or older checkboc before continuing
       setState(() {
         text = t.check_18yo_checkbox;
         textColor = const Color.fromRGBO(211, 47, 47, 1);
@@ -81,23 +82,23 @@ class _SignupPageState extends State<SignupPage> {
       final existingUser = await FirebaseFirestore.instance
           .collection('users')
           .where('username', isEqualTo: username)
-          .get();
+          .get(); //check if the username is taking or not if there is a username same as what the user entered assign it to existingUser
 
-      if (existingUser.docs.isNotEmpty) {
+      if (existingUser.docs.isNotEmpty) {//username is taking (existingUser is not empty)
         setState(() {
           takenUsernameWarning = t.signup_username_taken;
         });
         return;
       }
 
-      if (!isValidEmail(email)) {
+      if (!isValidEmail(email)) {//check if the email is valid using the method above
         setState(() {
           emailWarning = t.signup_invalid_email_format;
         });
         return;
       }
 
-      if (!isStrongPassword(password)) {
+      if (!isStrongPassword(password)) {//check if the passowrd is strong using the method above
         setState(() {
           weakPasswordWarning = t.signup_password_weak;
         });
@@ -105,27 +106,28 @@ class _SignupPageState extends State<SignupPage> {
       }
 
       UserCredential userCredential = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password);
+          .createUserWithEmailAndPassword(email: email, password: password); 
+          //assigned the user creation to user credintials so we can access the user id and store the username and other user data in a collection
 
-      final user = userCredential.user!;
+      final user = userCredential.user!; 
 
-      await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
+      await FirebaseFirestore.instance.collection('users').doc(user.uid).set({//create the user collection (storing the user in firestore)
         'user_id': user.uid,
         'username': username,
         'email': email,
         'first_name': '',
         'last_name': '',
         'phone_number': '',
-        'role': 'user',
+        'role': 'user', //this might be a security concern, stating the user role in client side is wrong its better to do it in server side somehow, i'll check it later
         'language': 'en',
         'created_at': Timestamp.now(),
       });
 
-      await user.updateDisplayName(username);
+      await user.updateDisplayName(username); //setting the display name that firebase associates with the user to username
 
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const LoginPage()),
+        MaterialPageRoute(builder: (context) => const LoginPage()), //go to log in after creating an account succefully
       );
 
       return;
@@ -143,7 +145,7 @@ class _SignupPageState extends State<SignupPage> {
   }
 
   @override
-  void dispose() {
+  void dispose() { //not used anymore, dispose
     _controllerUsername;
     _controllerEmail;
     _controllerPassword;

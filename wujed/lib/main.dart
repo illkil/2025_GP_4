@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:wujed/views/pages/loading_page.dart';
+import 'package:wujed/auth/main_page.dart';
 import 'l10n/generated/app_localizations.dart';
 
 void main() async {
@@ -40,7 +40,7 @@ class _MyAppState extends State<MyApp> {
         GlobalCupertinoLocalizations.delegate,
       ],
       onGenerateTitle: (ctx) => AppLocalizations.of(ctx).appTitle,
-      home: const LoadingPage(),
+      home: const MainPage(),
     );
   }
 }

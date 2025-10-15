@@ -25,7 +25,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  final user = FirebaseAuth.instance.currentUser!;
+  final user = FirebaseAuth.instance.currentUser!; //current logged in user
   var userData;
 
   @override
@@ -39,20 +39,20 @@ class _ProfilePageState extends State<ProfilePage> {
       final doc = await FirebaseFirestore.instance
           .collection('users')
           .doc(user.uid)
-          .get();
+          .get(); //get the doc associated with the uses
       if (doc.exists) {
         setState(() {
-          userData = doc.data();
+          userData = doc.data(); //if it exist set userdata to the doc data
         });
       }
     } catch (e) {
-      print('Error loading user data: $e');
+      print('Error loading user data: $e'); //incase any error happens while loading
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (userData == null) {
+    if (userData == null) { //wait for user data to load before showing the page
       return const Scaffold(
         backgroundColor: Color.fromRGBO(249, 249, 249, 1),
         body: Center(
@@ -238,7 +238,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 const SizedBox(height: 10.0),
                 Text(
-                  userData['username'],
+                  userData['username'], //get user data
                   style: TextStyle(
                     color: Color.fromRGBO(46, 23, 21, 1),
                     fontWeight: FontWeight.bold,
@@ -246,7 +246,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
                 Text(
-                  user.email!,
+                  userData['email'], //get user data
                   style: TextStyle(color: Colors.grey.shade600, fontSize: 14),
                 ),
                 const SizedBox(height: 20.0),
@@ -266,7 +266,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 _buildInfoBox(
                   userData['first_name'] == " "
                       ? userData['first_name']
-                      : t.placeholder_not_provided,
+                      : t.placeholder_not_provided, //display first name if exist, else display Not provided 
                 ),
 
                 const SizedBox(height: 20.0),
@@ -286,7 +286,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 _buildInfoBox(
                   userData['last_name'] == " "
                       ? userData['last_name']
-                      : t.placeholder_not_provided,
+                      : t.placeholder_not_provided, //display last name if exist, else display Not provided
                 ),
 
                 const SizedBox(height: 20.0),
@@ -306,7 +306,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 _buildInfoBox(
                   userData['phone_number'] == " "
                       ? userData['phone_number']
-                      : t.placeholder_not_provided,
+                      : t.placeholder_not_provided, //display phone number if exist, else display Not provided
                 ),
               ],
             ),

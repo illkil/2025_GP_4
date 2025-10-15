@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:wujed/views/pages/login_page.dart';
+import 'package:wujed/views/pages/loading_page.dart';
 import 'package:wujed/views/widget_tree.dart';
 
 class MainPage extends StatelessWidget {
@@ -15,7 +15,7 @@ class MainPage extends StatelessWidget {
           if (snapshot.hasData) {
             return WidgetTree();
           } else {
-            return LoginPage();
+            return LoadingPage();
           }
         },
       ),

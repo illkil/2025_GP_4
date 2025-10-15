@@ -29,22 +29,22 @@ class _LoginPageState extends State<LoginPage> {
   Color loginBtnColor = Colors.grey.shade400;
 
   bool hidePassword = true;
-  bool isLocked = false;
-  DateTime? lockEndTime;
+  bool isLocked = false; //to lock an account with too many log in attempts
+  DateTime? lockEndTime; //variable for the lock timer
 
   Future onLogin() async {
-    final email = _controllerEmail.text.trim().toLowerCase();
-    final password = _controllerPassword.text.trim();
+    final email = _controllerEmail.text.trim().toLowerCase(); //connected to email textfield controller
+    final password = _controllerPassword.text.trim(); //same as above but password
 
-    if (email.isEmpty || password.isEmpty) {
+    if (email.isEmpty || password.isEmpty) { //check if fields are empty
       setState(() {
         textKey = "login_error_fill_all";
         textColor = const Color.fromRGBO(211, 47, 47, 1);
       });
-      return;
+      return; //return to not continue with the log in
     }
 
-    if (isLocked) {
+    if (isLocked) { //check if the account is on lock down because of too many log in attempts before continuing
       setState(() {
         textKey = "login_locked";
         textColor = const Color.fromRGBO(211, 47, 47, 1);
@@ -53,14 +53,14 @@ class _LoginPageState extends State<LoginPage> {
     }
 
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
+      await FirebaseAuth.instance.signInWithEmailAndPassword( //signing in using email and password
         email: email,
         password: password,
       );
 
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const MainPage()),
+        MaterialPageRoute(builder: (context) => const MainPage()), //Main page is at lib/auth/main_page.dart, it checks if there is a user logged in or not if yes it goes to home page (widget tree for navigation bar) if not it goes to loading page then intro pages then log in page as if it is a new user using the app
       );
     } on FirebaseAuthException catch (e) {
       String message;
@@ -72,11 +72,11 @@ class _LoginPageState extends State<LoginPage> {
         message = 'login_error_too_many_attepmts';
 
         setState(() {
-          isLocked = true;
+          isLocked = true; //lock the account for 3 minutes
           lockEndTime = DateTime.now().add(const Duration(minutes: 3));
         });
 
-        Future.delayed(const Duration(minutes: 3), () {
+        Future.delayed(const Duration(minutes: 3), () { //unlock the account after 3 minutes
           setState(() {
             isLocked = false;
           });
@@ -86,14 +86,14 @@ class _LoginPageState extends State<LoginPage> {
       }
 
       setState(() {
-        textKey = message;
+        textKey = message; //this is the message bellow Welcome Back!
         textColor = const Color.fromRGBO(211, 47, 47, 1);
       });
     }
   }
 
   @override
-  void dispose() {
+  void dispose() { //not used anymore so dispose
     _controllerEmail;
     _controllerPassword;
     super.dispose();
