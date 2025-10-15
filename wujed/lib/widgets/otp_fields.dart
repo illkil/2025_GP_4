@@ -113,6 +113,9 @@ class _OtpFieldsState extends State<OtpFields> {
                   LengthLimitingTextInputFormatter(1),
                 ],
                 onChanged: (v) => _onChanged(i, v),
+                onEditingComplete: () {
+                  FocusScope.of(context).unfocus();
+                },
               ),
             ),
           ),

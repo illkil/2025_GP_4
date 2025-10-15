@@ -25,6 +25,14 @@
   "google_continue": "Continue with Google",
   "login_error_fill_all": "Please fill all the details",
   "login_error_invalid": "Invalid email or password",
+  "login_error_too_many_attepmts": "Too many log in attempts\nPlease try again in 3 minutes",
+  "login_error_failed": "Login failed, Please try again",
+  "login_locked": "Please wait {remaining} seconds before trying again",
+  "@login_locked": {
+    "placeholders": {
+      "remaining": { "type": "int", "example": "120" }
+    }
+  },
 
   "signup_title": "Join Us!",
   "signup_subtitle": "Fill all the details to create your account",
@@ -33,12 +41,15 @@
   "signup_password_label": "Password",
   "signup_username_taken": "This username is taken",
   "signup_email_exists": "This email already exists",
+  "signup_invalid_email_format": "Invalid email format",
+  "signup_failed": "Failed creating an account",
   "signup_password_weak": "Use 8 or more characters with a mix of\nuppercase and lowercase letters and\nnumbers",
   "signup_age_checkbox": "I am 18 years old or older",
   "signup_button": "Sign Up",
   "signup_have_account": "Already have an account?",
   "signup_login_link": "Log In",
   "google_signup": "Sign up with Google",
+  "check_18yo_checkbox": "Please confirm that you are 18 years old or older",
 
   "forgot_title": "Forgot Password",
   "forgot_subtitle": "Enter your email account to\nreset your password",

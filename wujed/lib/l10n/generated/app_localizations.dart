@@ -224,6 +224,24 @@ abstract class AppLocalizations {
   /// **'Invalid email or password'**
   String get login_error_invalid;
 
+  /// No description provided for @login_error_too_many_attepmts.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many log in attempts\nPlease try again in 3 minutes'**
+  String get login_error_too_many_attepmts;
+
+  /// No description provided for @login_error_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Login failed, Please try again'**
+  String get login_error_failed;
+
+  /// No description provided for @login_locked.
+  ///
+  /// In en, this message translates to:
+  /// **'Please wait {remaining} seconds before trying again'**
+  String login_locked(int remaining);
+
   /// No description provided for @signup_title.
   ///
   /// In en, this message translates to:
@@ -266,6 +284,18 @@ abstract class AppLocalizations {
   /// **'This email already exists'**
   String get signup_email_exists;
 
+  /// No description provided for @signup_invalid_email_format.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid email format'**
+  String get signup_invalid_email_format;
+
+  /// No description provided for @signup_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed creating an account'**
+  String get signup_failed;
+
   /// No description provided for @signup_password_weak.
   ///
   /// In en, this message translates to:
@@ -301,6 +331,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sign up with Google'**
   String get google_signup;
+
+  /// No description provided for @check_18yo_checkbox.
+  ///
+  /// In en, this message translates to:
+  /// **'Please confirm that you are 18 years old or older'**
+  String get check_18yo_checkbox;
 
   /// No description provided for @forgot_title.
   ///

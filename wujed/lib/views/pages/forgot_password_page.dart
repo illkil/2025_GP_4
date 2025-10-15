@@ -31,81 +31,90 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.transparent,
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const SizedBox(height: 60.0),
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const SizedBox(height: 60.0),
 
-              Text(
-                t.forgot_title,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 26.0,
+                Text(
+                  t.forgot_title,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 26.0,
+                  ),
                 ),
-              ),
 
-              const SizedBox(height: 10.0),
+                const SizedBox(height: 10.0),
 
-              Text(
-                t.forgot_subtitle,
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 16.0, color: Colors.grey.shade600),
-              ),
+                Text(
+                  t.forgot_subtitle,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 16.0, color: Colors.grey.shade600),
+                ),
 
-              const SizedBox(height: 50.0),
+                const SizedBox(height: 50.0),
 
-              TextField(
-                autocorrect: false,
-                controller: controllerEmail,
-                decoration: InputDecoration(
-                  labelText: t.forgot_email_label,
-                  labelStyle: const TextStyle(fontSize: 16.0),
-                  floatingLabelBehavior: FloatingLabelBehavior.always,
-                  floatingLabelStyle: const TextStyle(
-                    color: Color.fromRGBO(46, 23, 21, 1),
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(14),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(14),
-                    borderSide: const BorderSide(
+                TextField(
+                  autocorrect: false,
+                  controller: controllerEmail,
+                  decoration: InputDecoration(
+                    labelText: t.forgot_email_label,
+                    labelStyle: const TextStyle(fontSize: 16.0),
+                    floatingLabelBehavior: FloatingLabelBehavior.always,
+                    floatingLabelStyle: const TextStyle(
                       color: Color.fromRGBO(46, 23, 21, 1),
-                      width: 2.0,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: const BorderSide(
+                        color: Color.fromRGBO(46, 23, 21, 1),
+                        width: 2.0,
+                      ),
+                    ),
+                  ),
+                  onEditingComplete: () {
+                    FocusScope.of(context).unfocus();
+                  },
+                ),
+
+                const SizedBox(height: 30.0),
+
+                FilledButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const VerifyPage(),
+                      ),
+                    );
+                  },
+                  style: FilledButton.styleFrom(
+                    minimumSize: const Size(double.infinity, 50),
+                    backgroundColor: resetPasswordBtnColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                  child: Text(
+                    t.forgot_reset_button,
+                    style: const TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
-                onEditingComplete: () => setState(() {}),
-              ),
-
-              const SizedBox(height: 30.0),
-
-              FilledButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const VerifyPage()),
-                  );
-                },
-                style: FilledButton.styleFrom(
-                  minimumSize: const Size(double.infinity, 50),
-                  backgroundColor: resetPasswordBtnColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                ),
-                child: Text(
-                  t.forgot_reset_button,
-                  style: const TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

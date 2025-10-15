@@ -48,10 +48,13 @@ class _EditProfilePageState extends State<EditProfilePage> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Center(
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -62,8 +65,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     shape: BoxShape.circle,
                     color: Colors.grey.shade500,
                   ),
-                  child: const Icon(IconlyBold.profile,
-                      color: Colors.white, size: 70),
+                  child: const Icon(
+                    IconlyBold.profile,
+                    color: Colors.white,
+                    size: 70,
+                  ),
                 ),
                 const SizedBox(height: 10.0),
                 Text(
@@ -87,9 +93,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   ],
                 ),
                 const SizedBox(height: 10.0),
-                _buildTextField(controllerFirstName, TextInputType.text,
-                    [FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]'))],
-                    hint: t.placeholder_not_provided),
+                _buildTextField(
+                  controllerFirstName,
+                  TextInputType.text,
+                  [FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]'))],
+                  hint: t.placeholder_not_provided,
+                ),
         
                 const SizedBox(height: 20.0),
         
@@ -105,9 +114,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   ],
                 ),
                 const SizedBox(height: 10.0),
-                _buildTextField(controllerLastName, TextInputType.text,
-                    [FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]'))],
-                    hint: t.placeholder_not_provided),
+                _buildTextField(
+                  controllerLastName,
+                  TextInputType.text,
+                  [FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]'))],
+                  hint: t.placeholder_not_provided,
+                ),
         
                 const SizedBox(height: 20.0),
         
@@ -123,9 +135,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   ],
                 ),
                 const SizedBox(height: 10.0),
-                _buildTextField(controllerPhoneNumber, TextInputType.phone,
-                    [FilteringTextInputFormatter.digitsOnly],
-                    hint: t.placeholder_not_provided),
+                _buildTextField(
+                  controllerPhoneNumber,
+                  TextInputType.phone,
+                  [FilteringTextInputFormatter.digitsOnly],
+                  hint: t.placeholder_not_provided,
+                ),
               ],
             ),
           ),
@@ -134,9 +149,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
   }
 
-  Widget _buildTextField(TextEditingController controller,
-      TextInputType type, List<TextInputFormatter> formatters,
-      {required String hint}) {
+  Widget _buildTextField(
+    TextEditingController controller,
+    TextInputType type,
+    List<TextInputFormatter> formatters, {
+    required String hint,
+  }) {
     return SizedBox(
       height: 50,
       width: double.infinity,
@@ -147,13 +165,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
         autocorrect: false,
         decoration: InputDecoration(
           hintText: hint,
-          hintStyle: TextStyle(
-            color: Colors.grey.shade400,
-            fontSize: 16,
-          ),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(14),
-          ),
+          hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 16),
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(14),
             borderSide: const BorderSide(
@@ -161,11 +174,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
               width: 2.0,
             ),
           ),
-          suffixIcon: Icon(
-            IconlyBold.edit,
-            color: Colors.grey.shade400,
-          ),
+          suffixIcon: Icon(IconlyBold.edit, color: Colors.grey.shade400),
         ),
+        onEditingComplete: () {
+          FocusScope.of(context).unfocus();
+        },
       ),
     );
   }

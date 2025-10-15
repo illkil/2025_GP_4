@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:wujed/data/notifiers.dart';
@@ -9,9 +11,9 @@ import 'package:wujed/l10n/generated/app_localizations.dart';
 class ProfilePage extends StatefulWidget {
   const ProfilePage({
     super.key,
-    this.firstName,
-    this.lastName,
-    this.phoneNumber,
+    this.firstName, //not needed if the backend for edit profile is implemented
+    this.lastName, //not needed if the backend for edit profile is implemented
+    this.phoneNumber, //not needed if the backend for edit profile is implemented
   });
 
   final String? firstName;
@@ -23,20 +25,44 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  String? _firstName;
-  String? _lastName;
-  String? _phoneNumber;
+  final user = FirebaseAuth.instance.currentUser!;
+  var userData;
 
   @override
   void initState() {
     super.initState();
-    _firstName = widget.firstName;
-    _lastName = widget.lastName;
-    _phoneNumber = widget.phoneNumber?.toString();
+    _loadUserData();
+  }
+
+  Future _loadUserData() async {
+    try {
+      final doc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .get();
+      if (doc.exists) {
+        setState(() {
+          userData = doc.data();
+        });
+      }
+    } catch (e) {
+      print('Error loading user data: $e');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    if (userData == null) {
+      return const Scaffold(
+        backgroundColor: Color.fromRGBO(249, 249, 249, 1),
+        body: Center(
+          child: CircularProgressIndicator(
+            color: Color.fromRGBO(255, 175, 0, 1),
+          ),
+        ),
+      );
+    }
+
     final t = AppLocalizations.of(context);
 
     return Scaffold(
@@ -46,7 +72,7 @@ class _ProfilePageState extends State<ProfilePage> {
         surfaceTintColor: Colors.transparent,
         leading: IconButton(
           onPressed: () async {
-            final result = await Navigator.push(
+            final result = await Navigator.push( //this will not be needed anymore (only the result but the navigator is needed)
               context,
               MaterialPageRoute(
                 builder: (context) {
@@ -55,19 +81,19 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
             );
 
-            if (result != null) {
-              setState(() {
-                _firstName = (result['firstName'] ?? '').isEmpty
-                    ? null
-                    : result['firstName'];
-                _lastName = (result['lastName'] ?? '').isEmpty
-                    ? null
-                    : result['lastName'];
-                _phoneNumber = (result['phoneNumber'] ?? '').isEmpty
-                    ? null
-                    : result['phoneNumber'];
-              });
-            }
+            // if (result != null) {
+            //   setState(() {
+            //     _firstName = (result['firstName'] ?? '').isEmpty
+            //         ? null
+            //         : result['firstName'];
+            //     _lastName = (result['lastName'] ?? '').isEmpty
+            //         ? null
+            //         : result['lastName'];
+            //     _phoneNumber = (result['phoneNumber'] ?? '').isEmpty
+            //         ? null
+            //         : result['phoneNumber'];
+            //   });
+            // }
           },
           icon: Icon(IconlyBold.edit, color: Colors.grey.shade600),
         ),
@@ -107,9 +133,13 @@ class _ProfilePageState extends State<ProfilePage> {
                               ).languageCode;
 
                               if (currentLocale == 'ar') {
-                                MyApp.of(context)!.setLocale(const Locale('en'));
+                                MyApp.of(
+                                  context,
+                                )!.setLocale(const Locale('en'));
                               } else {
-                                MyApp.of(context)!.setLocale(const Locale('ar'));
+                                MyApp.of(
+                                  context,
+                                )!.setLocale(const Locale('ar'));
                               }
 
                               Navigator.pop(context);
@@ -123,7 +153,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                 ),
                                 const SizedBox(width: 10.0),
                                 Text(
-                                  Localizations.localeOf(context).languageCode ==
+                                  Localizations.localeOf(
+                                            context,
+                                          ).languageCode ==
                                           'ar'
                                       ? t.language_en
                                       : t.language_ar,
@@ -141,6 +173,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           const SizedBox(height: 20.0),
                           GestureDetector(
                             onTap: () {
+                              FirebaseAuth.instance.signOut();
                               setState(() {
                                 selectedPageNotifier.value = 0;
                               });
@@ -197,12 +230,15 @@ class _ProfilePageState extends State<ProfilePage> {
                     shape: BoxShape.circle,
                     color: Colors.grey.shade500,
                   ),
-                  child: const Icon(IconlyBold.profile,
-                      color: Colors.white, size: 70),
+                  child: const Icon(
+                    IconlyBold.profile,
+                    color: Colors.white,
+                    size: 70,
+                  ),
                 ),
                 const SizedBox(height: 10.0),
-                const Text(
-                  'R4neem',
+                Text(
+                  userData['username'],
                   style: TextStyle(
                     color: Color.fromRGBO(46, 23, 21, 1),
                     fontWeight: FontWeight.bold,
@@ -210,11 +246,11 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
                 Text(
-                  'raneememail@mail.com',
+                  user.email!,
                   style: TextStyle(color: Colors.grey.shade600, fontSize: 14),
                 ),
                 const SizedBox(height: 20.0),
-        
+
                 Row(
                   children: [
                     Text(
@@ -227,10 +263,14 @@ class _ProfilePageState extends State<ProfilePage> {
                   ],
                 ),
                 const SizedBox(height: 10.0),
-                _buildInfoBox(_firstName ?? t.placeholder_not_provided),
-        
+                _buildInfoBox(
+                  userData['first_name'] == " "
+                      ? userData['first_name']
+                      : t.placeholder_not_provided,
+                ),
+
                 const SizedBox(height: 20.0),
-        
+
                 Row(
                   children: [
                     Text(
@@ -243,10 +283,14 @@ class _ProfilePageState extends State<ProfilePage> {
                   ],
                 ),
                 const SizedBox(height: 10.0),
-                _buildInfoBox(_lastName ?? t.placeholder_not_provided),
-        
+                _buildInfoBox(
+                  userData['last_name'] == " "
+                      ? userData['last_name']
+                      : t.placeholder_not_provided,
+                ),
+
                 const SizedBox(height: 20.0),
-        
+
                 Row(
                   children: [
                     Text(
@@ -259,7 +303,11 @@ class _ProfilePageState extends State<ProfilePage> {
                   ],
                 ),
                 const SizedBox(height: 10.0),
-                _buildInfoBox(_phoneNumber ?? t.placeholder_not_provided),
+                _buildInfoBox(
+                  userData['phone_number'] == " "
+                      ? userData['phone_number']
+                      : t.placeholder_not_provided,
+                ),
               ],
             ),
           ),
@@ -274,10 +322,7 @@ class _ProfilePageState extends State<ProfilePage> {
       width: double.infinity,
       decoration: BoxDecoration(
         color: const Color.fromRGBO(249, 249, 249, 1),
-        border: Border.all(
-          color: const Color.fromRGBO(0, 0, 0, 0.2),
-          width: 1,
-        ),
+        border: Border.all(color: const Color.fromRGBO(0, 0, 0, 0.2), width: 1),
         borderRadius: BorderRadius.circular(16),
         boxShadow: const [
           BoxShadow(
@@ -295,10 +340,7 @@ class _ProfilePageState extends State<ProfilePage> {
             children: [
               Text(
                 text,
-                style: TextStyle(
-                  color: Colors.grey.shade600,
-                  fontSize: 16,
-                ),
+                style: TextStyle(color: Colors.grey.shade600, fontSize: 16),
               ),
             ],
           ),

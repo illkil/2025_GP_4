@@ -76,6 +76,18 @@ class AppLocalizationsAr extends AppLocalizations {
       'البريد الإلكتروني أو كلمة المرور غير صحيحة';
 
   @override
+  String get login_error_too_many_attepmts =>
+      'عدد كبير من محاولات تسجيل الدخول\nيرجى المحاولة مرة أخرى خلال 3 دقائق';
+
+  @override
+  String get login_error_failed => 'فشل تسجيل الدخول، يرجى المحاولة مرة أخرى';
+
+  @override
+  String login_locked(int remaining) {
+    return 'الرجاء الإنتظار $remaining ثانية قبل المحاولة مرة أخرى';
+  }
+
+  @override
   String get signup_title => 'انضم إلينا!';
 
   @override
@@ -97,6 +109,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get signup_email_exists => 'البريد الإلكتروني مسجّل بالفعل';
 
   @override
+  String get signup_invalid_email_format => 'تنسيق البريد الإلكتروني غير صالح';
+
+  @override
+  String get signup_failed => 'فشل إنشاء الحساب';
+
+  @override
   String get signup_password_weak =>
       'استخدم 8 أحرف أو أكثر مع مزيج من\nحروف كبيرة وصغيرة وأرقام';
 
@@ -114,6 +132,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get google_signup => 'التسجيل باستخدام Google';
+
+  @override
+  String get check_18yo_checkbox =>
+      'يرجى تأكيد أنك تبلغ من العمر 18 عامًا أو أكثر';
 
   @override
   String get forgot_title => 'استعادة كلمة المرور';

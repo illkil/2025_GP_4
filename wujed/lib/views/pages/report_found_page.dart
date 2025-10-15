@@ -32,186 +32,195 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20.0),
+      body: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
         child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SizedBox(height: 50.0),
-              Row(
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.arrow_back_ios_rounded),
-                    color: const Color.fromRGBO(46, 23, 21, 1),
-                    onPressed: () => Navigator.pop(context),
-                  ),
-                ],
-              ),
-              Text(
-                t.report_found_title,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18.0,
-                ),
-              ),
-
-              const SizedBox(height: 10.0),
-
-              Text(
-                t.report_required_details,
-                style: TextStyle(fontSize: 16.0, color: textColor),
-              ),
-
-              const SizedBox(height: 40.0),
-
-              _buildLabel(t.report_title_label, required: true),
-
-              const SizedBox(height: 10.0),
-
-              TextField(
-                controller: controllerTitle,
-                autocorrect: false,
-                decoration: InputDecoration(
-                  hintText: t.report_title_hint,
-                  hintStyle: TextStyle(
-                    color: Colors.grey.shade400,
-                    fontSize: 14,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(14),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(14),
-                    borderSide: const BorderSide(
-                      color: Color.fromRGBO(46, 23, 21, 1),
-                      width: 2.0,
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const SizedBox(height: 50.0),
+                Row(
+                  children: [
+                    IconButton(
+                      icon: const Icon(Icons.arrow_back_ios_rounded),
+                      color: const Color.fromRGBO(46, 23, 21, 1),
+                      onPressed: () => Navigator.pop(context),
                     ),
-                  ),
+                  ],
                 ),
-                onEditingComplete: () => setState(() {}),
-              ),
-
-              const SizedBox(height: 20.0),
-
-              _buildLabel(t.report_photo_label, required: true),
-
-              const SizedBox(height: 10.0),
-
-              uploadPhoto!,
-
-              const SizedBox(height: 20.0),
-
-              _buildLabel(t.report_location_label, required: true),
-
-              const SizedBox(height: 10.0),
-
-              OutlinedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const PickLocationPage(),
-                    ),
-                  );
-                },
-                style: OutlinedButton.styleFrom(
-                  minimumSize: const Size(double.infinity, 55),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                ),
-                child: SizedBox(
-                  height: 55.0,
-                  width: double.infinity,
-                  child: Stack(
-                    children: [
-                      const PositionedDirectional(
-                        top: 0,
-                        bottom: 0,
-                        child: Icon(
-                          IconlyBold.location,
-                          color: Color.fromRGBO(46, 23, 21, 1),
-                          size: 37,
-                        ),
-                      ),
-                      PositionedDirectional(
-                        top: 17,
-                        start: 70,
-                        child: Text(
-                          t.report_location_button_hint,
-                          style: TextStyle(
-                            color: Colors.grey.shade400,
-                            fontSize: 14,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-
-              const SizedBox(height: 20.0),
-
-              _buildLabel(t.report_description_label, required: true),
-
-              const SizedBox(height: 10.0),
-
-              TextField(
-                controller: controllerDescription,
-                autocorrect: false,
-                maxLength: _maxLength,
-                maxLines: 6,
-                decoration: InputDecoration(
-                  hintText: t.report_description_hint,
-                  hintStyle: TextStyle(
-                    color: Colors.grey.shade400,
-                    fontSize: 14,
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(14),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(14),
-                    borderSide: const BorderSide(
-                      color: Color.fromRGBO(46, 23, 21, 1),
-                      width: 2.0,
-                    ),
-                  ),
-                  counterText: t.report_counter_left(
-                    _maxLength - controllerDescription.text.length,
-                  ),
-                  counterStyle: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey.shade400,
-                  ),
-                ),
-                onChanged: (value) => setState(() {}),
-              ),
-
-              const SizedBox(height: 30.0),
-
-              FilledButton(
-                onPressed: () => onSubmitPressed(t),
-                style: FilledButton.styleFrom(
-                  minimumSize: const Size(double.infinity, 50),
-                  backgroundColor: const Color.fromRGBO(46, 23, 21, 1),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                ),
-                child: Text(
-                  t.report_submit_button,
+                Text(
+                  t.report_found_title,
                   style: const TextStyle(
-                    fontSize: 16.0,
                     fontWeight: FontWeight.bold,
+                    fontSize: 18.0,
                   ),
                 ),
-              ),
-
-              const SizedBox(height: 50.0),
-            ],
+            
+                const SizedBox(height: 10.0),
+            
+                Text(
+                  t.report_required_details,
+                  style: TextStyle(fontSize: 16.0, color: textColor),
+                ),
+            
+                const SizedBox(height: 40.0),
+            
+                _buildLabel(t.report_title_label, required: true),
+            
+                const SizedBox(height: 10.0),
+            
+                TextField(
+                  controller: controllerTitle,
+                  autocorrect: false,
+                  decoration: InputDecoration(
+                    hintText: t.report_title_hint,
+                    hintStyle: TextStyle(
+                      color: Colors.grey.shade400,
+                      fontSize: 14,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: const BorderSide(
+                        color: Color.fromRGBO(46, 23, 21, 1),
+                        width: 2.0,
+                      ),
+                    ),
+                  ),
+                  onEditingComplete: () {
+                    FocusScope.of(context).unfocus();
+                  },
+                ),
+            
+                const SizedBox(height: 20.0),
+            
+                _buildLabel(t.report_photo_label, required: true),
+            
+                const SizedBox(height: 10.0),
+            
+                uploadPhoto!,
+            
+                const SizedBox(height: 20.0),
+            
+                _buildLabel(t.report_location_label, required: true),
+            
+                const SizedBox(height: 10.0),
+            
+                OutlinedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const PickLocationPage(),
+                      ),
+                    );
+                  },
+                  style: OutlinedButton.styleFrom(
+                    minimumSize: const Size(double.infinity, 55),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                  child: SizedBox(
+                    height: 55.0,
+                    width: double.infinity,
+                    child: Stack(
+                      children: [
+                        const PositionedDirectional(
+                          top: 0,
+                          bottom: 0,
+                          child: Icon(
+                            IconlyBold.location,
+                            color: Color.fromRGBO(46, 23, 21, 1),
+                            size: 37,
+                          ),
+                        ),
+                        PositionedDirectional(
+                          top: 17,
+                          start: 70,
+                          child: Text(
+                            t.report_location_button_hint,
+                            style: TextStyle(
+                              color: Colors.grey.shade400,
+                              fontSize: 14,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+            
+                const SizedBox(height: 20.0),
+            
+                _buildLabel(t.report_description_label, required: true),
+            
+                const SizedBox(height: 10.0),
+            
+                TextField(
+                  controller: controllerDescription,
+                  autocorrect: false,
+                  maxLength: _maxLength,
+                  maxLines: 6,
+                  decoration: InputDecoration(
+                    hintText: t.report_description_hint,
+                    hintStyle: TextStyle(
+                      color: Colors.grey.shade400,
+                      fontSize: 14,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14),
+                      borderSide: const BorderSide(
+                        color: Color.fromRGBO(46, 23, 21, 1),
+                        width: 2.0,
+                      ),
+                    ),
+                    counterText: t.report_counter_left(
+                      _maxLength - controllerDescription.text.length,
+                    ),
+                    counterStyle: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey.shade400,
+                    ),
+                  ),
+                  onEditingComplete: () {
+                    FocusScope.of(context).unfocus();
+                  },
+                ),
+            
+                const SizedBox(height: 30.0),
+            
+                FilledButton(
+                  onPressed: () => onSubmitPressed(t),
+                  style: FilledButton.styleFrom(
+                    minimumSize: const Size(double.infinity, 50),
+                    backgroundColor: const Color.fromRGBO(46, 23, 21, 1),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                  ),
+                  child: Text(
+                    t.report_submit_button,
+                    style: const TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+            
+                const SizedBox(height: 50.0),
+              ],
+            ),
           ),
         ),
       ),

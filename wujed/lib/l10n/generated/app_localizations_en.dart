@@ -75,6 +75,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get login_error_invalid => 'Invalid email or password';
 
   @override
+  String get login_error_too_many_attepmts =>
+      'Too many log in attempts\nPlease try again in 3 minutes';
+
+  @override
+  String get login_error_failed => 'Login failed, Please try again';
+
+  @override
+  String login_locked(int remaining) {
+    return 'Please wait $remaining seconds before trying again';
+  }
+
+  @override
   String get signup_title => 'Join Us!';
 
   @override
@@ -96,6 +108,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get signup_email_exists => 'This email already exists';
 
   @override
+  String get signup_invalid_email_format => 'Invalid email format';
+
+  @override
+  String get signup_failed => 'Failed creating an account';
+
+  @override
   String get signup_password_weak =>
       'Use 8 or more characters with a mix of\nuppercase and lowercase letters and\nnumbers';
 
@@ -113,6 +131,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get google_signup => 'Sign up with Google';
+
+  @override
+  String get check_18yo_checkbox =>
+      'Please confirm that you are 18 years old or older';
 
   @override
   String get forgot_title => 'Forgot Password';

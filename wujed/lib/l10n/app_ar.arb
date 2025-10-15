@@ -25,6 +25,14 @@
   "google_continue": "المتابعة باستخدام Google",
   "login_error_fill_all": "يرجى تعبئة جميع البيانات",
   "login_error_invalid": "البريد الإلكتروني أو كلمة المرور غير صحيحة",
+  "login_error_too_many_attepmts": "عدد كبير من محاولات تسجيل الدخول\nيرجى المحاولة مرة أخرى خلال 3 دقائق",
+  "login_error_failed": "فشل تسجيل الدخول، يرجى المحاولة مرة أخرى",
+  "login_locked": "الرجاء الإنتظار {remaining} ثانية قبل المحاولة مرة أخرى",
+  "@login_locked": {
+    "placeholders": {
+      "remaining": { "type": "int", "example": "120" }
+    }
+  },
 
   "signup_title": "انضم إلينا!",
   "signup_subtitle": "املأ جميع البيانات لإنشاء حسابك",
@@ -33,12 +41,15 @@
   "signup_password_label": "كلمة المرور",
   "signup_username_taken": "اسم المستخدم مستخدم بالفعل",
   "signup_email_exists": "البريد الإلكتروني مسجّل بالفعل",
+  "signup_invalid_email_format": "تنسيق البريد الإلكتروني غير صالح",
+  "signup_failed": "فشل إنشاء الحساب",
   "signup_password_weak": "استخدم 8 أحرف أو أكثر مع مزيج من\nحروف كبيرة وصغيرة وأرقام",
   "signup_age_checkbox": "عمري 18 سنة أو أكثر",
   "signup_button": "إنشاء حساب",
   "signup_have_account": "لديك حساب بالفعل؟",
   "signup_login_link": "تسجيل الدخول",
   "google_signup": "التسجيل باستخدام Google",
+  "check_18yo_checkbox": "يرجى تأكيد أنك تبلغ من العمر 18 عامًا أو أكثر",
 
   "forgot_title": "استعادة كلمة المرور",
   "forgot_subtitle": "أدخل بريدك الإلكتروني لإعادة تعيين كلمة المرور",
