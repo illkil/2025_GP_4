@@ -10,6 +10,11 @@ import 'package:iconify_flutter/icons/ri.dart';
 import 'package:iconify_flutter/icons/bi.dart';
 import 'package:wujed/l10n/generated/app_localizations.dart';
 
+// ✅ added: seed helper import (DEV only)
+import 'package:wujed/dev/seed_reports.dart';
+import 'package:wujed/dev/debug_flags.dart';
+
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -29,7 +34,7 @@ class _HomePageState extends State<HomePage> {
           children: [
             Container(
               width: double.infinity,
-              height: 280.0,
+              height: 320.0,
               color: const Color.fromRGBO(255, 204, 92, 0.4),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -87,9 +92,9 @@ class _HomePageState extends State<HomePage> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-        
+
                   const SizedBox(height: 30.0),
-        
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -117,9 +122,9 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                       ),
-        
+
                       const SizedBox(width: 20.0),
-        
+
                       FilledButton(
                         onPressed: () {
                           Navigator.push(
@@ -146,6 +151,30 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ],
                   ),
+
+                  if (kEnableDevTools)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: ElevatedButton(
+                        onPressed: () async {
+                          try {
+                            final id = await seedLostReportFromAssets();
+                            if (!context.mounted) return;
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Seeded report: $id')),
+                            );
+                          } catch (e) {
+                            if (!context.mounted) return;
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('Seed failed: $e')),
+                            );
+                          }
+                        },
+                        child: const Text('DEV: Seed Lost Report (assets)'),
+                      ),
+                    ),
+
+
                 ],
               ),
             ),
@@ -174,9 +203,9 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ],
                   ),
-        
+
                   const SizedBox(height: 25.0),
-        
+
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     clipBehavior: Clip.none,
@@ -202,9 +231,9 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                   ),
-        
+
                   const SizedBox(height: 50.0),
-        
+
                   SizedBox(
                     height: 100.0,
                     width: 360.0,
