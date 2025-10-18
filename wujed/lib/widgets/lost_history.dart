@@ -46,8 +46,6 @@ class _LostHistoryState extends State<LostHistory> {
     return StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
       stream: ReportService().lostReportsStream(),
       builder: (context, snapshot) {
-        // called every time the stream sends data
-
         //1. if loading
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
@@ -70,6 +68,10 @@ class _LostHistoryState extends State<LostHistory> {
           itemBuilder: (context, index) {
             final doc = docs[index];
             final data = doc.data();
+
+            final imgs = (data['images'] as List<dynamic>? ?? [])
+                .cast<String>();
+            final imageUrl = imgs.isNotEmpty ? imgs.first : null;
 
             final title = (data['title'] as String?)?.trim().isNotEmpty == true
                 ? data['title']
@@ -95,7 +97,14 @@ class _LostHistoryState extends State<LostHistory> {
                     ),
                   );
                 },
-                child: historyItem(context, title, date, status, color),
+                child: historyItem(
+                  context,
+                  title,
+                  date,
+                  status,
+                  color,
+                  imageUrl,
+                ),
               ),
             );
           },
@@ -295,8 +304,9 @@ class _LostHistoryState extends State<LostHistory> {
     String title,
     DateTime date,
     String status,
-    Color color,
-  ) {
+    Color color, [
+    String? imageUrl,
+  ]) {
     return Container(
       height: 100.0,
       width: 360.0,
@@ -334,11 +344,21 @@ class _LostHistoryState extends State<LostHistory> {
                         ),
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      child: Icon(
-                        Icons.image,
-                        size: 50.0,
-                        color: Colors.grey.shade400,
-                      ),
+                      child: imageUrl != null && imageUrl.isNotEmpty
+                          ? Image.network(
+                              imageUrl,
+                              fit: BoxFit.cover,
+                              errorBuilder: (_, __, ___) => Icon(
+                                Icons.image,
+                                size: 50.0,
+                                color: Colors.grey.shade400,
+                              ),
+                            )
+                          : Icon(
+                              Icons.image,
+                              size: 50.0,
+                              color: Colors.grey.shade400,
+                            ),
                     ),
                   ),
                 ),

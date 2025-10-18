@@ -104,6 +104,23 @@ class ReportService {
         .snapshots();
   }
 
+  Stream<QuerySnapshot<Map<String, dynamic>>> foundReportsStream() {
+    final uid = _auth.currentUser?.uid;
+    if (uid == null) return const Stream.empty();
+    return _db
+        .collection('reports')
+        .where('ownerUid', isEqualTo: uid)
+        .where('type', isEqualTo: 'found')
+        .orderBy('createdAt', descending: true)
+        .snapshots();
+  }
+
+  Stream<DocumentSnapshot<Map<String, dynamic>>> ReportStream(String reportId) {
+    final uid = _auth.currentUser?.uid;
+    if (uid == null) return const Stream.empty();
+    return _db.collection('reports').doc(reportId).snapshots();
+  }
+
   Future<void> deleteReport(String id) async {
     await _db.collection('reports').doc(id).delete();
   }
