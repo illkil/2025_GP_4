@@ -3,6 +3,11 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:wujed/views/pages/pick_location_page.dart';
 import 'package:wujed/views/pages/submit_successfully_page.dart';
 import 'package:wujed/l10n/generated/app_localizations.dart';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:wujed/services/report_service.dart';
+
 
 class ReportFoundPage extends StatefulWidget {
   const ReportFoundPage({super.key});
@@ -18,6 +23,14 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
   Widget? uploadPhoto;
 
   final int _maxLength = 300;
+
+  final _picker = ImagePicker();
+  List<File> _images = [];
+
+  GeoPoint? _geo;
+  String? _address;
+
+  bool _submitting = false;
 
   @override
   void didChangeDependencies() {
@@ -104,7 +117,14 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
             
                 const SizedBox(height: 10.0),
             
-                uploadPhoto!,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    buildUploadButton(),
+                    const SizedBox(height: 10),
+                    _imagesPreview(),
+                  ],
+                ),
             
                 const SizedBox(height: 20.0),
             
@@ -113,14 +133,35 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
                 const SizedBox(height: 10.0),
             
                 OutlinedButton(
-                  onPressed: () {
-                    Navigator.push(
+                  onPressed: () async {
+                    final result = await Navigator.push(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => const PickLocationPage(),
-                      ),
+                      MaterialPageRoute(builder: (_) => const PickLocationPage()),
                     );
+
+                    // Log the result (optional for debugging)
+                    print('[PickLocation] Returned: $result');
+
+                    // If the result is a Map with lat/lng (like {'lat': 24.7, 'lng': 46.6, 'address': 'KSU'})
+                    if (result is Map && result['lat'] != null && result['lng'] != null) {
+                      setState(() {
+                        _geo = GeoPoint(
+                          (result['lat'] as num).toDouble(),
+                          (result['lng'] as num).toDouble(),
+                        );
+                        _address = result['address'] as String?;
+                      });
+
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('✅ Location set successfully')),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('⚠️ Location not selected')),
+                      );
+                    }
                   },
+
                   style: OutlinedButton.styleFrom(
                     minimumSize: const Size(double.infinity, 55),
                     shape: RoundedRectangleBorder(
@@ -145,7 +186,7 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
                           top: 17,
                           start: 70,
                           child: Text(
-                            t.report_location_button_hint,
+                            _address ?? t.report_location_button_hint,
                             style: TextStyle(
                               color: Colors.grey.shade400,
                               fontSize: 14,
@@ -201,7 +242,12 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
                 const SizedBox(height: 30.0),
             
                 FilledButton(
-                  onPressed: () => onSubmitPressed(t),
+                  onPressed: _submitting
+                    ? null
+                    : () => _submitFoundReport(
+                        title: controllerTitle.text,
+                        description: controllerDescription.text,
+                      ),
                   style: FilledButton.styleFrom(
                     minimumSize: const Size(double.infinity, 50),
                     backgroundColor: const Color.fromRGBO(46, 23, 21, 1),
@@ -210,7 +256,7 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
                     ),
                   ),
                   child: Text(
-                    t.report_submit_button,
+                    _submitting ? 'Submitting…' : t.report_submit_button,
                     style: const TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold,
@@ -225,6 +271,71 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
         ),
       ),
     );
+  }
+
+  Future<void> _pickImages() async {
+    final picks = await _picker.pickMultiImage(imageQuality: 85);
+    if (picks == null || picks.isEmpty) return;
+    setState(() {
+      _images = picks.map((x) => File(x.path)).toList();
+    });
+  }
+
+  Widget _imagesPreview() {
+    if (_images.isEmpty) return const SizedBox.shrink();
+    return SizedBox(
+      height: 90,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        itemCount: _images.length,
+        separatorBuilder: (_, __) => const SizedBox(width: 8),
+        itemBuilder: (_, i) => ClipRRect(
+          borderRadius: BorderRadius.circular(16),
+          child: Image.file(_images[i], width: 90, height: 90, fit: BoxFit.cover),
+        ),
+      ),
+    );
+  }
+
+  Future<void> _submitFoundReport({
+    required String title,
+    required String description,
+    String? category,
+  }) async {
+    if (_submitting) return;
+    if (title.trim().isEmpty || description.trim().isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please fill title and description')),
+      );
+      return;
+    }
+
+    setState(() => _submitting = true);
+    try {
+      await ReportService().createReport(
+        type: 'found',
+        title: title.trim(),
+        description: description.trim(),
+        category: category,
+        location: _geo,
+        address: _address,
+        lang: 'en',
+        imageFiles: _images,
+      );
+
+      if (!mounted) return;
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => const SubmitSuccessfullyPage()),
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Submit failed: $e')),
+      );
+    } finally {
+      if (mounted) setState(() => _submitting = false);
+    }
   }
 
   Widget _buildLabel(String text, {bool required = false}) {
@@ -253,7 +364,7 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
     final t = AppLocalizations.of(context);
 
     return OutlinedButton(
-      onPressed: () => onUploadPhoto(),
+      onPressed: _pickImages,
       style: OutlinedButton.styleFrom(
         minimumSize: const Size(double.infinity, 55),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),

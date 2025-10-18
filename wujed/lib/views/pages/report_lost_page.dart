@@ -3,6 +3,11 @@ import 'package:wujed/views/pages/pick_location_page.dart';
 import 'package:wujed/views/pages/submit_successfully_page.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:wujed/l10n/generated/app_localizations.dart';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:wujed/services/report_service.dart';
+
 
 class ReportLostPage extends StatefulWidget {
   const ReportLostPage({super.key});
@@ -18,6 +23,14 @@ class _ReportLostPageState extends State<ReportLostPage> {
   Widget? uploadPhoto;
 
   final int _maxLength = 300;
+
+  final _picker = ImagePicker();
+  List<File> _images = [];
+
+  GeoPoint? _geo;
+  String? _address;
+
+  bool _submitting = false;
 
   @override
   void didChangeDependencies() {
@@ -113,13 +126,18 @@ class _ReportLostPageState extends State<ReportLostPage> {
                 const SizedBox(height: 10.0),
             
                 OutlinedButton(
-                  onPressed: () {
-                    Navigator.push(
+                  onPressed: () async {
+                    final result = await Navigator.push(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => const PickLocationPage(),
-                      ),
+                      MaterialPageRoute(builder: (context) => const PickLocationPage()),
                     );
+                    // Expecting: { 'lat': double, 'lng': double, 'address': String? }
+                    if (result is Map && result['lat'] != null && result['lng'] != null) {
+                      setState(() {
+                        _geo = GeoPoint(result['lat'] as double, result['lng'] as double);
+                        _address = result['address'] as String?;
+                      });
+                    }
                   },
                   style: OutlinedButton.styleFrom(
                     minimumSize: const Size(double.infinity, 55),
@@ -145,7 +163,7 @@ class _ReportLostPageState extends State<ReportLostPage> {
                           top: 17,
                           start: 70,
                           child: Text(
-                            t.report_location_button_hint,
+                            _address ?? t.report_location_button_hint,
                             style: TextStyle(
                               color: Colors.grey.shade400,
                               fontSize: 14,
@@ -201,7 +219,7 @@ class _ReportLostPageState extends State<ReportLostPage> {
                 const SizedBox(height: 30.0),
             
                 FilledButton(
-                  onPressed: () => onSubmitPressed(),
+                  onPressed: _submitting ? null : _submitLostReport,
                   style: FilledButton.styleFrom(
                     minimumSize: const Size(double.infinity, 50),
                     backgroundColor: const Color.fromRGBO(46, 23, 21, 1),
@@ -210,7 +228,7 @@ class _ReportLostPageState extends State<ReportLostPage> {
                     ),
                   ),
                   child: Text(
-                    t.report_submit_button,
+                    _submitting ? 'Submitting…' : t.report_submit_button,
                     style: const TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold,
@@ -223,6 +241,42 @@ class _ReportLostPageState extends State<ReportLostPage> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Future<void> _pickImages() async {
+    final picks = await _picker.pickMultiImage(imageQuality: 85);
+    if (picks == null || picks.isEmpty) return;
+    setState(() {
+      _images = picks.map((x) => File(x.path)).toList();
+      // replace the placeholder widget with a preview of chosen images
+      uploadPhoto = _buildImagesPreview();
+    });
+  }
+
+  Widget _buildImagesPreview() {
+    if (_images.isEmpty) {
+      // fallback to your original one-button UI
+      return buildUploadButton();
+    }
+    return SizedBox(
+      height: 170,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        itemCount: _images.length,
+        separatorBuilder: (_, __) => const SizedBox(width: 8),
+        itemBuilder: (_, i) {
+          return ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Image.file(
+              _images[i],
+              height: 160,
+              width: 160,
+              fit: BoxFit.cover,
+            ),
+          );
+        },
       ),
     );
   }
@@ -253,7 +307,7 @@ class _ReportLostPageState extends State<ReportLostPage> {
     final t = AppLocalizations.of(context);
 
     return OutlinedButton(
-      onPressed: () => onUploadPhoto(),
+      onPressed: () => _pickImages(),
       style: OutlinedButton.styleFrom(
         minimumSize: const Size(double.infinity, 55),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -287,7 +341,7 @@ class _ReportLostPageState extends State<ReportLostPage> {
     );
   }
 
-  void onUploadPhoto() {
+  /*void onUploadPhoto() {
     setState(() {
       uploadPhoto = Stack(
         clipBehavior: Clip.none,
@@ -334,9 +388,9 @@ class _ReportLostPageState extends State<ReportLostPage> {
         ],
       );
     });
-  }
+  }*/
 
-  void onIconButtonPressed() {
+  /*void onIconButtonPressed() {
     setState(() {
       uploadPhoto = Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -391,6 +445,47 @@ class _ReportLostPageState extends State<ReportLostPage> {
         ],
       );
     });
+  }*/
+
+  Future<void> _submitLostReport() async {
+    final title = controllerTitle.text.trim();
+    final description = controllerDescription.text.trim();
+
+    if (title.isEmpty || description.isEmpty) {
+      setState(() { textColor = const Color.fromRGBO(211, 47, 47, 1); });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please fill title and description')),
+      );
+      return;
+    }
+
+    setState(() => _submitting = true);
+    try {
+      final id = await ReportService().createReport(
+        type: 'lost',
+        title: title,
+        description: description,
+        category: null,        // plug your category if you add one
+        location: _geo,        // can be null if not picked
+        address: _address,
+        lang: 'en',
+        imageFiles: _images,   // placeholder URLs will be used while Storage is off
+      );
+
+      if (!mounted) return;
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (_) => const SubmitSuccessfullyPage()),
+        (_) => false,
+      );
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Submit failed: $e')),
+      );
+    } finally {
+      if (mounted) setState(() => _submitting = false);
+    }
   }
 
   void onSubmitPressed() {
