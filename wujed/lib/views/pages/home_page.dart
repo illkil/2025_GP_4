@@ -14,7 +14,6 @@ import 'package:wujed/l10n/generated/app_localizations.dart';
 import 'package:wujed/dev/seed_reports.dart';
 import 'package:wujed/dev/debug_flags.dart';
 
-
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -173,8 +172,6 @@ class _HomePageState extends State<HomePage> {
                         child: const Text('DEV: Seed Lost Report (assets)'),
                       ),
                     ),
-
-
                 ],
               ),
             ),
@@ -308,7 +305,10 @@ class _HomePageState extends State<HomePage> {
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              const ItemReportedLost(),
+                                              const ItemReportedLost(
+                                                reportId:
+                                                    '27iGiQR594fjRLf1RiA4',
+                                              ),
                                         ),
                                       );
                                     },

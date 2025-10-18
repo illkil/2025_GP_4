@@ -80,7 +80,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   ),
                 ),
                 const SizedBox(height: 20.0),
-        
+
                 Row(
                   children: [
                     Text(
@@ -99,9 +99,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   [FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]'))],
                   hint: t.placeholder_not_provided,
                 ),
-        
+
                 const SizedBox(height: 20.0),
-        
+
                 Row(
                   children: [
                     Text(
@@ -120,9 +120,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   [FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]'))],
                   hint: t.placeholder_not_provided,
                 ),
-        
+
                 const SizedBox(height: 20.0),
-        
+
                 Row(
                   children: [
                     Text(
@@ -183,7 +183,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
   }
 
-  onDonePressed() {
+  void onDonePressed() {
     final firstName = controllerFirstName.text.trim();
     final lastName = controllerLastName.text.trim();
     final phoneNumber = controllerPhoneNumber.text.trim();

@@ -9,7 +9,7 @@ class PickLocationPage extends StatefulWidget {
 }
 
 class _PickLocationPageState extends State<PickLocationPage> {
-  screenTapped() {
+  void screenTapped() {
     showModalBottomSheet(
       context: context,
       builder: (ctx) => BottomSheetWidget(page: 'PickLocationPage'),

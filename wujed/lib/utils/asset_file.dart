@@ -1,11 +1,10 @@
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:path_provider/path_provider.dart';
 
 Future<File> assetToTempFile(String assetPath, {String? filename}) async {
   print('🔎 Loading asset: $assetPath');
-  final data = await rootBundle.load(assetPath);                     // throws if asset missing
+  final data = await rootBundle.load(assetPath); // throws if asset missing
   final bytes = data.buffer.asUint8List();
   print('✅ Asset bytes: ${bytes.length}');
 

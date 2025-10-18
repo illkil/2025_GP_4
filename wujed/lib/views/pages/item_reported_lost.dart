@@ -5,13 +5,19 @@ import 'package:wujed/views/pages/match_details_page.dart';
 import 'package:wujed/l10n/generated/app_localizations.dart';
 
 class ItemReportedLost extends StatefulWidget {
-  const ItemReportedLost({super.key});
+  final String reportId;
+  const ItemReportedLost({super.key, required this.reportId});
 
   @override
   State<ItemReportedLost> createState() => _ItemReportedLostState();
 }
 
 class _ItemReportedLostState extends State<ItemReportedLost> {
+  void initState() {
+    super.initState();
+    print('reportId: ${widget.reportId}');
+  }
+
   final _imgPath = 'lib/assets/images/CoffeeBrew.WEBP';
   final _heroTag = 'item-image-hero';
 
@@ -261,13 +267,15 @@ class _ItemReportedLostState extends State<ItemReportedLost> {
                         final result = await Navigator.push<String>(
                           context,
                           MaterialPageRoute(
-                            builder: (_) =>
-                                hideMug ? const MatchAfterAcceptingPage() : const MatchDetailsPage(),
+                            builder: (_) => hideMug
+                                ? const MatchAfterAcceptingPage()
+                                : const MatchDetailsPage(),
                           ),
                         );
                         if (result == 'Accepted') {
                           setState(() => hideMug = true);
-                        } else if (result == 'Revoked' || result == 'Rejected') {
+                        } else if (result == 'Revoked' ||
+                            result == 'Rejected') {
                           setState(() {
                             hideBrew = true;
                             hideMug = false;
@@ -364,10 +372,7 @@ class _ItemReportedLostState extends State<ItemReportedLost> {
                   top: 30,
                   child: Text(
                     description,
-                    style: TextStyle(
-                      color: Colors.grey.shade500,
-                      fontSize: 12,
-                    ),
+                    style: TextStyle(color: Colors.grey.shade500, fontSize: 12),
                   ),
                 ),
                 PositionedDirectional(
@@ -394,10 +399,7 @@ class _ItemReportedLostState extends State<ItemReportedLost> {
                   end: 5,
                   child: IconButton(
                     onPressed: onPressed,
-                    icon: const Icon(
-                      Icons.arrow_forward_ios_rounded,
-                      size: 20,
-                    ),
+                    icon: const Icon(Icons.arrow_forward_ios_rounded, size: 20),
                   ),
                 ),
               ],
