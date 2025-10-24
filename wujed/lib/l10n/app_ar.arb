@@ -155,12 +155,15 @@
   "dialog_accept_match_note": "قبول هذا التطابق سيخفي الباقي. إذا لم يكن عنصرَك، اضغط \"سحب\" لإعادتها.",
   "dialog_are_you_sure": "هل أنت متأكد؟",
   "dialog_remove_permanently_note": "سيُحذف هذا التطابق نهائيًا. تابع فقط إذا كنت متأكدًا أنه ليس عنصرَك.",
+  "dialog_confirm_received_note": "تابع فقط إذا كنت متأكدًا أنك استلمت غرضك.",
+
+  "report_cancel_dialog_info": "سيتم حذف هذا البلاغ ولن يتم معالجته بعد الآن.",
 
   "btn_accept": "قبول",
   "btn_reject": "رفض",
   "btn_revoke": "سحب",
   "btn_confirm": "تأكيد",
-  "btn_cancel": "إلغاء",
+  "btn_cancel": "حذف",
   "btn_confirm_receipt": "تأكيد الاستلام",
   "btn_continue": "متابعة",
 
@@ -208,5 +211,31 @@
   "onboarding_next": "التالي",
   "onboarding_done": "تم",
 
-  "btn_send": "إرسال"
+  "btn_send": "إرسال",
+
+  "common_error_generic": "عذرًا، حدث خطأ ما",
+  "common_empty": "لا توجد معلومات بعد",
+  "common_untitled": "بدون عنوان",
+  "label_value_missing": "—",
+
+  "history_no_found_reports": "لا توجد بلاغات عثور حتى الآن",
+  "history_no_lost_reports": "لا توجد بلاغات فقدان حتى الآن",
+
+  "status_submitted": "تم الإرسال",
+  "status_ongoing": "قيد المعالجة",
+  "status_done": "مكتمل",
+  "status_rejected": "مرفوض",
+  "status_match_found": "تم العثور على تطابق",
+  "status_expired": "منتهي",
+
+  "pick_location_enable_service_title": "خدمة الموقع",
+  "pick_location_enable_service_body": "يرجى تفعيل خدمات الموقع.",
+  "pick_location_permission_title": "إذن الموقع",
+  "pick_location_permission_body": "يرجى السماح بإذن الموقع.",
+  "pick_location_permission_settings_body": "يرجى تفعيل إذن الموقع من الإعدادات.",
+  "pick_location_error_title": "خطأ في الموقع",
+  "pick_location_error_body": "تعذّر الحصول على الموقع الحالي. يرجى المحاولة مرة أخرى أو اختيار موقعك يدويًا.",
+  "pick_location_tap_hint": "اضغط على الخريطة لاختيار موقع"
+
+
 }

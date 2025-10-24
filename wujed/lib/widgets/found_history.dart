@@ -22,6 +22,25 @@ Color statusToColor(String status) {
   }
 }
 
+String statusToText(AppLocalizations t, String raw) {
+  switch (raw.toLowerCase()) {
+    case 'submitted':
+      return t.status_submitted;
+    case 'ongoing':
+      return t.status_ongoing;
+    case 'done':
+      return t.status_done;
+    case 'rejected':
+      return t.status_rejected;
+    case 'match_found':
+      return t.status_match_found;
+    case 'expired':
+      return t.status_expired;
+    default:
+      return raw;
+  }
+}
+
 class FoundHistory extends StatefulWidget {
   const FoundHistory({super.key});
 
@@ -51,13 +70,13 @@ class _FoundHistoryState extends State<FoundHistory> {
 
         //2. if error
         if (snapshot.hasError) {
-          return const Center(child: Text('Oops, something went wrong'));
+          return Center(child: Text(t.common_error_generic));
         }
 
         //3. if no data is returned (empty)
         final docs = snapshot.data?.docs ?? [];
         if (docs.isEmpty) {
-          return const Center(child: Text('No found reports yet'));
+          return Center(child: Text(t.history_no_found_reports));
         }
 
         //4. otherwise list data
@@ -73,7 +92,7 @@ class _FoundHistoryState extends State<FoundHistory> {
 
             final title = (data['title'] as String?)?.trim().isNotEmpty == true
                 ? data['title']
-                : 'Untitled';
+                : t.common_untitled;
 
             final ts = data['createdAt'] as Timestamp?;
             final date = ts?.toDate() ?? DateTime.now();
@@ -119,6 +138,7 @@ class _FoundHistoryState extends State<FoundHistory> {
     Color color, [
     String? imageUrl,
   ]) {
+    final t = AppLocalizations.of(context);
     return Container(
       height: 100.0,
       width: 360.0,
@@ -218,7 +238,7 @@ class _FoundHistoryState extends State<FoundHistory> {
                           Icon(Icons.circle, size: 12, color: color),
                           SizedBox(width: 5.0),
                           Text(
-                            status,
+                            statusToText(t, status),
                             style: TextStyle(
                               color: color,
                               fontWeight: FontWeight.bold,

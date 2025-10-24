@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:wujed/l10n/generated/app_localizations.dart';
+import 'package:wujed/services/chat_store.dart';
+import 'package:wujed/views/pages/chat_page.dart';
 
 class MatchDetailsPage extends StatefulWidget {
   const MatchDetailsPage({super.key});
@@ -54,9 +56,7 @@ class _MatchDetailsPageState extends State<MatchDetailsPage> {
                   ),
                 ),
               ),
-
               const SizedBox(height: 40.0),
-
               Row(
                 children: [
                   Text(
@@ -69,7 +69,6 @@ class _MatchDetailsPageState extends State<MatchDetailsPage> {
                 ],
               ),
               const SizedBox(height: 10.0),
-
               Container(
                 height: 55,
                 width: double.infinity,
@@ -120,9 +119,7 @@ class _MatchDetailsPageState extends State<MatchDetailsPage> {
                   ],
                 ),
               ),
-
               const SizedBox(height: 20.0),
-
               Row(
                 children: [
                   Text(
@@ -134,9 +131,7 @@ class _MatchDetailsPageState extends State<MatchDetailsPage> {
                   ),
                 ],
               ),
-
               const SizedBox(height: 10.0),
-
               Container(
                 height: 169,
                 width: double.infinity,
@@ -159,9 +154,7 @@ class _MatchDetailsPageState extends State<MatchDetailsPage> {
                   ),
                 ),
               ),
-
               const SizedBox(height: 20.0),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -179,12 +172,24 @@ class _MatchDetailsPageState extends State<MatchDetailsPage> {
                           ),
                           elevation: 8,
                           alignment: Alignment.center,
-                          titlePadding:
-                              const EdgeInsets.fromLTRB(20, 20, 20, 0),
-                          contentPadding:
-                              const EdgeInsets.fromLTRB(20, 10, 20, 20),
-                          actionsPadding:
-                              const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                          titlePadding: const EdgeInsets.fromLTRB(
+                            20,
+                            20,
+                            20,
+                            0,
+                          ),
+                          contentPadding: const EdgeInsets.fromLTRB(
+                            20,
+                            10,
+                            20,
+                            20,
+                          ),
+                          actionsPadding: const EdgeInsets.fromLTRB(
+                            20,
+                            0,
+                            20,
+                            20,
+                          ),
                           title: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -210,8 +215,12 @@ class _MatchDetailsPageState extends State<MatchDetailsPage> {
                               },
                               style: FilledButton.styleFrom(
                                 minimumSize: const Size(double.infinity, 45),
-                                backgroundColor:
-                                    const Color.fromRGBO(46, 23, 21, 1),
+                                backgroundColor: const Color.fromRGBO(
+                                  46,
+                                  23,
+                                  21,
+                                  1,
+                                ),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 ),
@@ -248,9 +257,18 @@ class _MatchDetailsPageState extends State<MatchDetailsPage> {
                           ],
                         ),
                       );
+
                       if (confirmed == 'Confirm') {
                         if (!context.mounted) return;
-                        Navigator.pop(context, 'Accepted');
+                        const String matchedUser = 'MatchedUser1';
+                        ChatStore.instance.addUser(matchedUser);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) =>
+                                ChatPage(location: false, name: matchedUser),
+                          ),
+                        );
                       }
                     },
                     style: FilledButton.styleFrom(
@@ -269,12 +287,111 @@ class _MatchDetailsPageState extends State<MatchDetailsPage> {
                       ),
                     ),
                   ),
-
                   const SizedBox(width: 10.0),
-
                   FilledButton(
-                    onPressed: () {
-                      Navigator.pop(context, 'Rejected');
+                    onPressed: () async {
+                      final confirmed = await showDialog<String>(
+                        context: context,
+                        barrierDismissible: true,
+                        barrierColor: Colors.black54,
+                        builder: (_) => AlertDialog(
+                          backgroundColor: Colors.white,
+                          surfaceTintColor: Colors.transparent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          elevation: 8,
+                          alignment: Alignment.center,
+                          titlePadding: const EdgeInsets.fromLTRB(
+                            20,
+                            20,
+                            20,
+                            0,
+                          ),
+                          contentPadding: const EdgeInsets.fromLTRB(
+                            20,
+                            10,
+                            20,
+                            20,
+                          ),
+                          actionsPadding: const EdgeInsets.fromLTRB(
+                            20,
+                            0,
+                            20,
+                            20,
+                          ),
+                          title: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                t.dialog_are_you_sure,
+                                style: const TextStyle(
+                                  color: Color.fromRGBO(46, 23, 21, 1),
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                          content: Text(
+                            t.dialog_remove_permanently_note,
+                            textAlign: TextAlign.center,
+                          ),
+                          actionsAlignment: MainAxisAlignment.end,
+                          actions: [
+                            FilledButton(
+                              onPressed: () {
+                                Navigator.pop(context, 'Confirm');
+                              },
+                              style: FilledButton.styleFrom(
+                                minimumSize: const Size(double.infinity, 45),
+                                backgroundColor: const Color.fromRGBO(
+                                  46,
+                                  23,
+                                  21,
+                                  1,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              child: Text(
+                                t.btn_confirm,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 10.0),
+                            OutlinedButton(
+                              onPressed: () {
+                                Navigator.pop(context, 'Cancel');
+                              },
+                              style: OutlinedButton.styleFrom(
+                                minimumSize: const Size(double.infinity, 45),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              child: Text(
+                                t.btn_cancel,
+                                style: const TextStyle(
+                                  color: Color.fromRGBO(46, 23, 21, 1),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+
+                      if (confirmed == 'Confirm') {
+                        if (!context.mounted) return;
+                        Navigator.pop(context, 'Rejected');
+                      }
                     },
                     style: FilledButton.styleFrom(
                       minimumSize: const Size(170, 45),

@@ -155,12 +155,15 @@
   "dialog_accept_match_note": "Accepting this match will hide the others. If it's not your item, just tap 'Revoke' to bring them back.",
   "dialog_are_you_sure": "Are you sure?",
   "dialog_remove_permanently_note": "This match will be removed permanently. Continue only if you're sure it's not your item.",
+  "dialog_confirm_received_note": "Continue only if you’re certain that you’ve received your item.",
+
+  "report_cancel_dialog_info": "Deleting this report means it will be removed and no longer processed.",
 
   "btn_accept": "Accept",
   "btn_reject": "Reject",
   "btn_revoke": "Revoke",
   "btn_confirm": "Confirm",
-  "btn_cancel": "Cancel",
+  "btn_cancel": "Delete",
   "btn_confirm_receipt": "Confirm Receipt",
   "btn_continue": "Continue",
 
@@ -208,5 +211,30 @@
   "onboarding_next": "Next",
   "onboarding_done": "Done",
 
-  "btn_send": "Send"
+  "btn_send": "Send",
+
+  "common_error_generic": "Oops, something went wrong",
+  "common_empty": "No information yet",
+  "common_untitled": "Untitled",
+  "label_value_missing": "—",
+
+  "history_no_found_reports": "No found reports yet",
+  "history_no_lost_reports": "No lost reports yet",
+
+  "status_submitted": "Submitted",
+  "status_ongoing": "Ongoing",
+  "status_done": "Done",
+  "status_rejected": "Rejected",
+  "status_match_found": "Match found",
+  "status_expired": "Expired",
+
+  "pick_location_enable_service_title": "Location Service",
+  "pick_location_enable_service_body": "Please enable location services.",
+  "pick_location_permission_title": "Location Permission",
+  "pick_location_permission_body": "Please enable location permission.",
+  "pick_location_permission_settings_body": "Please enable location permission from settings.",
+  "pick_location_error_title": "Location Error",
+  "pick_location_error_body": "Could not get current location. Please try again or choose your location manually.",
+  "pick_location_tap_hint": "Tap the map to choose a spot"
+
 }

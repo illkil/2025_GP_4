@@ -707,7 +707,7 @@ abstract class AppLocalizations {
   /// No description provided for @status_match_found.
   ///
   /// In en, this message translates to:
-  /// **'Match Found'**
+  /// **'Match found'**
   String get status_match_found;
 
   /// No description provided for @status_expired.
@@ -776,6 +776,18 @@ abstract class AppLocalizations {
   /// **'This match will be removed permanently. Continue only if you\'re sure it\'s not your item.'**
   String get dialog_remove_permanently_note;
 
+  /// No description provided for @dialog_confirm_received_note.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue only if you’re certain that you’ve received your item.'**
+  String get dialog_confirm_received_note;
+
+  /// No description provided for @report_cancel_dialog_info.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleting this report means it will be removed and no longer processed.'**
+  String get report_cancel_dialog_info;
+
   /// No description provided for @btn_accept.
   ///
   /// In en, this message translates to:
@@ -803,7 +815,7 @@ abstract class AppLocalizations {
   /// No description provided for @btn_cancel.
   ///
   /// In en, this message translates to:
-  /// **'Cancel'**
+  /// **'Delete'**
   String get btn_cancel;
 
   /// No description provided for @btn_confirm_receipt.
@@ -1027,6 +1039,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Send'**
   String get btn_send;
+
+  /// No description provided for @common_error_generic.
+  ///
+  /// In en, this message translates to:
+  /// **'Oops, something went wrong'**
+  String get common_error_generic;
+
+  /// No description provided for @common_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'No information yet'**
+  String get common_empty;
+
+  /// No description provided for @common_untitled.
+  ///
+  /// In en, this message translates to:
+  /// **'Untitled'**
+  String get common_untitled;
+
+  /// No description provided for @label_value_missing.
+  ///
+  /// In en, this message translates to:
+  /// **'—'**
+  String get label_value_missing;
+
+  /// No description provided for @history_no_found_reports.
+  ///
+  /// In en, this message translates to:
+  /// **'No found reports yet'**
+  String get history_no_found_reports;
+
+  /// No description provided for @history_no_lost_reports.
+  ///
+  /// In en, this message translates to:
+  /// **'No lost reports yet'**
+  String get history_no_lost_reports;
+
+  /// No description provided for @status_submitted.
+  ///
+  /// In en, this message translates to:
+  /// **'Submitted'**
+  String get status_submitted;
+
+  /// No description provided for @pick_location_enable_service_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Location Service'**
+  String get pick_location_enable_service_title;
+
+  /// No description provided for @pick_location_enable_service_body.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enable location services.'**
+  String get pick_location_enable_service_body;
+
+  /// No description provided for @pick_location_permission_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Location Permission'**
+  String get pick_location_permission_title;
+
+  /// No description provided for @pick_location_permission_body.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enable location permission.'**
+  String get pick_location_permission_body;
+
+  /// No description provided for @pick_location_permission_settings_body.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enable location permission from settings.'**
+  String get pick_location_permission_settings_body;
+
+  /// No description provided for @pick_location_error_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Location Error'**
+  String get pick_location_error_title;
+
+  /// No description provided for @pick_location_error_body.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not get current location. Please try again or choose your location manually.'**
+  String get pick_location_error_body;
+
+  /// No description provided for @pick_location_tap_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the map to choose a spot'**
+  String get pick_location_tap_hint;
 }
 
 class _AppLocalizationsDelegate

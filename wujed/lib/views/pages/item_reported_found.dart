@@ -18,7 +18,6 @@ class _ItemReportedFoundState extends State<ItemReportedFound> {
   @override
   void initState() {
     super.initState();
-    print('reportId: ${widget.reportId}');
   }
 
   void _openImage(String url) {
@@ -72,22 +71,19 @@ class _ItemReportedFoundState extends State<ItemReportedFound> {
         }
         //2. error
         if (snapshot.hasError) {
-          return const Scaffold(
-            body: Center(child: Text('Oops, something went wrong')),
-          );
+          return Scaffold(body: Center(child: Text(t.common_error_generic)));
         }
         //3. no data
         if (!snapshot.hasData || !snapshot.data!.exists) {
-          return const Scaffold(
-            body: Center(child: Text('No information yet')),
-          );
+          return Scaffold(body: Center(child: Text(t.common_empty)));
         }
 
         final data = snapshot.data!.data() ?? {};
-        final title = (data['title'] as String?)?.trim() ?? 'Untitled';
-        final description = (data['description'] as String?)?.trim() ?? '—';
+        final title = (data['title'] as String?)?.trim() ?? t.common_untitled;
+        final description =
+            (data['description'] as String?)?.trim() ?? t.label_value_missing;
 
-        String locationText = '—';
+        String locationText = t.label_value_missing;
         GeoPoint? geo;
         final loc = data['location'];
         if (loc is GeoPoint) {
@@ -301,6 +297,132 @@ class _ItemReportedFoundState extends State<ItemReportedFound> {
                               color: Color.fromRGBO(46, 23, 21, 1),
                               fontSize: 13,
                             ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 30),
+
+                      FilledButton(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            barrierDismissible: true,
+                            barrierColor: Colors.black54,
+                            builder: (_) => AlertDialog(
+                              backgroundColor: Colors.white,
+                              surfaceTintColor: Colors.transparent,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              elevation: 8,
+                              alignment: Alignment.center,
+                              titlePadding: const EdgeInsets.fromLTRB(
+                                20,
+                                20,
+                                20,
+                                0,
+                              ),
+                              contentPadding: const EdgeInsets.fromLTRB(
+                                20,
+                                10,
+                                20,
+                                20,
+                              ),
+                              actionsPadding: const EdgeInsets.fromLTRB(
+                                20,
+                                0,
+                                20,
+                                20,
+                              ),
+                              title: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    t.dialog_are_you_sure,
+                                    style: const TextStyle(
+                                      color: Color.fromRGBO(46, 23, 21, 1),
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              content: Text(
+                                t.report_cancel_dialog_info,
+                                textAlign: TextAlign.center,
+                              ),
+                              actionsAlignment: MainAxisAlignment.end,
+                              actions: [
+                                FilledButton(
+                                  onPressed: () {
+                                    //hard delete from database then navigate to history
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                  },
+                                  style: FilledButton.styleFrom(
+                                    minimumSize: const Size(
+                                      double.infinity,
+                                      45,
+                                    ),
+                                    backgroundColor: const Color.fromRGBO(
+                                      46,
+                                      23,
+                                      21,
+                                      1,
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    t.btn_confirm,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 10.0),
+                                OutlinedButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  style: OutlinedButton.styleFrom(
+                                    minimumSize: const Size(
+                                      double.infinity,
+                                      45,
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    t.btn_cancel,
+                                    style: const TextStyle(
+                                      color: Color.fromRGBO(46, 23, 21, 1),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                        style: FilledButton.styleFrom(
+                          minimumSize: const Size(170, 45),
+                          backgroundColor: const Color.fromRGBO(166, 91, 91, 1),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        child: Text(
+                          t.btn_cancel,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
                           ),
                         ),
                       ),

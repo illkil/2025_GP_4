@@ -5,6 +5,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:wujed/utils/dialogs.dart';
 import 'package:wujed/widgets/bottom_sheet_widget.dart';
+import 'package:wujed/l10n/generated/app_localizations.dart';
 
 class PickLocationPage extends StatefulWidget {
   const PickLocationPage({super.key});
@@ -41,14 +42,15 @@ class _PickLocationPageState extends State<PickLocationPage> {
 
   //method to get the current location of the user
   Future<void> currentLocaiton() async {
+    final t = AppLocalizations.of(context);
     try {
       //1. Check if the user enabled location services
       final serviceEnabled = await Geolocator.isLocationServiceEnabled();
       if (!serviceEnabled) {
         await showAppDialog(
           context,
-          'Location Service',
-          'Please enable location services.',
+          t.sheet_choose_location_title,
+          t.sheet_current_location_sub,
         );
         return;
       }
@@ -61,8 +63,8 @@ class _PickLocationPageState extends State<PickLocationPage> {
         if (permission == LocationPermission.denied) {
           await showAppDialog(
             context,
-            'Location Permission',
-            'Please enable location permission.',
+            t.sheet_choose_location_title,
+            t.sheet_choose_manually,
           );
           return;
         }
@@ -71,8 +73,8 @@ class _PickLocationPageState extends State<PickLocationPage> {
       if (permission == LocationPermission.deniedForever) {
         await showAppDialog(
           context,
-          'Location Permission',
-          'Please enable location permission from settings.',
+          t.sheet_choose_location_title,
+          t.sheet_choose_manually,
         );
         await Geolocator.openAppSettings();
         return;
@@ -89,14 +91,16 @@ class _PickLocationPageState extends State<PickLocationPage> {
     } catch (e) {
       await showAppDialog(
         context,
-        'Location Error',
-        'Could not get current location. Please try again or choose your location manually.',
+        t.sheet_choose_location_title,
+        t.common_error_generic,
       );
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -194,7 +198,7 @@ class _PickLocationPageState extends State<PickLocationPage> {
                   ),
                 ),
                 child: Text(
-                  _picked == null ? 'Tap the map to choose a spot' : 'Confirm',
+                  _picked == null ? t.sheet_choose_manually : t.btn_confirm,
                   style: const TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold,
