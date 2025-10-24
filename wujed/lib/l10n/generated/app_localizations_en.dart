@@ -390,7 +390,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get status_rejected => 'Rejected';
 
   @override
-  String get status_match_found => 'Match Found';
+  String get status_match_found => 'Match found';
 
   @override
   String get status_expired => 'Expired';
@@ -430,6 +430,14 @@ class AppLocalizationsEn extends AppLocalizations {
       'This match will be removed permanently. Continue only if you\'re sure it\'s not your item.';
 
   @override
+  String get dialog_confirm_received_note =>
+      'Continue only if you’re certain that you’ve received your item.';
+
+  @override
+  String get report_cancel_dialog_info =>
+      'Deleting this report means it will be removed and no longer processed.';
+
+  @override
   String get btn_accept => 'Accept';
 
   @override
@@ -442,7 +450,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get btn_confirm => 'Confirm';
 
   @override
-  String get btn_cancel => 'Cancel';
+  String get btn_cancel => 'Delete';
 
   @override
   String get btn_confirm_receipt => 'Confirm Receipt';
@@ -571,4 +579,73 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get btn_send => 'Send';
+
+  @override
+  String get common_error_generic => 'Oops, something went wrong';
+
+  @override
+  String get common_empty => 'No information yet';
+
+  @override
+  String get common_untitled => 'Untitled';
+
+  @override
+  String get label_value_missing => 'Not provided';
+
+  @override
+  String get history_no_found_reports => 'No found reports yet';
+
+  @override
+  String get history_no_lost_reports => 'No lost reports yet';
+
+  @override
+  String get pick_location_enable_service_title => 'Location Service';
+
+  @override
+  String get pick_location_enable_service_body =>
+      'Please enable location services.';
+
+  @override
+  String get pick_location_permission_title => 'Location Permission';
+
+  @override
+  String get pick_location_permission_body =>
+      'Please enable location permission.';
+
+  @override
+  String get pick_location_permission_settings_body =>
+      'Please enable location permission from settings.';
+
+  @override
+  String get pick_location_error_title => 'Location Error';
+
+  @override
+  String get pick_location_error_body =>
+      'Could not get current location. Please try again or choose your location manually.';
+
+  @override
+  String get pick_location_tap_hint => 'Tap the map to choose a spot';
+
+  @override
+  String get title_indicator => 'characters left';
+
+  @override
+  String get snackbar_fill_fields => 'Please fill title and description';
+
+  @override
+  String get snackbar_pick_location => 'Please pick a location';
+
+  @override
+  String snackbar_submit_failed(Object error) {
+    return 'Submit failed: $error';
+  }
+
+  @override
+  String get snackbar_location_set => 'Location set successfully';
+
+  @override
+  String get snackbar_location_not_selected => 'Location not selected';
+
+  @override
+  String get report_submitting => 'Submitting…';
 }

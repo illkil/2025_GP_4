@@ -5,6 +5,7 @@ import 'package:wujed/services/report_service.dart';
 import 'package:wujed/views/pages/match_after_accepting_page.dart';
 import 'package:wujed/views/pages/match_details_page.dart';
 import 'package:wujed/l10n/generated/app_localizations.dart';
+import 'package:wujed/views/pages/view_on_map.dart';
 
 class ItemReportedLost extends StatefulWidget {
   final String reportId;
@@ -18,7 +19,6 @@ class _ItemReportedLostState extends State<ItemReportedLost> {
   @override
   void initState() {
     super.initState();
-    print('reportId: ${widget.reportId}');
   }
 
   void _openImageAt(int startIndex, List<String> images) {
@@ -80,26 +80,55 @@ class _ItemReportedLostState extends State<ItemReportedLost> {
           return const Center(child: CircularProgressIndicator());
         }
         if (snapshot.hasError) {
-          return const Center(child: Text('Oops, something went wrong'));
+          return Center(child: Text(t.common_error_generic));
         }
         if (!snapshot.hasData || !snapshot.data!.exists) {
-          return const Center(child: Text('No information yet'));
+          return Center(child: Text(t.common_empty));
         }
 
         final data = snapshot.data!.data() ?? {};
-        final title = (data['title'] as String?)?.trim() ?? 'Untitled';
-        final description = (data['description'] as String?)?.trim() ?? '—';
+        final title = (data['title'] as String?)?.trim() ?? t.common_untitled;
+        final description =
+            (data['description'] as String?)?.trim() ?? t.label_value_missing;
 
-        String locationText = '—';
         final loc = data['location'];
-        if (loc is GeoPoint) {
-          locationText =
-              '${loc.latitude.toStringAsFixed(5)}, ${loc.longitude.toStringAsFixed(5)}';
-        } else if (loc is String && loc.trim().isNotEmpty) {
-          locationText = loc.trim();
-        } else if (data['address'] is String &&
+        String locationText = t.label_value_missing;
+        if (data['address'] is String &&
             (data['address'] as String).trim().isNotEmpty) {
           locationText = (data['address'] as String).trim();
+        } else {
+          final loc = data['location'];
+          if (loc is GeoPoint) {
+            locationText =
+                '${loc.latitude.toStringAsFixed(5)}, ${loc.longitude.toStringAsFixed(5)}';
+          } else if (loc is String && loc.trim().isNotEmpty) {
+            locationText = loc.trim();
+          }
+        }
+
+        double? lat;
+        double? lng;
+
+        if (loc is GeoPoint) {
+          lat = loc.latitude;
+          lng = loc.longitude;
+        } else if (loc is String && loc.trim().isNotEmpty) {
+          final reg = RegExp(
+            r'\[\s*([-\d\.]+)°\s*([NnSs]),\s*([-\d\.]+)°\s*([EeWw])\s*\]',
+          );
+          final m = reg.firstMatch(loc);
+          if (m != null) {
+            var _lat = double.tryParse(m.group(1)!);
+            var _lng = double.tryParse(m.group(3)!);
+            final ns = m.group(2)!.toUpperCase();
+            final ew = m.group(4)!.toUpperCase();
+            if (_lat != null && _lng != null) {
+              if (ns == 'S') _lat = -_lat;
+              if (ew == 'W') _lng = -_lng;
+              lat = _lat;
+              lng = _lng;
+            }
+          }
         }
 
         final List<String> imgs = (data['images'] as List<dynamic>? ?? const [])
@@ -241,51 +270,67 @@ class _ItemReportedLostState extends State<ItemReportedLost> {
                       ),
                       const SizedBox(height: 10.0),
 
-                      Container(
-                        height: 55,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                            color: const Color.fromRGBO(0, 0, 0, 0.2),
-                            width: 1,
-                          ),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Stack(
-                          children: [
-                            const PositionedDirectional(
-                              top: 0,
-                              bottom: 0,
-                              start: 20,
-                              child: Icon(
-                                IconlyBold.location,
-                                color: Color.fromRGBO(46, 23, 21, 1),
-                                size: 37,
-                              ),
+                      GestureDetector(
+                        onTap: (lat != null && lng != null)
+                            ? () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => ViewOnMapPage(
+                                      latitude: lat!,
+                                      longitude: lng!,
+                                      title: locationText,
+                                    ),
+                                  ),
+                                );
+                              }
+                            : null,
+                        child: Container(
+                          height: 55,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(
+                              color: const Color.fromRGBO(0, 0, 0, 0.2),
+                              width: 1,
                             ),
-                            PositionedDirectional(
-                              top: 18,
-                              start: 100,
-                              child: Text(
-                                locationText,
-                                style: const TextStyle(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Stack(
+                            children: [
+                              const PositionedDirectional(
+                                top: 0,
+                                bottom: 0,
+                                start: 20,
+                                child: Icon(
+                                  IconlyBold.location,
                                   color: Color.fromRGBO(46, 23, 21, 1),
-                                  fontSize: 13,
+                                  size: 37,
                                 ),
                               ),
-                            ),
-                            const PositionedDirectional(
-                              top: 0,
-                              bottom: 0,
-                              end: 10,
-                              child: Icon(
-                                Icons.arrow_forward_ios_rounded,
-                                size: 20,
-                                color: Color.fromRGBO(46, 23, 21, 1),
+                              PositionedDirectional(
+                                top: 18,
+                                start: 100,
+                                child: Text(
+                                  locationText,
+                                  style: const TextStyle(
+                                    color: Color.fromRGBO(46, 23, 21, 1),
+                                    fontSize: 13,
+                                  ),
+                                ),
                               ),
-                            ),
-                          ],
+                              const PositionedDirectional(
+                                top: 0,
+                                bottom: 0,
+                                end: 10,
+                                child: Icon(
+                                  Icons.arrow_forward_ios_rounded,
+                                  size: 20,
+                                  color: Color.fromRGBO(46, 23, 21, 1),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
 
@@ -323,6 +368,132 @@ class _ItemReportedLostState extends State<ItemReportedLost> {
                               color: Color.fromRGBO(46, 23, 21, 1),
                               fontSize: 13,
                             ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 30),
+
+                      FilledButton(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            barrierDismissible: true,
+                            barrierColor: Colors.black54,
+                            builder: (_) => AlertDialog(
+                              backgroundColor: Colors.white,
+                              surfaceTintColor: Colors.transparent,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              elevation: 8,
+                              alignment: Alignment.center,
+                              titlePadding: const EdgeInsets.fromLTRB(
+                                20,
+                                20,
+                                20,
+                                0,
+                              ),
+                              contentPadding: const EdgeInsets.fromLTRB(
+                                20,
+                                10,
+                                20,
+                                20,
+                              ),
+                              actionsPadding: const EdgeInsets.fromLTRB(
+                                20,
+                                0,
+                                20,
+                                20,
+                              ),
+                              title: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    t.dialog_are_you_sure,
+                                    style: const TextStyle(
+                                      color: Color.fromRGBO(46, 23, 21, 1),
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              content: Text(
+                                t.report_cancel_dialog_info,
+                                textAlign: TextAlign.center,
+                              ),
+                              actionsAlignment: MainAxisAlignment.end,
+                              actions: [
+                                FilledButton(
+                                  onPressed: () {
+                                    //hard delete from database then navigate to history
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                  },
+                                  style: FilledButton.styleFrom(
+                                    minimumSize: const Size(
+                                      double.infinity,
+                                      45,
+                                    ),
+                                    backgroundColor: const Color.fromRGBO(
+                                      46,
+                                      23,
+                                      21,
+                                      1,
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    t.btn_confirm,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 10.0),
+                                OutlinedButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  style: OutlinedButton.styleFrom(
+                                    minimumSize: const Size(
+                                      double.infinity,
+                                      45,
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    t.btn_cancel,
+                                    style: const TextStyle(
+                                      color: Color.fromRGBO(46, 23, 21, 1),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                        style: FilledButton.styleFrom(
+                          minimumSize: const Size(170, 45),
+                          backgroundColor: const Color.fromRGBO(166, 91, 91, 1),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        child: Text(
+                          t.btn_cancel,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
                           ),
                         ),
                       ),

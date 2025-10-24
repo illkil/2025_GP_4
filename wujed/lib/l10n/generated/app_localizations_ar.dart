@@ -384,10 +384,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get history_tab_found => 'معثور عليه';
 
   @override
-  String get status_ongoing => 'قيد المتابعة';
+  String get status_ongoing => 'قيد المعالجة';
 
   @override
-  String get status_done => 'تم';
+  String get status_done => 'مكتمل';
 
   @override
   String get status_rejected => 'مرفوض';
@@ -396,7 +396,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get status_match_found => 'تم العثور على تطابق';
 
   @override
-  String get status_expired => 'منتهي الصلاحية';
+  String get status_expired => 'منتهي';
 
   @override
   String get item_title_coffee_brewer => 'آلة تحضير القهوة';
@@ -433,6 +433,14 @@ class AppLocalizationsAr extends AppLocalizations {
       'سيُحذف هذا التطابق نهائيًا. تابع فقط إذا كنت متأكدًا أنه ليس عنصرَك.';
 
   @override
+  String get dialog_confirm_received_note =>
+      'تابع فقط إذا كنت متأكدًا أنك استلمت غرضك.';
+
+  @override
+  String get report_cancel_dialog_info =>
+      'سيتم حذف هذا البلاغ ولن يتم معالجته بعد الآن.';
+
+  @override
   String get btn_accept => 'قبول';
 
   @override
@@ -445,7 +453,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get btn_confirm => 'تأكيد';
 
   @override
-  String get btn_cancel => 'إلغاء';
+  String get btn_cancel => 'حذف';
 
   @override
   String get btn_confirm_receipt => 'تأكيد الاستلام';
@@ -572,4 +580,71 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get btn_send => 'إرسال';
+
+  @override
+  String get common_error_generic => 'عذرًا، حدث خطأ ما';
+
+  @override
+  String get common_empty => 'لا توجد معلومات بعد';
+
+  @override
+  String get common_untitled => 'بدون عنوان';
+
+  @override
+  String get label_value_missing => 'غير متوفر';
+
+  @override
+  String get history_no_found_reports => 'لا توجد بلاغات عثور حتى الآن';
+
+  @override
+  String get history_no_lost_reports => 'لا توجد بلاغات فقدان حتى الآن';
+
+  @override
+  String get pick_location_enable_service_title => 'خدمة الموقع';
+
+  @override
+  String get pick_location_enable_service_body => 'يرجى تفعيل خدمات الموقع.';
+
+  @override
+  String get pick_location_permission_title => 'إذن الموقع';
+
+  @override
+  String get pick_location_permission_body => 'يرجى السماح بإذن الموقع.';
+
+  @override
+  String get pick_location_permission_settings_body =>
+      'يرجى تفعيل إذن الموقع من الإعدادات.';
+
+  @override
+  String get pick_location_error_title => 'خطأ في الموقع';
+
+  @override
+  String get pick_location_error_body =>
+      'تعذّر الحصول على الموقع الحالي. يرجى المحاولة مرة أخرى أو اختيار موقعك يدويًا.';
+
+  @override
+  String get pick_location_tap_hint => 'اضغط على الخريطة لاختيار موقع';
+
+  @override
+  String get title_indicator => 'أحرف متبقية';
+
+  @override
+  String get snackbar_fill_fields => 'يرجى تعبئة العنوان والوصف';
+
+  @override
+  String get snackbar_pick_location => 'يرجى تحديد الموقع';
+
+  @override
+  String snackbar_submit_failed(Object error) {
+    return 'فشل الإرسال: $error';
+  }
+
+  @override
+  String get snackbar_location_set => 'تم تحديد الموقع بنجاح';
+
+  @override
+  String get snackbar_location_not_selected => 'لم يتم تحديد الموقع';
+
+  @override
+  String get report_submitting => 'جاري الإرسال…';
 }

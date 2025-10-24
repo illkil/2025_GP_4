@@ -22,6 +22,23 @@ Color statusToColor(String status) {
   }
 }
 
+String statusToText(AppLocalizations t, String raw) {
+  switch (raw.toLowerCase()) {
+    case 'ongoing':
+      return t.status_ongoing;
+    case 'done':
+      return t.status_done;
+    case 'rejected':
+      return t.status_rejected;
+    case 'match_found':
+      return t.status_match_found;
+    case 'expired':
+      return t.status_expired;
+    default:
+      return raw;
+  }
+}
+
 class LostHistory extends StatefulWidget {
   const LostHistory({super.key});
 
@@ -53,13 +70,13 @@ class _LostHistoryState extends State<LostHistory> {
 
         //2. if error
         if (snapshot.hasError) {
-          return const Center(child: Text('Oops, something went wrong'));
+          return Center(child: Text(t.common_error_generic));
         }
 
         //3. if no data is returned (empty)
         final docs = snapshot.data?.docs ?? [];
         if (docs.isEmpty) {
-          return const Center(child: Text('No lost reports yet'));
+          return Center(child: Text(t.history_no_lost_reports));
         }
 
         //4. otherwise list data
@@ -75,7 +92,7 @@ class _LostHistoryState extends State<LostHistory> {
 
             final title = (data['title'] as String?)?.trim().isNotEmpty == true
                 ? data['title']
-                : 'Untitled';
+                : t.common_untitled;
 
             final ts = data['createdAt'] as Timestamp?;
             final date = ts?.toDate() ?? DateTime.now();
@@ -111,192 +128,6 @@ class _LostHistoryState extends State<LostHistory> {
         );
       },
     );
-
-    /*return ListView(
-      clipBehavior: Clip.none,
-      children: [
-        Container(
-          height: 100.0,
-          width: 360.0,
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Color.fromRGBO(0, 0, 0, 0.05),
-                offset: Offset(4, 4),
-                blurRadius: 16,
-                spreadRadius: 0,
-              ),
-            ],
-          ),
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: Colors.white,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                height: 100.0,
-                child: Stack(
-                  children: [
-                    SizedBox(
-                      height: 80.0,
-                      width: 80.0,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Color.fromRGBO(0, 0, 0, 0.2),
-                            width: 1,
-                          ),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: Image.asset(
-                            'lib/assets/images/CoffeeBrew.WEBP',
-                          ),
-                        ),
-                      ),
-                    ),
-                    Stack(
-                      children: [
-                        PositionedDirectional(
-                          top: 5,
-                          start: 95,
-                          child: Text(
-                            t.item_title_coffee_brewer,
-                            style: TextStyle(
-                              color: Color.fromRGBO(46, 23, 21, 1),
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                        PositionedDirectional(
-                          top: 30,
-                          start: 95,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                Icons.calendar_month_rounded,
-                                size: 16,
-                                color: Colors.grey.shade500,
-                              ),
-                              SizedBox(width: 5.0),
-                              Text(
-                                formatDate(context, DateTime(2025, 1, 1)),
-                                style: TextStyle(
-                                  color: Colors.grey.shade500,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        PositionedDirectional(
-                          top: 57,
-                          start: 95,
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Icon(
-                                Icons.circle,
-                                size: 12,
-                                color: notFound
-                                    ? Color.fromRGBO(255, 204, 92, 1)
-                                    : Color.fromRGBO(25, 176, 0, 1),
-                              ),
-                              SizedBox(width: 5.0),
-                              Text(
-                                notFound ? t.status_ongoing : t.status_done,
-                                style: TextStyle(
-                                  color: notFound
-                                      ? Color.fromRGBO(255, 204, 92, 1)
-                                      : Color.fromRGBO(25, 176, 0, 1),
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                    PositionedDirectional(
-                      top: 0,
-                      bottom: 0,
-                      end: 0,
-                      child: IconButton(
-                        onPressed: () async {
-                          final result = await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return ItemReportedLost();
-                              },
-                            ),
-                          );
-                          if (result == 'Done') {
-                            setState(() {
-                              notFound = false;
-                            });
-                          }
-                        },
-                        icon: Icon(Icons.arrow_forward_ios_rounded, size: 20),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-
-        SizedBox(height: 15.0),
-
-        // Item 2
-        historyItem(
-          context,
-          "Item2",
-          DateTime(2000, 1, 1),
-          t.status_done,
-          Color.fromRGBO(25, 176, 0, 1),
-        ),
-
-        SizedBox(height: 15.0),
-
-        // Item 3
-        historyItem(
-          context,
-          "Item3",
-          DateTime(2000, 1, 1),
-          t.status_rejected,
-          Color.fromRGBO(211, 47, 47, 1),
-        ),
-
-        SizedBox(height: 15.0),
-
-        // Item 4
-        historyItem(
-          context,
-          "Item4",
-          DateTime(2000, 1, 1),
-          t.status_match_found,
-          Color.fromRGBO(0, 111, 255, 1),
-        ),
-
-        SizedBox(height: 15.0),
-
-        // Item 5
-        historyItem(
-          context,
-          "Item5",
-          DateTime(2000, 1, 1),
-          t.status_expired,
-          Color.fromRGBO(125, 132, 141, 1),
-        ),
-      ],
-    );*/
   }
 
   Widget historyItem(
@@ -307,6 +138,7 @@ class _LostHistoryState extends State<LostHistory> {
     Color color, [
     String? imageUrl,
   ]) {
+    final t = AppLocalizations.of(context);
     return Container(
       height: 100.0,
       width: 360.0,
@@ -406,7 +238,7 @@ class _LostHistoryState extends State<LostHistory> {
                           Icon(Icons.circle, size: 12, color: color),
                           SizedBox(width: 5.0),
                           Text(
-                            status,
+                            statusToText(t, status),
                             style: TextStyle(
                               color: color,
                               fontWeight: FontWeight.bold,

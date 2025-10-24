@@ -7,6 +7,7 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:wujed/services/report_service.dart';
+import 'package:flutter/services.dart';
 
 class ReportFoundPage extends StatefulWidget {
   const ReportFoundPage({super.key});
@@ -22,14 +23,22 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
   Widget? uploadPhoto;
 
   final int _maxLength = 300;
-
   final _picker = ImagePicker();
   List<File> _images = [];
-
   GeoPoint? _geo;
   String? _address;
-
   bool _submitting = false;
+
+  @override
+  void initState() {
+    super.initState();
+    controllerDescription.addListener(() {
+      setState(() {});
+    });
+    controllerTitle.addListener(() {
+      setState(() {});
+    });
+  }
 
   @override
   void didChangeDependencies() {
@@ -45,9 +54,7 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
       resizeToAvoidBottomInset: true,
       backgroundColor: Colors.white,
       body: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).unfocus();
-        },
+        onTap: () => FocusScope.of(context).unfocus(),
         child: Center(
           child: SingleChildScrollView(
             padding: const EdgeInsets.all(20.0),
@@ -71,23 +78,25 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
                     fontSize: 18.0,
                   ),
                 ),
-
                 const SizedBox(height: 10.0),
-
                 Text(
                   t.report_required_details,
                   style: TextStyle(fontSize: 16.0, color: textColor),
                 ),
-
                 const SizedBox(height: 40.0),
-
                 _buildLabel(t.report_title_label, required: true),
-
                 const SizedBox(height: 10.0),
-
                 TextField(
                   controller: controllerTitle,
                   autocorrect: false,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(
+                      RegExp(
+                        r'[a-zA-Z0-9\u0660-\u0669\u0621-\u064A\u064B-\u0652\u0640\s]',
+                      ),
+                    ),
+                  ],
+
                   decoration: InputDecoration(
                     hintText: t.report_title_hint,
                     hintStyle: TextStyle(
@@ -105,17 +114,11 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
                       ),
                     ),
                   ),
-                  onEditingComplete: () {
-                    FocusScope.of(context).unfocus();
-                  },
+                  onEditingComplete: () => FocusScope.of(context).unfocus(),
                 ),
-
                 const SizedBox(height: 20.0),
-
                 _buildLabel(t.report_photo_label, required: true),
-
                 const SizedBox(height: 10.0),
-
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -124,13 +127,9 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
                     _imagesPreview(),
                   ],
                 ),
-
                 const SizedBox(height: 20.0),
-
                 _buildLabel(t.report_location_label, required: true),
-
                 const SizedBox(height: 10.0),
-
                 OutlinedButton(
                   onPressed: () async {
                     final result = await Navigator.push(
@@ -140,10 +139,6 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
                       ),
                     );
 
-                    // Log the result (optional for debugging)
-                    print('[PickLocation] Returned: $result');
-
-                    // If the result is a Map with lat/lng (like {'lat': 24.7, 'lng': 46.6, 'address': 'KSU'})
                     if (result is Map &&
                         result['lat'] != null &&
                         result['lng'] != null) {
@@ -158,20 +153,17 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
                             .join(', ');
                       });
 
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('✅ Location set successfully'),
-                        ),
+                      _showSnackBar(
+                        t.snackbar_location_set,
+                        Icons.check_circle,
                       );
                     } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('⚠️ Location not selected'),
-                        ),
+                      _showSnackBar(
+                        t.snackbar_location_not_selected,
+                        Icons.warning,
                       );
                     }
                   },
-
                   style: OutlinedButton.styleFrom(
                     minimumSize: const Size(double.infinity, 55),
                     shape: RoundedRectangleBorder(
@@ -208,18 +200,22 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 20.0),
-
                 _buildLabel(t.report_description_label, required: true),
-
                 const SizedBox(height: 10.0),
-
                 TextField(
                   controller: controllerDescription,
                   autocorrect: false,
                   maxLength: _maxLength,
                   maxLines: 6,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(
+                      RegExp(
+                        r'[a-zA-Z0-9\u0660-\u0669\u0621-\u064A\u064B-\u0652\u0640\s]',
+                      ),
+                    ),
+                  ],
+
                   decoration: InputDecoration(
                     hintText: t.report_description_hint,
                     hintStyle: TextStyle(
@@ -241,22 +237,22 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
                     ),
                     counterStyle: TextStyle(
                       fontSize: 12,
-                      color: Colors.grey.shade400,
+                      color:
+                          (_maxLength - controllerDescription.text.length) <= 0
+                          ? Colors.red
+                          : Colors.grey.shade400,
                     ),
                   ),
-                  onEditingComplete: () {
-                    FocusScope.of(context).unfocus();
-                  },
+                  onEditingComplete: () => FocusScope.of(context).unfocus(),
                 ),
-
                 const SizedBox(height: 30.0),
-
                 FilledButton(
                   onPressed: _submitting
                       ? null
                       : () => _submitFoundReport(
                           title: controllerTitle.text,
                           description: controllerDescription.text,
+                          t: t,
                         ),
                   style: FilledButton.styleFrom(
                     minimumSize: const Size(double.infinity, 50),
@@ -266,14 +262,13 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
                     ),
                   ),
                   child: Text(
-                    _submitting ? 'Submitting…' : t.report_submit_button,
+                    _submitting ? t.report_submitting : t.report_submit_button,
                     style: const TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 50.0),
               ],
             ),
@@ -285,7 +280,7 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
 
   Future<void> _pickImages() async {
     final picks = await _picker.pickMultiImage(imageQuality: 85);
-    if (picks == null || picks.isEmpty) return;
+    if (picks.isEmpty) return;
     setState(() {
       _images = picks.map((x) => File(x.path)).toList();
     });
@@ -294,17 +289,17 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
   Widget _imagesPreview() {
     if (_images.isEmpty) return const SizedBox.shrink();
     return SizedBox(
-      height: 90,
+      height: 170,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: _images.length,
         separatorBuilder: (_, __) => const SizedBox(width: 8),
         itemBuilder: (_, i) => ClipRRect(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(20),
           child: Image.file(
             _images[i],
-            width: 90,
-            height: 90,
+            height: 160,
+            width: 160,
             fit: BoxFit.cover,
           ),
         ),
@@ -315,19 +310,16 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
   Future<void> _submitFoundReport({
     required String title,
     required String description,
+    required AppLocalizations t,
     String? category,
   }) async {
     if (_submitting) return;
     if (title.trim().isEmpty || description.trim().isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please fill title and description')),
-      );
+      _showSnackBar(t.snackbar_fill_fields, Icons.warning);
       return;
     }
     if (_geo == null) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Please pick a location')));
+      _showSnackBar(t.snackbar_pick_location, Icons.warning);
       return;
     }
 
@@ -351,12 +343,39 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
       );
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Submit failed: $e')));
+      _showSnackBar(t.snackbar_submit_failed(e.toString()), Icons.error);
     } finally {
       if (mounted) setState(() => _submitting = false);
     }
+  }
+
+  void _showSnackBar(String message, IconData icon) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            Icon(icon, color: Colors.black),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                message,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          ],
+        ),
+        backgroundColor: const Color(0xFFFFE4B3),
+        duration: const Duration(seconds: 3),
+        behavior: SnackBarBehavior.floating,
+        margin: const EdgeInsets.all(20),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        elevation: 10,
+      ),
+    );
   }
 
   Widget _buildLabel(String text, {bool required = false}) {
@@ -383,7 +402,6 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
 
   Widget buildUploadButton() {
     final t = AppLocalizations.of(context);
-
     return OutlinedButton(
       onPressed: _pickImages,
       style: OutlinedButton.styleFrom(
@@ -417,128 +435,5 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
         ),
       ),
     );
-  }
-
-  void onUploadPhoto() {
-    setState(() {
-      uploadPhoto = Stack(
-        clipBehavior: Clip.none,
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: const Color.fromRGBO(0, 0, 0, 0.2),
-                width: 1,
-              ),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: Image.asset(
-                'lib/assets/images/CoffeeBrew.WEBP',
-                height: 160,
-                width: 160,
-              ),
-            ),
-          ),
-          PositionedDirectional(
-            bottom: -10,
-            end: -10,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(
-                  color: const Color.fromRGBO(46, 23, 21, 1),
-                  width: 0.5,
-                ),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: IconButton(
-                icon: const Icon(
-                  IconlyBold.camera,
-                  color: Color.fromRGBO(46, 23, 21, 1),
-                  size: 37,
-                ),
-                onPressed: () => onIconButtonPressed(),
-              ),
-            ),
-          ),
-        ],
-      );
-    });
-  }
-
-  void onIconButtonPressed() {
-    setState(() {
-      uploadPhoto = Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: const Color.fromRGBO(0, 0, 0, 0.2),
-                width: 1,
-              ),
-              borderRadius: const BorderRadiusDirectional.only(
-                topStart: Radius.circular(20),
-                bottomStart: Radius.circular(20),
-              ),
-            ),
-            child: ClipRRect(
-              borderRadius: const BorderRadiusDirectional.only(
-                topStart: Radius.circular(17),
-                bottomStart: Radius.circular(17),
-              ),
-              child: Image.asset(
-                'lib/assets/images/CoffeeBrew.WEBP',
-                height: 160,
-                width: 160,
-              ),
-            ),
-          ),
-          const SizedBox(width: 5.0),
-          Container(
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: const Color.fromRGBO(0, 0, 0, 0.2),
-                width: 1,
-              ),
-              borderRadius: const BorderRadiusDirectional.only(
-                topEnd: Radius.circular(17),
-                bottomEnd: Radius.circular(17),
-              ),
-            ),
-            child: ClipRRect(
-              borderRadius: const BorderRadiusDirectional.only(
-                topEnd: Radius.circular(20),
-                bottomEnd: Radius.circular(20),
-              ),
-              child: Image.asset(
-                'lib/assets/images/CoffeeBrew2.jpg',
-                height: 160,
-                width: 160,
-              ),
-            ),
-          ),
-        ],
-      );
-    });
-  }
-
-  void onSubmitPressed(AppLocalizations t) {
-    final title = controllerTitle.text.trim();
-    final description = controllerDescription.text;
-
-    if (title.isEmpty || description.isEmpty) {
-      setState(() {
-        textColor = const Color.fromRGBO(211, 47, 47, 1);
-      });
-    } else {
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => const SubmitSuccessfullyPage()),
-        (route) => false,
-      );
-    }
   }
 }
