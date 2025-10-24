@@ -3,12 +3,10 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Dashboard · Home</title>
+<title data-i18n="dashboardTitle">Dashboard · Home</title>
 <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
 <link rel="stylesheet" href="./css/Home.css" />
 <link rel="icon" type="image/png" href="images/Logo.png">
-<script src="./js/lang.js"></script>
-
 </head>
 <body>
 
@@ -50,13 +48,12 @@
 
   <!-- Main content -->
   <main class="content">
-    <div class="crumbs" data-i18n="dashboardTitle">Home</div>
 
     <div class="center-wrap">
       <div class="center-card" aria-labelledby="welcome">
       <h1 id="welcome" class="welcome">
         <span data-i18n="welcome">Welcome,</span>
-        <span id="hiName">Ahlam!</span>
+        <span id="hiName">!</span>
       </h1>
 
         <p class="subtitle" data-i18n="subtitle">
@@ -73,87 +70,18 @@
 </div>
 
 <script>
+  // Profile popover
   const profileBtn = document.getElementById('profileBtn');
   const profilePanel = document.getElementById('profilePopover');
+  function closeProfile(){ profilePanel.classList.remove('show'); }
+  profileBtn.addEventListener('click',(e)=>{ e.stopPropagation(); profilePanel.classList.toggle('show'); });
+  document.addEventListener('click',(e)=>{ if(!profilePanel.contains(e.target)&&!profileBtn.contains(e.target)){ closeProfile(); } });
+  document.getElementById('ppLang')?.addEventListener('click',()=>{ closeProfile(); switchLanguage(); });
+  document.getElementById('ppLogout')?.addEventListener('click',()=>{ closeProfile(); if(confirm('Are you sure you want to log out?')){ window.location.href='Sign-In.html'; } });
 
-  function closeProfile() {
-    profilePanel.classList.remove('show');
-  }
 
-  profileBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    profilePanel.classList.toggle('show');
-  });
-
-  document.addEventListener('click', (e) => {
-    if (!profilePanel.contains(e.target) && !profileBtn.contains(e.target)) {
-      closeProfile();
-    }
-  });
-
-  document.getElementById('ppLang')?.addEventListener('click', () => {
-    closeProfile();
-    switchLanguage();
-  });
-
-  document.getElementById('ppLogout')?.addEventListener('click', () => {
-    closeProfile();
-    const confirmed = confirm('Are you sure you want to log out?');
-    if (confirmed) {
-      // Redirect to login page or handle logout
-      window.location.href = 'Sign-In.html';
-    }
-  });
 </script>
-<script type="module">
-  import { auth, db } from "./js/firebase-init.js";
-  import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
-  import { doc, getDoc } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
-
-  // ننتظر الصفحة كاملة تتجهز قبل تنفيذ أي شي
-  window.addEventListener("DOMContentLoaded", () => {
-    const nameInWelcome = document.getElementById("hiName");
-    const nameInProfile = document.querySelector(".pname");
-
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        try {
-          const docRef = doc(db, "users", user.uid);
-          const docSnap = await getDoc(docRef);
-
-          if (docSnap.exists()) {
-            const data = docSnap.data();
-            console.log("User data:", data);
-
-            // دعم للحقلين سواء كان firstName أو first_name
-            const firstName = data.firstName || data.first_name || "User";
-
-            if (nameInWelcome) nameInWelcome.textContent = firstName + "!";
-            if (nameInProfile) nameInProfile.textContent = firstName;
-          } else {
-            console.warn("User document not found in Firestore.");
-            if (nameInWelcome) nameInWelcome.textContent = "User!";
-            if (nameInProfile) nameInProfile.textContent = "User";
-          }
-        } catch (error) {
-          console.error("Error loading user data:", error);
-        }
-      } else {
-        window.location.href = "Sign-In.html";
-      }
-    });
-
-    // تسجيل الخروج
-    document.getElementById("ppLogout")?.addEventListener("click", async () => {
-      const confirmed = confirm("Are you sure you want to log out?");
-      if (confirmed) {
-        await signOut(auth);
-        window.location.href = "Sign-In.html";
-      }
-    });
-  });
-</script>
-
-
+<script src="./js/lang.js"></script>
+<script type="module" src="./js/profile.js"></script>
 </body>
 </html>
