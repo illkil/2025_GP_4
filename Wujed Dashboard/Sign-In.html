@@ -99,89 +99,57 @@
     }
   });
 </script>
-<!-- Firebase SDKs -->
+<!-- Firebase  -->
 <script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
+  import { auth, db } from "./js/firebase-init.js";
+  import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
+  import { doc, getDoc } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
 
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyCPkVS7MeUx74qLyWXxbs2eFCsciP1LCkw",
-    authDomain: "wujed-ffc1f.firebaseapp.com",
-    projectId: "wujed-ffc1f",
-    storageBucket: "wujed-ffc1f.firebasestorage.app",
-    messagingSenderId: "743280664993",
-    appId: "1:743280664993:web:d7d8663557e22abaa52be0",
-    measurementId: "G-HR41CC0Y84"
-  };
+  window.addEventListener("DOMContentLoaded", () => {
+    const msgInfo = document.getElementById("msgInfo");
+    const msgError = document.getElementById("msgError");
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-  /*if(app){
-    console.log("Firebase initialized successfully");
-  }
-    
-  else{
-    console.log("Firebase initialization failed");
-  }*/
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
 
-import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
-import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
+      try {
+        // 1️⃣ Sign in
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
 
-const auth = getAuth(app);
-const db = getFirestore(app);
+        // 2️⃣ Fetch user doc from Firestore
+        const docRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(docRef);
 
-window.addEventListener("DOMContentLoaded", () => {
-  const msgInfo = document.getElementById("msgInfo");
-  const msgError = document.getElementById("msgError");
+        if (docSnap.exists()) {
+          const role = docSnap.data().role || "user";
 
-  document.getElementById("loginForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value.trim();
-
-    try {
-      // 1️⃣ Sign in
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-
-      // 2️⃣ Fetch user doc from Firestore
-      const docRef = doc(db, "users", user.uid);
-      const docSnap = await getDoc(docRef);
-
-      if (docSnap.exists()) {
-        const role = docSnap.data().role || "user";
-
-        if (role === "admin") {
-          msgError.classList.remove("show");
-          msgInfo.classList.add("show");
-          window.location.href = "Home.html";
+          if (role === "admin") {
+            msgError.classList.remove("show");
+            msgInfo.classList.add("show");
+            window.location.href = "Home.html";
+          } else {
+            msgInfo.classList.remove("show");
+            msgError.classList.add("show");
+            msgError.textContent = currentTranslations.adminDenied;
+          }
         } else {
           msgInfo.classList.remove("show");
           msgError.classList.add("show");
-          msgError.textContent = currentTranslations.adminDenied;
+          msgError.textContent = "User data not found.";
         }
-      } else {
+      } catch (error) {
+        console.error("Login failed:", error);
         msgInfo.classList.remove("show");
         msgError.classList.add("show");
-        msgError.textContent = "User data not found.";
+        msgError.textContent = currentTranslations.msgError2;
       }
-    } catch (error) {
-      console.error("Login failed:", error);
-      msgInfo.classList.remove("show");
-      msgError.classList.add("show");
-      msgError.textContent = currentTranslations.msgError2;
-    }
+    });
   });
-});
-
 </script>
+
 </body>
 </html>
