@@ -1,0 +1,109 @@
+  :root{
+    --bg:#2E1715;
+    --card:#ffffff;
+    --text:#1B1E28;
+    --text80:rgba(27,30,40,.8);
+    --muted:#7D848D;
+    --stroke:rgba(0,0,0,.2);
+    --btn:#2E1715;
+    --btn-inactive:#C4C4C4;
+    --radius-card:20px;
+    --radius-input:8px;
+    --radius-btn:15px;
+  }
+  *{ box-sizing:border-box; }
+  body{
+    margin:0; min-height:100vh;
+    display:flex; align-items:center; justify-content:center;
+    background:var(--bg);
+    font-family:"Segoe UI", Arial, sans-serif; color:var(--text);
+  }
+
+  .card{
+    width:500px; height:500px; background:var(--card);
+    border-radius:var(--radius-card);
+    display:flex; flex-direction:column; align-items:center;
+    padding:80px 0;
+    box-shadow:0 10px 30px rgba(0,0,0,.18);
+  }
+
+  /* Top row: grid centers title, prevents overlap */
+  .top{
+    width:335px;
+    display:grid;
+    grid-template-columns:36px 1fr 36px; /* back | title | spacer */
+    align-items:center;
+    margin-bottom:8px;
+    position:relative; z-index:10;
+  }
+  .back{
+    width:36px; height:36px; border-radius:20%;
+    background:#f3f0ef;
+    display:flex; align-items:center; justify-content:center;
+    border:none; color:#3b2b29; text-decoration:none;
+    cursor:pointer;
+  }
+  .top .spacer{ width:36px; height:36px; }
+
+  h1{
+    font-size:30px; margin:0; font-weight:700; color:var(--text);
+    text-align:center;
+  }
+
+  .message-wrap{
+    position:relative; width:335px; height:64px; margin:0 0 24px; overflow:hidden;
+  }
+  .message{
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    text-align:center; font-size:24px; line-height:1.3; font-weight:500;
+    transition:opacity .25s ease; opacity:0; padding:0 6px; color:var(--text80);
+    pointer-events:none; /* never block clicks below */
+  }
+  #msgError{ color:#d33; }
+  .message.show{ opacity:1; }
+
+  form{
+    display:flex; flex-direction:column; align-items:center; gap:16px; width:100%;
+  }
+  .field-group{ display:flex; flex-direction:column; gap:6px; align-items:center; }
+  label{ width:335px; font-size:20px; color:var(--text80); font-weight:500; }
+  .field{
+    width:335px; height:55px; background:#fff;
+    border:1px solid var(--stroke); border-radius:var(--radius-input);
+    display:flex; align-items:center; padding:0 12px;
+  }
+  input[type="text"]{
+    width:100%; height:100%; border:none; outline:none; background:transparent;
+    font-size:20px; color:var(--text80); letter-spacing:.12em;
+  }
+
+  .submit{
+    width:245px; height:55px;
+    border:none; border-radius:var(--radius-btn);
+    font-size:20px; font-weight:600; color:#fff;
+    background:var(--btn-inactive); cursor:not-allowed;
+    transition:background .2s ease, opacity .2s ease, transform .04s ease;
+  }
+  .submit.enabled{ background:var(--btn); cursor:pointer; }
+  .submit.enabled:hover{ opacity:.9; }
+  .submit.enabled:active{ transform:translateY(1px); }
+
+  /* Resend row like your design: text left, timer right */
+  .resend-row{
+    width:335px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-top:8px;
+    color:var(--muted);
+  }
+  .resend-btn{
+    background:none; border:none; padding:0;
+    font-size:18px; color:var(--muted);
+    cursor:pointer;
+  }
+  .resend-btn[disabled]{ cursor:not-allowed; opacity:.7; }
+  .resend-time{
+    font-size:18px; color:var(--muted);
+    min-width:48px; text-align:right;
+  }
