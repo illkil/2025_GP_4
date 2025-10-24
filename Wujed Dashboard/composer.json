@@ -1,0 +1,15 @@
+{
+    "name": "haloo/wujeddashboard",
+    "autoload": {
+        "psr-4": {
+            "Haloo\\Wujeddashboard\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "v",
+            "email": "halooh2004@gmail.com"
+        }
+    ],
+    "require": {}
+}
