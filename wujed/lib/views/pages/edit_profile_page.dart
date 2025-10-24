@@ -292,7 +292,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   TextInputType.phone,
                   [FilteringTextInputFormatter.digitsOnly],
                   hint: userData['phone_number'] == ''
-                      ? '5XXXXXXXX'
+                      ? t.phone_placeholder
                       : userData['phone_number'],
                   isPhone: true,
                 ),
@@ -391,6 +391,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     final firstName = _controllerFirstName.text.trim();
     final lastName = _controllerLastName.text.trim();
     final phoneNumber = _controllerPhoneNumber.text.trim();
+    final t = AppLocalizations.of(context);
 
     final user = FirebaseAuth.instance.currentUser;
 
@@ -410,7 +411,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 Icon(Icons.new_releases_rounded, color: Colors.white),
                 const SizedBox(width: 10),
                 Text(
-                  "No new data enterd",
+                  t.no_new_data_entered,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
@@ -471,7 +472,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 Icon(Icons.check_circle, color: Colors.white),
                 const SizedBox(width: 10),
                 Text(
-                  "Profile updated successfully!",
+                  t.profile_update_success,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
@@ -493,7 +494,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
         Navigator.pop(context, true); //go back to profile page
       }
     } catch (e) {
-      print('Error updating profile: $e');
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Row(
@@ -501,7 +501,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               Icon(Icons.check_circle, color: Colors.white),
               const SizedBox(width: 10),
               Text(
-                "Failed updating profile",
+                t.profile_update_failed,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
@@ -590,10 +590,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   void validateFirstName() {
     final firstName = _controllerFirstName.text.trim();
+    final t = AppLocalizations.of(context);
 
     if (firstName.length < 2) {
       setState(() {
-        firstNameWarning = 'First name must be at least 2 characters';
+        firstNameWarning = t.first_name_too_short;
         firstNameValid = false;
       });
       return;
@@ -609,10 +610,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   void validateLastName() {
     final lastName = _controllerLastName.text.trim();
+    final t = AppLocalizations.of(context);
 
     if (lastName.length < 2) {
       setState(() {
-        lastNameWarning = 'Last name must be at least 2 characters';
+        lastNameWarning = t.last_name_too_short;
         lastNameValid = false;
       });
       return;
@@ -628,10 +630,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   void validatePhoneNumber() {
     final phoneNumber = _controllerPhoneNumber.text.trim();
+    final t = AppLocalizations.of(context);
 
     if (phoneNumber.length != 9) {
       setState(() {
-        phoneNumberWarning = 'Phone number must be exactly 9 numbers';
+        phoneNumberWarning = t.phone_invalid_length;
         phoneNumberValid = false;
       });
       return;

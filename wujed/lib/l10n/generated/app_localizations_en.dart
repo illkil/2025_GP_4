@@ -381,21 +381,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get history_tab_found => 'Found';
 
   @override
-  String get status_ongoing => 'Ongoing';
-
-  @override
-  String get status_done => 'Done';
-
-  @override
-  String get status_rejected => 'Rejected';
-
-  @override
-  String get status_match_found => 'Match found';
-
-  @override
-  String get status_expired => 'Expired';
-
-  @override
   String get item_title_coffee_brewer => 'Coffee Brewer';
 
   @override
@@ -554,12 +539,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get placeholder_not_provided => 'Not provided';
 
   @override
-  String get label_email => 'Email';
-
-  @override
-  String get label_username => 'Username';
-
-  @override
   String get edit_profile_title => 'Edit Profile';
 
   @override
@@ -593,10 +572,46 @@ class AppLocalizationsEn extends AppLocalizations {
   String get label_value_missing => 'Not provided';
 
   @override
+  String get phone_placeholder => '5XXXXXXXX';
+
+  @override
+  String get no_new_data_entered => 'No new data entered';
+
+  @override
+  String get profile_update_success => 'Profile updated successfully!';
+
+  @override
+  String get profile_update_failed => 'Failed updating profile';
+
+  @override
+  String get first_name_too_short => 'First name must be at least 2 characters';
+
+  @override
+  String get last_name_too_short => 'Last name must be at least 2 characters';
+
+  @override
+  String get phone_invalid_length => 'Phone number must be exactly 9 numbers';
+
+  @override
   String get history_no_found_reports => 'No found reports yet';
 
   @override
   String get history_no_lost_reports => 'No lost reports yet';
+
+  @override
+  String get status_ongoing => 'Ongoing';
+
+  @override
+  String get status_done => 'Done';
+
+  @override
+  String get status_rejected => 'Rejected';
+
+  @override
+  String get status_match_found => 'Match found';
+
+  @override
+  String get status_expired => 'Expired';
 
   @override
   String get pick_location_enable_service_title => 'Location Service';

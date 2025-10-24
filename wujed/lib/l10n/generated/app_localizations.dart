@@ -794,36 +794,6 @@ abstract class AppLocalizations {
   /// **'Found'**
   String get history_tab_found;
 
-  /// No description provided for @status_ongoing.
-  ///
-  /// In en, this message translates to:
-  /// **'Ongoing'**
-  String get status_ongoing;
-
-  /// No description provided for @status_done.
-  ///
-  /// In en, this message translates to:
-  /// **'Done'**
-  String get status_done;
-
-  /// No description provided for @status_rejected.
-  ///
-  /// In en, this message translates to:
-  /// **'Rejected'**
-  String get status_rejected;
-
-  /// No description provided for @status_match_found.
-  ///
-  /// In en, this message translates to:
-  /// **'Match found'**
-  String get status_match_found;
-
-  /// No description provided for @status_expired.
-  ///
-  /// In en, this message translates to:
-  /// **'Expired'**
-  String get status_expired;
-
   /// No description provided for @item_title_coffee_brewer.
   ///
   /// In en, this message translates to:
@@ -1118,18 +1088,6 @@ abstract class AppLocalizations {
   /// **'Not provided'**
   String get placeholder_not_provided;
 
-  /// No description provided for @label_email.
-  ///
-  /// In en, this message translates to:
-  /// **'Email'**
-  String get label_email;
-
-  /// No description provided for @label_username.
-  ///
-  /// In en, this message translates to:
-  /// **'Username'**
-  String get label_username;
-
   /// No description provided for @edit_profile_title.
   ///
   /// In en, this message translates to:
@@ -1196,6 +1154,48 @@ abstract class AppLocalizations {
   /// **'Not provided'**
   String get label_value_missing;
 
+  /// No description provided for @phone_placeholder.
+  ///
+  /// In en, this message translates to:
+  /// **'5XXXXXXXX'**
+  String get phone_placeholder;
+
+  /// No description provided for @no_new_data_entered.
+  ///
+  /// In en, this message translates to:
+  /// **'No new data entered'**
+  String get no_new_data_entered;
+
+  /// No description provided for @profile_update_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile updated successfully!'**
+  String get profile_update_success;
+
+  /// No description provided for @profile_update_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed updating profile'**
+  String get profile_update_failed;
+
+  /// No description provided for @first_name_too_short.
+  ///
+  /// In en, this message translates to:
+  /// **'First name must be at least 2 characters'**
+  String get first_name_too_short;
+
+  /// No description provided for @last_name_too_short.
+  ///
+  /// In en, this message translates to:
+  /// **'Last name must be at least 2 characters'**
+  String get last_name_too_short;
+
+  /// No description provided for @phone_invalid_length.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number must be exactly 9 numbers'**
+  String get phone_invalid_length;
+
   /// No description provided for @history_no_found_reports.
   ///
   /// In en, this message translates to:
@@ -1207,6 +1207,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No lost reports yet'**
   String get history_no_lost_reports;
+
+  /// No description provided for @status_ongoing.
+  ///
+  /// In en, this message translates to:
+  /// **'Ongoing'**
+  String get status_ongoing;
+
+  /// No description provided for @status_done.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get status_done;
+
+  /// No description provided for @status_rejected.
+  ///
+  /// In en, this message translates to:
+  /// **'Rejected'**
+  String get status_rejected;
+
+  /// No description provided for @status_match_found.
+  ///
+  /// In en, this message translates to:
+  /// **'Match found'**
+  String get status_match_found;
+
+  /// No description provided for @status_expired.
+  ///
+  /// In en, this message translates to:
+  /// **'Expired'**
+  String get status_expired;
 
   /// No description provided for @pick_location_enable_service_title.
   ///

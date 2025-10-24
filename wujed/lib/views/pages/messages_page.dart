@@ -42,7 +42,7 @@ class _MessagesPageState extends State<MessagesPage> {
                     ),
                   );
                 },
-                child: MessageTile(
+                child: MessageRow(
                   name: name,
                   subtitle: t.messages_items_matched,
                   time: '',
@@ -60,7 +60,7 @@ class _MessagesPageState extends State<MessagesPage> {
                     ),
                   );
                 },
-                child: MessageTile(
+                child: MessageRow(
                   name: name,
                   subtitle: "${t.messages_you_prefix} ${t.chat_great_do}",
                   time: '09:46 PM',

@@ -149,12 +149,6 @@
   "history_tab_lost": "مفقود",
   "history_tab_found": "معثور عليه",
 
-  "status_ongoing": "قيد المتابعة",
-  "status_done": "تم",
-  "status_rejected": "مرفوض",
-  "status_match_found": "تم العثور على تطابق",
-  "status_expired": "منتهي الصلاحية",
-
   "item_title_coffee_brewer": "آلة تحضير القهوة",
   "item_title_coffee_mug": "كوب قهوة",
 
@@ -230,6 +224,13 @@
   "label_email": "الايميل",
   "label_username": "اسم المستخدم",
   "placeholder_not_provided": "غير متوفر",
+  "phone_placeholder": "5XXXXXXXX",
+  "no_new_data_entered": "لا توجد بيانات جديدة",
+  "profile_update_success": "تم تحديث الملف الشخصي بنجاح!",
+  "profile_update_failed": "فشل تحديث الملف الشخصي",
+  "first_name_too_short": "يجب أن يكون الاسم الأول حرفين فأكثر",
+  "last_name_too_short": "يجب أن يكون اسم العائلة حرفين فأكثر",
+  "phone_invalid_length": "يجب أن يتكون رقم الجوال من 9 أرقام",
 
   "edit_profile_title": "تعديل الملف الشخصي",
   "edit_profile_change_picture": "تغيير صورة الملف الشخصي",

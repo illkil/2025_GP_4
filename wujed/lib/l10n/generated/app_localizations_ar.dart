@@ -384,21 +384,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get history_tab_found => 'معثور عليه';
 
   @override
-  String get status_ongoing => 'قيد المعالجة';
-
-  @override
-  String get status_done => 'مكتمل';
-
-  @override
-  String get status_rejected => 'مرفوض';
-
-  @override
-  String get status_match_found => 'تم العثور على تطابق';
-
-  @override
-  String get status_expired => 'منتهي';
-
-  @override
   String get item_title_coffee_brewer => 'آلة تحضير القهوة';
 
   @override
@@ -555,12 +540,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get placeholder_not_provided => 'غير متوفر';
 
   @override
-  String get label_email => 'الايميل';
-
-  @override
-  String get label_username => 'اسم المستخدم';
-
-  @override
   String get edit_profile_title => 'تعديل الملف الشخصي';
 
   @override
@@ -594,10 +573,46 @@ class AppLocalizationsAr extends AppLocalizations {
   String get label_value_missing => 'غير متوفر';
 
   @override
+  String get phone_placeholder => '5XXXXXXXX';
+
+  @override
+  String get no_new_data_entered => 'لا توجد بيانات جديدة';
+
+  @override
+  String get profile_update_success => 'تم تحديث الملف الشخصي بنجاح!';
+
+  @override
+  String get profile_update_failed => 'فشل تحديث الملف الشخصي';
+
+  @override
+  String get first_name_too_short => 'يجب أن يكون الاسم الأول حرفين فأكثر';
+
+  @override
+  String get last_name_too_short => 'يجب أن يكون اسم العائلة حرفين فأكثر';
+
+  @override
+  String get phone_invalid_length => 'يجب أن يتكون رقم الجوال من 9 أرقام';
+
+  @override
   String get history_no_found_reports => 'لا توجد بلاغات عثور حتى الآن';
 
   @override
   String get history_no_lost_reports => 'لا توجد بلاغات فقدان حتى الآن';
+
+  @override
+  String get status_ongoing => 'قيد المعالجة';
+
+  @override
+  String get status_done => 'مكتمل';
+
+  @override
+  String get status_rejected => 'مرفوض';
+
+  @override
+  String get status_match_found => 'تم العثور على تطابق';
+
+  @override
+  String get status_expired => 'منتهي';
 
   @override
   String get pick_location_enable_service_title => 'خدمة الموقع';

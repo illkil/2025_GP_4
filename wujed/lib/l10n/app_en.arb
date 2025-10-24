@@ -149,12 +149,6 @@
   "history_tab_lost": "Lost",
   "history_tab_found": "Found",
 
-  "status_ongoing": "Ongoing",
-  "status_done": "Done",
-  "status_rejected": "Rejected",
-  "status_match_found": "Match Found",
-  "status_expired": "Expired",
-
   "item_title_coffee_brewer": "Coffee Brewer",
   "item_title_coffee_mug": "Coffee Mug",
 
@@ -228,8 +222,7 @@
   "label_last_name": "Last Name",
   "label_phone_number": "Phone Number",
   "placeholder_not_provided": "Not provided",
-  "label_email": "Email",
-  "label_username": "Username",
+
 
   "edit_profile_title": "Edit Profile",
   "edit_profile_change_picture": "Change Profile Picture",
@@ -245,6 +238,13 @@
   "common_empty": "No information yet",
   "common_untitled": "Untitled",
   "label_value_missing": "Not provided",
+  "phone_placeholder": "5XXXXXXXX",
+  "no_new_data_entered": "No new data entered",
+  "profile_update_success": "Profile updated successfully!",
+  "profile_update_failed": "Failed updating profile",
+  "first_name_too_short": "First name must be at least 2 characters",
+  "last_name_too_short": "Last name must be at least 2 characters",
+  "phone_invalid_length": "Phone number must be exactly 9 numbers",
 
   "history_no_found_reports": "No found reports yet",
   "history_no_lost_reports": "No lost reports yet",
