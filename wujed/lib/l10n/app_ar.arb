@@ -196,6 +196,8 @@
   "label_first_name": "الاسم الأول",
   "label_last_name": "اسم العائلة",
   "label_phone_number": "رقم الجوال",
+  "label_email": "الايميل",
+  "label_username": "اسم المستخدم",
   "placeholder_not_provided": "غير متوفر",
 
   "edit_profile_title": "تعديل الملف الشخصي",

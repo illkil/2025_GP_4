@@ -5,150 +5,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Sign In</title>
 <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
-<style>
-  body{
-    margin:0;
-    min-height:100vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:#2E1715;
-    font-family:"Segoe UI", Arial, sans-serif;
-    color:#1B1E28;
-  }
-  .card{
-    width:500px;
-    height:500px;
-    background:#fff;
-    border-radius:20px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    padding:40px 0;
-  }
-  h1{
-    font-size:30px;
-    margin:0 0 8px;
-    color:#1B1E28;
-    font-weight:700;
-  }
-
-  /* Message wrapper (fixed height to prevent jump) */
-  .message-wrap{
-    position:relative;
-    height:32px; /* ~24px font size with line-height */
-    margin:0 0 40px;
-    width:100%;
-    display:flex;
-    justify-content:center;
-  }
-  .message{
-    position:absolute;
-    font-size:24px;
-    line-height:1.3;
-    font-weight:500;
-    text-align:center;
-    transition:opacity .25s ease;
-    opacity:0;
-  }
-  #msgInfo{ color:rgba(27,30,40,.8); }
-  #msgError{ color:#d33; }
-  .message.show{ opacity:1; }
-
-  form{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    gap:24px;
-    width:100%;
-  }
-  .field-group{
-    display:flex;
-    flex-direction:column;
-    gap:6px;
-    align-items:center;
-  }
-  label{
-    width:335px;
-    font-size:20px;
-    color:rgba(27,30,40,.8);
-    font-weight:500;
-  }
-  .field{
-    width:335px;
-    height:55px;
-    background:#fff;
-    border:1px solid rgba(0,0,0,.2);
-    border-radius:8px;
-    display:flex;
-    align-items:center;
-    padding:0 12px;
-    gap:8px;
-  }
-  .field input{
-    flex:1;
-    height:100%;
-    border:none;
-    outline:none;
-    background:transparent;
-    font-size:20px;
-    color:rgba(27,30,40,.8);
-  }
-  .toggle-btn{
-    background:none;
-    border:none;
-    padding:0;
-    cursor:pointer;
-    color:#7A7A7A;
-    display:flex;
-    align-items:center;
-  }
-  .forgot-wrap{
-    width:335px;
-    display:flex;
-    justify-content:flex-end;
-    margin-top:-8px;
-    margin-bottom:8px;
-  }
-  .forgot{
-    font-size:18px;
-    color:#7D848D;
-    text-decoration:underline;
-  }
-  .submit{
-    width:245px;
-    height:55px;
-    border:none;
-    border-radius:15px;
-    font-size:20px;
-    font-weight:600;
-    color:#fff;
-    background:#C4C4C4; /* inactive */
-    cursor:not-allowed;
-    transition:.2s;
-  }
-  .submit.enabled{
-    background:#2E1715;
-    cursor:pointer;
-  }
-  .submit.enabled:hover{ opacity:.9; }
-</style>
+<script src="./js/lang.js"></script>
+<link rel="stylesheet" href="./css/Sign-In.css" />
 </head>
 <body>
+<button id="langBtn" onclick="switchLanguage()">AR</button>
 
   <section class="card">
-    <h1>Sign In</h1>
+    <h1 data-i18n="title">Sign In</h1>
 
     <!-- Message area -->
     <div class="message-wrap">
-      <p id="msgInfo"  class="message show">Fill the details to continue</p>
-      <p id="msgError" class="message">Please enter a valid email address.</p>
+      <p id="msgInfo"  class="message show" data-i18n="msgInfo">Fill the details to continue</p>
+      <p id="msgError" class="message" data-i18n="msgError">Please enter a valid email address.</p>
     </div>
 
     <form id="loginForm" novalidate>
       <!-- Email -->
       <div class="field-group">
-        <label for="email">Email</label>
+        <label for="email" data-i18n="emailLabel">Email</label>
         <div class="field">
           <input id="email" name="email" type="email" required />
         </div>
@@ -156,7 +31,7 @@
 
       <!-- Password -->
       <div class="field-group">
-        <label for="password">Password</label>
+        <label for="password" data-i18n="passwordLabel">Password</label>
         <div class="field">
           <input id="password" type="password" required />
           <button type="button" class="toggle-btn" id="togglePw">
@@ -169,11 +44,11 @@
 
       <!-- Forgot password -->
       <div class="forgot-wrap">
-        <a class="forgot" href="ForgotPassword.html">Forgot Password?</a>
+        <a class="forgot" href="ForgotPassword.html" disabled data-i18n="forgot">Forgot Password?</a>
       </div>
 
       <!-- Submit -->
-      <button type="submit" id="submitBtn" class="submit" disabled>Sign In</button>
+      <button type="submit" id="submitBtn" class="submit" disabled data-i18n="signIn">Sign In</button>
     </form>
   </section>
 
@@ -222,6 +97,57 @@
       msgInfo.classList.remove('show');
       msgError.classList.add('show');
     }
+  });
+</script>
+<!-- Firebase  -->
+<script type="module">
+  import { auth, db } from "./js/firebase-init.js";
+  import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
+  import { doc, getDoc } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
+
+  window.addEventListener("DOMContentLoaded", () => {
+    const msgInfo = document.getElementById("msgInfo");
+    const msgError = document.getElementById("msgError");
+
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+
+      try {
+        // 1️⃣ Sign in
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        // 2️⃣ Fetch user doc from Firestore
+        const docRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const role = docSnap.data().role || "user";
+
+          if (role === "admin") {
+            msgError.classList.remove("show");
+            msgInfo.classList.add("show");
+            window.location.href = "Home.html";
+          } else {
+            msgInfo.classList.remove("show");
+            msgError.classList.add("show");
+            msgError.textContent = currentTranslations.adminDenied;
+          }
+        } else {
+          msgInfo.classList.remove("show");
+          msgError.classList.add("show");
+          msgError.textContent = "User data not found.";
+        }
+      } catch (error) {
+        console.error("Login failed:", error);
+        msgInfo.classList.remove("show");
+        msgError.classList.add("show");
+        msgError.textContent = currentTranslations.msgError2;
+      }
+    });
   });
 </script>
 

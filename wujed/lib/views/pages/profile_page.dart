@@ -46,13 +46,16 @@ class _ProfilePageState extends State<ProfilePage> {
         });
       }
     } catch (e) {
-      print('Error loading user data: $e'); //incase any error happens while loading
+      print(
+        'Error loading user data: $e',
+      ); //incase any error happens while loading
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (userData == null) { //wait for user data to load before showing the page
+    if (userData == null) {
+      //wait for user data to load before showing the page
       return const Scaffold(
         backgroundColor: Color.fromRGBO(249, 249, 249, 1),
         body: Center(
@@ -72,7 +75,8 @@ class _ProfilePageState extends State<ProfilePage> {
         surfaceTintColor: Colors.transparent,
         leading: IconButton(
           onPressed: () async {
-            final result = await Navigator.push( //this will not be needed anymore (only the result but the navigator is needed)
+            final result = await Navigator.push(
+              //this will not be needed anymore (only the result but the navigator is needed)
               context,
               MaterialPageRoute(
                 builder: (context) {
@@ -266,7 +270,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 _buildInfoBox(
                   userData['first_name'] == " "
                       ? userData['first_name']
-                      : t.placeholder_not_provided, //display first name if exist, else display Not provided 
+                      : t.placeholder_not_provided, //display first name if exist, else display Not provided
                 ),
 
                 const SizedBox(height: 20.0),
@@ -304,9 +308,11 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 const SizedBox(height: 10.0),
                 _buildInfoBox(
-                  userData['phone_number'] == " "
+                  userData['phone_number'] != null &&
+                          userData['phone_number'].toString().trim().isNotEmpty
                       ? userData['phone_number']
-                      : t.placeholder_not_provided, //display phone number if exist, else display Not provided
+                      : t.placeholder_not_provided,
+                  isPhone: true, // <–– هذا الجديد
                 ),
               ],
             ),
@@ -316,7 +322,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget _buildInfoBox(String text) {
+  Widget _buildInfoBox(String text, {bool isPhone = false}) {
     return Container(
       height: 50,
       width: double.infinity,
@@ -333,18 +339,37 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ],
       ),
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsetsDirectional.only(start: 20),
-          child: Row(
-            children: [
-              Text(
+      child: Row(
+        children: [
+          if (isPhone) ...[
+            const SizedBox(width: 15),
+            const Text(
+              '+966',
+              style: TextStyle(
+                color: Color.fromRGBO(46, 23, 21, 1),
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            ),
+            const SizedBox(width: 10),
+            const VerticalDivider(
+              color: Colors.grey,
+              thickness: 1,
+              width: 10,
+              indent: 10,
+              endIndent: 10,
+            ),
+          ],
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsetsDirectional.only(start: 20),
+              child: Text(
                 text,
                 style: TextStyle(color: Colors.grey.shade600, fontSize: 16),
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

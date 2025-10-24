@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:wujed/l10n/generated/app_localizations.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key});
@@ -11,9 +13,56 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
-  TextEditingController controllerFirstName = TextEditingController();
-  TextEditingController controllerLastName = TextEditingController();
-  TextEditingController controllerPhoneNumber = TextEditingController();
+  final _formKey = GlobalKey<FormState>(); // إذا كنت تستخدم التحقق
+
+  final TextEditingController controllerFirstName = TextEditingController();
+  final TextEditingController controllerLastName = TextEditingController();
+  final TextEditingController controllerPhoneNumber = TextEditingController();
+
+  // أضف هذولي:
+  final TextEditingController controllerEmail = TextEditingController();
+  final TextEditingController controllerUsername = TextEditingController();
+
+  Map<String, dynamic>? userData;
+  final user = FirebaseAuth.instance.currentUser!;
+
+  @override
+  void dispose() {
+    controllerFirstName.dispose();
+    controllerLastName.dispose();
+    controllerPhoneNumber.dispose();
+    controllerEmail.dispose();
+    controllerUsername.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserData(); // ← هنا تنادي الدالة وقت ما تفتح الصفحة
+  }
+
+  Future<void> _loadUserData() async {
+    try {
+      final doc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .get();
+
+      if (doc.exists) {
+        setState(() {
+          userData = doc.data();
+          controllerFirstName.text = userData?['first_name'] ?? '';
+          controllerLastName.text = userData?['last_name'] ?? '';
+          controllerPhoneNumber.text = userData?['phone_number'] ?? '';
+          controllerEmail.text = userData?['email'] ?? '';
+          controllerUsername.text = userData?['username'] ?? '';
+        });
+      }
+    } catch (e) {
+      print('Error loading user data: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +129,47 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   ),
                 ),
                 const SizedBox(height: 20.0),
+                // ===== حقل الإيميل =====
+                Row(
+                  children: [
+                    Text(
+                      t.label_email,
+                      style: const TextStyle(
+                        color: Color.fromRGBO(46, 23, 21, 1),
+                        fontSize: 18,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10.0),
+                _buildTextField(
+                  controllerEmail,
+                  TextInputType.emailAddress,
+                  [],
+                  hint: t.placeholder_not_provided,
+                ),
+
+                const SizedBox(height: 20.0),
+
+                // =====  اسم المستخدم =====
+                Row(
+                  children: [
+                    Text(
+                      t.label_username,
+                      style: const TextStyle(
+                        color: Color.fromRGBO(46, 23, 21, 1),
+                        fontSize: 18,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20.0),
+                _buildTextField(
+                  controllerUsername,
+                  TextInputType.text,
+                  [FilteringTextInputFormatter.allow(RegExp(r'[A-Za-z0-9_.]'))],
+                  hint: t.placeholder_not_provided,
+                ),
 
                 Row(
                   children: [
@@ -92,11 +182,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     ),
                   ],
                 ),
-                const SizedBox(height: 10.0),
+                const SizedBox(height: 20.0),
                 _buildTextField(
                   controllerFirstName,
                   TextInputType.text,
-                  [FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]'))],
+                  [
+                    FilteringTextInputFormatter.allow(
+                      RegExp(r'[A-Za-z\u0600-\u06FF\s]'),
+                    ),
+                  ], // ← يسمح فقط بالحروف
                   hint: t.placeholder_not_provided,
                 ),
 
@@ -140,6 +234,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   TextInputType.phone,
                   [FilteringTextInputFormatter.digitsOnly],
                   hint: t.placeholder_not_provided,
+                  isPhone: true,
                 ),
               ],
             ),
@@ -154,14 +249,17 @@ class _EditProfilePageState extends State<EditProfilePage> {
     TextInputType type,
     List<TextInputFormatter> formatters, {
     required String hint,
+    bool isPhone = false,
+    String? Function(String?)? validator, //  هذا الجديد
   }) {
     return SizedBox(
       height: 50,
       width: double.infinity,
-      child: TextField(
+      child: TextFormField(
         controller: controller,
         keyboardType: type,
         inputFormatters: formatters,
+        validator: validator, //  وهنا استخدمناه
         autocorrect: false,
         decoration: InputDecoration(
           hintText: hint,
@@ -175,10 +273,32 @@ class _EditProfilePageState extends State<EditProfilePage> {
             ),
           ),
           suffixIcon: Icon(IconlyBold.edit, color: Colors.grey.shade400),
+          prefixIcon: isPhone
+              ? Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: const [
+                    SizedBox(width: 12),
+                    Text(
+                      '+966',
+                      style: TextStyle(
+                        color: Color.fromRGBO(46, 23, 21, 1),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                    SizedBox(width: 8),
+                    VerticalDivider(
+                      color: Colors.grey,
+                      thickness: 1,
+                      width: 10,
+                      indent: 12,
+                      endIndent: 12,
+                    ),
+                  ],
+                )
+              : null,
         ),
-        onEditingComplete: () {
-          FocusScope.of(context).unfocus();
-        },
+        onEditingComplete: () => FocusScope.of(context).unfocus(),
       ),
     );
   }
@@ -187,11 +307,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
     final firstName = controllerFirstName.text.trim();
     final lastName = controllerLastName.text.trim();
     final phoneNumber = controllerPhoneNumber.text.trim();
+    final email = controllerEmail.text.trim();
+    final username = controllerUsername.text.trim();
 
     Navigator.pop(context, {
       'firstName': firstName,
       'lastName': lastName,
-      'phoneNumber': phoneNumber,
+      'phoneNumber': '+966$phoneNumber',
+      'email': email,
+      'username': username,
     });
   }
 }
