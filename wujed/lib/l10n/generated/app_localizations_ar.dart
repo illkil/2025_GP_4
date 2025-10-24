@@ -540,6 +540,12 @@ class AppLocalizationsAr extends AppLocalizations {
   String get placeholder_not_provided => 'غير متوفر';
 
   @override
+  String get label_email => 'الايميل';
+
+  @override
+  String get label_username => 'اسم المستخدم';
+
+  @override
   String get edit_profile_title => 'تعديل الملف الشخصي';
 
   @override
