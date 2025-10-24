@@ -7,7 +7,7 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:wujed/services/report_service.dart';
-
+import 'package:flutter/services.dart';
 
 class ReportLostPage extends StatefulWidget {
   const ReportLostPage({super.key});
@@ -31,6 +31,17 @@ class _ReportLostPageState extends State<ReportLostPage> {
   String? _address;
 
   bool _submitting = false;
+
+  @override
+  void initState() {
+    super.initState();
+    controllerDescription.addListener(() {
+      setState(() {});
+    });
+    controllerTitle.addListener(() {
+      setState(() {});
+    });
+  }
 
   @override
   void didChangeDependencies() {
@@ -72,23 +83,30 @@ class _ReportLostPageState extends State<ReportLostPage> {
                     fontSize: 18.0,
                   ),
                 ),
-            
+
                 const SizedBox(height: 10.0),
-            
+
                 Text(
                   t.report_required_details,
                   style: TextStyle(fontSize: 16.0, color: textColor),
                 ),
-            
+
                 const SizedBox(height: 40.0),
-            
+
                 _buildLabel(t.report_title_label, required: true),
-            
+
                 const SizedBox(height: 10.0),
-            
+
                 TextField(
                   controller: controllerTitle,
                   autocorrect: false,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(
+                      RegExp(
+                        r'[a-zA-Z0-9\u0660-\u0669\u0621-\u064A\u064B-\u0652\u0640\s]',
+                      ),
+                    ),
+                  ],
                   decoration: InputDecoration(
                     hintText: t.report_title_hint,
                     hintStyle: TextStyle(
@@ -110,32 +128,43 @@ class _ReportLostPageState extends State<ReportLostPage> {
                     FocusScope.of(context).unfocus();
                   },
                 ),
-            
+
                 const SizedBox(height: 20.0),
-            
+
                 _buildLabel(t.report_photo_label, required: true),
-            
+
                 const SizedBox(height: 10.0),
-            
-                uploadPhoto!,
-            
+
+                if (_images.length < 2) buildUploadButton(),
+                const SizedBox(height: 15.0),
+                if (_images.isNotEmpty) _buildImagesPreview(),
+
                 const SizedBox(height: 20.0),
-            
+
                 _buildLabel(t.report_location_label),
-            
+
                 const SizedBox(height: 10.0),
-            
+
                 OutlinedButton(
                   onPressed: () async {
                     final result = await Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const PickLocationPage()),
+                      MaterialPageRoute(
+                        builder: (context) => const PickLocationPage(),
+                      ),
                     );
-                    // Expecting: { 'lat': double, 'lng': double, 'address': String? }
-                    if (result is Map && result['lat'] != null && result['lng'] != null) {
+                    if (result is Map &&
+                        result['lat'] != null &&
+                        result['lng'] != null) {
                       setState(() {
-                        _geo = GeoPoint(result['lat'] as double, result['lng'] as double);
-                        _address = result['address'] as String?;
+                        _geo = GeoPoint(
+                          (result['lat'] as num).toDouble(),
+                          (result['lng'] as num).toDouble(),
+                        );
+                        _address = (result['address'] as String?)
+                            ?.split(',')
+                            .take(2)
+                            .join(', ');
                       });
                     }
                   },
@@ -175,18 +204,26 @@ class _ReportLostPageState extends State<ReportLostPage> {
                     ),
                   ),
                 ),
-            
+
                 const SizedBox(height: 20.0),
-            
+
                 _buildLabel(t.report_description_label, required: true),
-            
+
                 const SizedBox(height: 10.0),
-            
+
                 TextField(
                   controller: controllerDescription,
                   autocorrect: false,
                   maxLength: _maxLength,
                   maxLines: 6,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(
+                      RegExp(
+                        r'[a-zA-Z0-9\u0660-\u0669\u0621-\u064A\u064B-\u0652\u0640\s]',
+                      ),
+                    ),
+                  ],
+
                   decoration: InputDecoration(
                     hintText: t.report_description_hint,
                     hintStyle: TextStyle(
@@ -208,18 +245,21 @@ class _ReportLostPageState extends State<ReportLostPage> {
                     ),
                     counterStyle: TextStyle(
                       fontSize: 12,
-                      color: Colors.grey.shade400,
+                      color:
+                          (_maxLength - controllerDescription.text.length) <= 0
+                          ? Colors.red
+                          : Colors.grey.shade400,
                     ),
                   ),
                   onEditingComplete: () {
                     FocusScope.of(context).unfocus();
                   },
                 ),
-            
+
                 const SizedBox(height: 30.0),
-            
+
                 FilledButton(
-                  onPressed: _submitting ? null : _submitLostReport,
+                  onPressed: _submitting ? null : () => _submitLostReport(t),
                   style: FilledButton.styleFrom(
                     minimumSize: const Size(double.infinity, 50),
                     backgroundColor: const Color.fromRGBO(46, 23, 21, 1),
@@ -228,14 +268,14 @@ class _ReportLostPageState extends State<ReportLostPage> {
                     ),
                   ),
                   child: Text(
-                    _submitting ? 'Submitting…' : t.report_submit_button,
+                    _submitting ? t.report_submitting : t.report_submit_button,
                     style: const TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
-            
+
                 const SizedBox(height: 50.0),
               ],
             ),
@@ -247,17 +287,18 @@ class _ReportLostPageState extends State<ReportLostPage> {
 
   Future<void> _pickImages() async {
     final picks = await _picker.pickMultiImage(imageQuality: 85);
-    if (picks == null || picks.isEmpty) return;
+
+    if (picks.isEmpty) return;
     setState(() {
-      _images = picks.map((x) => File(x.path)).toList();
-      // replace the placeholder widget with a preview of chosen images
-      uploadPhoto = _buildImagesPreview();
+      if (_images.length < 2) {
+        final remaining = 2 - _images.length;
+        _images.addAll(picks.take(remaining).map((x) => File(x.path)));
+      }
     });
   }
 
   Widget _buildImagesPreview() {
     if (_images.isEmpty) {
-      // fallback to your original one-button UI
       return buildUploadButton();
     }
     return SizedBox(
@@ -341,121 +382,17 @@ class _ReportLostPageState extends State<ReportLostPage> {
     );
   }
 
-  /*void onUploadPhoto() {
-    setState(() {
-      uploadPhoto = Stack(
-        clipBehavior: Clip.none,
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: const Color.fromRGBO(0, 0, 0, 0.2),
-                width: 1,
-              ),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: Image.asset(
-                'lib/assets/images/CoffeeBrew.WEBP',
-                height: 160,
-                width: 160,
-              ),
-            ),
-          ),
-          PositionedDirectional(
-            bottom: -10,
-            end: -10,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                border: Border.all(
-                  color: const Color.fromRGBO(46, 23, 21, 1),
-                  width: 0.5,
-                ),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: IconButton(
-                icon: const Icon(
-                  IconlyBold.camera,
-                  color: Color.fromRGBO(46, 23, 21, 1),
-                  size: 37,
-                ),
-                onPressed: () => onIconButtonPressed(),
-              ),
-            ),
-          ),
-        ],
-      );
-    });
-  }*/
-
-  /*void onIconButtonPressed() {
-    setState(() {
-      uploadPhoto = Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: const Color.fromRGBO(0, 0, 0, 0.2),
-                width: 1,
-              ),
-              borderRadius: const BorderRadiusDirectional.only(
-                topStart: Radius.circular(20),
-                bottomStart: Radius.circular(20),
-              ),
-            ),
-            child: ClipRRect(
-              borderRadius: const BorderRadiusDirectional.only(
-                topStart: Radius.circular(17),
-                bottomStart: Radius.circular(17),
-              ),
-              child: Image.asset(
-                'lib/assets/images/CoffeeBrew.WEBP',
-                height: 160,
-                width: 160,
-              ),
-            ),
-          ),
-          const SizedBox(width: 5.0),
-          Container(
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: const Color.fromRGBO(0, 0, 0, 0.2),
-                width: 1,
-              ),
-              borderRadius: const BorderRadiusDirectional.only(
-                topEnd: Radius.circular(17),
-                bottomEnd: Radius.circular(17),
-              ),
-            ),
-            child: ClipRRect(
-              borderRadius: const BorderRadiusDirectional.only(
-                topEnd: Radius.circular(20),
-                bottomEnd: Radius.circular(20),
-              ),
-              child: Image.asset(
-                'lib/assets/images/CoffeeBrew2.jpg',
-                height: 160,
-                width: 160,
-              ),
-            ),
-          ),
-        ],
-      );
-    });
-  }*/
-
-  Future<void> _submitLostReport() async {
+  Future<void> _submitLostReport(AppLocalizations t) async {
     final title = controllerTitle.text.trim();
     final description = controllerDescription.text.trim();
 
     if (title.isEmpty || description.isEmpty) {
-      setState(() { textColor = const Color.fromRGBO(211, 47, 47, 1); });
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please fill title and description')),
-      );
+      _showSnackBar(t.snackbar_fill_fields, Icons.warning);
+      return;
+    }
+
+    if (_geo == null) {
+      _showSnackBar(t.snackbar_pick_location, Icons.warning);
       return;
     }
 
@@ -465,11 +402,11 @@ class _ReportLostPageState extends State<ReportLostPage> {
         type: 'lost',
         title: title,
         description: description,
-        category: null,        // plug your category if you add one
-        location: _geo,        // can be null if not picked
+        category: null,
+        location: _geo,
         address: _address,
         lang: 'en',
-        imageFiles: _images,   // placeholder URLs will be used while Storage is off
+        imageFiles: _images,
       );
 
       if (!mounted) return;
@@ -480,12 +417,39 @@ class _ReportLostPageState extends State<ReportLostPage> {
       );
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Submit failed: $e')),
-      );
+      _showSnackBar(t.snackbar_submit_failed(e.toString()), Icons.error);
     } finally {
       if (mounted) setState(() => _submitting = false);
     }
+  }
+
+  void _showSnackBar(String message, IconData icon) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            Icon(icon, color: Colors.black),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                message,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          ],
+        ),
+        backgroundColor: const Color(0xFFFFE4B3),
+        duration: const Duration(seconds: 3),
+        behavior: SnackBarBehavior.floating,
+        margin: const EdgeInsets.all(20),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        elevation: 10,
+      ),
+    );
   }
 
   void onSubmitPressed() {

@@ -88,6 +88,16 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get login_email_not_verified => 'البريد الإلكتروني غير مؤكد';
+
+  @override
+  String get login_email_verification_message =>
+      'لقد أرسلنا رابط التحقق إلى بريدك الإلكتروني.\nيرجى التحقق من صندوق الوارد والضغط على الرابط لتأكيد بريدك الإلكتروني قبل تسجيل الدخول.\nإذا لم تجد الرسالة في صندوق الوارد، تحقق من مجلد الرسائل غير المرغوب فيها أو المهملات.\n\nإذا لم تصلك الرسالة أو انتهت صلاحيتها، اضغط إعادة الإرسال. إذا وصلتك، اضغط متابعة.';
+
+  @override
+  String get login_btn_resend => 'إعادة الإرسال';
+
+  @override
   String get signup_title => 'انضم إلينا!';
 
   @override
@@ -138,6 +148,24 @@ class AppLocalizationsAr extends AppLocalizations {
       'يرجى تأكيد أنك تبلغ من العمر 18 عامًا أو أكثر';
 
   @override
+  String get signup_account_created_success => 'تم إنشاء الحساب بنجاح!';
+
+  @override
+  String get signup_email_verification_message =>
+      'لقد أرسلنا رابط التحقق إلى بريدك الإلكتروني.\nيرجى التحقق من صندوق الوارد والضغط على الرابط لتأكيد بريدك الإلكتروني قبل تسجيل الدخول.\nإذا لم تكن الرسالة موجودة في صندوق الوارد، يرجى التحقق من مجلد الرسائل غير المرغوب فيها أو المهملات.';
+
+  @override
+  String get signup_username_rules =>
+      'يجب أن يحتوي اسم المستخدم على حرف واحد على الأقل.\nويمكن أن يتضمن فقط الأحرف، الأرقام، النقاط (.)،\nوالشرطة السفلية (_)، بدون مسافات.';
+
+  @override
+  String get signup_username_min_length =>
+      'يجب أن يكون اسم المستخدم 3 أحرف على الأقل أو أكثر';
+
+  @override
+  String get signup_all_details_valid => 'يجب أن تكون جميع التفاصيل صالحة';
+
+  @override
   String get forgot_title => 'استعادة كلمة المرور';
 
   @override
@@ -151,6 +179,20 @@ class AppLocalizationsAr extends AppLocalizations {
   String get forgot_reset_button => 'إعادة تعيين كلمة المرور';
 
   @override
+  String get forgot_email_empty => 'يرجى إدخال بريدك الإلكتروني';
+
+  @override
+  String get forgot_send_otp_code => 'إرسال رمز التحقق';
+
+  @override
+  String get forgot_failed_otp =>
+      'فشل في إرسال رمز التحقق، حاول مرة أخرى لاحقًا';
+
+  @override
+  String get forgot_network_error =>
+      'خطأ في الشبكة، يرجى التحقق من اتصال الإنترنت';
+
+  @override
   String get verify_title => 'التحقق برمز التأكيد';
 
   @override
@@ -162,6 +204,28 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get verify_resend => 'إعادة إرسال الرمز';
+
+  @override
+  String get verify_reset_password_email => 'بريد إعادة تعيين كلمة المرور';
+
+  @override
+  String get verify_reset_password_info =>
+      'لقد أرسلنا لك بريدًا لإعادة تعيين كلمة المرور،\nإذا لم تجده في بريدك الوارد، فتحقق من مجلد الرسائل غير المرغوب فيها أو المهملات.';
+
+  @override
+  String get verify_invalid_code =>
+      'رمز غير صالح أو منتهي الصلاحية، يرجى المحاولة مرة أخرى';
+
+  @override
+  String get verify_new_otp_sent => 'تم إرسال رمز التحقق الجديد بنجاح';
+
+  @override
+  String get verify_failed_resend_otp =>
+      'فشل في إعادة إرسال رمز التحقق، حاول مرة أخرى لاحقًا';
+
+  @override
+  String get verify_wait_timer =>
+      'يرجى الانتظار حتى ينتهي المؤقت للحصول على رمز تحقق جديد';
 
   @override
   String get home_what_item_question => 'ما العنصر الذي تريد الإبلاغ عنه؟';
@@ -320,21 +384,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get history_tab_found => 'معثور عليه';
 
   @override
-  String get status_ongoing => 'قيد المتابعة';
-
-  @override
-  String get status_done => 'تم';
-
-  @override
-  String get status_rejected => 'مرفوض';
-
-  @override
-  String get status_match_found => 'تم العثور على تطابق';
-
-  @override
-  String get status_expired => 'منتهي الصلاحية';
-
-  @override
   String get item_title_coffee_brewer => 'آلة تحضير القهوة';
 
   @override
@@ -369,6 +418,14 @@ class AppLocalizationsAr extends AppLocalizations {
       'سيُحذف هذا التطابق نهائيًا. تابع فقط إذا كنت متأكدًا أنه ليس عنصرَك.';
 
   @override
+  String get dialog_confirm_received_note =>
+      'تابع فقط إذا كنت متأكدًا أنك استلمت غرضك.';
+
+  @override
+  String get report_cancel_dialog_info =>
+      'سيتم حذف هذا البلاغ ولن يتم معالجته بعد الآن.';
+
+  @override
   String get btn_accept => 'قبول';
 
   @override
@@ -381,7 +438,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get btn_confirm => 'تأكيد';
 
   @override
-  String get btn_cancel => 'إلغاء';
+  String get btn_cancel => 'حذف';
 
   @override
   String get btn_confirm_receipt => 'تأكيد الاستلام';
@@ -457,6 +514,20 @@ class AppLocalizationsAr extends AppLocalizations {
   String get action_log_out => 'تسجيل الخروج';
 
   @override
+  String get blocked_users => 'المستخدمون المحظورون';
+
+  @override
+  String get unblock_user => 'إلغاء الحظر';
+
+  @override
+  String get unblock_dialog_title => 'إلغاء الحظر';
+
+  @override
+  String unblock_user_confirm(String name) {
+    return 'هل أنت متأكد أنك تريد إلغاء حظر $name؟';
+  }
+
+  @override
   String get label_first_name => 'الاسم الأول';
 
   @override
@@ -488,4 +559,107 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get btn_send => 'إرسال';
+
+  @override
+  String get common_error_generic => 'عذرًا، حدث خطأ ما';
+
+  @override
+  String get common_empty => 'لا توجد معلومات بعد';
+
+  @override
+  String get common_untitled => 'بدون عنوان';
+
+  @override
+  String get label_value_missing => 'غير متوفر';
+
+  @override
+  String get phone_placeholder => '5XXXXXXXX';
+
+  @override
+  String get no_new_data_entered => 'لا توجد بيانات جديدة';
+
+  @override
+  String get profile_update_success => 'تم تحديث الملف الشخصي بنجاح!';
+
+  @override
+  String get profile_update_failed => 'فشل تحديث الملف الشخصي';
+
+  @override
+  String get first_name_too_short => 'يجب أن يكون الاسم الأول حرفين فأكثر';
+
+  @override
+  String get last_name_too_short => 'يجب أن يكون اسم العائلة حرفين فأكثر';
+
+  @override
+  String get phone_invalid_length => 'يجب أن يتكون رقم الجوال من 9 أرقام';
+
+  @override
+  String get history_no_found_reports => 'لا توجد بلاغات عثور حتى الآن';
+
+  @override
+  String get history_no_lost_reports => 'لا توجد بلاغات فقدان حتى الآن';
+
+  @override
+  String get status_ongoing => 'قيد المعالجة';
+
+  @override
+  String get status_done => 'مكتمل';
+
+  @override
+  String get status_rejected => 'مرفوض';
+
+  @override
+  String get status_match_found => 'تم العثور على تطابق';
+
+  @override
+  String get status_expired => 'منتهي';
+
+  @override
+  String get pick_location_enable_service_title => 'خدمة الموقع';
+
+  @override
+  String get pick_location_enable_service_body => 'يرجى تفعيل خدمات الموقع.';
+
+  @override
+  String get pick_location_permission_title => 'إذن الموقع';
+
+  @override
+  String get pick_location_permission_body => 'يرجى السماح بإذن الموقع.';
+
+  @override
+  String get pick_location_permission_settings_body =>
+      'يرجى تفعيل إذن الموقع من الإعدادات.';
+
+  @override
+  String get pick_location_error_title => 'خطأ في الموقع';
+
+  @override
+  String get pick_location_error_body =>
+      'تعذّر الحصول على الموقع الحالي. يرجى المحاولة مرة أخرى أو اختيار موقعك يدويًا.';
+
+  @override
+  String get pick_location_tap_hint => 'اضغط على الخريطة لاختيار موقع';
+
+  @override
+  String get title_indicator => 'أحرف متبقية';
+
+  @override
+  String get snackbar_fill_fields => 'يرجى تعبئة العنوان والوصف';
+
+  @override
+  String get snackbar_pick_location => 'يرجى تحديد الموقع';
+
+  @override
+  String snackbar_submit_failed(Object error) {
+    return 'فشل الإرسال: $error';
+  }
+
+  @override
+  String get snackbar_location_set => 'تم تحديد الموقع بنجاح';
+
+  @override
+  String get snackbar_location_not_selected => 'لم يتم تحديد الموقع';
+
+  @override
+  String get report_submitting => 'جاري الإرسال…';
 }

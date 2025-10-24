@@ -33,6 +33,9 @@
       "remaining": { "type": "int", "example": "120" }
     }
   },
+  "login_email_not_verified": "Email is not verified",
+  "login_email_verification_message": "We've sent a verification link to your email.\nPlease check your inbox and click the link to verify your email before logging in.\nIf you don't see it in your inbox, check your Spam or Junk folder.\n\nIf you didn't receive it or it expired, press Resend. If you got it, press Continue.",
+  "login_btn_resend": "Resend",
 
   "signup_title": "Join Us!",
   "signup_subtitle": "Fill all the details to create your account",
@@ -50,16 +53,31 @@
   "signup_login_link": "Log In",
   "google_signup": "Sign up with Google",
   "check_18yo_checkbox": "Please confirm that you are 18 years old or older",
+  "signup_account_created_success": "Account created successfully!",
+  "signup_email_verification_message": "We've sent a verification link to your email.\nPlease check your inbox and click the link to verify your email before logging in.\nIf you don't see it in your inbox, please check your Spam or Junk folder.",
+  "signup_username_rules": "Username must contain at least one letter,\nit can only include letters, numbers, dots (.),\nunderscores (_), and no spaces allowed.",
+  "signup_username_min_length": "Username must be at least 3 characters or more",
+  "signup_all_details_valid": "All details must be valid",
 
   "forgot_title": "Forgot Password",
   "forgot_subtitle": "Enter your email account to\nreset your password",
   "forgot_email_label": "Email",
   "forgot_reset_button": "Reset Password",
+  "forgot_email_empty": "Please enter your email",
+  "forgot_send_otp_code": "Send OTP Code",
+  "forgot_failed_otp": "Failed to send OTP, Try again later",
+  "forgot_network_error": "Network error, please check your internet connection",
 
   "verify_title": "OTP Verification",
   "verify_subtitle": "Please check your email for the\nverification code",
   "verify_button": "Verify",
   "verify_resend": "Resend code",
+  "verify_reset_password_email": "Reset Password Email",
+  "verify_reset_password_info": "We've sent you an email to reset your password.\n If you don't see it in your inbox, check your Spam or Junk folder.",
+  "verify_invalid_code": "Invalid or expired code, please try again",
+  "verify_new_otp_sent": "New OTP sent successfully",
+  "verify_failed_resend_otp": "Failed to resend OTP, try again later",
+  "verify_wait_timer": "Please wait for the timer to finish to get a new OTP code",
 
   "home_what_item_question": "What item are you reporting?",
   "home_lost_button": "Lost",
@@ -131,12 +149,6 @@
   "history_tab_lost": "Lost",
   "history_tab_found": "Found",
 
-  "status_ongoing": "Ongoing",
-  "status_done": "Done",
-  "status_rejected": "Rejected",
-  "status_match_found": "Match Found",
-  "status_expired": "Expired",
-
   "item_title_coffee_brewer": "Coffee Brewer",
   "item_title_coffee_mug": "Coffee Mug",
 
@@ -155,12 +167,15 @@
   "dialog_accept_match_note": "Accepting this match will hide the others. If it's not your item, just tap 'Revoke' to bring them back.",
   "dialog_are_you_sure": "Are you sure?",
   "dialog_remove_permanently_note": "This match will be removed permanently. Continue only if you're sure it's not your item.",
+  "dialog_confirm_received_note": "Continue only if you’re certain that you’ve received your item.",
+
+  "report_cancel_dialog_info": "Deleting this report means it will be removed and no longer processed.",
 
   "btn_accept": "Accept",
   "btn_reject": "Reject",
   "btn_revoke": "Revoke",
   "btn_confirm": "Confirm",
-  "btn_cancel": "Cancel",
+  "btn_cancel": "Delete",
   "btn_confirm_receipt": "Confirm Receipt",
   "btn_continue": "Continue",
 
@@ -192,13 +207,22 @@
   "language_en": "English",
   "language_ar": "العربية",
   "action_log_out": "Log Out",
+  "blocked_users": "Blocked Users",
+  "unblock_user": "Unblock",
+  "unblock_dialog_title": "Unblock User",
+  "unblock_user_confirm": "Are you sure you want to unblock {name}?",
+  "@unblock_user_confirm": {
+    "placeholders": {
+      "name": {"type": "String", "example": "@JohnDoe"}
+    }
+  },
+
 
   "label_first_name": "First Name",
   "label_last_name": "Last Name",
   "label_phone_number": "Phone Number",
   "placeholder_not_provided": "Not provided",
-  "label_email": "Email",
-  "label_username": "Username",
+
 
   "edit_profile_title": "Edit Profile",
   "edit_profile_change_picture": "Change Profile Picture",
@@ -208,5 +232,44 @@
   "onboarding_next": "Next",
   "onboarding_done": "Done",
 
-  "btn_send": "Send"
+  "btn_send": "Send",
+
+  "common_error_generic": "Oops, something went wrong",
+  "common_empty": "No information yet",
+  "common_untitled": "Untitled",
+  "label_value_missing": "Not provided",
+  "phone_placeholder": "5XXXXXXXX",
+  "no_new_data_entered": "No new data entered",
+  "profile_update_success": "Profile updated successfully!",
+  "profile_update_failed": "Failed updating profile",
+  "first_name_too_short": "First name must be at least 2 characters",
+  "last_name_too_short": "Last name must be at least 2 characters",
+  "phone_invalid_length": "Phone number must be exactly 9 numbers",
+
+  "history_no_found_reports": "No found reports yet",
+  "history_no_lost_reports": "No lost reports yet",
+
+  "status_ongoing": "Ongoing",
+  "status_done": "Done",
+  "status_rejected": "Rejected",
+  "status_match_found": "Match found",
+  "status_expired": "Expired",
+
+  "pick_location_enable_service_title": "Location Service",
+  "pick_location_enable_service_body": "Please enable location services.",
+  "pick_location_permission_title": "Location Permission",
+  "pick_location_permission_body": "Please enable location permission.",
+  "pick_location_permission_settings_body": "Please enable location permission from settings.",
+  "pick_location_error_title": "Location Error",
+  "pick_location_error_body": "Could not get current location. Please try again or choose your location manually.",
+  "pick_location_tap_hint": "Tap the map to choose a spot",
+  "title_indicator": "characters left",
+
+  "snackbar_fill_fields": "Please fill title and description",
+  "snackbar_pick_location": "Please pick a location",
+  "snackbar_submit_failed": "Submit failed: {error}",
+  "snackbar_location_set": "Location set successfully",
+  "snackbar_location_not_selected": "Location not selected",
+  "report_submitting": "Submitting…"
+
 }

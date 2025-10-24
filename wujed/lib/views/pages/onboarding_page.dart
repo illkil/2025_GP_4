@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:wujed/l10n/generated/app_localizations.dart';
 import 'package:wujed/views/pages/intro_pages/intro_page_1.dart';
@@ -39,7 +40,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
             top: 55,
             end: 15,
             child: TextButton(
-              onPressed: () {
+              onPressed: () async {
+                final prefs = await SharedPreferences.getInstance();
+                prefs.setBool('isFirstTime', false);
                 Navigator.pushAndRemoveUntil(
                   context,
                   MaterialPageRoute(
@@ -87,7 +90,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
               width: 150.0,
               child: onLastPage
                   ? FilledButton(
-                      onPressed: () {
+                      onPressed: () async {
+                        final prefs = await SharedPreferences.getInstance();
+                        prefs.setBool('isFirstTime', false);
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(

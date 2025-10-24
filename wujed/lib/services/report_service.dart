@@ -63,8 +63,12 @@ class ReportService {
       'images': [], // filled below
       'location': location,
       'address': address,
-      'status': 'submitted',
+      'locationText': FieldValue.delete(),
+      'status': 'ongoing',
       'lang': lang,
+      'is_flagged': false,
+      'flagg_reason': [],
+      'flag_created_at': '',
       'visibility': 'private',
       'createdAt': FieldValue.serverTimestamp(),
       'updatedAt': FieldValue.serverTimestamp(),

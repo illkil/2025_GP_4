@@ -87,6 +87,16 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get login_email_not_verified => 'Email is not verified';
+
+  @override
+  String get login_email_verification_message =>
+      'We\'ve sent a verification link to your email.\nPlease check your inbox and click the link to verify your email before logging in.\nIf you don\'t see it in your inbox, check your Spam or Junk folder.\n\nIf you didn\'t receive it or it expired, press Resend. If you got it, press Continue.';
+
+  @override
+  String get login_btn_resend => 'Resend';
+
+  @override
   String get signup_title => 'Join Us!';
 
   @override
@@ -137,6 +147,24 @@ class AppLocalizationsEn extends AppLocalizations {
       'Please confirm that you are 18 years old or older';
 
   @override
+  String get signup_account_created_success => 'Account created successfully!';
+
+  @override
+  String get signup_email_verification_message =>
+      'We\'ve sent a verification link to your email.\nPlease check your inbox and click the link to verify your email before logging in.\nIf you don\'t see it in your inbox, please check your Spam or Junk folder.';
+
+  @override
+  String get signup_username_rules =>
+      'Username must contain at least one letter,\nit can only include letters, numbers, dots (.),\nunderscores (_), and no spaces allowed.';
+
+  @override
+  String get signup_username_min_length =>
+      'Username must be at least 3 characters or more';
+
+  @override
+  String get signup_all_details_valid => 'All details must be valid';
+
+  @override
   String get forgot_title => 'Forgot Password';
 
   @override
@@ -150,6 +178,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get forgot_reset_button => 'Reset Password';
 
   @override
+  String get forgot_email_empty => 'Please enter your email';
+
+  @override
+  String get forgot_send_otp_code => 'Send OTP Code';
+
+  @override
+  String get forgot_failed_otp => 'Failed to send OTP, Try again later';
+
+  @override
+  String get forgot_network_error =>
+      'Network error, please check your internet connection';
+
+  @override
   String get verify_title => 'OTP Verification';
 
   @override
@@ -161,6 +202,27 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get verify_resend => 'Resend code';
+
+  @override
+  String get verify_reset_password_email => 'Reset Password Email';
+
+  @override
+  String get verify_reset_password_info =>
+      'We\'ve sent you an email to reset your password.\n If you don\'t see it in your inbox, check your Spam or Junk folder.';
+
+  @override
+  String get verify_invalid_code => 'Invalid or expired code, please try again';
+
+  @override
+  String get verify_new_otp_sent => 'New OTP sent successfully';
+
+  @override
+  String get verify_failed_resend_otp =>
+      'Failed to resend OTP, try again later';
+
+  @override
+  String get verify_wait_timer =>
+      'Please wait for the timer to finish to get a new OTP code';
 
   @override
   String get home_what_item_question => 'What item are you reporting?';
@@ -319,21 +381,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get history_tab_found => 'Found';
 
   @override
-  String get status_ongoing => 'Ongoing';
-
-  @override
-  String get status_done => 'Done';
-
-  @override
-  String get status_rejected => 'Rejected';
-
-  @override
-  String get status_match_found => 'Match Found';
-
-  @override
-  String get status_expired => 'Expired';
-
-  @override
   String get item_title_coffee_brewer => 'Coffee Brewer';
 
   @override
@@ -368,6 +415,14 @@ class AppLocalizationsEn extends AppLocalizations {
       'This match will be removed permanently. Continue only if you\'re sure it\'s not your item.';
 
   @override
+  String get dialog_confirm_received_note =>
+      'Continue only if you’re certain that you’ve received your item.';
+
+  @override
+  String get report_cancel_dialog_info =>
+      'Deleting this report means it will be removed and no longer processed.';
+
+  @override
   String get btn_accept => 'Accept';
 
   @override
@@ -380,7 +435,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get btn_confirm => 'Confirm';
 
   @override
-  String get btn_cancel => 'Cancel';
+  String get btn_cancel => 'Delete';
 
   @override
   String get btn_confirm_receipt => 'Confirm Receipt';
@@ -458,6 +513,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get action_log_out => 'Log Out';
 
   @override
+  String get blocked_users => 'Blocked Users';
+
+  @override
+  String get unblock_user => 'Unblock';
+
+  @override
+  String get unblock_dialog_title => 'Unblock User';
+
+  @override
+  String unblock_user_confirm(String name) {
+    return 'Are you sure you want to unblock $name?';
+  }
+
+  @override
   String get label_first_name => 'First Name';
 
   @override
@@ -489,4 +558,109 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get btn_send => 'Send';
+
+  @override
+  String get common_error_generic => 'Oops, something went wrong';
+
+  @override
+  String get common_empty => 'No information yet';
+
+  @override
+  String get common_untitled => 'Untitled';
+
+  @override
+  String get label_value_missing => 'Not provided';
+
+  @override
+  String get phone_placeholder => '5XXXXXXXX';
+
+  @override
+  String get no_new_data_entered => 'No new data entered';
+
+  @override
+  String get profile_update_success => 'Profile updated successfully!';
+
+  @override
+  String get profile_update_failed => 'Failed updating profile';
+
+  @override
+  String get first_name_too_short => 'First name must be at least 2 characters';
+
+  @override
+  String get last_name_too_short => 'Last name must be at least 2 characters';
+
+  @override
+  String get phone_invalid_length => 'Phone number must be exactly 9 numbers';
+
+  @override
+  String get history_no_found_reports => 'No found reports yet';
+
+  @override
+  String get history_no_lost_reports => 'No lost reports yet';
+
+  @override
+  String get status_ongoing => 'Ongoing';
+
+  @override
+  String get status_done => 'Done';
+
+  @override
+  String get status_rejected => 'Rejected';
+
+  @override
+  String get status_match_found => 'Match found';
+
+  @override
+  String get status_expired => 'Expired';
+
+  @override
+  String get pick_location_enable_service_title => 'Location Service';
+
+  @override
+  String get pick_location_enable_service_body =>
+      'Please enable location services.';
+
+  @override
+  String get pick_location_permission_title => 'Location Permission';
+
+  @override
+  String get pick_location_permission_body =>
+      'Please enable location permission.';
+
+  @override
+  String get pick_location_permission_settings_body =>
+      'Please enable location permission from settings.';
+
+  @override
+  String get pick_location_error_title => 'Location Error';
+
+  @override
+  String get pick_location_error_body =>
+      'Could not get current location. Please try again or choose your location manually.';
+
+  @override
+  String get pick_location_tap_hint => 'Tap the map to choose a spot';
+
+  @override
+  String get title_indicator => 'characters left';
+
+  @override
+  String get snackbar_fill_fields => 'Please fill title and description';
+
+  @override
+  String get snackbar_pick_location => 'Please pick a location';
+
+  @override
+  String snackbar_submit_failed(Object error) {
+    return 'Submit failed: $error';
+  }
+
+  @override
+  String get snackbar_location_set => 'Location set successfully';
+
+  @override
+  String get snackbar_location_not_selected => 'Location not selected';
+
+  @override
+  String get report_submitting => 'Submitting…';
 }

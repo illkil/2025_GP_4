@@ -15,7 +15,7 @@ class BottomSheetWidget extends StatelessWidget {
       padding: const EdgeInsets.all(20.0),
       child: SizedBox(
         width: double.infinity,
-        height: 320.0,
+        height: 260.0,
         child: Column(
           children: [
             Container(
@@ -41,7 +41,9 @@ class BottomSheetWidget extends StatelessWidget {
             const SizedBox(height: 20.0),
 
             OutlinedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pop(context, 'current');
+              },
               style: OutlinedButton.styleFrom(
                 minimumSize: const Size(double.infinity, 70),
                 shape: RoundedRectangleBorder(
@@ -63,7 +65,7 @@ class BottomSheetWidget extends StatelessWidget {
                       ),
                     ),
                     PositionedDirectional(
-                      top: 15,
+                      top: 25,
                       start: 60,
                       child: Text(
                         t.sheet_current_location_title,
@@ -71,18 +73,6 @@ class BottomSheetWidget extends StatelessWidget {
                           color: Color.fromRGBO(46, 23, 21, 1),
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    PositionedDirectional(
-                      top: 35,
-                      start: 60,
-                      child: Text(
-                        t.sheet_current_location_sub,
-                        style: TextStyle(
-                          color: Colors.grey.shade400,
-                          fontSize: 14,
                         ),
                         textAlign: TextAlign.center,
                       ),
@@ -95,7 +85,9 @@ class BottomSheetWidget extends StatelessWidget {
             const SizedBox(height: 20.0),
 
             OutlinedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pop(context, 'manual');
+              },
               style: OutlinedButton.styleFrom(
                 minimumSize: const Size(double.infinity, 70),
                 shape: RoundedRectangleBorder(
@@ -134,9 +126,9 @@ class BottomSheetWidget extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: 20.0),
+            //const SizedBox(height: 20.0),
 
-            FilledButton(
+            /*FilledButton(
               onPressed: () {
                 Navigator.pop(context);
                 Navigator.pop(context, {'location': true});
@@ -149,15 +141,13 @@ class BottomSheetWidget extends StatelessWidget {
                 ),
               ),
               child: Text(
-                page == 'PickLocationPage'
-                    ? t.sheet_confirm
-                    : t.sheet_send,
+                page == 'PickLocationPage' ? t.sheet_confirm : t.sheet_send,
                 style: const TextStyle(
                   fontSize: 16.0,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-            ),
+            ),*/
           ],
         ),
       ),

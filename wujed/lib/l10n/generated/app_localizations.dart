@@ -242,6 +242,24 @@ abstract class AppLocalizations {
   /// **'Please wait {remaining} seconds before trying again'**
   String login_locked(int remaining);
 
+  /// No description provided for @login_email_not_verified.
+  ///
+  /// In en, this message translates to:
+  /// **'Email is not verified'**
+  String get login_email_not_verified;
+
+  /// No description provided for @login_email_verification_message.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ve sent a verification link to your email.\nPlease check your inbox and click the link to verify your email before logging in.\nIf you don\'t see it in your inbox, check your Spam or Junk folder.\n\nIf you didn\'t receive it or it expired, press Resend. If you got it, press Continue.'**
+  String get login_email_verification_message;
+
+  /// No description provided for @login_btn_resend.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend'**
+  String get login_btn_resend;
+
   /// No description provided for @signup_title.
   ///
   /// In en, this message translates to:
@@ -338,6 +356,36 @@ abstract class AppLocalizations {
   /// **'Please confirm that you are 18 years old or older'**
   String get check_18yo_checkbox;
 
+  /// No description provided for @signup_account_created_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Account created successfully!'**
+  String get signup_account_created_success;
+
+  /// No description provided for @signup_email_verification_message.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ve sent a verification link to your email.\nPlease check your inbox and click the link to verify your email before logging in.\nIf you don\'t see it in your inbox, please check your Spam or Junk folder.'**
+  String get signup_email_verification_message;
+
+  /// No description provided for @signup_username_rules.
+  ///
+  /// In en, this message translates to:
+  /// **'Username must contain at least one letter,\nit can only include letters, numbers, dots (.),\nunderscores (_), and no spaces allowed.'**
+  String get signup_username_rules;
+
+  /// No description provided for @signup_username_min_length.
+  ///
+  /// In en, this message translates to:
+  /// **'Username must be at least 3 characters or more'**
+  String get signup_username_min_length;
+
+  /// No description provided for @signup_all_details_valid.
+  ///
+  /// In en, this message translates to:
+  /// **'All details must be valid'**
+  String get signup_all_details_valid;
+
   /// No description provided for @forgot_title.
   ///
   /// In en, this message translates to:
@@ -362,6 +410,30 @@ abstract class AppLocalizations {
   /// **'Reset Password'**
   String get forgot_reset_button;
 
+  /// No description provided for @forgot_email_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your email'**
+  String get forgot_email_empty;
+
+  /// No description provided for @forgot_send_otp_code.
+  ///
+  /// In en, this message translates to:
+  /// **'Send OTP Code'**
+  String get forgot_send_otp_code;
+
+  /// No description provided for @forgot_failed_otp.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to send OTP, Try again later'**
+  String get forgot_failed_otp;
+
+  /// No description provided for @forgot_network_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Network error, please check your internet connection'**
+  String get forgot_network_error;
+
   /// No description provided for @verify_title.
   ///
   /// In en, this message translates to:
@@ -385,6 +457,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Resend code'**
   String get verify_resend;
+
+  /// No description provided for @verify_reset_password_email.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset Password Email'**
+  String get verify_reset_password_email;
+
+  /// No description provided for @verify_reset_password_info.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ve sent you an email to reset your password.\n If you don\'t see it in your inbox, check your Spam or Junk folder.'**
+  String get verify_reset_password_info;
+
+  /// No description provided for @verify_invalid_code.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid or expired code, please try again'**
+  String get verify_invalid_code;
+
+  /// No description provided for @verify_new_otp_sent.
+  ///
+  /// In en, this message translates to:
+  /// **'New OTP sent successfully'**
+  String get verify_new_otp_sent;
+
+  /// No description provided for @verify_failed_resend_otp.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to resend OTP, try again later'**
+  String get verify_failed_resend_otp;
+
+  /// No description provided for @verify_wait_timer.
+  ///
+  /// In en, this message translates to:
+  /// **'Please wait for the timer to finish to get a new OTP code'**
+  String get verify_wait_timer;
 
   /// No description provided for @home_what_item_question.
   ///
@@ -686,36 +794,6 @@ abstract class AppLocalizations {
   /// **'Found'**
   String get history_tab_found;
 
-  /// No description provided for @status_ongoing.
-  ///
-  /// In en, this message translates to:
-  /// **'Ongoing'**
-  String get status_ongoing;
-
-  /// No description provided for @status_done.
-  ///
-  /// In en, this message translates to:
-  /// **'Done'**
-  String get status_done;
-
-  /// No description provided for @status_rejected.
-  ///
-  /// In en, this message translates to:
-  /// **'Rejected'**
-  String get status_rejected;
-
-  /// No description provided for @status_match_found.
-  ///
-  /// In en, this message translates to:
-  /// **'Match Found'**
-  String get status_match_found;
-
-  /// No description provided for @status_expired.
-  ///
-  /// In en, this message translates to:
-  /// **'Expired'**
-  String get status_expired;
-
   /// No description provided for @item_title_coffee_brewer.
   ///
   /// In en, this message translates to:
@@ -776,6 +854,18 @@ abstract class AppLocalizations {
   /// **'This match will be removed permanently. Continue only if you\'re sure it\'s not your item.'**
   String get dialog_remove_permanently_note;
 
+  /// No description provided for @dialog_confirm_received_note.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue only if you’re certain that you’ve received your item.'**
+  String get dialog_confirm_received_note;
+
+  /// No description provided for @report_cancel_dialog_info.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleting this report means it will be removed and no longer processed.'**
+  String get report_cancel_dialog_info;
+
   /// No description provided for @btn_accept.
   ///
   /// In en, this message translates to:
@@ -803,7 +893,7 @@ abstract class AppLocalizations {
   /// No description provided for @btn_cancel.
   ///
   /// In en, this message translates to:
-  /// **'Cancel'**
+  /// **'Delete'**
   String get btn_cancel;
 
   /// No description provided for @btn_confirm_receipt.
@@ -950,6 +1040,30 @@ abstract class AppLocalizations {
   /// **'Log Out'**
   String get action_log_out;
 
+  /// No description provided for @blocked_users.
+  ///
+  /// In en, this message translates to:
+  /// **'Blocked Users'**
+  String get blocked_users;
+
+  /// No description provided for @unblock_user.
+  ///
+  /// In en, this message translates to:
+  /// **'Unblock'**
+  String get unblock_user;
+
+  /// No description provided for @unblock_dialog_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Unblock User'**
+  String get unblock_dialog_title;
+
+  /// No description provided for @unblock_user_confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to unblock {name}?'**
+  String unblock_user_confirm(String name);
+
   /// No description provided for @label_first_name.
   ///
   /// In en, this message translates to:
@@ -1015,6 +1129,204 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Send'**
   String get btn_send;
+
+  /// No description provided for @common_error_generic.
+  ///
+  /// In en, this message translates to:
+  /// **'Oops, something went wrong'**
+  String get common_error_generic;
+
+  /// No description provided for @common_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'No information yet'**
+  String get common_empty;
+
+  /// No description provided for @common_untitled.
+  ///
+  /// In en, this message translates to:
+  /// **'Untitled'**
+  String get common_untitled;
+
+  /// No description provided for @label_value_missing.
+  ///
+  /// In en, this message translates to:
+  /// **'Not provided'**
+  String get label_value_missing;
+
+  /// No description provided for @phone_placeholder.
+  ///
+  /// In en, this message translates to:
+  /// **'5XXXXXXXX'**
+  String get phone_placeholder;
+
+  /// No description provided for @no_new_data_entered.
+  ///
+  /// In en, this message translates to:
+  /// **'No new data entered'**
+  String get no_new_data_entered;
+
+  /// No description provided for @profile_update_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile updated successfully!'**
+  String get profile_update_success;
+
+  /// No description provided for @profile_update_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed updating profile'**
+  String get profile_update_failed;
+
+  /// No description provided for @first_name_too_short.
+  ///
+  /// In en, this message translates to:
+  /// **'First name must be at least 2 characters'**
+  String get first_name_too_short;
+
+  /// No description provided for @last_name_too_short.
+  ///
+  /// In en, this message translates to:
+  /// **'Last name must be at least 2 characters'**
+  String get last_name_too_short;
+
+  /// No description provided for @phone_invalid_length.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number must be exactly 9 numbers'**
+  String get phone_invalid_length;
+
+  /// No description provided for @history_no_found_reports.
+  ///
+  /// In en, this message translates to:
+  /// **'No found reports yet'**
+  String get history_no_found_reports;
+
+  /// No description provided for @history_no_lost_reports.
+  ///
+  /// In en, this message translates to:
+  /// **'No lost reports yet'**
+  String get history_no_lost_reports;
+
+  /// No description provided for @status_ongoing.
+  ///
+  /// In en, this message translates to:
+  /// **'Ongoing'**
+  String get status_ongoing;
+
+  /// No description provided for @status_done.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get status_done;
+
+  /// No description provided for @status_rejected.
+  ///
+  /// In en, this message translates to:
+  /// **'Rejected'**
+  String get status_rejected;
+
+  /// No description provided for @status_match_found.
+  ///
+  /// In en, this message translates to:
+  /// **'Match found'**
+  String get status_match_found;
+
+  /// No description provided for @status_expired.
+  ///
+  /// In en, this message translates to:
+  /// **'Expired'**
+  String get status_expired;
+
+  /// No description provided for @pick_location_enable_service_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Location Service'**
+  String get pick_location_enable_service_title;
+
+  /// No description provided for @pick_location_enable_service_body.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enable location services.'**
+  String get pick_location_enable_service_body;
+
+  /// No description provided for @pick_location_permission_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Location Permission'**
+  String get pick_location_permission_title;
+
+  /// No description provided for @pick_location_permission_body.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enable location permission.'**
+  String get pick_location_permission_body;
+
+  /// No description provided for @pick_location_permission_settings_body.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enable location permission from settings.'**
+  String get pick_location_permission_settings_body;
+
+  /// No description provided for @pick_location_error_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Location Error'**
+  String get pick_location_error_title;
+
+  /// No description provided for @pick_location_error_body.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not get current location. Please try again or choose your location manually.'**
+  String get pick_location_error_body;
+
+  /// No description provided for @pick_location_tap_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the map to choose a spot'**
+  String get pick_location_tap_hint;
+
+  /// No description provided for @title_indicator.
+  ///
+  /// In en, this message translates to:
+  /// **'characters left'**
+  String get title_indicator;
+
+  /// No description provided for @snackbar_fill_fields.
+  ///
+  /// In en, this message translates to:
+  /// **'Please fill title and description'**
+  String get snackbar_fill_fields;
+
+  /// No description provided for @snackbar_pick_location.
+  ///
+  /// In en, this message translates to:
+  /// **'Please pick a location'**
+  String get snackbar_pick_location;
+
+  /// No description provided for @snackbar_submit_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit failed: {error}'**
+  String snackbar_submit_failed(Object error);
+
+  /// No description provided for @snackbar_location_set.
+  ///
+  /// In en, this message translates to:
+  /// **'Location set successfully'**
+  String get snackbar_location_set;
+
+  /// No description provided for @snackbar_location_not_selected.
+  ///
+  /// In en, this message translates to:
+  /// **'Location not selected'**
+  String get snackbar_location_not_selected;
+
+  /// No description provided for @report_submitting.
+  ///
+  /// In en, this message translates to:
+  /// **'Submitting…'**
+  String get report_submitting;
 }
 
 class _AppLocalizationsDelegate

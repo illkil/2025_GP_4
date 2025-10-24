@@ -2,23 +2,17 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wujed/data/notifiers.dart';
 import 'package:wujed/main.dart';
+import 'package:wujed/views/pages/blocked_users_page.dart';
 import 'package:wujed/views/pages/edit_profile_page.dart';
 import 'package:wujed/views/pages/login_page.dart';
 import 'package:wujed/l10n/generated/app_localizations.dart';
+import 'package:wujed/auth/google_auth.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({
-    super.key,
-    this.firstName, //not needed if the backend for edit profile is implemented
-    this.lastName, //not needed if the backend for edit profile is implemented
-    this.phoneNumber, //not needed if the backend for edit profile is implemented
-  });
-
-  final String? firstName;
-  final String? lastName;
-  final int? phoneNumber;
+  const ProfilePage({super.key});
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -42,7 +36,7 @@ class _ProfilePageState extends State<ProfilePage> {
           .get(); //get the doc associated with the uses
       if (doc.exists) {
         setState(() {
-          userData = doc.data(); //if it exist set userdata to the doc data
+          userData = doc; //if it exist set userdata to the doc data
         });
       }
     } catch (e) {
@@ -75,29 +69,14 @@ class _ProfilePageState extends State<ProfilePage> {
         surfaceTintColor: Colors.transparent,
         leading: IconButton(
           onPressed: () async {
-            final result = await Navigator.push(
-              //this will not be needed anymore (only the result but the navigator is needed)
+            final updated = await Navigator.push(
               context,
-              MaterialPageRoute(
-                builder: (context) {
-                  return const EditProfilePage();
-                },
-              ),
+              MaterialPageRoute(builder: (_) => const EditProfilePage()),
             );
 
-            // if (result != null) {
-            //   setState(() {
-            //     _firstName = (result['firstName'] ?? '').isEmpty
-            //         ? null
-            //         : result['firstName'];
-            //     _lastName = (result['lastName'] ?? '').isEmpty
-            //         ? null
-            //         : result['lastName'];
-            //     _phoneNumber = (result['phoneNumber'] ?? '').isEmpty
-            //         ? null
-            //         : result['phoneNumber'];
-            //   });
-            // }
+            if (updated) {
+              _loadUserData();
+            }
           },
           icon: Icon(IconlyBold.edit, color: Colors.grey.shade600),
         ),
@@ -118,7 +97,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 builder: (context) {
                   return Container(
                     padding: const EdgeInsets.all(20),
-                    height: 230,
+                    height: 250,
                     width: double.infinity,
                     decoration: const BoxDecoration(
                       color: Colors.white,
@@ -131,19 +110,39 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: Column(
                         children: [
                           GestureDetector(
-                            onTap: () {
+                            onTap: () async {
                               final currentLocale = Localizations.localeOf(
                                 context,
                               ).languageCode;
+                              final prefs =
+                                  await SharedPreferences.getInstance();
+                              final firestore =
+                                  await FirebaseFirestore.instance;
 
                               if (currentLocale == 'ar') {
                                 MyApp.of(
                                   context,
                                 )!.setLocale(const Locale('en'));
+                                await prefs.setString(
+                                  'preferredLanguage',
+                                  'en',
+                                );
+                                await firestore
+                                    .collection('users')
+                                    .doc(user.uid)
+                                    .update({'language': 'en'});
                               } else {
                                 MyApp.of(
                                   context,
                                 )!.setLocale(const Locale('ar'));
+                                await prefs.setString(
+                                  'preferredLanguage',
+                                  'ar',
+                                );
+                                await firestore
+                                    .collection('users')
+                                    .doc(user.uid)
+                                    .update({'language': 'ar'});
                               }
 
                               Navigator.pop(context);
@@ -153,7 +152,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 const Icon(
                                   Icons.swap_horiz_rounded,
                                   color: Color.fromRGBO(46, 23, 21, 1),
-                                  size: 40,
+                                  size: 30,
                                 ),
                                 const SizedBox(width: 10.0),
                                 Text(
@@ -172,12 +171,53 @@ class _ProfilePageState extends State<ProfilePage> {
                               ],
                             ),
                           ),
-                          const SizedBox(height: 20.0),
+
+                          const SizedBox(height: 10.0),
                           const Divider(),
-                          const SizedBox(height: 20.0),
+                          const SizedBox(height: 10.0),
+
                           GestureDetector(
-                            onTap: () {
-                              FirebaseAuth.instance.signOut();
+                            onTap: () async {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return const BlockedUsersPage();
+                                  },
+                                ),
+                              );
+                            },
+                            child: Row(
+                              children: [
+                                const Icon(
+                                  Icons.block_rounded,
+                                  color: Color.fromRGBO(46, 23, 21, 1),
+                                  size: 30,
+                                ),
+                                const SizedBox(width: 10.0),
+                                Text(
+                                  t.blocked_users,
+                                  style: const TextStyle(
+                                    color: Color.fromRGBO(46, 23, 21, 1),
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          const SizedBox(height: 10.0),
+                          const Divider(),
+                          const SizedBox(height: 10.0),
+
+                          GestureDetector(
+                            onTap: () async {
+                              if (GoogleSignInService.getCurrentUser() !=
+                                  null) {
+                                await GoogleSignInService.signOut();
+                              }
+                              await FirebaseAuth.instance.signOut();
                               setState(() {
                                 selectedPageNotifier.value = 0;
                               });
@@ -196,7 +236,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 const Icon(
                                   IconlyLight.logout,
                                   color: Color.fromRGBO(46, 23, 21, 1),
-                                  size: 40,
+                                  size: 30,
                                 ),
                                 const SizedBox(width: 10.0),
                                 Text(
@@ -268,7 +308,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 const SizedBox(height: 10.0),
                 _buildInfoBox(
-                  userData['first_name'] == " "
+                  userData['first_name'] != null &&
+                          userData['first_name'].toString().trim().isNotEmpty
                       ? userData['first_name']
                       : t.placeholder_not_provided, //display first name if exist, else display Not provided
                 ),
@@ -288,7 +329,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 const SizedBox(height: 10.0),
                 _buildInfoBox(
-                  userData['last_name'] == " "
+                  userData['last_name'] != null &&
+                          userData['last_name'].toString().trim().isNotEmpty
                       ? userData['last_name']
                       : t.placeholder_not_provided, //display last name if exist, else display Not provided
                 ),
@@ -312,7 +354,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           userData['phone_number'].toString().trim().isNotEmpty
                       ? userData['phone_number']
                       : t.placeholder_not_provided,
-                  isPhone: true, // <–– هذا الجديد
+                  isPhone: true,
                 ),
               ],
             ),
