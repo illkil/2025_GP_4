@@ -216,7 +216,7 @@
   "common_error_generic": "Oops, something went wrong",
   "common_empty": "No information yet",
   "common_untitled": "Untitled",
-  "label_value_missing": "—",
+  "label_value_missing": "Not provided",
 
   "history_no_found_reports": "No found reports yet",
   "history_no_lost_reports": "No lost reports yet",
@@ -235,6 +235,14 @@
   "pick_location_permission_settings_body": "Please enable location permission from settings.",
   "pick_location_error_title": "Location Error",
   "pick_location_error_body": "Could not get current location. Please try again or choose your location manually.",
-  "pick_location_tap_hint": "Tap the map to choose a spot"
+  "pick_location_tap_hint": "Tap the map to choose a spot",
+  "title_indicator": "characters left",
+
+  "snackbar_fill_fields": "Please fill title and description",
+  "snackbar_pick_location": "Please pick a location",
+  "snackbar_submit_failed": "Submit failed: {error}",
+  "snackbar_location_set": "Location set successfully",
+  "snackbar_location_not_selected": "Location not selected",
+  "report_submitting": "Submitting…"
 
 }

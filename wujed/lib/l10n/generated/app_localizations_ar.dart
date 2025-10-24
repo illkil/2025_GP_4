@@ -513,7 +513,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get common_untitled => 'بدون عنوان';
 
   @override
-  String get label_value_missing => '—';
+  String get label_value_missing => 'غير متوفر';
 
   @override
   String get history_no_found_reports => 'لا توجد بلاغات عثور حتى الآن';
@@ -549,4 +549,27 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get pick_location_tap_hint => 'اضغط على الخريطة لاختيار موقع';
+
+  @override
+  String get title_indicator => 'أحرف متبقية';
+
+  @override
+  String get snackbar_fill_fields => 'يرجى تعبئة العنوان والوصف';
+
+  @override
+  String get snackbar_pick_location => 'يرجى تحديد الموقع';
+
+  @override
+  String snackbar_submit_failed(Object error) {
+    return 'فشل الإرسال: $error';
+  }
+
+  @override
+  String get snackbar_location_set => 'تم تحديد الموقع بنجاح';
+
+  @override
+  String get snackbar_location_not_selected => 'لم يتم تحديد الموقع';
+
+  @override
+  String get report_submitting => 'جاري الإرسال…';
 }

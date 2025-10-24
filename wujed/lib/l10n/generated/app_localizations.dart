@@ -1061,7 +1061,7 @@ abstract class AppLocalizations {
   /// No description provided for @label_value_missing.
   ///
   /// In en, this message translates to:
-  /// **'—'**
+  /// **'Not provided'**
   String get label_value_missing;
 
   /// No description provided for @history_no_found_reports.
@@ -1129,6 +1129,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Tap the map to choose a spot'**
   String get pick_location_tap_hint;
+
+  /// No description provided for @title_indicator.
+  ///
+  /// In en, this message translates to:
+  /// **'characters left'**
+  String get title_indicator;
+
+  /// No description provided for @snackbar_fill_fields.
+  ///
+  /// In en, this message translates to:
+  /// **'Please fill title and description'**
+  String get snackbar_fill_fields;
+
+  /// No description provided for @snackbar_pick_location.
+  ///
+  /// In en, this message translates to:
+  /// **'Please pick a location'**
+  String get snackbar_pick_location;
+
+  /// No description provided for @snackbar_submit_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Submit failed: {error}'**
+  String snackbar_submit_failed(Object error);
+
+  /// No description provided for @snackbar_location_set.
+  ///
+  /// In en, this message translates to:
+  /// **'Location set successfully'**
+  String get snackbar_location_set;
+
+  /// No description provided for @snackbar_location_not_selected.
+  ///
+  /// In en, this message translates to:
+  /// **'Location not selected'**
+  String get snackbar_location_not_selected;
+
+  /// No description provided for @report_submitting.
+  ///
+  /// In en, this message translates to:
+  /// **'Submitting…'**
+  String get report_submitting;
 }
 
 class _AppLocalizationsDelegate

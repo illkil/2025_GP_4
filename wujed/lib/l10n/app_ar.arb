@@ -216,7 +216,7 @@
   "common_error_generic": "عذرًا، حدث خطأ ما",
   "common_empty": "لا توجد معلومات بعد",
   "common_untitled": "بدون عنوان",
-  "label_value_missing": "—",
+  "label_value_missing": "غير متوفر",
 
   "history_no_found_reports": "لا توجد بلاغات عثور حتى الآن",
   "history_no_lost_reports": "لا توجد بلاغات فقدان حتى الآن",
@@ -235,7 +235,14 @@
   "pick_location_permission_settings_body": "يرجى تفعيل إذن الموقع من الإعدادات.",
   "pick_location_error_title": "خطأ في الموقع",
   "pick_location_error_body": "تعذّر الحصول على الموقع الحالي. يرجى المحاولة مرة أخرى أو اختيار موقعك يدويًا.",
-  "pick_location_tap_hint": "اضغط على الخريطة لاختيار موقع"
+  "pick_location_tap_hint": "اضغط على الخريطة لاختيار موقع",
+  "title_indicator": "أحرف متبقية",
 
+  "snackbar_fill_fields": "يرجى تعبئة العنوان والوصف",
+  "snackbar_pick_location": "يرجى تحديد الموقع",
+  "snackbar_submit_failed": "فشل الإرسال: {error}",
+  "snackbar_location_set": "تم تحديد الموقع بنجاح",
+  "snackbar_location_not_selected": "لم يتم تحديد الموقع",
+  "report_submitting": "جاري الإرسال…"
 
 }

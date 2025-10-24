@@ -514,7 +514,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get common_untitled => 'Untitled';
 
   @override
-  String get label_value_missing => '—';
+  String get label_value_missing => 'Not provided';
 
   @override
   String get history_no_found_reports => 'No found reports yet';
@@ -552,4 +552,27 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pick_location_tap_hint => 'Tap the map to choose a spot';
+
+  @override
+  String get title_indicator => 'characters left';
+
+  @override
+  String get snackbar_fill_fields => 'Please fill title and description';
+
+  @override
+  String get snackbar_pick_location => 'Please pick a location';
+
+  @override
+  String snackbar_submit_failed(Object error) {
+    return 'Submit failed: $error';
+  }
+
+  @override
+  String get snackbar_location_set => 'Location set successfully';
+
+  @override
+  String get snackbar_location_not_selected => 'Location not selected';
+
+  @override
+  String get report_submitting => 'Submitting…';
 }
