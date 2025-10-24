@@ -242,6 +242,24 @@ abstract class AppLocalizations {
   /// **'Please wait {remaining} seconds before trying again'**
   String login_locked(int remaining);
 
+  /// No description provided for @login_email_not_verified.
+  ///
+  /// In en, this message translates to:
+  /// **'Email is not verified'**
+  String get login_email_not_verified;
+
+  /// No description provided for @login_email_verification_message.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ve sent a verification link to your email.\nPlease check your inbox and click the link to verify your email before logging in.\nIf you don\'t see it in your inbox, check your Spam or Junk folder.\n\nIf you didn\'t receive it or it expired, press Resend. If you got it, press Continue.'**
+  String get login_email_verification_message;
+
+  /// No description provided for @login_btn_resend.
+  ///
+  /// In en, this message translates to:
+  /// **'Resend'**
+  String get login_btn_resend;
+
   /// No description provided for @signup_title.
   ///
   /// In en, this message translates to:
@@ -338,6 +356,36 @@ abstract class AppLocalizations {
   /// **'Please confirm that you are 18 years old or older'**
   String get check_18yo_checkbox;
 
+  /// No description provided for @signup_account_created_success.
+  ///
+  /// In en, this message translates to:
+  /// **'Account created successfully!'**
+  String get signup_account_created_success;
+
+  /// No description provided for @signup_email_verification_message.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ve sent a verification link to your email.\nPlease check your inbox and click the link to verify your email before logging in.\nIf you don\'t see it in your inbox, please check your Spam or Junk folder.'**
+  String get signup_email_verification_message;
+
+  /// No description provided for @signup_username_rules.
+  ///
+  /// In en, this message translates to:
+  /// **'Username must contain at least one letter,\nit can only include letters, numbers, dots (.),\nunderscores (_), and no spaces allowed.'**
+  String get signup_username_rules;
+
+  /// No description provided for @signup_username_min_length.
+  ///
+  /// In en, this message translates to:
+  /// **'Username must be at least 3 characters or more'**
+  String get signup_username_min_length;
+
+  /// No description provided for @signup_all_details_valid.
+  ///
+  /// In en, this message translates to:
+  /// **'All details must be valid'**
+  String get signup_all_details_valid;
+
   /// No description provided for @forgot_title.
   ///
   /// In en, this message translates to:
@@ -362,6 +410,30 @@ abstract class AppLocalizations {
   /// **'Reset Password'**
   String get forgot_reset_button;
 
+  /// No description provided for @forgot_email_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter your email'**
+  String get forgot_email_empty;
+
+  /// No description provided for @forgot_send_otp_code.
+  ///
+  /// In en, this message translates to:
+  /// **'Send OTP Code'**
+  String get forgot_send_otp_code;
+
+  /// No description provided for @forgot_failed_otp.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to send OTP, Try again later'**
+  String get forgot_failed_otp;
+
+  /// No description provided for @forgot_network_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Network error, please check your internet connection'**
+  String get forgot_network_error;
+
   /// No description provided for @verify_title.
   ///
   /// In en, this message translates to:
@@ -385,6 +457,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Resend code'**
   String get verify_resend;
+
+  /// No description provided for @verify_reset_password_email.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset Password Email'**
+  String get verify_reset_password_email;
+
+  /// No description provided for @verify_reset_password_info.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ve sent you an email to reset your password.\n If you don\'t see it in your inbox, check your Spam or Junk folder.'**
+  String get verify_reset_password_info;
+
+  /// No description provided for @verify_invalid_code.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid or expired code, please try again'**
+  String get verify_invalid_code;
+
+  /// No description provided for @verify_new_otp_sent.
+  ///
+  /// In en, this message translates to:
+  /// **'New OTP sent successfully'**
+  String get verify_new_otp_sent;
+
+  /// No description provided for @verify_failed_resend_otp.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to resend OTP, try again later'**
+  String get verify_failed_resend_otp;
+
+  /// No description provided for @verify_wait_timer.
+  ///
+  /// In en, this message translates to:
+  /// **'Please wait for the timer to finish to get a new OTP code'**
+  String get verify_wait_timer;
 
   /// No description provided for @home_what_item_question.
   ///
@@ -949,6 +1057,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Log Out'**
   String get action_log_out;
+
+  /// No description provided for @blocked_users.
+  ///
+  /// In en, this message translates to:
+  /// **'Blocked Users'**
+  String get blocked_users;
+
+  /// No description provided for @unblock_user.
+  ///
+  /// In en, this message translates to:
+  /// **'Unblock'**
+  String get unblock_user;
+
+  /// No description provided for @unblock_dialog_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Unblock User'**
+  String get unblock_dialog_title;
+
+  /// No description provided for @unblock_user_confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to unblock {name}?'**
+  String unblock_user_confirm(String name);
 
   /// No description provided for @label_first_name.
   ///

@@ -87,6 +87,16 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get login_email_not_verified => 'Email is not verified';
+
+  @override
+  String get login_email_verification_message =>
+      'We\'ve sent a verification link to your email.\nPlease check your inbox and click the link to verify your email before logging in.\nIf you don\'t see it in your inbox, check your Spam or Junk folder.\n\nIf you didn\'t receive it or it expired, press Resend. If you got it, press Continue.';
+
+  @override
+  String get login_btn_resend => 'Resend';
+
+  @override
   String get signup_title => 'Join Us!';
 
   @override
@@ -137,6 +147,24 @@ class AppLocalizationsEn extends AppLocalizations {
       'Please confirm that you are 18 years old or older';
 
   @override
+  String get signup_account_created_success => 'Account created successfully!';
+
+  @override
+  String get signup_email_verification_message =>
+      'We\'ve sent a verification link to your email.\nPlease check your inbox and click the link to verify your email before logging in.\nIf you don\'t see it in your inbox, please check your Spam or Junk folder.';
+
+  @override
+  String get signup_username_rules =>
+      'Username must contain at least one letter,\nit can only include letters, numbers, dots (.),\nunderscores (_), and no spaces allowed.';
+
+  @override
+  String get signup_username_min_length =>
+      'Username must be at least 3 characters or more';
+
+  @override
+  String get signup_all_details_valid => 'All details must be valid';
+
+  @override
   String get forgot_title => 'Forgot Password';
 
   @override
@@ -150,6 +178,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get forgot_reset_button => 'Reset Password';
 
   @override
+  String get forgot_email_empty => 'Please enter your email';
+
+  @override
+  String get forgot_send_otp_code => 'Send OTP Code';
+
+  @override
+  String get forgot_failed_otp => 'Failed to send OTP, Try again later';
+
+  @override
+  String get forgot_network_error =>
+      'Network error, please check your internet connection';
+
+  @override
   String get verify_title => 'OTP Verification';
 
   @override
@@ -161,6 +202,27 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get verify_resend => 'Resend code';
+
+  @override
+  String get verify_reset_password_email => 'Reset Password Email';
+
+  @override
+  String get verify_reset_password_info =>
+      'We\'ve sent you an email to reset your password.\n If you don\'t see it in your inbox, check your Spam or Junk folder.';
+
+  @override
+  String get verify_invalid_code => 'Invalid or expired code, please try again';
+
+  @override
+  String get verify_new_otp_sent => 'New OTP sent successfully';
+
+  @override
+  String get verify_failed_resend_otp =>
+      'Failed to resend OTP, try again later';
+
+  @override
+  String get verify_wait_timer =>
+      'Please wait for the timer to finish to get a new OTP code';
 
   @override
   String get home_what_item_question => 'What item are you reporting?';
@@ -456,6 +518,20 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get action_log_out => 'Log Out';
+
+  @override
+  String get blocked_users => 'Blocked Users';
+
+  @override
+  String get unblock_user => 'Unblock';
+
+  @override
+  String get unblock_dialog_title => 'Unblock User';
+
+  @override
+  String unblock_user_confirm(String name) {
+    return 'Are you sure you want to unblock $name?';
+  }
 
   @override
   String get label_first_name => 'First Name';

@@ -4,8 +4,8 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:remixicon/remixicon.dart';
 import 'package:wujed/l10n/generated/app_localizations.dart';
 
-class MessageTile extends StatelessWidget {
-  const MessageTile({
+class MessageRow extends StatelessWidget {
+  const MessageRow({
     super.key,
     required this.name,
     required this.subtitle,

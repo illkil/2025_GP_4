@@ -88,6 +88,16 @@ class AppLocalizationsAr extends AppLocalizations {
   }
 
   @override
+  String get login_email_not_verified => 'البريد الإلكتروني غير مؤكد';
+
+  @override
+  String get login_email_verification_message =>
+      'لقد أرسلنا رابط التحقق إلى بريدك الإلكتروني.\nيرجى التحقق من صندوق الوارد والضغط على الرابط لتأكيد بريدك الإلكتروني قبل تسجيل الدخول.\nإذا لم تجد الرسالة في صندوق الوارد، تحقق من مجلد الرسائل غير المرغوب فيها أو المهملات.\n\nإذا لم تصلك الرسالة أو انتهت صلاحيتها، اضغط إعادة الإرسال. إذا وصلتك، اضغط متابعة.';
+
+  @override
+  String get login_btn_resend => 'إعادة الإرسال';
+
+  @override
   String get signup_title => 'انضم إلينا!';
 
   @override
@@ -138,6 +148,24 @@ class AppLocalizationsAr extends AppLocalizations {
       'يرجى تأكيد أنك تبلغ من العمر 18 عامًا أو أكثر';
 
   @override
+  String get signup_account_created_success => 'تم إنشاء الحساب بنجاح!';
+
+  @override
+  String get signup_email_verification_message =>
+      'لقد أرسلنا رابط التحقق إلى بريدك الإلكتروني.\nيرجى التحقق من صندوق الوارد والضغط على الرابط لتأكيد بريدك الإلكتروني قبل تسجيل الدخول.\nإذا لم تكن الرسالة موجودة في صندوق الوارد، يرجى التحقق من مجلد الرسائل غير المرغوب فيها أو المهملات.';
+
+  @override
+  String get signup_username_rules =>
+      'يجب أن يحتوي اسم المستخدم على حرف واحد على الأقل.\nويمكن أن يتضمن فقط الأحرف، الأرقام، النقاط (.)،\nوالشرطة السفلية (_)، بدون مسافات.';
+
+  @override
+  String get signup_username_min_length =>
+      'يجب أن يكون اسم المستخدم 3 أحرف على الأقل أو أكثر';
+
+  @override
+  String get signup_all_details_valid => 'يجب أن تكون جميع التفاصيل صالحة';
+
+  @override
   String get forgot_title => 'استعادة كلمة المرور';
 
   @override
@@ -151,6 +179,20 @@ class AppLocalizationsAr extends AppLocalizations {
   String get forgot_reset_button => 'إعادة تعيين كلمة المرور';
 
   @override
+  String get forgot_email_empty => 'يرجى إدخال بريدك الإلكتروني';
+
+  @override
+  String get forgot_send_otp_code => 'إرسال رمز التحقق';
+
+  @override
+  String get forgot_failed_otp =>
+      'فشل في إرسال رمز التحقق، حاول مرة أخرى لاحقًا';
+
+  @override
+  String get forgot_network_error =>
+      'خطأ في الشبكة، يرجى التحقق من اتصال الإنترنت';
+
+  @override
   String get verify_title => 'التحقق برمز التأكيد';
 
   @override
@@ -162,6 +204,28 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get verify_resend => 'إعادة إرسال الرمز';
+
+  @override
+  String get verify_reset_password_email => 'بريد إعادة تعيين كلمة المرور';
+
+  @override
+  String get verify_reset_password_info =>
+      'لقد أرسلنا لك بريدًا لإعادة تعيين كلمة المرور،\nإذا لم تجده في بريدك الوارد، فتحقق من مجلد الرسائل غير المرغوب فيها أو المهملات.';
+
+  @override
+  String get verify_invalid_code =>
+      'رمز غير صالح أو منتهي الصلاحية، يرجى المحاولة مرة أخرى';
+
+  @override
+  String get verify_new_otp_sent => 'تم إرسال رمز التحقق الجديد بنجاح';
+
+  @override
+  String get verify_failed_resend_otp =>
+      'فشل في إعادة إرسال رمز التحقق، حاول مرة أخرى لاحقًا';
+
+  @override
+  String get verify_wait_timer =>
+      'يرجى الانتظار حتى ينتهي المؤقت للحصول على رمز تحقق جديد';
 
   @override
   String get home_what_item_question => 'ما العنصر الذي تريد الإبلاغ عنه؟';
@@ -455,6 +519,20 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get action_log_out => 'تسجيل الخروج';
+
+  @override
+  String get blocked_users => 'المستخدمون المحظورون';
+
+  @override
+  String get unblock_user => 'إلغاء الحظر';
+
+  @override
+  String get unblock_dialog_title => 'إلغاء الحظر';
+
+  @override
+  String unblock_user_confirm(String name) {
+    return 'هل أنت متأكد أنك تريد إلغاء حظر $name؟';
+  }
 
   @override
   String get label_first_name => 'الاسم الأول';

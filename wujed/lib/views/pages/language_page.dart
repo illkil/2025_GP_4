@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wujed/main.dart';
 import 'package:wujed/views/pages/onboarding_page.dart';
 
@@ -10,6 +11,11 @@ class LanguagePage extends StatefulWidget {
 }
 
 class _LanguagePageState extends State<LanguagePage> {
+  Future<void> _saveLanguage(String lang) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('preferredLanguage', lang);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +69,8 @@ class _LanguagePageState extends State<LanguagePage> {
             ),
             SizedBox(height: 100.0),
             FilledButton(
-              onPressed: () {
+              onPressed: () async {
+                await _saveLanguage('ar');
                 MyApp.of(context)!.setLocale(const Locale('ar'));
                 Navigator.pushAndRemoveUntil(
                   context,
@@ -89,7 +96,8 @@ class _LanguagePageState extends State<LanguagePage> {
             ),
             SizedBox(height: 40.0),
             FilledButton(
-              onPressed: () {
+              onPressed: () async {
+                await _saveLanguage('en');
                 MyApp.of(context)!.setLocale(const Locale('en'));
                 Navigator.pushAndRemoveUntil(
                   context,

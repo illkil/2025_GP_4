@@ -40,7 +40,7 @@ class _MessagesPageState extends State<MessagesPage> {
                 ),
               );
             },
-            child: MessageTile(
+            child: MessageRow(
               name: 'Ghaida44',
               subtitle: "${t.messages_you_prefix} ${t.chat_great_do}",
               time: '09:46 PM',
@@ -50,7 +50,7 @@ class _MessagesPageState extends State<MessagesPage> {
 
           SizedBox(height: 10.0),
 
-          MessageTile(
+          MessageRow(
             name: 'AhlamQ',
             subtitle: t.chat_hello_found_item,
             time: '09:46 PM',
@@ -61,7 +61,7 @@ class _MessagesPageState extends State<MessagesPage> {
 
           SizedBox(height: 10.0),
 
-          MessageTile(
+          MessageRow(
             name: 'Ghena123',
             subtitle: t.messages_typing,
             time: '09:46 PM',
@@ -72,7 +72,7 @@ class _MessagesPageState extends State<MessagesPage> {
 
           SizedBox(height: 10.0),
 
-          MessageTile(
+          MessageRow(
             name: 'almunyifjwhrt',
             subtitle: t.messages_items_matched,
             time: '',
