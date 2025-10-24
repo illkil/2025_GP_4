@@ -5,6 +5,7 @@ import 'package:wujed/services/report_service.dart';
 import 'package:wujed/views/pages/match_after_accepting_page.dart';
 import 'package:wujed/views/pages/match_details_page.dart';
 import 'package:wujed/l10n/generated/app_localizations.dart';
+import 'package:wujed/views/pages/view_on_map.dart';
 
 class ItemReportedLost extends StatefulWidget {
   final String reportId;
@@ -90,16 +91,45 @@ class _ItemReportedLostState extends State<ItemReportedLost> {
         final title = (data['title'] as String?)?.trim() ?? 'Untitled';
         final description = (data['description'] as String?)?.trim() ?? '—';
 
-        String locationText = '—';
         final loc = data['location'];
-        if (loc is GeoPoint) {
-          locationText =
-              '${loc.latitude.toStringAsFixed(5)}, ${loc.longitude.toStringAsFixed(5)}';
-        } else if (loc is String && loc.trim().isNotEmpty) {
-          locationText = loc.trim();
-        } else if (data['address'] is String &&
+        String locationText = '—';
+        if (data['address'] is String &&
             (data['address'] as String).trim().isNotEmpty) {
           locationText = (data['address'] as String).trim();
+        } else {
+          final loc = data['location'];
+          if (loc is GeoPoint) {
+            locationText =
+                '${loc.latitude.toStringAsFixed(5)}, ${loc.longitude.toStringAsFixed(5)}';
+          } else if (loc is String && loc.trim().isNotEmpty) {
+            locationText = loc.trim();
+          }
+        }
+
+        double? lat;
+        double? lng;
+
+        if (loc is GeoPoint) {
+          lat = loc.latitude;
+          lng = loc.longitude;
+        } else if (loc is String && loc.trim().isNotEmpty) {
+          // parse "[24.71925° N, 46.6737° E]"
+          final reg = RegExp(
+            r'\[\s*([-\d\.]+)°\s*([NnSs]),\s*([-\d\.]+)°\s*([EeWw])\s*\]',
+          );
+          final m = reg.firstMatch(loc);
+          if (m != null) {
+            var _lat = double.tryParse(m.group(1)!);
+            var _lng = double.tryParse(m.group(3)!);
+            final ns = m.group(2)!.toUpperCase();
+            final ew = m.group(4)!.toUpperCase();
+            if (_lat != null && _lng != null) {
+              if (ns == 'S') _lat = -_lat;
+              if (ew == 'W') _lng = -_lng;
+              lat = _lat;
+              lng = _lng;
+            }
+          }
         }
 
         final List<String> imgs = (data['images'] as List<dynamic>? ?? const [])
@@ -241,51 +271,67 @@ class _ItemReportedLostState extends State<ItemReportedLost> {
                       ),
                       const SizedBox(height: 10.0),
 
-                      Container(
-                        height: 55,
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                            color: const Color.fromRGBO(0, 0, 0, 0.2),
-                            width: 1,
-                          ),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Stack(
-                          children: [
-                            const PositionedDirectional(
-                              top: 0,
-                              bottom: 0,
-                              start: 20,
-                              child: Icon(
-                                IconlyBold.location,
-                                color: Color.fromRGBO(46, 23, 21, 1),
-                                size: 37,
-                              ),
+                      GestureDetector(
+                        onTap: (lat != null && lng != null)
+                            ? () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => ViewOnMapPage(
+                                      latitude: lat!,
+                                      longitude: lng!,
+                                      title: locationText,
+                                    ),
+                                  ),
+                                );
+                              }
+                            : null,
+                        child: Container(
+                          height: 55,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(
+                              color: const Color.fromRGBO(0, 0, 0, 0.2),
+                              width: 1,
                             ),
-                            PositionedDirectional(
-                              top: 18,
-                              start: 100,
-                              child: Text(
-                                locationText,
-                                style: const TextStyle(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Stack(
+                            children: [
+                              const PositionedDirectional(
+                                top: 0,
+                                bottom: 0,
+                                start: 20,
+                                child: Icon(
+                                  IconlyBold.location,
                                   color: Color.fromRGBO(46, 23, 21, 1),
-                                  fontSize: 13,
+                                  size: 37,
                                 ),
                               ),
-                            ),
-                            const PositionedDirectional(
-                              top: 0,
-                              bottom: 0,
-                              end: 10,
-                              child: Icon(
-                                Icons.arrow_forward_ios_rounded,
-                                size: 20,
-                                color: Color.fromRGBO(46, 23, 21, 1),
+                              PositionedDirectional(
+                                top: 18,
+                                start: 100,
+                                child: Text(
+                                  locationText,
+                                  style: const TextStyle(
+                                    color: Color.fromRGBO(46, 23, 21, 1),
+                                    fontSize: 13,
+                                  ),
+                                ),
                               ),
-                            ),
-                          ],
+                              const PositionedDirectional(
+                                top: 0,
+                                bottom: 0,
+                                end: 10,
+                                child: Icon(
+                                  Icons.arrow_forward_ios_rounded,
+                                  size: 20,
+                                  color: Color.fromRGBO(46, 23, 21, 1),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
 

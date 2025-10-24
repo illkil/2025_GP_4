@@ -90,7 +90,7 @@ class _PickLocationPageState extends State<PickLocationPage> {
       await showAppDialog(
         context,
         'Location Error',
-        'Could not get current location. Please try again or choose your location.',
+        'Could not get current location. Please try again or choose your location manually.',
       );
     }
   }

@@ -1,19 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:wujed/services/report_service.dart';
 import 'package:wujed/l10n/generated/app_localizations.dart';
 
 class ItemReportedFound extends StatefulWidget {
-  const ItemReportedFound({super.key});
+  final String reportId;
+  const ItemReportedFound({super.key, required this.reportId});
 
   @override
   State<ItemReportedFound> createState() => _ItemReportedFoundState();
 }
 
 class _ItemReportedFoundState extends State<ItemReportedFound> {
-  final _imgPath = 'lib/assets/images/CoffeeBrew2.jpg';
-  final _heroTag = 'item-image-hero';
+  @override
+  void initState() {
+    super.initState();
+    print('reportId: ${widget.reportId}');
+  }
 
-  void _openImage() {
+  void _openImage(String url) {
     Navigator.of(context).push(
       PageRouteBuilder(
         opaque: false,
@@ -26,12 +34,9 @@ class _ItemReportedFoundState extends State<ItemReportedFound> {
             child: Stack(
               children: [
                 Center(
-                  child: Hero(
-                    tag: _heroTag,
-                    child: InteractiveViewer(
-                      maxScale: 5,
-                      child: Image.asset(_imgPath, fit: BoxFit.contain),
-                    ),
+                  child: InteractiveViewer(
+                    maxScale: 5,
+                    child: Image.network(url, fit: BoxFit.contain),
                   ),
                 ),
                 PositionedDirectional(
@@ -56,184 +61,304 @@ class _ItemReportedFoundState extends State<ItemReportedFound> {
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
 
-    return Scaffold(
-      backgroundColor: const Color.fromRGBO(249, 249, 249, 1),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Stack(
+    return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+      stream: ReportService().ReportStream(widget.reportId),
+      builder: (context, snapshot) {
+        //1. loading
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        }
+        //2. error
+        if (snapshot.hasError) {
+          return const Scaffold(
+            body: Center(child: Text('Oops, something went wrong')),
+          );
+        }
+        //3. no data
+        if (!snapshot.hasData || !snapshot.data!.exists) {
+          return const Scaffold(
+            body: Center(child: Text('No information yet')),
+          );
+        }
+
+        final data = snapshot.data!.data() ?? {};
+        final title = (data['title'] as String?)?.trim() ?? 'Untitled';
+        final description = (data['description'] as String?)?.trim() ?? '—';
+
+        String locationText = '—';
+        GeoPoint? geo;
+        final loc = data['location'];
+        if (loc is GeoPoint) {
+          geo = loc;
+          locationText = (data['address'] as String?)?.trim().isNotEmpty == true
+              ? (data['address'] as String).trim()
+              : '${loc.latitude.toStringAsFixed(5)}, ${loc.longitude.toStringAsFixed(5)}';
+        } else if (data['address'] is String &&
+            (data['address'] as String).trim().isNotEmpty) {
+          locationText = (data['address'] as String).trim();
+        }
+
+        final List<String> imgs = (data['images'] as List<dynamic>? ?? const [])
+            .cast<String>();
+        final headerUrl = imgs.isNotEmpty ? imgs.first : null;
+        const double heroH = 400.0;
+
+        return Scaffold(
+          backgroundColor: const Color.fromRGBO(249, 249, 249, 1),
+          body: SingleChildScrollView(
+            child: Column(
               children: [
-                SizedBox(
-                  width: double.infinity,
-                  height: 400,
-                  child: GestureDetector(
-                    onTap: () {
-                      _openImage();
-                    },
-                    child: Image.asset(
-                      'lib/assets/images/CoffeeBrew2.jpg',
-                      fit: BoxFit.cover,
+                Stack(
+                  children: [
+                    SizedBox(
+                      width: double.infinity,
+                      height: heroH,
+                      child: headerUrl == null
+                          ? const Center(
+                              child: Icon(
+                                Icons.image_not_supported,
+                                size: 48,
+                                color: Colors.grey,
+                              ),
+                            )
+                          : GestureDetector(
+                              onTap: () => _openImage(headerUrl),
+                              child: Image.network(
+                                headerUrl,
+                                fit: BoxFit.cover,
+                                loadingBuilder: (context, child, lp) {
+                                  if (lp == null) return child;
+                                  return const Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                },
+                                errorBuilder: (_, __, ___) => const Icon(
+                                  Icons.broken_image,
+                                  size: 48,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ),
                     ),
-                  ),
-                ),
-                PositionedDirectional(
-                  top: 70,
-                  start: 20,
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                    ),
-                    child: const BackButton(),
-                  ),
-                ),
-                PositionedDirectional(
-                  start: 0,
-                  end: 0,
-                  bottom: 0,
-                  child: SizedBox(
-                    width: double.infinity,
-                    height: 50,
-                    child: Container(
-                      decoration: const BoxDecoration(
-                        color: Color.fromRGBO(255, 235, 190, 1),
-                        borderRadius: BorderRadiusDirectional.only(
-                          topStart: Radius.circular(20),
-                          topEnd: Radius.circular(20),
+                    PositionedDirectional(
+                      top: 70,
+                      start: 20,
+                      child: Container(
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                          shape: BoxShape.circle,
                         ),
+                        child: const BackButton(),
                       ),
-                      child: Align(
-                        alignment: const Alignment(0, 0),
-                        child: Text(
-                          t.item_title_coffee_brewer,
-                          style: const TextStyle(
-                            color: Color.fromRGBO(46, 23, 21, 1),
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
+                    ),
+                    PositionedDirectional(
+                      start: 0,
+                      end: 0,
+                      bottom: 0,
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: 50,
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            color: Color.fromRGBO(255, 235, 190, 1),
+                            borderRadius: BorderRadiusDirectional.only(
+                              topStart: Radius.circular(20),
+                              topEnd: Radius.circular(20),
+                            ),
+                          ),
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                              title,
+                              style: const TextStyle(
+                                color: Color.fromRGBO(46, 23, 21, 1),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18,
+                              ),
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
-            ),
 
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                children: [
-                  Row(
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
                     children: [
-                      Text(
-                        t.details_location_label,
-                        style: const TextStyle(
-                          color: Color.fromRGBO(43, 23, 21, 1),
-                          fontSize: 16,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 10.0),
-
-                  Container(
-                    height: 55,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
-                        color: const Color.fromRGBO(0, 0, 0, 0.2),
-                        width: 1,
-                      ),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Stack(
-                      children: [
-                        const PositionedDirectional(
-                          top: 0,
-                          bottom: 0,
-                          start: 20,
-                          child: Icon(
-                            IconlyBold.location,
-                            color: Color.fromRGBO(46, 23, 21, 1),
-                            size: 37,
+                      Row(
+                        children: [
+                          Text(
+                            t.details_location_label,
+                            style: const TextStyle(
+                              color: Color.fromRGBO(43, 23, 21, 1),
+                              fontSize: 16,
+                            ),
                           ),
+                        ],
+                      ),
+                      const SizedBox(height: 10.0),
+
+                      Container(
+                        height: 55,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(
+                            color: const Color.fromRGBO(0, 0, 0, 0.2),
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(20),
                         ),
-                        const PositionedDirectional(
-                          top: 18,
-                          start: 100,
+                        child: Stack(
+                          children: [
+                            const PositionedDirectional(
+                              top: 0,
+                              bottom: 0,
+                              start: 20,
+                              child: Icon(
+                                IconlyBold.location,
+                                color: Color.fromRGBO(46, 23, 21, 1),
+                                size: 37,
+                              ),
+                            ),
+                            PositionedDirectional(
+                              top: 18,
+                              start: 100,
+                              child: Text(
+                                locationText,
+                                style: const TextStyle(
+                                  color: Color.fromRGBO(46, 23, 21, 1),
+                                  fontSize: 13,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                            PositionedDirectional(
+                              top: 0,
+                              bottom: 0,
+                              end: 10,
+                              child: IconButton(
+                                onPressed: geo == null
+                                    ? null
+                                    : () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (_) => MapPreviewPage(
+                                              lat: geo!.latitude,
+                                              lng: geo!.longitude,
+                                              title: locationText,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                icon: const Icon(
+                                  Icons.arrow_forward_ios_rounded,
+                                  size: 20,
+                                  color: Color.fromRGBO(46, 23, 21, 1),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      const SizedBox(height: 20.0),
+
+                      Row(
+                        children: [
+                          Text(
+                            t.details_description_label,
+                            style: const TextStyle(
+                              color: Color.fromRGBO(43, 23, 21, 1),
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 10.0),
+
+                      Container(
+                        height: 169,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(
+                            color: const Color.fromRGBO(0, 0, 0, 0.2),
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
                           child: Text(
-                            'XYZLOCATIONXYZXYZXYZ',
-                            style: TextStyle(
+                            description,
+                            style: const TextStyle(
                               color: Color.fromRGBO(46, 23, 21, 1),
                               fontSize: 13,
                             ),
                           ),
                         ),
-                        PositionedDirectional(
-                          top: 0,
-                          bottom: 0,
-                          end: 10,
-                          child: IconButton(
-                            onPressed: () {},
-                            icon: const Icon(
-                              Icons.arrow_forward_ios_rounded,
-                              size: 20,
-                              color: Color.fromRGBO(46, 23, 21, 1),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  const SizedBox(height: 20.0),
-
-                  Row(
-                    children: [
-                      Text(
-                        t.details_description_label,
-                        style: const TextStyle(
-                          color: Color.fromRGBO(43, 23, 21, 1),
-                          fontSize: 16,
-                        ),
                       ),
                     ],
                   ),
-
-                  const SizedBox(height: 10.0),
-
-                  Container(
-                    height: 169,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(
-                        color: const Color.fromRGBO(0, 0, 0, 0.2),
-                        width: 1,
-                      ),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: const Padding(
-                      padding: EdgeInsets.all(10.0),
-                      child: Text(
-                        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
-                        'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. '
-                        'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut '
-                        'aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in '
-                        'voluptate velit esse cillum dolore eu fugiat nulla pariatur',
-                        style: TextStyle(
-                          color: Color.fromRGBO(46, 23, 21, 1),
-                          fontSize: 13,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class MapPreviewPage extends StatelessWidget {
+  final double lat;
+  final double lng;
+  final String title;
+  const MapPreviewPage({
+    super.key,
+    required this.lat,
+    required this.lng,
+    required this.title,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final point = LatLng(lat, lng);
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(title, overflow: TextOverflow.ellipsis),
+        backgroundColor: Colors.white,
+        surfaceTintColor: Colors.transparent,
+      ),
+      backgroundColor: Colors.white,
+      body: FlutterMap(
+        options: MapOptions(initialCenter: point, initialZoom: 16),
+        children: [
+          TileLayer(
+            urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+            userAgentPackageName: 'com.gp.wujed',
+          ),
+          MarkerLayer(
+            markers: [
+              Marker(
+                point: point,
+                width: 40,
+                height: 40,
+                child: const Icon(
+                  Icons.location_on,
+                  size: 40,
+                  color: Color.fromRGBO(46, 23, 21, 1),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
