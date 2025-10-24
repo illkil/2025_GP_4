@@ -65,7 +65,7 @@ class BottomSheetWidget extends StatelessWidget {
                       ),
                     ),
                     PositionedDirectional(
-                      top: 15,
+                      top: 25,
                       start: 60,
                       child: Text(
                         t.sheet_current_location_title,
@@ -73,18 +73,6 @@ class BottomSheetWidget extends StatelessWidget {
                           color: Color.fromRGBO(46, 23, 21, 1),
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    PositionedDirectional(
-                      top: 35,
-                      start: 60,
-                      child: Text(
-                        t.sheet_current_location_sub,
-                        style: TextStyle(
-                          color: Colors.grey.shade400,
-                          fontSize: 14,
                         ),
                         textAlign: TextAlign.center,
                       ),
