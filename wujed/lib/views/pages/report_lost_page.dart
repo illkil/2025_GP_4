@@ -8,7 +8,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:wujed/services/report_service.dart';
 
-
 class ReportLostPage extends StatefulWidget {
   const ReportLostPage({super.key});
 
@@ -72,20 +71,20 @@ class _ReportLostPageState extends State<ReportLostPage> {
                     fontSize: 18.0,
                   ),
                 ),
-            
+
                 const SizedBox(height: 10.0),
-            
+
                 Text(
                   t.report_required_details,
                   style: TextStyle(fontSize: 16.0, color: textColor),
                 ),
-            
+
                 const SizedBox(height: 40.0),
-            
+
                 _buildLabel(t.report_title_label, required: true),
-            
+
                 const SizedBox(height: 10.0),
-            
+
                 TextField(
                   controller: controllerTitle,
                   autocorrect: false,
@@ -110,32 +109,42 @@ class _ReportLostPageState extends State<ReportLostPage> {
                     FocusScope.of(context).unfocus();
                   },
                 ),
-            
+
                 const SizedBox(height: 20.0),
-            
+
                 _buildLabel(t.report_photo_label, required: true),
-            
+
                 const SizedBox(height: 10.0),
-            
+
                 uploadPhoto!,
-            
+
                 const SizedBox(height: 20.0),
-            
+
                 _buildLabel(t.report_location_label),
-            
+
                 const SizedBox(height: 10.0),
-            
+
                 OutlinedButton(
                   onPressed: () async {
                     final result = await Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const PickLocationPage()),
+                      MaterialPageRoute(
+                        builder: (context) => const PickLocationPage(),
+                      ),
                     );
                     // Expecting: { 'lat': double, 'lng': double, 'address': String? }
-                    if (result is Map && result['lat'] != null && result['lng'] != null) {
+                    if (result is Map &&
+                        result['lat'] != null &&
+                        result['lng'] != null) {
                       setState(() {
-                        _geo = GeoPoint(result['lat'] as double, result['lng'] as double);
-                        _address = result['address'] as String?;
+                        _geo = GeoPoint(
+                          (result['lat'] as num).toDouble(),
+                          (result['lng'] as num).toDouble(),
+                        );
+                        _address = (result['address'] as String?)
+                            ?.split(',')
+                            .take(2)
+                            .join(', ');
                       });
                     }
                   },
@@ -175,13 +184,13 @@ class _ReportLostPageState extends State<ReportLostPage> {
                     ),
                   ),
                 ),
-            
+
                 const SizedBox(height: 20.0),
-            
+
                 _buildLabel(t.report_description_label, required: true),
-            
+
                 const SizedBox(height: 10.0),
-            
+
                 TextField(
                   controller: controllerDescription,
                   autocorrect: false,
@@ -215,9 +224,9 @@ class _ReportLostPageState extends State<ReportLostPage> {
                     FocusScope.of(context).unfocus();
                   },
                 ),
-            
+
                 const SizedBox(height: 30.0),
-            
+
                 FilledButton(
                   onPressed: _submitting ? null : _submitLostReport,
                   style: FilledButton.styleFrom(
@@ -235,7 +244,7 @@ class _ReportLostPageState extends State<ReportLostPage> {
                     ),
                   ),
                 ),
-            
+
                 const SizedBox(height: 50.0),
               ],
             ),
@@ -452,10 +461,19 @@ class _ReportLostPageState extends State<ReportLostPage> {
     final description = controllerDescription.text.trim();
 
     if (title.isEmpty || description.isEmpty) {
-      setState(() { textColor = const Color.fromRGBO(211, 47, 47, 1); });
+      setState(() {
+        textColor = const Color.fromRGBO(211, 47, 47, 1);
+      });
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please fill title and description')),
       );
+      return;
+    }
+
+    if (_geo == null) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Please pick a location')));
       return;
     }
 
@@ -465,11 +483,12 @@ class _ReportLostPageState extends State<ReportLostPage> {
         type: 'lost',
         title: title,
         description: description,
-        category: null,        // plug your category if you add one
-        location: _geo,        // can be null if not picked
+        category: null, // plug your category if you add one
+        location: _geo, // can be null if not picked
         address: _address,
         lang: 'en',
-        imageFiles: _images,   // placeholder URLs will be used while Storage is off
+        imageFiles:
+            _images, // placeholder URLs will be used while Storage is off
       );
 
       if (!mounted) return;
@@ -480,9 +499,9 @@ class _ReportLostPageState extends State<ReportLostPage> {
       );
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Submit failed: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Submit failed: $e')));
     } finally {
       if (mounted) setState(() => _submitting = false);
     }

@@ -8,7 +8,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:wujed/services/report_service.dart';
 
-
 class ReportFoundPage extends StatefulWidget {
   const ReportFoundPage({super.key});
 
@@ -72,20 +71,20 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
                     fontSize: 18.0,
                   ),
                 ),
-            
+
                 const SizedBox(height: 10.0),
-            
+
                 Text(
                   t.report_required_details,
                   style: TextStyle(fontSize: 16.0, color: textColor),
                 ),
-            
+
                 const SizedBox(height: 40.0),
-            
+
                 _buildLabel(t.report_title_label, required: true),
-            
+
                 const SizedBox(height: 10.0),
-            
+
                 TextField(
                   controller: controllerTitle,
                   autocorrect: false,
@@ -110,13 +109,13 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
                     FocusScope.of(context).unfocus();
                   },
                 ),
-            
+
                 const SizedBox(height: 20.0),
-            
+
                 _buildLabel(t.report_photo_label, required: true),
-            
+
                 const SizedBox(height: 10.0),
-            
+
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -125,39 +124,50 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
                     _imagesPreview(),
                   ],
                 ),
-            
+
                 const SizedBox(height: 20.0),
-            
+
                 _buildLabel(t.report_location_label, required: true),
-            
+
                 const SizedBox(height: 10.0),
-            
+
                 OutlinedButton(
                   onPressed: () async {
                     final result = await Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (_) => const PickLocationPage()),
+                      MaterialPageRoute(
+                        builder: (_) => const PickLocationPage(),
+                      ),
                     );
 
                     // Log the result (optional for debugging)
                     print('[PickLocation] Returned: $result');
 
                     // If the result is a Map with lat/lng (like {'lat': 24.7, 'lng': 46.6, 'address': 'KSU'})
-                    if (result is Map && result['lat'] != null && result['lng'] != null) {
+                    if (result is Map &&
+                        result['lat'] != null &&
+                        result['lng'] != null) {
                       setState(() {
                         _geo = GeoPoint(
                           (result['lat'] as num).toDouble(),
                           (result['lng'] as num).toDouble(),
                         );
-                        _address = result['address'] as String?;
+                        _address = (result['address'] as String?)
+                            ?.split(',')
+                            .take(2)
+                            .join(', ');
                       });
 
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('✅ Location set successfully')),
+                        const SnackBar(
+                          content: Text('✅ Location set successfully'),
+                        ),
                       );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('⚠️ Location not selected')),
+                        const SnackBar(
+                          content: Text('⚠️ Location not selected'),
+                        ),
                       );
                     }
                   },
@@ -198,13 +208,13 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
                     ),
                   ),
                 ),
-            
+
                 const SizedBox(height: 20.0),
-            
+
                 _buildLabel(t.report_description_label, required: true),
-            
+
                 const SizedBox(height: 10.0),
-            
+
                 TextField(
                   controller: controllerDescription,
                   autocorrect: false,
@@ -238,16 +248,16 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
                     FocusScope.of(context).unfocus();
                   },
                 ),
-            
+
                 const SizedBox(height: 30.0),
-            
+
                 FilledButton(
                   onPressed: _submitting
-                    ? null
-                    : () => _submitFoundReport(
-                        title: controllerTitle.text,
-                        description: controllerDescription.text,
-                      ),
+                      ? null
+                      : () => _submitFoundReport(
+                          title: controllerTitle.text,
+                          description: controllerDescription.text,
+                        ),
                   style: FilledButton.styleFrom(
                     minimumSize: const Size(double.infinity, 50),
                     backgroundColor: const Color.fromRGBO(46, 23, 21, 1),
@@ -263,7 +273,7 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
                     ),
                   ),
                 ),
-            
+
                 const SizedBox(height: 50.0),
               ],
             ),
@@ -291,7 +301,12 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
         separatorBuilder: (_, __) => const SizedBox(width: 8),
         itemBuilder: (_, i) => ClipRRect(
           borderRadius: BorderRadius.circular(16),
-          child: Image.file(_images[i], width: 90, height: 90, fit: BoxFit.cover),
+          child: Image.file(
+            _images[i],
+            width: 90,
+            height: 90,
+            fit: BoxFit.cover,
+          ),
         ),
       ),
     );
@@ -307,6 +322,12 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Please fill title and description')),
       );
+      return;
+    }
+    if (_geo == null) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Please pick a location')));
       return;
     }
 
@@ -330,9 +351,9 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
       );
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Submit failed: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Submit failed: $e')));
     } finally {
       if (mounted) setState(() => _submitting = false);
     }

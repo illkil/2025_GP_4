@@ -3,105 +3,77 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<<<<<<< HEAD
+<title>Wujed · Home</title>
+<style>
+  :root{
+    --accent:#2E1715;
+    --text:#1B1E28;
+    --muted40: rgba(0,0,0,.4);
+  }
+  *{ box-sizing:border-box; }
+  body{
+    margin:0;
+    font-family:"Segoe UI", Arial, sans-serif;
+    color:var(--text);
+    background:#fff;
+    display:flex;
+    flex-direction:column;
+    min-height:100vh;
+  }
+  .content{ flex:1; display:flex; align-items:center; justify-content:center; padding:24px; }
+  .center-card{ text-align:center; max-width:900px; padding:24px; }
+
+  .welcome{ font-size:50px; line-height:1.15; margin:0 0 16px; font-weight:600; }
+  .welcome .hi{ color:#FFCC5C; font-weight:800; }
+  .subtitle{ font-size:22px; line-height:1.4; margin:0 0 28px; font-weight:400; color:#000; }
+
+  /* Sign-in style same as Sign In page */
+  .signin-btn{
+    width:245px;
+    height:55px;
+    border:none;
+    border-radius:15px;
+    font-size:20px;
+    font-weight:600;
+    color:#fff;
+    background:var(--accent);
+    cursor:pointer;
+    transition:.2s;
+  }
+  .signin-btn:hover{ opacity:.9; }
+  .signin-btn:focus{ outline:3px solid rgba(0,0,0,.3); outline-offset:2px; }
+
+  .footer{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:12px 24px; font-size:14px; color:var(--muted40);
+  }
+  @media (max-width:900px){
+    .welcome{ font-size:40px; }
+    .subtitle{ font-size:18px; }
+  }
+</style>
+=======
 <title>Dashboard · Home</title>
 <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
 <link rel="stylesheet" href="./css/Home.css" />
 <script src="./js/lang.js"></script>
 
+>>>>>>> 43ee97092a99c8d826029dc70041d45038d1f1e4
 </head>
 <body>
-
-<div class="app">
-  <!-- Sidebar -->
-  <aside class="sidebar">
-    <div class="brand selected">
-      <img src="Images/Logo.png" alt="Logo" />
-      <div class="name">Wujed</div>
+  <main class="content" aria-labelledby="welcome">
+    <div class="center-card">
+      <h1 id="welcome" class="welcome">Welcome to <span class="hi">Wujed</span></h1>
+      <p class="subtitle">Your secure lost & found platform. Please sign in to continue.</p>
+      <a href="Sign-In.html">
+        <button class="signin-btn" aria-label="Sign in to Wujed">Sign In</button>
+      </a>
     </div>
-
-    <div class="section-label">Dashboards</div>
-    <nav class="nav">
-      <a href="FlaggedReports.html" class="nav-item">Flagged Reports</a>
-      <a href="RejectedMatches.html" class="nav-item">Rejected Matches</a>
-    </nav>
-
-    <div class="spacer"></div>
-
-    <!-- Profile -->
-    <div class="profile" id="profileBtn">
-      <img src="Images/ProfilePic.jpg" alt="PFP" />
-      <div class="pname">Raneem</div>
-    </div>
-
-    <!-- Profile Popover -->
-    <div class="profile-popover" id="profilePopover">
-      <div class="pp-item" id="ppLang">
-        <span class="iconify" data-icon="mdi:swap-horizontal"></span>
-        <span>العربية</span>
-      </div>
-      <div class="pp-divider"></div>
-      <div class="pp-item" id="ppLogout" style="font-weight:700;">
-        <span class="iconify" data-icon="mdi:logout"></span>
-        <span>Log Out</span>
-      </div>
-    </div>
-  </aside>
-
-  <!-- Main content -->
-  <main class="content">
-    <div class="crumbs">Home</div>
-
-    <div class="center-wrap">
-      <div class="center-card" aria-labelledby="welcome">
-        <h1 id="welcome" class="welcome">
-          Welcome, <span class="hi">Raneem!</span>
-        </h1>
-        <p class="subtitle">
-          Manage reports and matches easily from your dashboard.
-        </p>
-      </div>
-    </div>
-
-    <footer class="footer">
-      <span>© 2025 Wujed</span>
-      <span>All rights reserved</span>
-    </footer>
   </main>
-</div>
-
-<script>
-  const profileBtn = document.getElementById('profileBtn');
-  const profilePanel = document.getElementById('profilePopover');
-
-  function closeProfile() {
-    profilePanel.classList.remove('show');
-  }
-
-  profileBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    profilePanel.classList.toggle('show');
-  });
-
-  document.addEventListener('click', (e) => {
-    if (!profilePanel.contains(e.target) && !profileBtn.contains(e.target)) {
-      closeProfile();
-    }
-  });
-
-  document.getElementById('ppLang')?.addEventListener('click', () => {
-    closeProfile();
-    alert('Language switch to العربية (stub).');
-  });
-
-  document.getElementById('ppLogout')?.addEventListener('click', () => {
-    closeProfile();
-    const confirmed = confirm('Are you sure you want to log out?');
-    if (confirmed) {
-      // Redirect to login page or handle logout
-      window.location.href = 'Sign-In.html';
-    }
-  });
-</script>
-
+  <footer class="footer" role="contentinfo">
+    <span>© 2025 Wujed</span>
+    <span>All rights reserved</span>
+  </footer>
 </body>
 </html>
