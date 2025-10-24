@@ -68,5 +68,6 @@
   "approveBtn": "Approve",
   "rejectBtn": "Reject",
   "approveBtn2": "Approve",
-  "rejectBtn2": "Reject"
+  "rejectBtn2": "Reject",
+  "signin-btn": "Sign In"
 }
