@@ -8,10 +8,19 @@
   "msgError": "Please enter a valid email address.",
   "adminDenied": "Access denied. Admins only.",
   "welcomeAdmin": "Welcome, Admin!",
-  "language": "Language",
-  "logout": "Log Out",
-  "homeTitle": "Home Page",
   "dashboard": "Dashboard",
   "settings": "Settings",
-  "msgError2":"Invalid email or password."
+  "msgError2":"Invalid email or password.",
+  "homeTitle": "Dashboard · Home",
+  "dashboardTitle": "Home",
+  "welcome": "Welcome,",
+  "subtitle": "Manage reports and matches easily from your dashboard.",
+  "dashboards": "Dashboards",
+  "flaggedReports": "Flagged Reports",
+  "rejectedMatches": "Rejected Matches",
+  "logout": "Log Out",
+  "language": "العربية",
+  "rights": "All rights reserved",
+  "brandName": "Wujed",
+  "footerText": "© 2025 Wujed"
 }
