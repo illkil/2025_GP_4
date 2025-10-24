@@ -107,3 +107,23 @@
     font-size:18px; color:var(--muted);
     min-width:48px; text-align:right;
   }
+    .field{
+    width:335px;
+    height:55px;
+    background:#fff;
+    border:1px solid rgba(0,0,0,.2);
+    border-radius:8px;
+    display:flex;
+    align-items:center;
+    padding:0 12px;
+    gap:8px;
+  }
+  .field input{
+    flex:1;
+    height:100%;
+    border:none;
+    outline:none;
+    background:transparent;
+    font-size:20px;
+    color:rgba(27,30,40,.8);
+  }
