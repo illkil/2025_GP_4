@@ -1076,12 +1076,6 @@ abstract class AppLocalizations {
   /// **'No lost reports yet'**
   String get history_no_lost_reports;
 
-  /// No description provided for @status_submitted.
-  ///
-  /// In en, this message translates to:
-  /// **'Submitted'**
-  String get status_submitted;
-
   /// No description provided for @pick_location_enable_service_title.
   ///
   /// In en, this message translates to:

@@ -522,9 +522,6 @@ class AppLocalizationsAr extends AppLocalizations {
   String get history_no_lost_reports => 'لا توجد بلاغات فقدان حتى الآن';
 
   @override
-  String get status_submitted => 'تم الإرسال';
-
-  @override
   String get pick_location_enable_service_title => 'خدمة الموقع';
 
   @override

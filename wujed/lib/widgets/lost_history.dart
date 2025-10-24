@@ -24,8 +24,6 @@ Color statusToColor(String status) {
 
 String statusToText(AppLocalizations t, String raw) {
   switch (raw.toLowerCase()) {
-    case 'submitted':
-      return t.status_submitted;
     case 'ongoing':
       return t.status_ongoing;
     case 'done':

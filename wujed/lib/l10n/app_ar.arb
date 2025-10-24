@@ -221,7 +221,6 @@
   "history_no_found_reports": "لا توجد بلاغات عثور حتى الآن",
   "history_no_lost_reports": "لا توجد بلاغات فقدان حتى الآن",
 
-  "status_submitted": "تم الإرسال",
   "status_ongoing": "قيد المعالجة",
   "status_done": "مكتمل",
   "status_rejected": "مرفوض",

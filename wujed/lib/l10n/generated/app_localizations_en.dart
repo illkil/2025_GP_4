@@ -523,9 +523,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get history_no_lost_reports => 'No lost reports yet';
 
   @override
-  String get status_submitted => 'Submitted';
-
-  @override
   String get pick_location_enable_service_title => 'Location Service';
 
   @override
