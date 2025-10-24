@@ -197,6 +197,8 @@
   "label_last_name": "Last Name",
   "label_phone_number": "Phone Number",
   "placeholder_not_provided": "Not provided",
+  "label_email": "Email",
+  "label_username": "Username",
 
   "edit_profile_title": "Edit Profile",
   "edit_profile_change_picture": "Change Profile Picture",
