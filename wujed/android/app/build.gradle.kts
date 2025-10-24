@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.wujed"
+    namespace = "com.gp.wujed"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 

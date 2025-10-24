@@ -63,6 +63,7 @@ class ReportService {
       'images': [], // filled below
       'location': location,
       'address': address,
+      'locationText': FieldValue.delete(),
       'status': 'submitted',
       'lang': lang,
       'visibility': 'private',
