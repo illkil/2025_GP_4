@@ -1,0 +1,17 @@
+{
+  "title": "Sign In",
+  "emailLabel": "Email",
+  "passwordLabel": "Password",
+  "forgot": "Forgot Password?",
+  "signIn": "Sign In",
+  "msgInfo": "Fill the details to continue",
+  "msgError": "Please enter a valid email address.",
+  "adminDenied": "Access denied. Admins only.",
+  "welcomeAdmin": "Welcome, Admin!",
+  "language": "Language",
+  "logout": "Log Out",
+  "homeTitle": "Home Page",
+  "dashboard": "Dashboard",
+  "settings": "Settings",
+  "msgError2":"Invalid email or password."
+}
