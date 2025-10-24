@@ -10,10 +10,6 @@ import 'package:iconify_flutter/icons/ri.dart';
 import 'package:iconify_flutter/icons/bi.dart';
 import 'package:wujed/l10n/generated/app_localizations.dart';
 
-// ✅ added: seed helper import (DEV only)
-import 'package:wujed/dev/seed_reports.dart';
-import 'package:wujed/dev/debug_flags.dart';
-
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -150,28 +146,6 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ],
                   ),
-
-                  if (kEnableDevTools)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          try {
-                            final id = await seedLostReportFromAssets();
-                            if (!context.mounted) return;
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Seeded report: $id')),
-                            );
-                          } catch (e) {
-                            if (!context.mounted) return;
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Seed failed: $e')),
-                            );
-                          }
-                        },
-                        child: const Text('DEV: Seed Lost Report (assets)'),
-                      ),
-                    ),
                 ],
               ),
             ),
