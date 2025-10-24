@@ -974,6 +974,18 @@ abstract class AppLocalizations {
   /// **'Not provided'**
   String get placeholder_not_provided;
 
+  /// No description provided for @label_email.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get label_email;
+
+  /// No description provided for @label_username.
+  ///
+  /// In en, this message translates to:
+  /// **'Username'**
+  String get label_username;
+
   /// No description provided for @edit_profile_title.
   ///
   /// In en, this message translates to:

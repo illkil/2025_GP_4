@@ -470,6 +470,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get placeholder_not_provided => 'Not provided';
 
   @override
+  String get label_email => 'Email';
+
+  @override
+  String get label_username => 'Username';
+
+  @override
   String get edit_profile_title => 'Edit Profile';
 
   @override
