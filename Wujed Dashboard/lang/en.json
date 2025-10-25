@@ -32,7 +32,7 @@
   "otpTitle": "Verification (OTP)",
   "verificationTitle": "Verification",
   "msgInfoOtp": "Check your email for the OTP code.",
-  "msgErrorOtp": "Enter a 6-digit code.",
+  "msgErrorOtp": "Enter the 6-digit verification code.",
   "otpLabel": "OTP Code",
   "resendBtn": "Resend code",
   "resetBtn": "Reset",
@@ -72,5 +72,18 @@
   "signInBtn": "Sign In",
   "confirmPasswordLabel": "Confirm Password",
   "msgResetSuccess": "✅ Password reset successfully! Redirecting to Sign In...",
-  "resetSuccessTitle": "Password Reset Successful"
+  "msgResetPasswordError": "❌ Something went wrong. Please try again.",
+  "msgPasswordsMatch": "✅ Password looks good!",
+  "msgPasswordLength":"Password must be at least 8 characters long.",
+  "msgNumberContain":"Password must contain at least one number.",
+  "msgLetterContain":"Password must contain at least one letter.",
+  "loadingMsg":"Checking email...",
+  "msgVerificationSent": "Verification code sent to your email!",
+  "msgSuccessOtp": "Code looks good! You can verify now.",
+  "msgInvalidOtp": "Invalid code. Please try again.",
+  "msgValidOtp": "✅ Verified successfully! Sending reset link...",
+  "msgVarSuccess": "Reset link sent! Check your email inbox.",
+  "msgVarFailed": "❌ Failed to send reset link. Try again later.",
+  "resendCode": "New verification code sent!",
+  "resendCodeFailed": "Failed to resend code. Try again later."
 }
