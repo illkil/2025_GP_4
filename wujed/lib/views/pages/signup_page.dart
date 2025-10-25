@@ -544,11 +544,13 @@ class _SignupPageState extends State<SignupPage> {
 
                       GsiMaterialButton(
                         onPressed: () async {
+                          if (!mounted) return;
                           setState(() {
                             isLoading = true;
                           });
                           final userCredential =
                               await GoogleSignInService.signInWithGoogle();
+                          if (!mounted) return;
                           setState(() {
                             isLoading = false;
                           });
