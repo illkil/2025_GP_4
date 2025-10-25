@@ -408,12 +408,13 @@ class _EditProfilePageState extends State<EditProfilePage> {
           SnackBar(
             content: Row(
               children: [
-                Icon(Icons.new_releases_rounded, color: Colors.white),
+                Icon(Icons.new_releases_rounded, color: Color.fromRGBO(46, 23, 21, 1)),
                 const SizedBox(width: 10),
                 Text(
                   t.no_new_data_entered,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
+                    color: Color.fromRGBO(46, 23, 21, 1),
                     fontSize: 16,
                   ),
                 ),
@@ -469,12 +470,13 @@ class _EditProfilePageState extends State<EditProfilePage> {
           SnackBar(
             content: Row(
               children: [
-                Icon(Icons.check_circle, color: Colors.white),
+                Icon(Icons.check_circle, color: Color.fromRGBO(46, 23, 21, 1)),
                 const SizedBox(width: 10),
                 Text(
                   t.profile_update_success,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
+                    color: Color.fromRGBO(46, 23, 21, 1),
                     fontSize: 16,
                   ),
                 ),
@@ -498,12 +500,13 @@ class _EditProfilePageState extends State<EditProfilePage> {
         SnackBar(
           content: Row(
             children: [
-              Icon(Icons.check_circle, color: Colors.white),
+              Icon(Icons.check_circle, color: Color.fromRGBO(46, 23, 21, 1),),
               const SizedBox(width: 10),
               Text(
                 t.profile_update_failed,
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
+                  color: Color.fromRGBO(46, 23, 21, 1),
                   fontSize: 16,
                 ),
               ),

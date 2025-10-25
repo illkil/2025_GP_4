@@ -14,6 +14,9 @@ Future<void> main() async {
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
+  // final token = await FirebaseAppCheck.instance.getToken(true);
+  // print('App Check Token: $token');
+
   if (kDebugMode || kProfileMode) {
     await FirebaseAppCheck.instance.activate(
       providerAndroid: AndroidDebugProvider(),
@@ -53,7 +56,7 @@ class _MyAppState extends State<MyApp> {
 
     setState(() {
       isFirstTime = firstTime;
-      _locale = lang != null ? Locale(lang) : const Locale('en'); 
+      _locale = lang != null ? Locale(lang) : const Locale('en');
     });
   }
 
