@@ -444,6 +444,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get btn_delete => 'حذف';
 
   @override
+  String get btn_renew => 'تجديد';
+
+  @override
   String get btn_confirm_receipt => 'تأكيد الاستلام';
 
   @override
@@ -651,6 +654,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get snackbar_pick_location => 'يرجى تحديد الموقع';
+
+  @override
+  String get snackbar_add_photos => 'يرجى إضافة صورة واحدة على الأقل';
 
   @override
   String snackbar_submit_failed(Object error) {

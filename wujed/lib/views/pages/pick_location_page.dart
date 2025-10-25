@@ -144,9 +144,9 @@ class _PickLocationPageState extends State<PickLocationPage> {
             ],
           ),
           //confirm button with info
-          Positioned(
-            left: 16,
-            right: 16,
+          PositionedDirectional(
+            start: 16,
+            end: 16,
             bottom: 24,
             child: SafeArea(
               child: FilledButton(

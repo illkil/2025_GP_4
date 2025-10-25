@@ -179,6 +179,7 @@
   "btn_delete": "حذف",
   "btn_confirm_receipt": "تأكيد الاستلام",
   "btn_continue": "متابعة",
+  "btn_renew": "تجديد",
 
   "toast_congrats": "تهانينا!",
   "toast_got_item_back": "لقد استعدت عنصرَك!\nاستمتع بعودته بأمان",
@@ -269,6 +270,7 @@
 
   "snackbar_fill_fields": "يرجى تعبئة العنوان والوصف",
   "snackbar_pick_location": "يرجى تحديد الموقع",
+  "snackbar_add_photos": "يرجى إضافة صورة واحدة على الأقل",
   "snackbar_submit_failed": "فشل الإرسال: {error}",
   "snackbar_location_set": "تم تحديد الموقع بنجاح",
   "snackbar_location_not_selected": "لم يتم تحديد الموقع",

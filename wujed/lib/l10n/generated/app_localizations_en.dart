@@ -441,6 +441,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get btn_delete => 'Delete';
 
   @override
+  String get btn_renew => 'Renew';
+
+  @override
   String get btn_confirm_receipt => 'Confirm Receipt';
 
   @override
@@ -652,6 +655,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get snackbar_pick_location => 'Please pick a location';
+
+  @override
+  String get snackbar_add_photos => 'Please add at least 1 photo';
 
   @override
   String snackbar_submit_failed(Object error) {

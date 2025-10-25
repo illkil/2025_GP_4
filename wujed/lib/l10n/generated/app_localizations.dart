@@ -902,6 +902,12 @@ abstract class AppLocalizations {
   /// **'Delete'**
   String get btn_delete;
 
+  /// No description provided for @btn_renew.
+  ///
+  /// In en, this message translates to:
+  /// **'Renew'**
+  String get btn_renew;
+
   /// No description provided for @btn_confirm_receipt.
   ///
   /// In en, this message translates to:
@@ -1309,6 +1315,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please pick a location'**
   String get snackbar_pick_location;
+
+  /// No description provided for @snackbar_add_photos.
+  ///
+  /// In en, this message translates to:
+  /// **'Please add at least 1 photo'**
+  String get snackbar_add_photos;
 
   /// No description provided for @snackbar_submit_failed.
   ///

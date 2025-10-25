@@ -100,6 +100,7 @@ class _ReportLostPageState extends State<ReportLostPage> {
                 TextField(
                   controller: controllerTitle,
                   autocorrect: false,
+                  maxLength: 30,
                   inputFormatters: [
                     FilteringTextInputFormatter.allow(
                       RegExp(
@@ -109,6 +110,7 @@ class _ReportLostPageState extends State<ReportLostPage> {
                   ],
                   decoration: InputDecoration(
                     hintText: t.report_title_hint,
+                    counterText: '',
                     hintStyle: TextStyle(
                       color: Colors.grey.shade400,
                       fontSize: 14,
@@ -298,24 +300,49 @@ class _ReportLostPageState extends State<ReportLostPage> {
   }
 
   Widget _buildImagesPreview() {
-    if (_images.isEmpty) {
-      return buildUploadButton();
-    }
     return SizedBox(
       height: 170,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: _images.length,
         separatorBuilder: (_, __) => const SizedBox(width: 8),
-        itemBuilder: (_, i) {
-          return ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: Image.file(
-              _images[i],
-              height: 160,
-              width: 160,
-              fit: BoxFit.cover,
-            ),
+        itemBuilder: (context, i) {
+          return Stack(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Image.file(
+                  _images[i],
+                  height: 160,
+                  width: 160,
+                  fit: BoxFit.cover,
+                ),
+              ),
+
+              PositionedDirectional(
+                top: 5,
+                end: 5,
+                child: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _images.removeAt(i);
+                    });
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Color.fromRGBO(0, 0, 0, 0.6),
+                      shape: BoxShape.circle,
+                    ),
+                    padding: const EdgeInsets.all(4),
+                    child: const Icon(
+                      Icons.close,
+                      color: Colors.white,
+                      size: 18,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           );
         },
       ),
@@ -391,14 +418,14 @@ class _ReportLostPageState extends State<ReportLostPage> {
       return;
     }
 
-    if (_geo == null) {
-      _showSnackBar(t.snackbar_pick_location, Icons.warning);
+    if (_images.isEmpty) {
+      _showSnackBar(t.snackbar_add_photos, Icons.photo_camera);
       return;
     }
 
     setState(() => _submitting = true);
     try {
-      final id = await ReportService().createReport(
+      await ReportService().createReport(
         type: 'lost',
         title: title,
         description: description,
