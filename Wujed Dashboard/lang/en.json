@@ -69,5 +69,8 @@
   "rejectBtn": "Reject",
   "approveBtn2": "Approve",
   "rejectBtn2": "Reject",
-  "signInBtn": "Sign In"
+  "signInBtn": "Sign In",
+  "confirmPasswordLabel": "Confirm Password",
+  "msgResetSuccess": "✅ Password reset successfully! Redirecting to Sign In...",
+  "resetSuccessTitle": "Password Reset Successful"
 }

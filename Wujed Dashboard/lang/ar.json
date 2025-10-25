@@ -70,6 +70,9 @@
   "rejectBtn": "رفض",
   "approveBtn2": "موافقة",
   "rejectBtn2": "رفض",
-  "signInBtn": "تسجيل الدخول"
+  "signInBtn": "تسجيل الدخول",
+  "confirmPasswordLabel": "تأكيد كلمة المرور",
+  "msgResetSuccess": "✅ تم إعادة تعيين كلمة المرور بنجاح! جاري التوجيه إلى صفحة تسجيل الدخول...",
+  "resetSuccessTitle": "تمت إعادة تعيين كلمة المرور بنجاح"
 
 }

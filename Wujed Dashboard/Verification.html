@@ -42,64 +42,142 @@
     </form>
   </section>
 
-<script>
-  /* ===== OTP Validation ===== */
-  const otpEl = document.getElementById('otp');
-  const submitBtn = document.getElementById('submitBtn');
-  const msgInfo = document.getElementById('msgInfo');
-  const msgError = document.getElementById('msgError');
 
-  function onOtpInput(){
-    const digits = otpEl.value.replace(/\D/g, '');
+<!-- EmailJS Library -->
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script>
+(function(){
+  emailjs.init("UtmASjdZ_iMNSqjx8");
+})();
+</script>
+
+<script type="module">
+  import { auth } from "./js/firebase-init.js";
+  import { sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
+
+  // ✅ تأكد المستخدم جاي من Forgot Password
+  if (!sessionStorage.getItem("otp") || !sessionStorage.getItem("verifiedEmail")) {
+    window.location.href = "ForgotPassword.html";
+  }
+
+  const otpEl     = document.getElementById("otp");
+  const submitBtn = document.getElementById("submitBtn");
+  const msgInfo   = document.getElementById("msgInfo");
+  const msgError  = document.getElementById("msgError");
+
+  // 🧹 دالة تنظيف الرسائل
+  function clearMessages() {
+    msgInfo.classList.remove("show");
+    msgError.classList.remove("show");
+  }
+
+  // ===== مراقبة الإدخال =====
+  otpEl.addEventListener("input", () => {
+    const digits = otpEl.value.replace(/\D/g, "");
     if (otpEl.value !== digits) otpEl.value = digits;
 
-    const valid = digits.length === 6;
-    submitBtn.disabled = !valid;
-    submitBtn.classList.toggle('enabled', valid);
+    clearMessages();
 
-    if (digits.length > 0 && !valid) {
-      msgInfo.classList.remove('show');
-      msgError.classList.add('show');
-    } else {
-      msgError.classList.remove('show');
-      msgInfo.classList.add('show');
+    if (digits.length === 0) {
+      msgError.textContent = "Enter the 6-digit verification code.";
+      msgError.classList.add("show");
+      submitBtn.disabled = true;
+      submitBtn.classList.remove("enabled");
+    }  else {
+      msgInfo.textContent = "Code looks good! You can verify now.";
+      msgInfo.classList.add("show");
+      submitBtn.disabled = false;
+      submitBtn.classList.add("enabled");
     }
-  }
-  otpEl.addEventListener('input', onOtpInput);
-
-  document.getElementById('otpForm').addEventListener('submit', (e) => {
-    if (submitBtn.disabled) { e.preventDefault(); return; }
-    e.preventDefault();
-    alert('Verifying OTP: ' + otpEl.value);
   });
 
-  /* ===== Resend Code: FRONT-END TIMER ONLY ===== */
-  const RESEND_COOLDOWN_MS = 120_000; // 2 minutes
+  // ✅ التحقق من الكود ثم إرسال رابط Firebase
+  document.getElementById("otpForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const enteredOtp = otpEl.value.trim();
+    const savedOtp   = sessionStorage.getItem("otp");
+    const email      = sessionStorage.getItem("verifiedEmail");
+
+    clearMessages();
+
+    if (enteredOtp !== savedOtp) {
+      msgError.textContent = "Invalid code. Please try again.";
+      msgError.classList.add("show");
+      return;
+    }
+
+    try {
+      submitBtn.disabled = true;
+      submitBtn.classList.remove("enabled");
+
+      msgInfo.textContent = "Verified successfully! Sending reset link...";
+      msgInfo.classList.add("show");
+
+      // 🔹 أرسل رابط إعادة التعيين عبر Firebase
+      await sendPasswordResetEmail(auth, email, {
+        url: "https://wujed-ffc1f.firebaseapp.com/Reset-Password.html",
+        handleCodeInApp: true,
+      });
+
+      sessionStorage.removeItem("otp");
+      sessionStorage.setItem("otpVerified", "true");
+
+      msgInfo.textContent = "Reset link sent! Check your email inbox.";
+      setTimeout(() => {
+        window.location.href = "Sign-In.html";
+      }, 3000);
+    } catch (err) {
+      console.error("Reset link error:", err);
+      msgError.textContent = "Failed to send reset link. Try again later.";
+      msgError.classList.add("show");
+      submitBtn.disabled = false;
+      submitBtn.classList.add("enabled");
+    }
+  });
+
+  // ===== إعادة إرسال الكود =====
+  const RESEND_COOLDOWN_MS = 120000;
   const STORAGE_KEY = "otp_resend_until";
-  const resendBtn  = document.getElementById('resendBtn');
-  const resendTime = document.getElementById('resendTime');
+  const resendBtn  = document.getElementById("resendBtn");
+  const resendTime = document.getElementById("resendTime");
   let timerId = null;
 
   initCooldown();
 
-  resendBtn.addEventListener('click', () => {
-    // start local cooldown; no backend call here
+  resendBtn.addEventListener("click", async () => {
     startCooldown(RESEND_COOLDOWN_MS);
-    // optional: alert('If connected, a new code would be sent.');
+    const email = sessionStorage.getItem("verifiedEmail");
+    if (!email) return;
+
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    sessionStorage.setItem("otp", otp);
+
+    const templateParams = { email, passcode: otp, time: new Date().toLocaleTimeString() };
+    try {
+      await emailjs.send("service_at80fle", "template_mtqawuj", templateParams);
+      clearMessages();
+      msgInfo.textContent = "New verification code sent!";
+      msgInfo.classList.add("show");
+    } catch (err) {
+      console.error("Resend error:", err);
+      clearMessages();
+      msgError.textContent = "Failed to resend code. Try again later.";
+      msgError.classList.add("show");
+    }
   });
 
+  // ===== وظائف المؤقت =====
   function initCooldown(){
     const until = Number(localStorage.getItem(STORAGE_KEY) || 0);
     const remaining = until - Date.now();
     if (remaining > 0) startCooldown(remaining);
     else clearCooldown();
   }
-
   function startCooldown(ms){
     const until = Date.now() + ms;
     localStorage.setItem(STORAGE_KEY, String(until));
     resendBtn.disabled = true;
-
     if (timerId) clearInterval(timerId);
     updateTime(until - Date.now());
     timerId = setInterval(() => {
@@ -108,22 +186,22 @@
       else updateTime(rem);
     }, 250);
   }
-
   function clearCooldown(){
     if (timerId) clearInterval(timerId);
     timerId = null;
     localStorage.removeItem(STORAGE_KEY);
     resendBtn.disabled = false;
-    resendTime.textContent = ''; // hide timer text
+    resendTime.textContent = "";
   }
-
   function updateTime(ms){
     const totalSec = Math.ceil(ms / 1000);
     const m = Math.floor(totalSec / 60);
     const s = totalSec % 60;
-    resendTime.textContent = `${m}:${String(s).padStart(2,'0')}`;
+    resendTime.textContent = `${m}:${String(s).padStart(2,"0")}`;
   }
 </script>
+
+
 
 <script src="./js/lang.js"></script>
 </body>
