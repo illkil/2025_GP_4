@@ -265,6 +265,11 @@ class _SignupPageState extends State<SignupPage> {
                       TextField(
                         controller: _controllerUsername,
                         autocorrect: false,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(
+                            RegExp(r'[a-zA-Z0-9._]'),
+                          ),
+                        ],
                         maxLength: 20,
                         decoration: InputDecoration(
                           counterText: '',
@@ -307,6 +312,12 @@ class _SignupPageState extends State<SignupPage> {
                         controller: _controllerEmail,
                         autocorrect: false,
                         keyboardType: TextInputType.emailAddress,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(
+                            RegExp(r'[a-zA-Z0-9@._]'),
+                          ),
+                        ],
+
                         decoration: InputDecoration(
                           labelText: t.signup_email_label,
                           labelStyle: const TextStyle(fontSize: 16.0),

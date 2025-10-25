@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:wujed/l10n/generated/app_localizations.dart';
 import 'package:wujed/auth/main_page.dart';
 import 'package:wujed/views/pages/forgot_password_page.dart';
@@ -282,6 +283,12 @@ class _LoginPageState extends State<LoginPage> {
                       TextField(
                         controller: _controllerEmail,
                         autocorrect: false,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(
+                            RegExp(r'[a-zA-Z0-9@._]'),
+                          ),
+                        ],
+
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
                           labelText: t.login_email_label,
