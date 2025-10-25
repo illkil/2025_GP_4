@@ -533,8 +533,14 @@ class _SignupPageState extends State<SignupPage> {
 
                       GsiMaterialButton(
                         onPressed: () async {
+                          setState(() {
+                            isLoading = true;
+                          });
                           final userCredential =
                               await GoogleSignInService.signInWithGoogle();
+                          setState(() {
+                            isLoading = false;
+                          });
                           if (userCredential != null) {
                             Navigator.pushReplacement(
                               context,
@@ -544,7 +550,7 @@ class _SignupPageState extends State<SignupPage> {
                             );
                           }
                         },
-                        text: t.google_signup,
+                        text: t.google_continue,
                       ),
                     ],
                   ),
@@ -570,7 +576,8 @@ class _SignupPageState extends State<SignupPage> {
     //user name can contain only letters and numbers and . and _
     final validUsernameRegex = RegExp(r'^[a-zA-Z0-9._]+$');
     final containLetterRegex = RegExp(r'[a-zA-Z]');
-    return validUsernameRegex.hasMatch(username) && containLetterRegex.hasMatch(username);
+    return validUsernameRegex.hasMatch(username) &&
+        containLetterRegex.hasMatch(username);
   }
 
   void validateUsername() {

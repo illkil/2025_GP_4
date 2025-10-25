@@ -469,8 +469,14 @@ class _LoginPageState extends State<LoginPage> {
 
                       GsiMaterialButton(
                         onPressed: () async {
+                          setState(() {
+                            isLoading = true;
+                          });
                           final userCredential =
                               await GoogleSignInService.signInWithGoogle();
+                          setState(() {
+                            isLoading = false;
+                          });
                           if (userCredential != null) {
                             Navigator.pushReplacement(
                               context,
