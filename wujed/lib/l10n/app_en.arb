@@ -175,7 +175,8 @@
   "btn_reject": "Reject",
   "btn_revoke": "Revoke",
   "btn_confirm": "Confirm",
-  "btn_cancel": "Delete",
+  "btn_cancel": "Cancel",
+  "btn_delete": "Delete",
   "btn_confirm_receipt": "Confirm Receipt",
   "btn_continue": "Continue",
 

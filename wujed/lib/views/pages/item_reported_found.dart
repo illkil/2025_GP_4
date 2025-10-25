@@ -398,7 +398,7 @@ class _ItemReportedFoundState extends State<ItemReportedFound> {
                                     ),
                                   ),
                                   child: Text(
-                                    t.btn_cancel,
+                                    t.btn_delete,
                                     style: const TextStyle(
                                       color: Color.fromRGBO(46, 23, 21, 1),
                                       fontWeight: FontWeight.bold,

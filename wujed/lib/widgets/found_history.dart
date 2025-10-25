@@ -119,6 +119,7 @@ class _FoundHistoryState extends State<FoundHistory> {
                   status,
                   color,
                   imageUrl,
+                  doc.id,
                 ),
               ),
             );
@@ -135,6 +136,7 @@ class _FoundHistoryState extends State<FoundHistory> {
     String status,
     Color color, [
     String? imageUrl,
+    String? reportId,
   ]) {
     final t = AppLocalizations.of(context);
     return Container(
@@ -253,7 +255,15 @@ class _FoundHistoryState extends State<FoundHistory> {
                   bottom: 0,
                   end: 0,
                   child: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              ItemReportedFound(reportId: reportId!),
+                        ),
+                      );
+                    },
                     icon: Icon(Icons.arrow_forward_ios_rounded, size: 20),
                   ),
                 ),

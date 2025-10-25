@@ -435,7 +435,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get btn_confirm => 'Confirm';
 
   @override
-  String get btn_cancel => 'Delete';
+  String get btn_cancel => 'Cancel';
+
+  @override
+  String get btn_delete => 'Delete';
 
   @override
   String get btn_confirm_receipt => 'Confirm Receipt';

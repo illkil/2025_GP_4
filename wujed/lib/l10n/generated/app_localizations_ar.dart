@@ -438,7 +438,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get btn_confirm => 'تأكيد';
 
   @override
-  String get btn_cancel => 'حذف';
+  String get btn_cancel => 'إلغاء';
+
+  @override
+  String get btn_delete => 'حذف';
 
   @override
   String get btn_confirm_receipt => 'تأكيد الاستلام';

@@ -121,6 +121,7 @@ class _LostHistoryState extends State<LostHistory> {
                   status,
                   color,
                   imageUrl,
+                  doc.id,
                 ),
               ),
             );
@@ -137,6 +138,7 @@ class _LostHistoryState extends State<LostHistory> {
     String status,
     Color color, [
     String? imageUrl,
+    String? reportId,
   ]) {
     final t = AppLocalizations.of(context);
     return Container(
@@ -255,7 +257,15 @@ class _LostHistoryState extends State<LostHistory> {
                   bottom: 0,
                   end: 0,
                   child: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              ItemReportedLost(reportId: reportId!),
+                        ),
+                      );
+                    },
                     icon: Icon(Icons.arrow_forward_ios_rounded, size: 20),
                   ),
                 ),

@@ -175,7 +175,8 @@
   "btn_reject": "رفض",
   "btn_revoke": "سحب",
   "btn_confirm": "تأكيد",
-  "btn_cancel": "حذف",
+  "btn_cancel": "إلغاء",
+  "btn_delete": "حذف",
   "btn_confirm_receipt": "تأكيد الاستلام",
   "btn_continue": "متابعة",
 

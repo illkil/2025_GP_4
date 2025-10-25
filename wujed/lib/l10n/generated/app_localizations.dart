@@ -893,8 +893,14 @@ abstract class AppLocalizations {
   /// No description provided for @btn_cancel.
   ///
   /// In en, this message translates to:
-  /// **'Delete'**
+  /// **'Cancel'**
   String get btn_cancel;
+
+  /// No description provided for @btn_delete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get btn_delete;
 
   /// No description provided for @btn_confirm_receipt.
   ///
