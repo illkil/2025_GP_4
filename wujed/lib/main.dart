@@ -51,6 +51,8 @@ class _MyAppState extends State<MyApp> {
   Future<void> _loadFirstTimeFlag() async {
     final prefs = await SharedPreferences.getInstance();
 
+    //prefs.clear();
+
     final bool firstTime = prefs.getBool('isFirstTime') ?? true;
     final String? lang = prefs.getString('preferredLanguage');
 
