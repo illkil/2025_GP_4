@@ -34,7 +34,7 @@
 </head>
 
 <body>
-  <!-- 🔹 زر اختيار اللغة -->
+  <!-- language btn -->
   <button id="langBtn" class="lang-btn">AR</button>
 
   <main class="content" aria-labelledby="welcome">
@@ -62,17 +62,17 @@
   </footer>
 
   <script>
-    // زر اللغة
+    //language btn
     const langBtn = document.getElementById("langBtn");
 
-    // عند تحميل الصفحة، نقرأ اللغة المحفوظة
+    //load language
     window.addEventListener("DOMContentLoaded", () => {
       const savedLang = localStorage.getItem("lang") || "en";
       loadLanguage(savedLang);
       langBtn.textContent = savedLang === "ar" ? "EN" : "AR";
     });
 
-    // عند الضغط على الزر، نبدّل اللغة ونحفظها
+    //when pressing the btn change language
     langBtn.addEventListener("click", () => {
       const currentLang = localStorage.getItem("lang") || "en";
       const newLang = currentLang === "en" ? "ar" : "en";
