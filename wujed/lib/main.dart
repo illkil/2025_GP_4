@@ -14,14 +14,14 @@ Future<void> main() async {
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  // final token = await FirebaseAppCheck.instance.getToken(true);
-  // print('App Check Token: $token');
-
   if (kDebugMode || kProfileMode) {
     await FirebaseAppCheck.instance.activate(
       providerAndroid: AndroidDebugProvider(),
       providerApple: AppleDebugProvider(),
     );
+
+    // final token = await FirebaseAppCheck.instance.getToken(true);
+    // print('App Check Token: $token');
   } else {
     await FirebaseAppCheck.instance.activate(
       providerAndroid: AndroidPlayIntegrityProvider(),
@@ -51,7 +51,7 @@ class _MyAppState extends State<MyApp> {
   Future<void> _loadFirstTimeFlag() async {
     final prefs = await SharedPreferences.getInstance();
 
-    //prefs.clear();
+    // prefs.clear();
 
     final bool firstTime = prefs.getBool('isFirstTime') ?? true;
     final String? lang = prefs.getString('preferredLanguage');

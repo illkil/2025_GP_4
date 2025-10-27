@@ -3,23 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>743280664993-v0homrd3r6bbou5ds1hvqg9v7iuj7fdp.apps.googleusercontent.com</string>
+	<string>1031003478013-7jfbf3biokposgfktg6q3i9q9jmai7vp.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.743280664993-v0homrd3r6bbou5ds1hvqg9v7iuj7fdp</string>
-	<key>ANDROID_CLIENT_ID</key>
-	<string>743280664993-p1fbvnoqlo3037q6e89fsmrfvb5m400f.apps.googleusercontent.com</string>
+	<string>com.googleusercontent.apps.1031003478013-7jfbf3biokposgfktg6q3i9q9jmai7vp</string>
 	<key>API_KEY</key>
-	<string>AIzaSyC3Z3HLf4qNogkiFk4rOX51nrceaw_e27c</string>
+	<string>AIzaSyA6NJ4yH2aHdawF7AArYWeSSqYXJonSX7o</string>
 	<key>GCM_SENDER_ID</key>
-	<string>743280664993</string>
+	<string>1031003478013</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.gp.wujed</string>
 	<key>PROJECT_ID</key>
-	<string>wujed-ffc1f</string>
+	<string>wujed-379c7</string>
 	<key>STORAGE_BUCKET</key>
-	<string>wujed-ffc1f.firebasestorage.app</string>
+	<string>wujed-379c7.firebasestorage.app</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -31,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:743280664993:ios:6c648ac035711eb7a52be0</string>
+	<string>1:1031003478013:ios:aba23343e0c20fc94d6b94</string>
 </dict>
 </plist>

@@ -12,7 +12,12 @@
           "package_name": "com.gp.wujed"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "1031003478013-9vc376i37ub1hm1i5kl5qt3ionl6tes1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyD6Aj9sTeypVPk9MBWf5_lyzHvLWDXNyII"
@@ -20,7 +25,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1031003478013-9vc376i37ub1hm1i5kl5qt3ionl6tes1.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1031003478013-7jfbf3biokposgfktg6q3i9q9jmai7vp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.gp.wujed"
+              }
+            }
+          ]
         }
       }
     }
