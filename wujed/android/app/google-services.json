@@ -1,59 +1,26 @@
 {
   "project_info": {
-    "project_number": "743280664993",
-    "project_id": "wujed-ffc1f",
-    "storage_bucket": "wujed-ffc1f.firebasestorage.app"
+    "project_number": "1031003478013",
+    "project_id": "wujed-379c7",
+    "storage_bucket": "wujed-379c7.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:743280664993:android:d42e19b09296f59ba52be0",
+        "mobilesdk_app_id": "1:1031003478013:android:c50cf70662446b284d6b94",
         "android_client_info": {
           "package_name": "com.gp.wujed"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "743280664993-p1fbvnoqlo3037q6e89fsmrfvb5m400f.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.gp.wujed",
-            "certificate_hash": "d5853f79f5a0d9449e21ecbd0012e6778276e97b"
-          }
-        },
-        {
-          "client_id": "743280664993-v2g9b1981v1hh5lvl7lh8d0668eb7j7p.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.gp.wujed",
-            "certificate_hash": "2b845808468d14740b16eec3af7ba8f345ec35e0"
-          }
-        },
-        {
-          "client_id": "743280664993-spbl890qluq63o95vn8vg9lqvr57jpq8.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyAipLcfz7Visp0dV00ZizUOQqmnXvDyuSs"
+          "current_key": "AIzaSyD6Aj9sTeypVPk9MBWf5_lyzHvLWDXNyII"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "743280664993-spbl890qluq63o95vn8vg9lqvr57jpq8.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "743280664993-83ajrfeurggdegp9i5mlnegtj391tsn8.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.example.wujed"
-              }
-            }
-          ]
+          "other_platform_oauth_client": []
         }
       }
     }
