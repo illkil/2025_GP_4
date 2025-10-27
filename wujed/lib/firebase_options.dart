@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -49,22 +46,31 @@ class DefaultFirebaseOptions {
     }
   }
 
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyDbJL2avV8tXAukcG4eK0mQUBT6BkzivCQ',
+    appId: '1:1031003478013:web:48237a78e5f8d0724d6b94',
+    messagingSenderId: '1031003478013',
+    projectId: 'wujed-379c7',
+    authDomain: 'wujed-379c7.firebaseapp.com',
+    storageBucket: 'wujed-379c7.firebasestorage.app',
+    measurementId: 'G-PVCT9CJGRG',
+  );
+
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyAipLcfz7Visp0dV00ZizUOQqmnXvDyuSs',
-    appId: '1:743280664993:android:d42e19b09296f59ba52be0',
-    messagingSenderId: '743280664993',
-    projectId: 'wujed-ffc1f',
-    storageBucket: 'wujed-ffc1f.firebasestorage.app',
+    apiKey: 'AIzaSyD6Aj9sTeypVPk9MBWf5_lyzHvLWDXNyII',
+    appId: '1:1031003478013:android:c50cf70662446b284d6b94',
+    messagingSenderId: '1031003478013',
+    projectId: 'wujed-379c7',
+    storageBucket: 'wujed-379c7.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyC3Z3HLf4qNogkiFk4rOX51nrceaw_e27c',
-    appId: '1:743280664993:ios:6c648ac035711eb7a52be0',
-    messagingSenderId: '743280664993',
-    projectId: 'wujed-ffc1f',
-    storageBucket: 'wujed-ffc1f.firebasestorage.app',
-    androidClientId: '743280664993-p1fbvnoqlo3037q6e89fsmrfvb5m400f.apps.googleusercontent.com',
-    iosClientId: '743280664993-v0homrd3r6bbou5ds1hvqg9v7iuj7fdp.apps.googleusercontent.com',
+    apiKey: 'AIzaSyA6NJ4yH2aHdawF7AArYWeSSqYXJonSX7o',
+    appId: '1:1031003478013:ios:aba23343e0c20fc94d6b94',
+    messagingSenderId: '1031003478013',
+    projectId: 'wujed-379c7',
+    storageBucket: 'wujed-379c7.firebasestorage.app',
+    iosClientId: '1031003478013-7jfbf3biokposgfktg6q3i9q9jmai7vp.apps.googleusercontent.com',
     iosBundleId: 'com.gp.wujed',
   );
 }
