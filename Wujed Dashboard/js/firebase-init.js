@@ -5,13 +5,13 @@ import { getAuth } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth
 import { getFirestore } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCPkVS7MeUx74qLyWXxbs2eFCsciP1LCkw",
-  authDomain: "wujed-ffc1f.firebaseapp.com",
-  projectId: "wujed-ffc1f",
-  storageBucket: "wujed-ffc1f.firebasestorage.app",
-  messagingSenderId: "743280664993",
-  appId: "1:743280664993:web:d7d8663557e22abaa52be0",
-  measurementId: "G-HR41CC0Y84"
+  apiKey: "AIzaSyDbJL2avV8tXAukcG4eK0mQUBT6BkzivCQ",
+  authDomain: "wujed-379c7.firebaseapp.com",
+  projectId: "wujed-379c7",
+  storageBucket: "wujed-379c7.firebasestorage.app",
+  messagingSenderId: "1031003478013",
+  appId: "1:1031003478013:web:48237a78e5f8d0724d6b94",
+  measurementId: "G-PVCT9CJGRG"
 };
 
 // 🔹 initialize once
