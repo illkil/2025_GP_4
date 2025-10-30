@@ -270,6 +270,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get home_card_view_arrow_aria => 'عرض تفاصيل التقرير';
 
   @override
+  String get home_note =>
+      'ابقَ آمنًا، قابل الآخرين في الأماكن العامة، وتجنّب مشاركة معلوماتك الشخصية.';
+
+  @override
   String get navbar_home => 'الرئيسية';
 
   @override
@@ -565,6 +569,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get btn_send => 'إرسال';
+
+  @override
+  String get btn_ok => 'حسنًا';
 
   @override
   String get common_error_generic => 'عذرًا، حدث خطأ ما';

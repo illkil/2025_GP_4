@@ -267,6 +267,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get home_card_view_arrow_aria => 'View report details';
 
   @override
+  String get home_note =>
+      'Stay safe, meet in public areas, and avoid sharing personal details.';
+
+  @override
   String get navbar_home => 'Home';
 
   @override
@@ -564,6 +568,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get btn_send => 'Send';
+
+  @override
+  String get btn_ok => 'Ok';
 
   @override
   String get common_error_generic => 'Oops, something went wrong';

@@ -97,6 +97,7 @@
   "home_card_title": "آلة تحضير القهوة",
   "home_card_subtitle": "راجع تقريرك السابق",
   "home_card_view_arrow_aria": "عرض تفاصيل التقرير",
+  "home_note": "ابقَ آمنًا، قابل الآخرين في الأماكن العامة، وتجنّب مشاركة معلوماتك الشخصية.",
 
   "navbar_home": "الرئيسية",
   "navbar_history": "السجل",
@@ -243,6 +244,7 @@
   "onboarding_done": "تم",
 
   "btn_send": "إرسال",
+  "btn_ok": "حسنًا",
 
   "common_error_generic": "عذرًا، حدث خطأ ما",
   "common_empty": "لا توجد معلومات بعد",
