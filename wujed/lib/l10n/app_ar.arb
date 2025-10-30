@@ -274,6 +274,9 @@
   "snackbar_submit_failed": "فشل الإرسال: {error}",
   "snackbar_location_set": "تم تحديد الموقع بنجاح",
   "snackbar_location_not_selected": "لم يتم تحديد الموقع",
-  "report_submitting": "جاري الإرسال…"
+  "report_submitting": "جاري الإرسال…",
+
+  "outside_riyadh": "خارج الرياض",
+  "outside_dialog": "موقعك خارج حدود الرياض."
 
 }

@@ -1345,6 +1345,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Submitting…'**
   String get report_submitting;
+
+  /// No description provided for @outside_riyadh.
+  ///
+  /// In en, this message translates to:
+  /// **'Outside Riyadh'**
+  String get outside_riyadh;
+
+  /// No description provided for @outside_dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Your location is outside Riyadh boundaries.'**
+  String get outside_dialog;
 }
 
 class _AppLocalizationsDelegate

@@ -671,4 +671,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get report_submitting => 'جاري الإرسال…';
+
+  @override
+  String get outside_riyadh => 'خارج الرياض';
+
+  @override
+  String get outside_dialog => 'موقعك خارج حدود الرياض.';
 }

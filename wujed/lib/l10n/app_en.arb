@@ -273,6 +273,9 @@
   "snackbar_submit_failed": "Submit failed: {error}",
   "snackbar_location_set": "Location set successfully",
   "snackbar_location_not_selected": "Location not selected",
-  "report_submitting": "Submitting…"
+  "report_submitting": "Submitting…",
+
+  "outside_riyadh": "Outside Riyadh",
+  "outside_dialog": "Your location is outside Riyadh boundaries."
 
 }

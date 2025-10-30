@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong2/latlong.dart';
+//import 'package:flutter_map/flutter_map.dart';
+//import 'package:latlong2/latlong.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class ViewOnMapPage extends StatelessWidget {
   const ViewOnMapPage({
@@ -25,28 +26,29 @@ class ViewOnMapPage extends StatelessWidget {
         title: Text(title ?? 'Location'),
       ),
       backgroundColor: Colors.white,
-      body: FlutterMap(
-        options: MapOptions(initialCenter: center, initialZoom: 15),
-        children: [
-          TileLayer(
-            urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-            userAgentPackageName: 'com.gp.wujed',
+      body: GoogleMap(
+        mapType: MapType.normal,
+        minMaxZoomPreference: const MinMaxZoomPreference(8, 17),
+        initialCameraPosition: 
+          CameraPosition(
+            target: center,
+            zoom: 12, 
+            tilt: 0, 
+            bearing: 0,
           ),
-          MarkerLayer(
-            markers: [
-              Marker(
-                point: center,
-                width: 40,
-                height: 40,
-                child: const Icon(
-                  Icons.location_on,
-                  size: 40,
-                  color: Color.fromRGBO(46, 23, 21, 1),
-                ),
-              ),
-            ],
+        cameraTargetBounds: 
+          CameraTargetBounds(
+            LatLngBounds(
+              southwest: LatLng(24.4, 46.4), 
+              northeast: LatLng(25.1, 47.1), 
+            ),
           ),
-        ],
+        markers: {
+          Marker(
+            markerId: const MarkerId('center'),
+            position: center,
+          ),
+        },
       ),
     );
   }

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong2/latlong.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:wujed/services/report_service.dart';
 import 'package:wujed/l10n/generated/app_localizations.dart';
+import 'package:wujed/views/pages/view_on_map.dart';
 
 class ItemReportedFound extends StatefulWidget {
   final String reportId;
@@ -244,9 +243,9 @@ class _ItemReportedFoundState extends State<ItemReportedFound> {
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (_) => MapPreviewPage(
-                                              lat: geo!.latitude,
-                                              lng: geo!.longitude,
+                                            builder: (_) => ViewOnMapPage(
+                                              latitude: geo!.latitude,
+                                              longitude: geo!.longitude,
                                               title: locationText,
                                             ),
                                           ),
@@ -434,54 +433,6 @@ class _ItemReportedFoundState extends State<ItemReportedFound> {
           ),
         );
       },
-    );
-  }
-}
-
-class MapPreviewPage extends StatelessWidget {
-  final double lat;
-  final double lng;
-  final String title;
-  const MapPreviewPage({
-    super.key,
-    required this.lat,
-    required this.lng,
-    required this.title,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final point = LatLng(lat, lng);
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title, overflow: TextOverflow.ellipsis),
-        backgroundColor: Colors.white,
-        surfaceTintColor: Colors.transparent,
-      ),
-      backgroundColor: Colors.white,
-      body: FlutterMap(
-        options: MapOptions(initialCenter: point, initialZoom: 16),
-        children: [
-          TileLayer(
-            urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-            userAgentPackageName: 'com.gp.wujed',
-          ),
-          MarkerLayer(
-            markers: [
-              Marker(
-                point: point,
-                width: 40,
-                height: 40,
-                child: const Icon(
-                  Icons.location_on,
-                  size: 40,
-                  color: Color.fromRGBO(46, 23, 21, 1),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
     );
   }
 }

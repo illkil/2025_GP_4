@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
+//import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
-import 'package:latlong2/latlong.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+//import 'package:latlong2/latlong.dart';
 import 'package:wujed/utils/dialogs.dart';
 import 'package:wujed/widgets/bottom_sheet_widget.dart';
 import 'package:wujed/l10n/generated/app_localizations.dart';
@@ -15,20 +16,49 @@ class PickLocationPage extends StatefulWidget {
 }
 
 class _PickLocationPageState extends State<PickLocationPage> {
-  final MapController _map = MapController();
+  GoogleMapController? _map;
   LatLng? _picked;
-  final LatLng _center = const LatLng(24.7136, 46.6753);
-  final double _zoom = 12;
+
+  final LatLng _center = LatLng(24.7136, 46.6753);
+  final riyadhLatMin = 24.3;
+  final riyadhLatMax = 25.1;
+  final riyadhLonMin = 46.3;
+  final riyadhLonMax = 47.1;
+
+  void _onMapCreated(GoogleMapController controller) {
+  _map = controller;
+  }
+
+  void _onTap(LatLng position) {
+    final isInside = position.latitude >= riyadhLatMin &&
+                   position.latitude <= riyadhLatMax &&
+                   position.longitude >= riyadhLonMin &&
+                   position.longitude <= riyadhLonMax;
+
+    if (!isInside) {
+      final t = AppLocalizations.of(context);
+      showAppDialog(context, t.outside_riyadh, t.outside_dialog);
+      return;
+  }
+
+  setState(() => _picked = position);
+  }
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _openLegacyChoiceSheet();
+      _choice();
     });
   }
 
-  Future<void> _openLegacyChoiceSheet() async {
+  @override
+  void dispose() {
+    _map?.dispose();
+    super.dispose();
+  }
+
+  Future<void> _choice() async {
     final choice = await showModalBottomSheet<String>(
       context: context,
       isScrollControlled: true,
@@ -36,12 +66,12 @@ class _PickLocationPageState extends State<PickLocationPage> {
       builder: (ctx) => const BottomSheetWidget(page: 'PickLocationPage'),
     );
     if (choice == 'current') {
-      await currentLocaiton();
+      await currentLocation();
     } else if (choice == 'manual') {}
   }
 
   //method to get the current location of the user
-  Future<void> currentLocaiton() async {
+  Future<void> currentLocation() async {
     final t = AppLocalizations.of(context);
     try {
       //1. Check if the user enabled location services
@@ -80,14 +110,28 @@ class _PickLocationPageState extends State<PickLocationPage> {
         return;
       }
 
-      //3. Get current location and set it
       final currentLocation = await Geolocator.getCurrentPosition();
 
-      setState(() {
-        _picked = LatLng(currentLocation.latitude, currentLocation.longitude);
-      });
+      final lat = currentLocation.latitude;
+      final lon = currentLocation.longitude;
+      final isInsideRiyadh =
+        lat >= riyadhLatMin && lat <= riyadhLatMax &&
+        lon >= riyadhLonMin && lon <= riyadhLonMax;
 
-      _map.move(_picked!, 16);
+      if (!isInsideRiyadh) {
+        await showAppDialog(context, t.outside_riyadh, t.outside_dialog);
+        return;
+      } else {
+         setState(() {
+          _picked = LatLng(lat, lon);
+        });
+      }
+      if (_map != null) {
+        await _map!.animateCamera(
+          CameraUpdate.newLatLngZoom(_picked!, 16),
+        );
+      }
+
     } catch (e) {
       await showAppDialog(
         context,
@@ -101,6 +145,20 @@ class _PickLocationPageState extends State<PickLocationPage> {
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
 
+    final Set<Marker> markerSet = _picked == null
+    ? {
+        Marker(
+          markerId: const MarkerId('center'),
+          position: _center,      
+        ),
+      }
+    : {
+        Marker(
+          markerId: const MarkerId('picked'),
+          position: _picked!,
+        ),
+      };
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -109,7 +167,31 @@ class _PickLocationPageState extends State<PickLocationPage> {
       backgroundColor: Colors.white,
       body: Stack(
         children: [
-          FlutterMap(
+          GoogleMap(
+            onMapCreated: _onMapCreated,
+            mapType: MapType.normal,
+            myLocationEnabled: true,
+            myLocationButtonEnabled: true,
+            minMaxZoomPreference: const MinMaxZoomPreference(11.5, 17),
+            initialCameraPosition: 
+              CameraPosition(
+                target: 
+                  LatLng(24.7136, 46.6753), 
+                  zoom: 12, 
+                  tilt: 0, 
+                  bearing: 0,
+              ),
+            cameraTargetBounds: 
+              CameraTargetBounds(
+                LatLngBounds(
+                  southwest: LatLng(24.4, 46.4), 
+                  northeast: LatLng(25.1, 47.1), 
+                ),
+              ),
+            onTap: _onTap,
+            markers: markerSet,
+          ),
+          /*FlutterMap(
             mapController: _map,
             options: MapOptions(
               initialCenter: _center,
@@ -142,8 +224,7 @@ class _PickLocationPageState extends State<PickLocationPage> {
                   ],
                 ),
             ],
-          ),
-          //confirm button with info
+          ),*/
           PositionedDirectional(
             start: 16,
             end: 16,
@@ -151,44 +232,44 @@ class _PickLocationPageState extends State<PickLocationPage> {
             child: SafeArea(
               child: FilledButton(
                 onPressed: _picked == null
-                    ? null
-                    : () async {
-                        // 1. get the coordinates
-                        final lat = _picked!.latitude;
-                        final lng = _picked!.longitude;
+                  ? null
+                  : () async {
+                      // 1. get the coordinates
+                      final lat = _picked!.latitude;
+                      final lng = _picked!.longitude;
 
-                        // 2️. try reverse it to the address
-                        String? address;
-                        try {
-                          final placemarks = await placemarkFromCoordinates(
-                            lat,
-                            lng,
-                          );
-                          if (placemarks.isNotEmpty) {
-                            final p = placemarks.first;
-                            address =
-                                [
-                                      p.name,
-                                      p.locality,
-                                      p.administrativeArea,
-                                      p.country,
-                                    ]
-                                    .where((e) => e != null && e!.isNotEmpty)
-                                    .join(', ');
-                          }
-                        } catch (e) {
-                          address = null; // if fails
+                      // 2️. reverse it to the address
+                      String? address;
+                      try {
+                        final placemarks = await placemarkFromCoordinates(
+                          lat,
+                          lng,
+                        );
+                        if (placemarks.isNotEmpty) {
+                          final p = placemarks.first;
+                          address =
+                            [
+                              p.name,
+                              p.locality,
+                              p.administrativeArea,
+                              p.country,
+                            ]
+                            .where((e) => e != null && e!.isNotEmpty)
+                            .join(', ');
                         }
+                      } catch (e) {
+                        address = null; // if fails
+                      }
 
-                        // 3️. pop back to the previous screen with data
-                        if (context.mounted) {
-                          Navigator.pop(context, {
-                            'lat': lat,
-                            'lng': lng,
-                            'address': address,
-                          });
-                        }
-                      },
+                      // 3️. pop back to the previous screen with data
+                      if (context.mounted) {
+                        Navigator.pop(context, {
+                          'lat': lat,
+                          'lng': lng,
+                          'address': address,
+                        });
+                      }
+                    },
 
                 style: FilledButton.styleFrom(
                   minimumSize: const Size(double.infinity, 55),

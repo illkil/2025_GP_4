@@ -672,4 +672,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get report_submitting => 'Submitting…';
+
+  @override
+  String get outside_riyadh => 'Outside Riyadh';
+
+  @override
+  String get outside_dialog => 'Your location is outside Riyadh boundaries.';
 }
