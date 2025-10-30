@@ -270,6 +270,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get home_card_view_arrow_aria => 'عرض تفاصيل التقرير';
 
   @override
+  String get home_note =>
+      'ابقَ آمنًا، قابل الآخرين في الأماكن العامة، وتجنّب مشاركة معلوماتك الشخصية.';
+
+  @override
   String get navbar_home => 'الرئيسية';
 
   @override

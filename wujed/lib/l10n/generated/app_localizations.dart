@@ -578,6 +578,12 @@ abstract class AppLocalizations {
   /// **'View report details'**
   String get home_card_view_arrow_aria;
 
+  /// No description provided for @home_note.
+  ///
+  /// In en, this message translates to:
+  /// **'Stay safe, meet in public areas, and avoid sharing personal details.'**
+  String get home_note;
+
   /// No description provided for @navbar_home.
   ///
   /// In en, this message translates to:

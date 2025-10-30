@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:iconify_flutter/icons/material_symbols.dart';
@@ -21,6 +23,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
+    final _auth = FirebaseAuth.instance;
+    final _db = FirebaseFirestore.instance;
 
     return Scaffold(
       backgroundColor: const Color.fromRGBO(249, 249, 249, 1),
@@ -205,99 +209,138 @@ class _HomePageState extends State<HomePage> {
 
                   const SizedBox(height: 50.0),
 
-                  SizedBox(
-                    height: 100.0,
-                    width: 360.0,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: const Color.fromRGBO(0, 0, 0, 0.05),
-                            offset: const Offset(0, 4),
-                            blurRadius: 16,
-                            spreadRadius: 0,
+                  StreamBuilder(
+                    stream: _db
+                        .collection('reports')
+                        .where('ownerUid', isEqualTo: _auth.currentUser?.uid)
+                        .where('type', isEqualTo: 'lost')
+                        .where('status', isEqualTo: 'ongoing')
+                        .orderBy('createdAt', descending: true)
+                        .limit(1)
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const SizedBox.shrink();
+                      }
+
+                      if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                        return Text(
+                          t.home_note,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.grey.shade600,
+                            fontSize: 12,
                           ),
-                        ],
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SizedBox(
-                          height: 100.0,
-                          child: Stack(
-                            children: [
-                              SizedBox(
-                                height: 80.0,
-                                width: 80.0,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(20),
-                                  child: Image.asset(
-                                    'lib/assets/images/CoffeeBrew.WEBP',
-                                  ),
-                                ),
+                        );
+                      }
+
+                      final report = snapshot.data!.docs.first;
+                      final data = report.data();
+
+                      return SizedBox(
+                        height: 100.0,
+                        width: 360.0,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                color: const Color.fromRGBO(0, 0, 0, 0.05),
+                                offset: const Offset(0, 4),
+                                blurRadius: 16,
+                                spreadRadius: 0,
                               ),
-                              Stack(
+                            ],
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: SizedBox(
+                              height: 100.0,
+                              child: Stack(
                                 children: [
-                                  PositionedDirectional(
-                                    top: 10,
-                                    start: 95,
-                                    child: Text(
-                                      t.home_card_title,
-                                      style: const TextStyle(
-                                        color: Color.fromRGBO(46, 23, 21, 1),
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
+                                  SizedBox(
+                                    height: 80.0,
+                                    width: 80.0,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(20),
+                                      child: Image.asset(
+                                        'lib/assets/images/CoffeeBrew.WEBP',
                                       ),
                                     ),
                                   ),
+                                  Stack(
+                                    children: [
+                                      PositionedDirectional(
+                                        top: 10,
+                                        start: 95,
+                                        child: Text(
+                                          data['title'],
+                                          style: const TextStyle(
+                                            color: Color.fromRGBO(
+                                              46,
+                                              23,
+                                              21,
+                                              1,
+                                            ),
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                      PositionedDirectional(
+                                        top: 35,
+                                        start: 95,
+                                        child: Text(
+                                          t.home_card_subtitle,
+                                          style: TextStyle(
+                                            color: Colors.grey.shade500,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                   PositionedDirectional(
-                                    top: 35,
-                                    start: 95,
-                                    child: Text(
-                                      t.home_card_subtitle,
-                                      style: TextStyle(
-                                        color: Colors.grey.shade500,
-                                        fontSize: 12,
+                                    top: 0,
+                                    bottom: 0,
+                                    end: 10,
+                                    child: Container(
+                                      decoration: const BoxDecoration(
+                                        color: Color.fromRGBO(
+                                          255,
+                                          204,
+                                          92,
+                                          0.4,
+                                        ),
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: IconButton(
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ItemReportedLost(
+                                                    reportId: report.id,
+                                                  ),
+                                            ),
+                                          );
+                                        },
+                                        icon: const Icon(
+                                          Icons.arrow_forward_ios_rounded,
+                                          size: 20,
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ],
                               ),
-                              PositionedDirectional(
-                                top: 0,
-                                bottom: 0,
-                                end: 10,
-                                child: Container(
-                                  decoration: const BoxDecoration(
-                                    color: Color.fromRGBO(255, 204, 92, 0.4),
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: IconButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              const ItemReportedLost(
-                                                reportId:
-                                                    'ZpGwVDcTuMOU6tO95K11',
-                                              ),
-                                        ),
-                                      );
-                                    },
-                                    icon: const Icon(
-                                      Icons.arrow_forward_ios_rounded,
-                                      size: 20,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
                         ),
-                      ),
-                    ),
+                      );
+                    },
                   ),
                 ],
               ),
