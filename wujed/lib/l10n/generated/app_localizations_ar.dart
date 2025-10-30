@@ -567,6 +567,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get btn_send => 'إرسال';
 
   @override
+  String get btn_ok => 'حسنًا';
+
+  @override
   String get common_error_generic => 'عذرًا، حدث خطأ ما';
 
   @override

@@ -566,6 +566,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get btn_send => 'Send';
 
   @override
+  String get btn_ok => 'Ok';
+
+  @override
   String get common_error_generic => 'Oops, something went wrong';
 
   @override

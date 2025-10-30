@@ -1142,6 +1142,12 @@ abstract class AppLocalizations {
   /// **'Send'**
   String get btn_send;
 
+  /// No description provided for @btn_ok.
+  ///
+  /// In en, this message translates to:
+  /// **'Ok'**
+  String get btn_ok;
+
   /// No description provided for @common_error_generic.
   ///
   /// In en, this message translates to:

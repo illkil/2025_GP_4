@@ -63,7 +63,11 @@ class _FoundHistoryState extends State<FoundHistory> {
       builder: (context, snapshot) {
         //1. if loading
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(
+            child: CircularProgressIndicator(
+              color: Color.fromRGBO(255, 175, 0, 1),
+            ),
+          );
         }
 
         //2. if error

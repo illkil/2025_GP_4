@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:wujed/l10n/generated/app_localizations.dart';
 
 Future<void> showAppDialog(
   BuildContext context,
   String title,
   String message,
 ) async {
+  final t = AppLocalizations.of(context);
+
   await showDialog(
     context: context,
     barrierDismissible: true,
@@ -46,8 +49,8 @@ Future<void> showAppDialog(
               borderRadius: BorderRadius.circular(10),
             ),
           ),
-          child: const Text(
-            'OK',
+          child: Text(
+            t.btn_ok,
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,

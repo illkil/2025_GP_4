@@ -235,6 +235,7 @@
   "onboarding_done": "Done",
 
   "btn_send": "Send",
+  "btn_ok": "Ok",
 
   "common_error_generic": "Oops, something went wrong",
   "common_empty": "No information yet",
