@@ -1,11 +1,11 @@
-let currentTranslations = {}; // 🔹 نحفظ الترجمة الحالية هنا
-// 🔹 تحميل اللغة من ملف JSON
+let currentTranslations = {}; //  نحفظ الترجمة الحالية هنا
+// تحميل اللغة من ملف JSON
 async function loadLanguage(lang) {
   try {
     const response = await fetch(`./lang/${lang}.json`);
     const translations = await response.json();
 
-    currentTranslations = translations; // 🔹 حفظ الترجمة الحالية
+    currentTranslations = translations; // حفظ الترجمة الحالية
     
     // غيّر كل العناصر اللي فيها data-i18n
     for (const key in translations) {
@@ -31,14 +31,14 @@ async function loadLanguage(lang) {
   }
 }
 
-// 🔹 التبديل بين اللغتين
+//التبديل بين اللغتين
 function switchLanguage() {
   const current = localStorage.getItem("lang") || "en";
   const newLang = current === "en" ? "ar" : "en";
   loadLanguage(newLang);
 }
 
-// 🔹 تحميل اللغة عند فتح الصفحة
+//  تحميل اللغة
 window.addEventListener("DOMContentLoaded", () => {
   const savedLang = localStorage.getItem("lang") || "en";
   loadLanguage(savedLang);

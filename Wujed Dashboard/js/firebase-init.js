@@ -14,11 +14,11 @@ const firebaseConfig = {
   measurementId: "G-PVCT9CJGRG"
 };
 
-// 🔹 initialize once
+// initialize once
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// 🔹 export to use in other scripts
+// export to use in other scripts
 export { app, analytics, auth, db };

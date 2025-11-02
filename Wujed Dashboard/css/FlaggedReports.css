@@ -180,8 +180,8 @@
     color:#6b7280; border-radius:6px;
   }
   .toast-close:hover{ background:rgba(0,0,0,.05); }
-  /* الوضع الافتراضي (إنجليزي - من اليمين) */
-.sort-panel {
+
+  .sort-panel {
   position: absolute;
   top: 60px;
   right: 20px;
@@ -193,22 +193,19 @@
   transition: all 0.3s ease;
 }
 
-/* لما تكون الصفحة RTL (عربي) */
 body[dir="rtl"] .sort-panel {
   right: auto;
   left: 20px;
   text-align: right;
 }
 
-/* رأس الفلتر */
 .sort-panel-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-/* لما تكون RTL نخلي الاكس على اليسار بدون عكس الترتيب */
 body[dir="rtl"] .sort-panel-close {
   margin-left: 0;
-  margin-right: auto; /* يدفع الاكس إلى اليسار */
+  margin-right: auto;
 }
