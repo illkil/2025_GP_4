@@ -61,15 +61,9 @@
   "rejectedMatchesPath": "المطابقات المرفوضة",
   "flaggedMatchesPath": "المطابقات المعلّمة",
   "sep": "/",
-  "reportTitle2": "العنوان: ",
-  "description2" : "الوصف:",
   "reason": "السبب:",
-  "reasonContent1": "لغة غير لائقة",
-  "reasonContent2": "صورة مشبوهة",
   "approveBtn": "موافقة",
   "rejectBtn": "رفض",
-  "approveBtn2": "موافقة",
-  "rejectBtn2": "رفض",
   "signInBtn": "تسجيل الدخول",
   "confirmPasswordLabel": "تأكيد كلمة المرور",
   "msgResetSuccess": "✅ تم إعادة تعيين كلمة المرور بنجاح! جاري التوجيه إلى صفحة تسجيل الدخول...",
@@ -91,5 +85,4 @@
   "done-btn": "تم",
   "restore-btn": "استعادة",
   "reviewedMatches": "المطابقات التي تم مراجعتها"
-
 }
