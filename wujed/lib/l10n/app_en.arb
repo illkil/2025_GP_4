@@ -79,6 +79,17 @@
   "verify_failed_resend_otp": "Failed to resend OTP, try again later",
   "verify_wait_timer": "Please wait for the timer to finish to get a new OTP code",
 
+  "reset_password_changed_title": "Password changed successfully",
+  "reset_password_changed_message": "Please log in with your new password to access the app",
+  "reset_password_failed": "Failed to change password",
+  "reset_password_error": "Error resetting password",
+  "reset_title": "Reset Password",
+  "reset_subtitle": "Enter and confirm your new password",
+  "reset_new_password_label": "New Password",
+  "reset_confirm_password_label": "Confirm Password",
+  "reset_button": "Reset Password",
+  "reset_password_match": "Passwords must match",
+
   "home_what_item_question": "What item are you reporting?",
   "home_lost_button": "Lost",
   "home_found_button": "Found",

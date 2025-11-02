@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:wujed/l10n/generated/app_localizations.dart';
+import 'package:wujed/views/pages/login_page.dart';
 
 class ResetPasswordPage extends StatefulWidget {
   final String email;
@@ -50,18 +52,98 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       if (newPasswordValid && confirmPasswordValid) {
         setState(() {
           errorText = '';
+          isResetting = true;
         });
 
-        final user = await FirebaseFirestore.instance
-            .collection('users')
-            .where('email', isEqualTo: widget.email)
-            .get();
+        final result = await FirebaseFunctions.instance
+            .httpsCallable('resetUserPassword')
+            .call({'email': widget.email, 'newPassword': newPassword});
 
-            
+        if (result.data['success'] == true) {
+          setState(() {
+            isResetting = false;
+          });
+
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                backgroundColor: Colors.white,
+                surfaceTintColor: Colors.transparent,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                elevation: 8,
+                alignment: Alignment.center,
+                titlePadding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
+                actionsPadding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      t.reset_password_changed_title,
+                      style: const TextStyle(
+                        color: Color.fromRGBO(46, 23, 21, 1),
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+                content: Text(
+                  t.reset_password_changed_message,
+                  textAlign: TextAlign.center,
+                ),
+                actionsAlignment: MainAxisAlignment.end,
+                actions: [
+                  FilledButton(
+                    onPressed: () {
+                      Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return LoginPage();
+                          },
+                        ),
+                        (route) => false,
+                      );
+                    },
+                    style: FilledButton.styleFrom(
+                      minimumSize: const Size(double.infinity, 45),
+                      backgroundColor: const Color.fromRGBO(46, 23, 21, 1),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    child: Text(
+                      t.btn_continue,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
+          );
+        } else {
+          setState(() {
+            errorText = t.reset_password_failed;
+            isResetting = false;
+          });
+        }
       } else {
-        throw FirebaseAuthException(code: '');
+        throw Exception('');
       }
-    } on FirebaseAuthException catch (e) {}
+    } catch (e) {
+      setState(() {
+        errorText = t.reset_password_error;
+        isResetting = false;
+      });
+    }
   }
 
   // @override
@@ -73,6 +155,8 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -94,7 +178,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                     const SizedBox(height: 60.0),
 
                     Text(
-                      'Reset Password',
+                      t.reset_title,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 26.0,
@@ -104,7 +188,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                     const SizedBox(height: 10.0),
 
                     Text(
-                      'Enter and confirm your new password',
+                      t.reset_subtitle,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 16.0,
@@ -132,7 +216,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                       obscureText: hideNewPassword,
                       keyboardType: TextInputType.visiblePassword,
                       decoration: InputDecoration(
-                        labelText: 'New Password',
+                        labelText: t.reset_new_password_label,
                         labelStyle: const TextStyle(fontSize: 16.0),
                         floatingLabelBehavior: FloatingLabelBehavior.always,
                         floatingLabelStyle: const TextStyle(
@@ -186,7 +270,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                       obscureText: hideConfirmPassword,
                       keyboardType: TextInputType.visiblePassword,
                       decoration: InputDecoration(
-                        labelText: 'Confirm Password',
+                        labelText: t.reset_confirm_password_label,
                         labelStyle: const TextStyle(fontSize: 16.0),
                         floatingLabelBehavior: FloatingLabelBehavior.always,
                         floatingLabelStyle: const TextStyle(
@@ -246,7 +330,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                         ),
                       ),
                       child: Text(
-                        "Reset Password",
+                        t.reset_button,
                         style: const TextStyle(
                           fontSize: 16.0,
                           fontWeight: FontWeight.bold,
@@ -309,7 +393,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
     if (confirmPassword != newPassword && confirmPassword.isNotEmpty) {
       setState(() {
-        confirmPasswordWarning = 'Passwords must match';
+        confirmPasswordWarning = t.reset_password_match;
         confirmPasswordValid = false;
       });
       return;
@@ -341,7 +425,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
     if (confirmPassword != newPassword) {
       setState(() {
-        confirmPasswordWarning = 'Passwords must match';
+        confirmPasswordWarning = t.reset_password_match;
         confirmPasswordValid = false;
       });
       return;

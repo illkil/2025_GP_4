@@ -225,6 +225,37 @@ class AppLocalizationsEn extends AppLocalizations {
       'Please wait for the timer to finish to get a new OTP code';
 
   @override
+  String get reset_password_changed_title => 'Password changed successfully';
+
+  @override
+  String get reset_password_changed_message =>
+      'Please log in with your new password to access the app';
+
+  @override
+  String get reset_password_failed => 'Failed to change password';
+
+  @override
+  String get reset_password_error => 'Error resetting password';
+
+  @override
+  String get reset_title => 'Reset Password';
+
+  @override
+  String get reset_subtitle => 'Enter and confirm your new password';
+
+  @override
+  String get reset_new_password_label => 'New Password';
+
+  @override
+  String get reset_confirm_password_label => 'Confirm Password';
+
+  @override
+  String get reset_button => 'Reset Password';
+
+  @override
+  String get reset_password_match => 'Passwords must match';
+
+  @override
   String get home_what_item_question => 'What item are you reporting?';
 
   @override

@@ -111,6 +111,8 @@ class _ProfilePageState extends State<ProfilePage> {
                         children: [
                           GestureDetector(
                             onTap: () async {
+                              Navigator.pop(context);
+
                               final currentLocale = Localizations.localeOf(
                                 context,
                               ).languageCode;
@@ -144,8 +146,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                     .doc(user.uid)
                                     .update({'language': 'ar'});
                               }
-
-                              Navigator.pop(context);
                             },
                             child: Row(
                               children: [

@@ -228,6 +228,37 @@ class AppLocalizationsAr extends AppLocalizations {
       'يرجى الانتظار حتى ينتهي المؤقت للحصول على رمز تحقق جديد';
 
   @override
+  String get reset_password_changed_title => 'تم تغيير كلمة المرور بنجاح';
+
+  @override
+  String get reset_password_changed_message =>
+      'يرجى تسجيل الدخول باستخدام كلمة المرور الجديدة للوصول إلى التطبيق';
+
+  @override
+  String get reset_password_failed => 'فشل في تغيير كلمة المرور';
+
+  @override
+  String get reset_password_error => 'حدث خطأ أثناء إعادة تعيين كلمة المرور';
+
+  @override
+  String get reset_title => 'إعادة تعيين كلمة المرور';
+
+  @override
+  String get reset_subtitle => 'أدخل كلمة المرور الجديدة وأكدها';
+
+  @override
+  String get reset_new_password_label => 'كلمة المرور الجديدة';
+
+  @override
+  String get reset_confirm_password_label => 'تأكيد كلمة المرور';
+
+  @override
+  String get reset_button => 'إعادة تعيين كلمة المرور';
+
+  @override
+  String get reset_password_match => 'يجب أن تتطابق كلمتا المرور';
+
+  @override
   String get home_what_item_question => 'ما العنصر الذي تريد الإبلاغ عنه؟';
 
   @override

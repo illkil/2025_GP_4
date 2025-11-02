@@ -494,6 +494,66 @@ abstract class AppLocalizations {
   /// **'Please wait for the timer to finish to get a new OTP code'**
   String get verify_wait_timer;
 
+  /// No description provided for @reset_password_changed_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Password changed successfully'**
+  String get reset_password_changed_title;
+
+  /// No description provided for @reset_password_changed_message.
+  ///
+  /// In en, this message translates to:
+  /// **'Please log in with your new password to access the app'**
+  String get reset_password_changed_message;
+
+  /// No description provided for @reset_password_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to change password'**
+  String get reset_password_failed;
+
+  /// No description provided for @reset_password_error.
+  ///
+  /// In en, this message translates to:
+  /// **'Error resetting password'**
+  String get reset_password_error;
+
+  /// No description provided for @reset_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset Password'**
+  String get reset_title;
+
+  /// No description provided for @reset_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter and confirm your new password'**
+  String get reset_subtitle;
+
+  /// No description provided for @reset_new_password_label.
+  ///
+  /// In en, this message translates to:
+  /// **'New Password'**
+  String get reset_new_password_label;
+
+  /// No description provided for @reset_confirm_password_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Password'**
+  String get reset_confirm_password_label;
+
+  /// No description provided for @reset_button.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset Password'**
+  String get reset_button;
+
+  /// No description provided for @reset_password_match.
+  ///
+  /// In en, this message translates to:
+  /// **'Passwords must match'**
+  String get reset_password_match;
+
   /// No description provided for @home_what_item_question.
   ///
   /// In en, this message translates to:

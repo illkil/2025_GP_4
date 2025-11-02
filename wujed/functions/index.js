@@ -1,18 +1,26 @@
-const functions = require("firebase-functions");
+const {onCall} = require("firebase-functions/v2/https");
 const admin = require("firebase-admin");
 
 admin.initializeApp();
 
-exports.resetUserPassword = functions.https.onCall(async (data, context) => {
-  const email = data.email;
-  const newPassword = data.newPassword;
+exports.resetUserPassword = onCall(async (request) => {
+  const email = request.data.email;
+  const newPassword = request.data.newPassword;
+
+  if (!email || !newPassword) {
+    throw new Error("Missing email or password");
+  }
 
   try {
+    // Get the user by email
     const user = await admin.auth().getUserByEmail(email);
+
+    // Update their password
     await admin.auth().updateUser(user.uid, {password: newPassword});
 
-    return {success: true};
+    return {success: true, message: "Password reset successfully"};
   } catch (error) {
-    throw new functions.https.HttpsError("unknown", error.message);
+    console.error("Error resetting password:", error);
+    throw new Error(error.message);
   }
 });

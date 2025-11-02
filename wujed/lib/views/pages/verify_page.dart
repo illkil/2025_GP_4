@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:wujed/l10n/generated/app_localizations.dart';
 import 'package:wujed/views/pages/login_page.dart';
+import 'package:wujed/views/pages/reset_password_page.dart';
 
 class VerifyPage extends StatefulWidget {
   final String email;
@@ -19,6 +20,7 @@ class _VerifyPageState extends State<VerifyPage> {
   TextEditingController field3Controller = TextEditingController();
   TextEditingController field4Controller = TextEditingController();
 
+  Color verifyBtnColor = Colors.grey.shade400;
   String errorText = '';
   bool isVerifying = false;
   bool isSendingEmail = false;
@@ -73,91 +75,91 @@ class _VerifyPageState extends State<VerifyPage> {
     });
 
     if (verified) {
-      // Navigator.push(
-      //   context,
-      //   MaterialPageRoute(
-      //     builder: (context) {
-      //       return ResetPasswordPage(email: widget.email);
-      //     },
-      //   ),
-      // );
-      if (!mounted) return;
-
-      setState(() {
-        isSendingEmail = true;
-      });
-
-      await FirebaseAuth.instance.sendPasswordResetEmail(email: widget.email);
-
-      setState(() {
-        isSendingEmail = false;
-      });
-
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            backgroundColor: Colors.white,
-            surfaceTintColor: Colors.transparent,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            elevation: 8,
-            alignment: Alignment.center,
-            titlePadding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-            contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
-            actionsPadding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  t.verify_reset_password_email,
-                  style: const TextStyle(
-                    color: Color.fromRGBO(46, 23, 21, 1),
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-            content: Text(
-              t.verify_reset_password_info,
-              textAlign: TextAlign.center,
-            ),
-            actionsAlignment: MainAxisAlignment.end,
-            actions: [
-              FilledButton(
-                onPressed: () {
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) {
-                        return LoginPage();
-                      },
-                    ),
-                    (route) => false,
-                  );
-                },
-                style: FilledButton.styleFrom(
-                  minimumSize: const Size(double.infinity, 45),
-                  backgroundColor: const Color.fromRGBO(46, 23, 21, 1),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                child: Text(
-                  t.btn_continue,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                ),
-              ),
-            ],
-          );
-        },
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            return ResetPasswordPage(email: widget.email);
+          },
+        ),
       );
+      // if (!mounted) return;
+
+      // setState(() {
+      //   isSendingEmail = true;
+      // });
+
+      // await FirebaseAuth.instance.sendPasswordResetEmail(email: widget.email);
+
+      // setState(() {
+      //   isSendingEmail = false;
+      // });
+
+      // showDialog(
+      //   context: context,
+      //   builder: (BuildContext context) {
+      //     return AlertDialog(
+      //       backgroundColor: Colors.white,
+      //       surfaceTintColor: Colors.transparent,
+      //       shape: RoundedRectangleBorder(
+      //         borderRadius: BorderRadius.circular(20),
+      //       ),
+      //       elevation: 8,
+      //       alignment: Alignment.center,
+      //       titlePadding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+      //       contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
+      //       actionsPadding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+      //       title: Row(
+      //         mainAxisAlignment: MainAxisAlignment.center,
+      //         children: [
+      //           Text(
+      //             t.verify_reset_password_email,
+      //             style: const TextStyle(
+      //               color: Color.fromRGBO(46, 23, 21, 1),
+      //               fontSize: 18,
+      //               fontWeight: FontWeight.bold,
+      //             ),
+      //           ),
+      //         ],
+      //       ),
+      //       content: Text(
+      //         t.verify_reset_password_info,
+      //         textAlign: TextAlign.center,
+      //       ),
+      //       actionsAlignment: MainAxisAlignment.end,
+      //       actions: [
+      //         FilledButton(
+      //           onPressed: () {
+      //             Navigator.pushAndRemoveUntil(
+      //               context,
+      //               MaterialPageRoute(
+      //                 builder: (context) {
+      //                   return LoginPage();
+      //                 },
+      //               ),
+      //               (route) => false,
+      //             );
+      //           },
+      //           style: FilledButton.styleFrom(
+      //             minimumSize: const Size(double.infinity, 45),
+      //             backgroundColor: const Color.fromRGBO(46, 23, 21, 1),
+      //             shape: RoundedRectangleBorder(
+      //               borderRadius: BorderRadius.circular(10),
+      //             ),
+      //           ),
+      //           child: Text(
+      //             t.btn_continue,
+      //             style: const TextStyle(
+      //               color: Colors.white,
+      //               fontWeight: FontWeight.bold,
+      //               fontSize: 16,
+      //             ),
+      //           ),
+      //         ),
+      //       ],
+      //     );
+      //   },
+      // );
     } else {
       setState(() {
         errorText = t.verify_invalid_code;
@@ -279,7 +281,7 @@ class _VerifyPageState extends State<VerifyPage> {
                       },
                       style: FilledButton.styleFrom(
                         minimumSize: const Size(double.infinity, 50),
-                        backgroundColor: const Color.fromRGBO(46, 23, 21, 1),
+                        backgroundColor: verifyBtnColor,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16),
                         ),
@@ -369,12 +371,31 @@ class _VerifyPageState extends State<VerifyPage> {
         ),
         keyboardType: TextInputType.number,
         onChanged: (value) {
-          FocusScope.of(context).nextFocus();
+          if (value.isNotEmpty) {
+            FocusScope.of(context).nextFocus();
+          } else {
+            FocusScope.of(context).previousFocus();
+          }
+          updateButtonColor();
         },
         onEditingComplete: () {
           FocusScope.of(context).unfocus();
         },
       ),
     );
+  }
+
+  void updateButtonColor() {
+    final filled =
+        field1Controller.text.trim().isNotEmpty &&
+        field2Controller.text.trim().isNotEmpty &&
+        field3Controller.text.trim().isNotEmpty &&
+        field4Controller.text.trim().isNotEmpty;
+
+    setState(() {
+      verifyBtnColor = filled
+          ? const Color.fromRGBO(46, 23, 21, 1)
+          : Colors.grey.shade400;
+    });
   }
 }
