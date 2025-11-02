@@ -114,7 +114,6 @@
   .label{ font-size:20px; font-weight:700; margin:0; display:inline; }
   .value.title{ font-size:20px; font-weight:400; line-height:25px; display:inline; }
   .value.desc{ font-size:18px; line-height:1.45; margin-top:8px; width:390px; }
-  /* الوضع الافتراضي (إنجليزي - من اليمين) */
 .sort-panel {
   position: absolute;
   top: 60px;
@@ -127,22 +126,89 @@
   transition: all 0.3s ease;
 }
 
-/* لما تكون الصفحة RTL (عربي) */
 body[dir="rtl"] .sort-panel {
   right: auto;
   left: 20px;
   text-align: right;
 }
 
-/* رأس الفلتر */
 .sort-panel-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-/* لما تكون RTL نخلي الاكس على اليسار بدون عكس الترتيب */
-body[dir="rtl"] .sort-panel-close {
-  margin-left: 0;
-  margin-right: auto; /* يدفع الاكس إلى اليسار */
-}
+.done-btn,
+  .restore-btn {
+    border: none;
+    border-radius: 8px;
+    padding: 6px 12px;
+    cursor: pointer;
+    transition: 0.2s;
+    font-weight: 600;
+  }
+
+  .done-btn {
+    background-color: #2E1715;
+    color: white;
+  }
+
+  .done-btn:hover {
+    background-color: #5b3534;
+  }
+
+  .restore-btn {
+    background-color: #FFCC5C;
+    color: white;
+  }
+
+  .restore-btn:hover {
+    background-color: #edbd53;
+  }
+
+  .done {
+    opacity: 0.6;
+    background-color: #f0f0f0;
+    transition: 0.3s;
+  }
+
+  .done-section {
+    margin-top: 40px;
+    border-top: 2px solid #ddd;
+    padding-top: 20px;
+  }
+
+  .report-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .content {
+    overflow-x: hidden;
+  }
+
+
+  .report-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-right: 10px;
+  }
+
+  .report-actions {
+    margin-right: 10px;
+  }
+
+  .report-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .report-actions {
+    flex-shrink: 0;
+  }

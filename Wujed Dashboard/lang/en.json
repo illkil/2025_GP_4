@@ -85,5 +85,7 @@
   "msgVarSuccess": "Reset link sent! Check your email inbox.",
   "msgVarFailed": "❌ Failed to send reset link. Try again later.",
   "resendCode": "New verification code sent!",
-  "resendCodeFailed": "Failed to resend code. Try again later."
+  "resendCodeFailed": "Failed to resend code. Try again later.",
+  "done-btn": "Done",
+  "restore-btn": "Restore"
 }

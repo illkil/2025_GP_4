@@ -29,6 +29,7 @@ async function loadLanguage(lang) {
   } catch (err) {
     console.error("Error loading language:", err);
   }
+  window.currentLang = lang; 
 }
 
 //التبديل بين اللغتين
@@ -36,6 +37,12 @@ function switchLanguage() {
   const current = localStorage.getItem("lang") || "en";
   const newLang = current === "en" ? "ar" : "en";
   loadLanguage(newLang);
+  function updateTranslations() {
+  for (const key in currentTranslations) {
+    const elements = document.querySelectorAll(`[data-i18n="${key}"]`);
+    elements.forEach(el => el.textContent = currentTranslations[key]);
+  }
+}
 }
 
 //  تحميل اللغة

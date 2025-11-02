@@ -8,53 +8,6 @@
   <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
   <link rel="stylesheet" href="./css/RejectedMatches.css" />
   <link rel="icon" type="image/png" href="images/Logo.png">
-  <style>
-    .done-btn,
-    .restore-btn {
-      border: none;
-      border-radius: 8px;
-      padding: 6px 12px;
-      cursor: pointer;
-      transition: 0.2s;
-      font-weight: 600;
-    }
-
-    .done-btn {
-      background-color: #4CAF50;
-      color: white;
-    }
-
-    .done-btn:hover {
-      background-color: #3e8e41;
-    }
-
-    .restore-btn {
-      background-color: #2196F3;
-      color: white;
-    }
-
-    .restore-btn:hover {
-      background-color: #0b7dda;
-    }
-
-    .done {
-      opacity: 0.6;
-      background-color: #f0f0f0;
-      transition: 0.3s;
-    }
-
-    .done-section {
-      margin-top: 40px;
-      border-top: 2px solid #ddd;
-      padding-top: 20px;
-    }
-
-    .report-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-  </style>
 </head>
 
 <body>
@@ -133,7 +86,7 @@
       <!-- List -->
       <div class="reports-wrap" role="list" id="activeList">
         <!-- Match 1 -->
-        <article class="report" role="listitem" aria-expanded="false">
+        <article class="report" data-id="MAT-000001" role="listitem" aria-expanded="false">
           <div class="report-row">
             <div class="row-click">
               <h3 class="m-title">MAT-000001</h3>
@@ -141,7 +94,57 @@
               <p class="m-date">May 25, 2025</p>
             </div>
             <div class="report-actions">
-              <button class="done-btn">Done</button>
+              <button class="done-btn" data-i18n="done-btn">Done</button>
+              <button class="chevron-btn" aria-label="Expand/Collapse" tabindex="0">
+                <span class="iconify chevron" data-icon="mdi:chevron-down"></span>
+              </button>
+            </div>
+          </div>
+
+          <div class="details">
+            <!-- Lost Item -->
+            <div class="match-block">
+              <img class="match-image" src="Images/Coffee  Brewer.webp" alt="Lost item image">
+              <div class="field">
+                <p class="section-name" data-i18n="lostItem">Lost Item</p>
+                <p class="label" data-i18n="reportTitle">Title: </p><span class="value title">Coffee Brewer</span>
+                <p class="label" style="display:block; margin-top:14px;" data-i18n="description">Description:</p>
+                <div class="value desc">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et
+                  dolore magna aliqua.
+                </div>
+              </div>
+            </div>
+            <!-- Found Item -->
+            <div class="match-block">
+              <img class="match-image" src="Images/Coffee Mug.jpg" alt="Found item image">
+              <div class="field">
+                <p class="section-name" data-i18n="foundItem">Found Item</p>
+                <p class="label" data-i18n="reportTitle2">Title: </p><span class="value title">Coffee Mug</span>
+                <p class="label" style="display:block; margin-top:14px;" data-i18n="description2">Description:</p>
+                <div class="value desc">
+                  Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+
+
+
+
+
+
+        <article class="report" data-id="MAT-000002" role="listitem" aria-expanded="false">
+          <div class="report-row">
+            <div class="row-click">
+              <h3 class="m-title">MAT-000001</h3>
+              <p class="m-score"><span data-i18n="Similarity">Similarity Score:</span> <span>79%</span></p>
+              <p class="m-date">May 25, 2025</p>
+            </div>
+            <div class="report-actions">
+              <button class="done-btn" data-i18n="done-btn">Done</button>
               <button class="chevron-btn" aria-label="Expand/Collapse" tabindex="0">
                 <span class="iconify chevron" data-icon="mdi:chevron-down"></span>
               </button>
@@ -224,9 +227,16 @@
       // نضيف زر "Restore"
       const restoreBtn = document.createElement("button");
       restoreBtn.className = "restore-btn";
-      restoreBtn.textContent = "Restore";
-      report.querySelector(".report-actions").prepend(restoreBtn);
+      restoreBtn.setAttribute("data-i18n", "restore-btn");
+      restoreBtn.textContent = 
+        window.currentLang === "ar" 
+          ? currentTranslations["restore-btn"] || "استعادة" 
+          : currentTranslations["restore-btn"] || "Restore";
+
+            report.querySelector(".report-actions").prepend(restoreBtn);
       if (animate) report.scrollIntoView({ behavior: "smooth" });
+      updateTranslations();
+
     }
 
     // استرجاع التقرير للريجيكتد العادي
@@ -235,10 +245,16 @@
       report.querySelector(".restore-btn")?.remove();
       const doneBtn = document.createElement("button");
       doneBtn.className = "done-btn";
-      doneBtn.textContent = "Done";
+      doneBtn.setAttribute("data-i18n", "done-btn");
+      doneBtn.textContent = 
+        window.currentLang === "ar" 
+          ? currentTranslations["done-btn"] || "تم" 
+          : currentTranslations["done-btn"] || "Done";
+
       report.querySelector(".report-actions").prepend(doneBtn);
       activeList.appendChild(report);
       report.scrollIntoView({ behavior: "smooth" });
+      updateTranslations();
     }
 
     // حفظ الحالة
@@ -257,19 +273,9 @@
       localStorage.setItem("doneReports", JSON.stringify(doneIds));
     }
 
-    // فتح/إغلاق التفاصيل
-    document.querySelectorAll('.report').forEach(report => {
-      const toggle = () => {
-        const exp = report.getAttribute('aria-expanded') === 'true';
-        report.setAttribute('aria-expanded', String(!exp));
-      };
-      report.querySelector('.chevron-btn').addEventListener('click', (e) => {
-        e.stopPropagation();
-        toggle();
-      });
-      report.querySelector('.row-click').addEventListener('click', toggle);
-    });
   </script>
+
+
   <script>
     // Profile popover
     const profileBtn = document.getElementById('profileBtn');
