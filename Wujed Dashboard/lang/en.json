@@ -87,5 +87,6 @@
   "resendCode": "New verification code sent!",
   "resendCodeFailed": "Failed to resend code. Try again later.",
   "done-btn": "Done",
-  "restore-btn": "Restore"
+  "restore-btn": "Restore",
+  "reviewedMatches": "Reviewed Matches"
 }

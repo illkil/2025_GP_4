@@ -89,6 +89,7 @@
   "resendCode": "تم إرسال رمز التحقق الجديد!",
   "resendCodeFailed": "فشل في إعادة إرسال الرمز. حاول مرة أخرى لاحقاً.",
   "done-btn": "تم",
-  "restore-btn": "استعادة"
+  "restore-btn": "استعادة",
+  "reviewedMatches": "المطابقات التي تم مراجعتها"
 
 }
