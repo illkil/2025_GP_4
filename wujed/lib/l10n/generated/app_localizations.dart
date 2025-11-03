@@ -1429,6 +1429,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Your location is outside Riyadh boundaries.'**
   String get outside_dialog;
+
+  /// No description provided for @error_allow_photo_access.
+  ///
+  /// In en, this message translates to:
+  /// **'Please allow photo access to upload images'**
+  String get error_allow_photo_access;
+
+  /// No description provided for @error_max_photos.
+  ///
+  /// In en, this message translates to:
+  /// **'You can only upload up to 2 photos'**
+  String get error_max_photos;
+
+  /// No description provided for @error_save_gallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to save photo to gallery'**
+  String get error_save_gallery;
+
+  /// No description provided for @error_duplicate_photo.
+  ///
+  /// In en, this message translates to:
+  /// **'You uploaded this photo already'**
+  String get error_duplicate_photo;
+
+  /// No description provided for @error_enable_photo_access.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enable photo access in Settings'**
+  String get error_enable_photo_access;
+
+  /// No description provided for @error_create_report.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed creating report'**
+  String get error_create_report;
+
+  /// No description provided for @error_submit_report.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed submitting report'**
+  String get error_submit_report;
 }
 
 class _AppLocalizationsDelegate

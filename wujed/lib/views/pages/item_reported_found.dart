@@ -65,7 +65,9 @@ class _ItemReportedFoundState extends State<ItemReportedFound> {
         //1. loading
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Scaffold(
-            body: Center(child: CircularProgressIndicator()),
+            body: Center(child: CircularProgressIndicator(
+              color: Color.fromRGBO(255, 175, 0, 1),
+            )),
           );
         }
         //2. error
@@ -126,7 +128,9 @@ class _ItemReportedFoundState extends State<ItemReportedFound> {
                                 loadingBuilder: (context, child, lp) {
                                   if (lp == null) return child;
                                   return const Center(
-                                    child: CircularProgressIndicator(),
+                                    child: CircularProgressIndicator(
+                                      color: Color.fromRGBO(255, 175, 0, 1),
+                                    ),
                                   );
                                 },
                                 errorBuilder: (_, __, ___) => const Icon(

@@ -289,6 +289,13 @@
   "report_submitting": "Submitting…",
 
   "outside_riyadh": "Outside Riyadh",
-  "outside_dialog": "Your location is outside Riyadh boundaries."
+  "outside_dialog": "Your location is outside Riyadh boundaries.",
 
+  "error_allow_photo_access": "Please allow photo access to upload images",
+  "error_max_photos": "You can only upload up to 2 photos",
+  "error_save_gallery": "Failed to save photo to gallery",
+  "error_duplicate_photo": "You uploaded this photo already",
+  "error_enable_photo_access": "Please enable photo access in Settings",
+  "error_create_report": "Failed creating report",
+  "error_submit_report": "Failed submitting report"
 }

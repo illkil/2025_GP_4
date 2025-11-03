@@ -408,7 +408,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           SnackBar(
             content: Row(
               children: [
-                Icon(Icons.new_releases_rounded, color: Color.fromRGBO(46, 23, 21, 1)),
+                Icon(Icons.warning_rounded, color: Color.fromRGBO(46, 23, 21, 1)),
                 const SizedBox(width: 10),
                 Text(
                   t.no_new_data_entered,
@@ -500,7 +500,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         SnackBar(
           content: Row(
             children: [
-              Icon(Icons.check_circle, color: Color.fromRGBO(46, 23, 21, 1),),
+              Icon(Icons.warning_rounded, color: Color.fromRGBO(46, 23, 21, 1),),
               const SizedBox(width: 10),
               Text(
                 t.profile_update_failed,

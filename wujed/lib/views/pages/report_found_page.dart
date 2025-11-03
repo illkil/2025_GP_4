@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'package:wujed/views/pages/pick_location_page.dart';
 import 'package:wujed/views/pages/submit_successfully_page.dart';
 import 'package:wujed/l10n/generated/app_localizations.dart';
@@ -22,8 +24,9 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
   Color textColor = Colors.grey.shade600;
   Widget? uploadPhoto;
 
+  bool isSubmitting = false;
   final int _maxLength = 300;
-  final _picker = ImagePicker();
+  //final _picker = ImagePicker();
   List<File> _images = [];
   GeoPoint? _geo;
   String? _address;
@@ -49,201 +52,370 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: Colors.white,
-      body: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: Center(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const SizedBox(height: 50.0),
-                Row(
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.arrow_back_ios_rounded),
-                      color: const Color.fromRGBO(46, 23, 21, 1),
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                  ],
-                ),
-                Text(
-                  t.report_found_title,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18.0,
-                  ),
-                ),
-                const SizedBox(height: 10.0),
-                Text(
-                  t.report_required_details,
-                  style: TextStyle(fontSize: 16.0, color: textColor),
-                ),
-                const SizedBox(height: 40.0),
+      body: Stack(
+        children: [
+          FocusScope(
+            node: FocusScopeNode(),
+            autofocus: false,
+            child: GestureDetector(
+              onTap: () {
+                FocusScope.of(context).unfocus();
+              },
+              child: Center(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: 50.0),
+                      Row(
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.arrow_back_ios_rounded),
+                            color: const Color.fromRGBO(46, 23, 21, 1),
+                            onPressed: () => Navigator.pop(context),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        t.report_found_title,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18.0,
+                        ),
+                      ),
+                      const SizedBox(height: 10.0),
+                      Text(
+                        t.report_required_details,
+                        style: TextStyle(fontSize: 16.0, color: textColor),
+                      ),
+                      const SizedBox(height: 40.0),
 
-                _buildLabel(t.report_title_label, required: true),
-                const SizedBox(height: 10.0),
-                TextField(
-                  controller: controllerTitle,
-                  autocorrect: false,
-                  maxLength: 30,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.allow(
-                      RegExp(r'[a-zA-Z0-9\u0660-\u0669\u0621-\u064A\u064B-\u0652\u0640\s]'),
-                    ),
-                  ],
-                  decoration: InputDecoration(
-                    hintText: t.report_title_hint,
-                    counterText: '',
-                    hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 14),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(14),
-                      borderSide: const BorderSide(color: Color.fromRGBO(46, 23, 21, 1), width: 2.0),
-                    ),
-                  ),
-                  onEditingComplete: () => FocusScope.of(context).unfocus(),
-                ),
-
-                const SizedBox(height: 20.0),
-
-                // 🔹 Photos upload
-                _buildLabel(t.report_photo_label, required: true),
-                const SizedBox(height: 10.0),
-                if (_images.length < 2) buildUploadButton(),
-                const SizedBox(height: 15.0),
-                if (_images.isNotEmpty) _buildImagesPreview(),
-
-                const SizedBox(height: 20.0),
-
-                // 🔹 Location (required)
-                _buildLabel(t.report_location_label, required: true),
-                const SizedBox(height: 10.0),
-                OutlinedButton(
-                  onPressed: () async {
-                    final result = await Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (_) => const PickLocationPage()),
-                    );
-
-                    if (result is Map && result['lat'] != null && result['lng'] != null) {
-                      setState(() {
-                        _geo = GeoPoint(
-                          (result['lat'] as num).toDouble(),
-                          (result['lng'] as num).toDouble(),
-                        );
-                        _address = (result['address'] as String?)?.split(',').take(2).join(', ');
-                      });
-                    }
-                  },
-                  style: OutlinedButton.styleFrom(
-                    minimumSize: const Size(double.infinity, 55),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                  ),
-                  child: SizedBox(
-                    height: 55.0,
-                    width: double.infinity,
-                    child: Stack(
-                      children: [
-                        const PositionedDirectional(
-                          top: 0,
-                          bottom: 0,
-                          child: Icon(
-                            IconlyBold.location,
-                            color: Color.fromRGBO(46, 23, 21, 1),
-                            size: 37,
+                      _buildLabel(t.report_title_label, required: true),
+                      const SizedBox(height: 10.0),
+                      TextField(
+                        controller: controllerTitle,
+                        autocorrect: false,
+                        maxLength: 30,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(
+                            RegExp(
+                              r'[a-zA-Z0-9\u0660-\u0669\u0621-\u064A\u064B-\u0652\u0640\s]',
+                            ),
+                          ),
+                        ],
+                        decoration: InputDecoration(
+                          hintText: t.report_title_hint,
+                          counterText: '',
+                          hintStyle: TextStyle(
+                            color: Colors.grey.shade400,
+                            fontSize: 14,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(14),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(14),
+                            borderSide: const BorderSide(
+                              color: Color.fromRGBO(46, 23, 21, 1),
+                              width: 2.0,
+                            ),
                           ),
                         ),
-                        PositionedDirectional(
-                          top: 17,
-                          start: 70,
-                          child: Text(
-                            _address ?? t.report_location_button_hint,
-                            style: TextStyle(color: Colors.grey.shade400, fontSize: 14),
-                            textAlign: TextAlign.center,
+                        onEditingComplete: () =>
+                            FocusScope.of(context).unfocus(),
+                      ),
+
+                      const SizedBox(height: 20.0),
+
+                      // 🔹 Photos upload
+                      _buildLabel(t.report_photo_label, required: true),
+                      const SizedBox(height: 10.0),
+                      if (_images.length < 2) buildUploadButton(),
+                      const SizedBox(height: 15.0),
+                      if (_images.isNotEmpty) _buildImagesPreview(),
+
+                      const SizedBox(height: 20.0),
+
+                      // 🔹 Location (required)
+                      _buildLabel(t.report_location_label, required: true),
+                      const SizedBox(height: 10.0),
+                      OutlinedButton(
+                        onPressed: () async {
+                          FocusScope.of(context).unfocus();
+                          final result = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const PickLocationPage(),
+                            ),
+                          );
+
+                          if (result is Map &&
+                              result['lat'] != null &&
+                              result['lng'] != null) {
+                            setState(() {
+                              _geo = GeoPoint(
+                                (result['lat'] as num).toDouble(),
+                                (result['lng'] as num).toDouble(),
+                              );
+                              _address = (result['address'] as String?)
+                                  ?.split(',')
+                                  .take(2)
+                                  .join(', ');
+                            });
+                          }
+                        },
+                        style: OutlinedButton.styleFrom(
+                          minimumSize: const Size(double.infinity, 55),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
                           ),
                         ),
-                      ],
-                    ),
+                        child: SizedBox(
+                          height: 55.0,
+                          width: double.infinity,
+                          child: Stack(
+                            children: [
+                              const PositionedDirectional(
+                                top: 0,
+                                bottom: 0,
+                                child: Icon(
+                                  IconlyBold.location,
+                                  color: Color.fromRGBO(46, 23, 21, 1),
+                                  size: 37,
+                                ),
+                              ),
+                              PositionedDirectional(
+                                top: 17,
+                                start: 70,
+                                child: Text(
+                                  _address ?? t.report_location_button_hint,
+                                  style: TextStyle(
+                                    color: Colors.grey.shade400,
+                                    fontSize: 14,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 20.0),
+
+                      _buildLabel(t.report_description_label, required: true),
+                      const SizedBox(height: 10.0),
+                      TextField(
+                        controller: controllerDescription,
+                        autocorrect: false,
+                        maxLength: _maxLength,
+                        maxLines: 6,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.allow(
+                            RegExp(
+                              r'[a-zA-Z0-9\u0660-\u0669\u0621-\u064A\u064B-\u0652\u0640\s]',
+                            ),
+                          ),
+                        ],
+                        decoration: InputDecoration(
+                          hintText: t.report_description_hint,
+                          hintStyle: TextStyle(
+                            color: Colors.grey.shade400,
+                            fontSize: 14,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(14),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(14),
+                            borderSide: const BorderSide(
+                              color: Color.fromRGBO(46, 23, 21, 1),
+                              width: 2.0,
+                            ),
+                          ),
+                          counterText: t.report_counter_left(
+                            _maxLength - controllerDescription.text.length,
+                          ),
+                          counterStyle: TextStyle(
+                            fontSize: 12,
+                            color:
+                                (_maxLength -
+                                        controllerDescription.text.length) <=
+                                    0
+                                ? Colors.red
+                                : Colors.grey.shade400,
+                          ),
+                        ),
+                        onEditingComplete: () =>
+                            FocusScope.of(context).unfocus(),
+                      ),
+
+                      const SizedBox(height: 30.0),
+
+                      FilledButton(
+                        onPressed: _submitting
+                            ? null
+                            : () => _submitFoundReport(t),
+                        style: FilledButton.styleFrom(
+                          minimumSize: const Size(double.infinity, 50),
+                          backgroundColor: const Color.fromRGBO(46, 23, 21, 1),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                        ),
+                        child: Text(
+                          _submitting
+                              ? t.report_submitting
+                              : t.report_submit_button,
+                          style: const TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 50.0),
+                    ],
                   ),
                 ),
-
-                const SizedBox(height: 20.0),
-
-                _buildLabel(t.report_description_label, required: true),
-                const SizedBox(height: 10.0),
-                TextField(
-                  controller: controllerDescription,
-                  autocorrect: false,
-                  maxLength: _maxLength,
-                  maxLines: 6,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.allow(
-                      RegExp(r'[a-zA-Z0-9\u0660-\u0669\u0621-\u064A\u064B-\u0652\u0640\s]'),
-                    ),
-                  ],
-                  decoration: InputDecoration(
-                    hintText: t.report_description_hint,
-                    hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 14),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(14),
-                      borderSide: const BorderSide(color: Color.fromRGBO(46, 23, 21, 1), width: 2.0),
-                    ),
-                    counterText: t.report_counter_left(_maxLength - controllerDescription.text.length),
-                    counterStyle: TextStyle(
-                      fontSize: 12,
-                      color: (_maxLength - controllerDescription.text.length) <= 0
-                          ? Colors.red
-                          : Colors.grey.shade400,
-                    ),
-                  ),
-                  onEditingComplete: () => FocusScope.of(context).unfocus(),
-                ),
-
-                const SizedBox(height: 30.0),
-
-                FilledButton(
-                  onPressed: _submitting ? null : () => _submitFoundReport(t),
-                  style: FilledButton.styleFrom(
-                    minimumSize: const Size(double.infinity, 50),
-                    backgroundColor: const Color.fromRGBO(46, 23, 21, 1),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                  ),
-                  child: Text(
-                    _submitting ? t.report_submitting : t.report_submit_button,
-                    style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
-                  ),
-                ),
-
-                const SizedBox(height: 50.0),
-              ],
+              ),
             ),
           ),
-        ),
+          if (isSubmitting) //wait for report to submit
+            Container(
+              color: Color.fromRGBO(0, 0, 0, 0.4),
+              child: Center(
+                child: CircularProgressIndicator(
+                  color: Color.fromRGBO(255, 175, 0, 1),
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }
 
   Future<void> _pickImages() async {
-    final picks = await _picker.pickMultiImage(imageQuality: 85);
-    if (picks.isEmpty) return;
-    setState(() {
-      if (_images.length < 2) {
-        final remaining = 2 - _images.length;
-        _images.addAll(picks.take(remaining).map((x) => File(x.path)));
-      }
-    });
+    final t = AppLocalizations.of(context);
+    FocusScope.of(context).unfocus();
+
+    final hasPermission = await _requestPhotoPermission();
+    if (!hasPermission) {
+      _showSnackBar(
+        t.error_allow_photo_access,
+        Icons.warning_rounded,
+      );
+      return;
+    }
+
+    //limit to 2 total images
+    final remainingSlots = 2 - _images.length;
+    if (remainingSlots <= 0) {
+      _showSnackBar(
+       t.error_max_photos,
+        Icons.warning_rounded,
+      );
+      return;
+    }
+
+    final result = await AssetPicker.pickAssets(
+      context,
+      pickerConfig: AssetPickerConfig(
+        maxAssets: remainingSlots,
+        requestType: RequestType.image,
+        specialItemPosition: SpecialItemPosition.prepend,
+        specialItemBuilder: (context, _, __) {
+          return GestureDetector(
+            onTap: () async {
+              final picker = ImagePicker();
+              final picked = await picker.pickImage(
+                source: ImageSource.camera,
+                imageQuality: 85,
+              );
+              if (picked != null) {
+                final file = File(picked.path);
+                final bytes = await file.readAsBytes();
+
+                try {
+                  //save to user’s gallery
+                  await ImageGallerySaver.saveImage(
+                    Uint8List.fromList(bytes),
+                    quality: 85,
+                    name: "wujed_${DateTime.now().millisecondsSinceEpoch}",
+                  );
+
+                  setState(() {
+                    if (_images.length < 2) {
+                      _images.add(file);
+                    }
+                  });
+
+                  Navigator.pop(context); //close picker after taking photo
+                } catch (e) {
+                  _showSnackBar(
+                    t.error_save_gallery,
+                    Icons.warning_rounded,
+                  );
+                }
+              }
+            },
+            child: const Center(
+              child: Icon(Icons.camera_alt, size: 42, color: Colors.grey),
+            ),
+          );
+        },
+      ),
+    );
+
+    if (result != null && result.isNotEmpty) {
+      //convert to files
+      final newFiles = await Future.wait(
+        result.map((asset) async => await asset.file),
+      );
+
+      setState(() {
+        for (final file in newFiles) {
+          //prevent duplicates by comparing absolute file paths
+          if (!_images.any((existing) => existing.path == file!.path)) {
+            _images.add(file!);
+          } else {
+            _showSnackBar(t.error_duplicate_photo, Icons.warning_rounded);
+          }
+        }
+
+        //ensure we never exceed 2 images
+        if (_images.length > 2) {
+          _images = _images.take(2).toList();
+        }
+      });
+    }
+  }
+
+  Future<bool> _requestPhotoPermission() async {
+    final PermissionState ps = await PhotoManager.requestPermissionExtend();
+    final t = AppLocalizations.of(context);
+
+    if (ps.isAuth) {
+      //permission already granted
+      return true;
+    } else if (ps.hasAccess) {
+      //old Android versions (pre-13) still valid
+      return true;
+    } else {
+      //permission denied then open settings
+      _showSnackBar(t.error_enable_photo_access, Icons.warning_rounded);
+      await PhotoManager.openSetting();
+      return false;
+    }
   }
 
   Widget _buildImagesPreview() {
-    return SizedBox(
-      height: 170,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        itemCount: _images.length,
-        separatorBuilder: (_, __) => const SizedBox(width: 8),
-        itemBuilder: (context, i) {
+    return Center(
+      child: Wrap(
+        alignment: WrapAlignment.center,
+        spacing: 8,
+        children: List.generate(_images.length, (i) {
           return Stack(
             children: [
               ClipRRect(
@@ -270,13 +442,17 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
                       shape: BoxShape.circle,
                     ),
                     padding: const EdgeInsets.all(4),
-                    child: const Icon(Icons.close, color: Colors.white, size: 18),
+                    child: const Icon(
+                      Icons.close,
+                      color: Colors.white,
+                      size: 18,
+                    ),
                   ),
                 ),
               ),
             ],
           );
-        },
+        }),
       ),
     );
   }
@@ -286,10 +462,19 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
       children: [
         Text(
           text,
-          style: const TextStyle(color: Color.fromRGBO(43, 23, 21, 1), fontSize: 16),
+          style: const TextStyle(
+            color: Color.fromRGBO(43, 23, 21, 1),
+            fontSize: 16,
+          ),
         ),
         if (required)
-          const Text('*', style: TextStyle(color: Color.fromRGBO(211, 47, 47, 1), fontSize: 16)),
+          const Text(
+            '*',
+            style: TextStyle(
+              color: Color.fromRGBO(211, 47, 47, 1),
+              fontSize: 16,
+            ),
+          ),
       ],
     );
   }
@@ -310,7 +495,11 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
             const PositionedDirectional(
               top: 0,
               bottom: 0,
-              child: Icon(IconlyBold.camera, color: Color.fromRGBO(46, 23, 21, 1), size: 37),
+              child: Icon(
+                IconlyBold.camera,
+                color: Color.fromRGBO(46, 23, 21, 1),
+                size: 37,
+              ),
             ),
             PositionedDirectional(
               top: 17,
@@ -330,34 +519,50 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
   Future<void> _submitFoundReport(AppLocalizations t) async {
     final title = controllerTitle.text.trim();
     final description = controllerDescription.text.trim();
+    final t = AppLocalizations.of(context);
 
     if (title.isEmpty || description.isEmpty) {
-      _showSnackBar(t.snackbar_fill_fields, Icons.warning);
+      _showSnackBar(t.snackbar_fill_fields, Icons.warning_rounded);
       return;
     }
 
     if (_images.isEmpty) {
-      _showSnackBar(t.snackbar_add_photos, Icons.photo_camera);
+      _showSnackBar(t.snackbar_add_photos, Icons.warning_rounded);
       return;
     }
 
     if (_geo == null) {
-      _showSnackBar(t.snackbar_pick_location, Icons.warning);
+      _showSnackBar(t.snackbar_pick_location, Icons.warning_rounded);
       return;
     }
 
     setState(() => _submitting = true);
     try {
-      await ReportService().createReport(
+      setState(() {
+        isSubmitting = true;
+      });
+
+      final result = await ReportService().createReport(
         type: 'found',
         title: title,
         description: description,
         category: null,
         location: _geo,
         address: _address,
-        lang: 'en',
         imageFiles: _images,
       );
+
+      setState(() {
+        isSubmitting = false;
+      });
+
+      if (result == 'Failed-creating-report') {
+        _showSnackBar(t.error_create_report, Icons.warning_rounded);
+        setState(() {
+          isSubmitting = false;
+        });
+        return;
+      }
 
       if (!mounted) return;
       Navigator.pushAndRemoveUntil(
@@ -367,9 +572,17 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
       );
     } catch (e) {
       if (!mounted) return;
-      _showSnackBar(t.snackbar_submit_failed(e.toString()), Icons.error);
+      setState(() {
+        isSubmitting = false;
+      });
+      _showSnackBar(t.error_submit_report, Icons.warning_rounded);
     } finally {
-      if (mounted) setState(() => _submitting = false);
+      if (mounted) {
+        setState(() {
+          _submitting = false;
+          isSubmitting = false;
+        });
+      }
     }
   }
 
@@ -378,7 +591,7 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
       SnackBar(
         content: Row(
           children: [
-            Icon(icon, color: Colors.black),
+            Icon(icon, color: Color.fromRGBO(46, 23, 21, 1)),
             const SizedBox(width: 10),
             Expanded(
               child: Text(
@@ -386,7 +599,7 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
-                  color: Colors.black,
+                  color: Color.fromRGBO(46, 23, 21, 1),
                 ),
               ),
             ),

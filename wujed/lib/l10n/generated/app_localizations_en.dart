@@ -716,4 +716,27 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get outside_dialog => 'Your location is outside Riyadh boundaries.';
+
+  @override
+  String get error_allow_photo_access =>
+      'Please allow photo access to upload images';
+
+  @override
+  String get error_max_photos => 'You can only upload up to 2 photos';
+
+  @override
+  String get error_save_gallery => 'Failed to save photo to gallery';
+
+  @override
+  String get error_duplicate_photo => 'You uploaded this photo already';
+
+  @override
+  String get error_enable_photo_access =>
+      'Please enable photo access in Settings';
+
+  @override
+  String get error_create_report => 'Failed creating report';
+
+  @override
+  String get error_submit_report => 'Failed submitting report';
 }

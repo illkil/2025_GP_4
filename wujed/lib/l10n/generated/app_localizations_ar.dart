@@ -715,4 +715,27 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get outside_dialog => 'موقعك خارج حدود الرياض.';
+
+  @override
+  String get error_allow_photo_access =>
+      'يرجى السماح بالوصول إلى الصور لتحميل الصور';
+
+  @override
+  String get error_max_photos => 'يمكنك تحميل صورتين فقط كحد أقصى';
+
+  @override
+  String get error_save_gallery => 'فشل في حفظ الصورة في المعرض';
+
+  @override
+  String get error_duplicate_photo => 'لقد قمت بتحميل هذه الصورة بالفعل';
+
+  @override
+  String get error_enable_photo_access =>
+      'يرجى تفعيل الوصول إلى الصور من الإعدادات';
+
+  @override
+  String get error_create_report => 'فشل في إنشاء البلاغ';
+
+  @override
+  String get error_submit_report => 'فشل في إرسال البلاغ';
 }

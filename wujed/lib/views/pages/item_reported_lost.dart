@@ -77,7 +77,9 @@ class _ItemReportedLostState extends State<ItemReportedLost> {
       stream: ReportService().ReportStream(widget.reportId),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator(
+            color: Color.fromRGBO(255, 175, 0, 1),
+          ));
         }
         if (snapshot.hasError) {
           return Center(child: Text(t.common_error_generic));
@@ -163,7 +165,9 @@ class _ItemReportedLostState extends State<ItemReportedLost> {
                                 loadingBuilder: (context, child, lp) {
                                   if (lp == null) return child;
                                   return const Center(
-                                    child: CircularProgressIndicator(),
+                                    child: CircularProgressIndicator(
+                                      color: Color.fromRGBO(255, 175, 0, 1),
+                                    ),
                                   );
                                 },
                                 errorBuilder: (_, __, ___) => const Icon(
@@ -194,7 +198,9 @@ class _ItemReportedLostState extends State<ItemReportedLost> {
                                         loadingBuilder: (context, child, lp) {
                                           if (lp == null) return child;
                                           return const Center(
-                                            child: CircularProgressIndicator(),
+                                            child: CircularProgressIndicator(
+                                              color: Color.fromRGBO(255, 175, 0, 1),
+                                            ),
                                           );
                                         },
                                         errorBuilder: (_, __, ___) =>
