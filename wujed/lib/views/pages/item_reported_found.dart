@@ -355,6 +355,7 @@ class _ItemReportedFoundState extends State<ItemReportedFound> {
                                 FilledButton(
                                   onPressed: () {
                                     //hard delete from database then navigate to history
+                                    ReportService().deleteReport(widget.reportId);
                                     Navigator.pop(context);
                                     Navigator.pop(context);
                                   },
