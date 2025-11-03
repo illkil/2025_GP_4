@@ -739,4 +739,8 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get error_submit_report => 'Failed submitting report';
+
+  @override
+  String get report_sumbitted_successfully =>
+      'All done! your report has been\nsubmitted successfully';
 }

@@ -160,8 +160,8 @@ class _ItemReportedFoundState extends State<ItemReportedFound> {
                               itemCount: headerCount,
                               itemBuilder: (context, index) {
                                 return Padding(
-                                  padding: EdgeInsets.only(
-                                    right: index == headerCount - 1 ? 0 : 12,
+                                  padding: EdgeInsetsDirectional.only(
+                                    end: index == headerCount - 1 ? 0 : 12,
                                   ),
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(20),

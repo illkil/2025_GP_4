@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wujed/l10n/generated/app_localizations.dart';
 import 'package:wujed/views/widget_tree.dart';
 
 class SubmitSuccessfullyPage extends StatefulWidget {
@@ -11,6 +12,8 @@ class SubmitSuccessfullyPage extends StatefulWidget {
 class _SubmitSuccessfullyPageState extends State<SubmitSuccessfullyPage> {
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context);
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
@@ -21,7 +24,7 @@ class _SubmitSuccessfullyPageState extends State<SubmitSuccessfullyPage> {
             Icon(Icons.check_circle_rounded, size: 200, color: Color.fromRGBO(255, 204, 92, 1),),
             SizedBox(height: 40.0,),
             Text(
-              'All done! your report has been\nsubmitted successfully',
+              t.report_sumbitted_successfully,
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
@@ -43,7 +46,7 @@ class _SubmitSuccessfullyPageState extends State<SubmitSuccessfullyPage> {
                 ),
               ),
               child: Text(
-                'Continue',
+                t.btn_continue,
                 style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
               ),
             ),

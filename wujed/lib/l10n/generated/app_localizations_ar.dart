@@ -738,4 +738,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get error_submit_report => 'فشل في إرسال البلاغ';
+
+  @override
+  String get report_sumbitted_successfully => 'تم بنجاح! تم إرسال بلاغك بنجاح';
 }

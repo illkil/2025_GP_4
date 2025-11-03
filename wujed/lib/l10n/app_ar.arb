@@ -298,5 +298,8 @@
   "error_duplicate_photo": "لقد قمت بتحميل هذه الصورة بالفعل",
   "error_enable_photo_access": "يرجى تفعيل الوصول إلى الصور من الإعدادات",
   "error_create_report": "فشل في إنشاء البلاغ",
-  "error_submit_report": "فشل في إرسال البلاغ"
+  "error_submit_report": "فشل في إرسال البلاغ",
+
+  "report_sumbitted_successfully": "تم بنجاح! تم إرسال بلاغك بنجاح"
+
 }

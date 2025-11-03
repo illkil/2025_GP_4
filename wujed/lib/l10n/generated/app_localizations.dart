@@ -1471,6 +1471,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Failed submitting report'**
   String get error_submit_report;
+
+  /// No description provided for @report_sumbitted_successfully.
+  ///
+  /// In en, this message translates to:
+  /// **'All done! your report has been\nsubmitted successfully'**
+  String get report_sumbitted_successfully;
 }
 
 class _AppLocalizationsDelegate
