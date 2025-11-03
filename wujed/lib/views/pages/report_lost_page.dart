@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:image_gallery_saver/image_gallery_saver.dart';
+import 'package:gallery_saver_plus/gallery_saver.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'package:wujed/views/pages/pick_location_page.dart';
 import 'package:wujed/views/pages/submit_successfully_page.dart';
@@ -347,15 +348,20 @@ class _ReportLostPageState extends State<ReportLostPage> {
               );
               if (picked != null) {
                 final file = File(picked.path);
-                final bytes = await file.readAsBytes();
 
                 try {
                   //save to user’s gallery
-                  await ImageGallerySaver.saveImage(
-                    Uint8List.fromList(bytes),
-                    quality: 85,
-                    name: "wujed_${DateTime.now().millisecondsSinceEpoch}",
-                  );
+                  final bytes = await file
+                      .readAsBytes(); // your camera image bytes
+
+                  // Save temporarily before passing to GallerySaver
+                  final tempDir = await getTemporaryDirectory();
+                  final tempPath =
+                      '${tempDir.path}/wujed_${DateTime.now().millisecondsSinceEpoch}.jpg';
+                  final tempFile = await File(tempPath).writeAsBytes(bytes);
+
+                  // Now save the temp file to the gallery
+                  await GallerySaver.saveImage(tempFile.path);
 
                   setState(() {
                     if (_images.length < 2) {

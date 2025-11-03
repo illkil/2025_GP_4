@@ -19,30 +19,39 @@ class _ItemReportedFoundState extends State<ItemReportedFound> {
     super.initState();
   }
 
-  void _openImage(String url) {
+  void _openImageAt(int startIndex, List<String> images) {
     Navigator.of(context).push(
       PageRouteBuilder(
         opaque: false,
-        barrierDismissible: true,
-        barrierColor: Colors.black54,
-        transitionDuration: const Duration(milliseconds: 180),
+        barrierColor: Colors.black.withOpacity(0.85),
         pageBuilder: (_, __, ___) {
+          final controller = PageController(initialPage: startIndex);
           return GestureDetector(
             onTap: () => Navigator.pop(context),
             child: Stack(
               children: [
-                Center(
-                  child: InteractiveViewer(
+                PageView.builder(
+                  controller: controller,
+                  itemCount: images.length,
+                  itemBuilder: (_, i) => InteractiveViewer(
                     maxScale: 5,
-                    child: Image.network(url, fit: BoxFit.contain),
+                    child: Image.network(
+                      images[i],
+                      fit: BoxFit.contain,
+                      errorBuilder: (_, __, ___) => const Icon(
+                        Icons.broken_image,
+                        color: Colors.white,
+                        size: 56,
+                      ),
+                    ),
                   ),
                 ),
                 PositionedDirectional(
                   top: MediaQuery.of(context).padding.top + 8,
                   end: 8,
                   child: IconButton(
-                    onPressed: () => Navigator.pop(context),
                     icon: const Icon(Icons.close, color: Colors.white),
+                    onPressed: () => Navigator.pop(context),
                   ),
                 ),
               ],
@@ -65,9 +74,11 @@ class _ItemReportedFoundState extends State<ItemReportedFound> {
         //1. loading
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Scaffold(
-            body: Center(child: CircularProgressIndicator(
-              color: Color.fromRGBO(255, 175, 0, 1),
-            )),
+            body: Center(
+              child: CircularProgressIndicator(
+                color: Color.fromRGBO(255, 175, 0, 1),
+              ),
+            ),
           );
         }
         //2. error
@@ -99,7 +110,7 @@ class _ItemReportedFoundState extends State<ItemReportedFound> {
 
         final List<String> imgs = (data['images'] as List<dynamic>? ?? const [])
             .cast<String>();
-        final headerUrl = imgs.isNotEmpty ? imgs.first : null;
+        final int headerCount = imgs.length > 2 ? 2 : imgs.length;
         const double heroH = 400.0;
 
         return Scaffold(
@@ -112,7 +123,7 @@ class _ItemReportedFoundState extends State<ItemReportedFound> {
                     SizedBox(
                       width: double.infinity,
                       height: heroH,
-                      child: headerUrl == null
+                      child: imgs.isEmpty
                           ? const Center(
                               child: Icon(
                                 Icons.image_not_supported,
@@ -120,10 +131,11 @@ class _ItemReportedFoundState extends State<ItemReportedFound> {
                                 color: Colors.grey,
                               ),
                             )
-                          : GestureDetector(
-                              onTap: () => _openImage(headerUrl),
+                          : (imgs.length == 1)
+                          ? GestureDetector(
+                              onTap: () => _openImageAt(0, imgs),
                               child: Image.network(
-                                headerUrl,
+                                imgs.first,
                                 fit: BoxFit.cover,
                                 loadingBuilder: (context, child, lp) {
                                   if (lp == null) return child;
@@ -139,6 +151,49 @@ class _ItemReportedFoundState extends State<ItemReportedFound> {
                                   color: Colors.grey,
                                 ),
                               ),
+                            )
+                          : PageView.builder(
+                              controller: PageController(
+                                viewportFraction: 0.88,
+                              ),
+                              padEnds: false,
+                              itemCount: headerCount,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: EdgeInsets.only(
+                                    right: index == headerCount - 1 ? 0 : 12,
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(20),
+                                    child: GestureDetector(
+                                      onTap: () => _openImageAt(index, imgs),
+                                      child: Image.network(
+                                        imgs[index],
+                                        fit: BoxFit.cover,
+                                        loadingBuilder: (context, child, lp) {
+                                          if (lp == null) return child;
+                                          return const Center(
+                                            child: CircularProgressIndicator(
+                                              color: Color.fromRGBO(
+                                                255,
+                                                175,
+                                                0,
+                                                1,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        errorBuilder: (_, __, ___) =>
+                                            const Icon(
+                                              Icons.broken_image,
+                                              size: 48,
+                                              color: Colors.grey,
+                                            ),
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
                     ),
                     PositionedDirectional(
@@ -249,7 +304,7 @@ class _ItemReportedFoundState extends State<ItemReportedFound> {
                                           MaterialPageRoute(
                                             builder: (_) => ViewOnMapPage(
                                               latitude: geo!.latitude,
-                                              longitude: geo!.longitude,
+                                              longitude: geo.longitude,
                                               title: locationText,
                                             ),
                                           ),
@@ -359,7 +414,9 @@ class _ItemReportedFoundState extends State<ItemReportedFound> {
                                 FilledButton(
                                   onPressed: () {
                                     //hard delete from database then navigate to history
-                                    ReportService().deleteReport(widget.reportId);
+                                    ReportService().deleteReport(
+                                      widget.reportId,
+                                    );
                                     Navigator.pop(context);
                                     Navigator.pop(context);
                                   },

@@ -64,7 +64,7 @@ dependencies:
   cloud_functions: ^6.0.3
   wechat_assets_picker: ^9.8.0
   photo_manager: ^3.7.1
-  image_gallery_saver: ^2.0.3
+  gallery_saver_plus: ^3.2.9
   
 dev_dependencies:
   flutter_test:
