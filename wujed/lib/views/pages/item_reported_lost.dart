@@ -526,7 +526,7 @@ class _ItemReportedLostState extends State<ItemReportedLost> {
                               ),
                             ),
                             child: Text(
-                              t.btn_cancel,
+                              t.btn_delete,
                               style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
