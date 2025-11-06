@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+google-cloud-vision
+openai
+requests
+pydantic
+Pillow
+

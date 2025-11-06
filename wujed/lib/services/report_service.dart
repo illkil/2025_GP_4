@@ -1,10 +1,12 @@
 // lib/services/report_service.dart
+import 'dart:convert';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 // Keep these imports — they’re harmless now and ready for later
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/foundation.dart';
+// import 'package:flutter/foundation.dart';
+import 'package:http/http.dart' as http;
 import 'package:uuid/uuid.dart';
 
 /// Toggle this to re-enable Storage later when billing is on.
@@ -37,26 +39,30 @@ class ReportService {
     for (final file in files) {
       final name = const Uuid().v4();
       final ref = _storage.ref('reports/$type/$reportId/images/$name.jpg');
-
-      // 🔹 Start the upload
-      final uploadTask = ref.putFile(file);
-
-      // 🔹 Listen to progress (optional — you can print or update UI)
-      uploadTask.snapshotEvents.listen((event) {
-        final progress = event.bytesTransferred / event.totalBytes;
-        debugPrint(
-          'Uploading ${file.path.split('/').last}: ${(progress * 100).toStringAsFixed(1)}%',
-        );
-      });
-
-      // 🔹 Wait until upload finishes
-      final snap = await uploadTask.whenComplete(() => null);
-
-      // 🔹 Get the download URL
-      final url = await snap.ref.getDownloadURL();
-      urls.add(url);
+      final snap = await ref.putFile(file);
+      urls.add(await snap.ref.getDownloadURL());
     }
     return urls;
+  }
+
+  Future<String> classifyItem(
+    List<String> imageUrls,
+    String description,
+  ) async {
+    final uri = Uri.parse("https://wujed-classifier-1031003478013.us-central1.run.app/classify"); //link of deployed fast api model server to cloud run
+
+    final response = await http.post( //make post request to send to the fastapi server (u must turn it on in your device)
+      uri,
+      headers: {"Content-Type": "application/json"}, //we are sending a json file
+      body: jsonEncode({"image_urls": imageUrls, "description": description}), //the data that we defined in the model
+    );
+
+    if (response.statusCode == 200) { //200 means server responded successfully
+      final data = jsonDecode(response.body); //convert from jason to object
+      return data["category"]; //extract the category and return it, we used ['category'] because the model returns the labels also! ['labels'] just incase we need to check it 
+    } else {
+      return "processing"; //if server didnt respond successfully then return the category as processing (since it failed processing mean that we will try again soon)
+    }
   }
 
   /// Create a LOST or FOUND report. Returns the new doc id.
@@ -84,13 +90,27 @@ class ReportService {
         'type': type,
         'title': title,
         'description': description,
-        'category': category,
+        'category': null,
         'images': imageUrls,
         'location': location,
         'address': address,
         'status': 'ongoing',
         'createdAt': FieldValue.serverTimestamp(),
         'updatedAt': FieldValue.serverTimestamp(),
+      });
+
+      Future(() async { //made it as future so it will not take so long for the report to be submitted, without it it will force the user to wait for the category to be selected by the model first which take some time
+        String predictedCategory = await classifyItem(imageUrls, description); //get the category from the method above, sending the images and description
+
+        if(predictedCategory == 'processing' || predictedCategory.isEmpty) { //if categoraization was not successful try again after some time (5 seconds) if the second time is not successful do it from cloud function (check functions/index.js)
+          await Future.delayed(Duration(seconds: 5));
+          predictedCategory = await classifyItem(imageUrls, description);
+        }
+
+        await _db.collection('reports').doc(reportId).update({ //update the report from firestore with the predected category
+          'category': predictedCategory,
+          'updatedAt': FieldValue.serverTimestamp(),
+        });
       });
 
       return reportId;
