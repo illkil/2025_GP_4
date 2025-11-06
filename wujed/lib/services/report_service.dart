@@ -102,7 +102,7 @@ class ReportService {
       Future(() async { //made it as future so it will not take so long for the report to be submitted, without it it will force the user to wait for the category to be selected by the model first which take some time
         String predictedCategory = await classifyItem(imageUrls, description); //get the category from the method above, sending the images and description
 
-        if(predictedCategory == 'processing' || predictedCategory.isEmpty) { //if categoraization was not successful try again after some time (5 seconds) if the second time is not successful do it from cloud function (check functions/index.js)
+        if(predictedCategory == 'processing' || predictedCategory.isEmpty) { //if categoraization was not successful try again after some time (5 seconds) if the second time is not successful then categorization will be done from cloud functions later (check functions/index.js)
           await Future.delayed(Duration(seconds: 5));
           predictedCategory = await classifyItem(imageUrls, description);
         }

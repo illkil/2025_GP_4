@@ -44,8 +44,13 @@ exports.retryClassification = onDocumentCreated(
       // only retry if category is processing or null
       if (data.category != null && data.category != "processing") return;
 
-      // delay retry by 60 seconds
-      await new Promise((resolve) => setTimeout(resolve, 20000));
+      // delay retry by 60 seconds to make some time
+      // for report images/data to upload first
+      await new Promise((resolve) => setTimeout(resolve, 60000));
+
+      // check again after the delay incase the category
+      // selection was successful during the delay
+      if (data.category != null && data.category != "processing") return;
 
       // send images, description to server
       const res = await axios.post("https://wujed-classifier-1031003478013.us-central1.run.app/classify", {
