@@ -255,9 +255,10 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
                       const SizedBox(height: 30.0),
 
                       FilledButton(
-                        onPressed: _submitting
-                            ? null
-                            : () => _submitFoundReport(t),
+                        onPressed: () {
+                          FocusScope.of(context).unfocus();
+                          _submitting ? null : () => _submitFoundReport(t);
+                        },
                         style: FilledButton.styleFrom(
                           minimumSize: const Size(double.infinity, 50),
                           backgroundColor: const Color.fromRGBO(46, 23, 21, 1),
@@ -303,20 +304,14 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
 
     final hasPermission = await _requestPhotoPermission();
     if (!hasPermission) {
-      _showSnackBar(
-        t.error_allow_photo_access,
-        Icons.warning_rounded,
-      );
+      _showSnackBar(t.error_allow_photo_access, Icons.warning_rounded);
       return;
     }
 
     //limit to 2 total images
     final remainingSlots = 2 - _images.length;
     if (remainingSlots <= 0) {
-      _showSnackBar(
-       t.error_max_photos,
-        Icons.warning_rounded,
-      );
+      _showSnackBar(t.error_max_photos, Icons.warning_rounded);
       return;
     }
 
@@ -359,10 +354,7 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
 
                   Navigator.pop(context); //close picker after taking photo
                 } catch (e) {
-                  _showSnackBar(
-                    t.error_save_gallery,
-                    Icons.warning_rounded,
-                  );
+                  _showSnackBar(t.error_save_gallery, Icons.warning_rounded);
                 }
               }
             },

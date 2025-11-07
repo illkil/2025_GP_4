@@ -175,6 +175,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
 
                     FilledButton(
                       onPressed: () {
+                        FocusScope.of(context).unfocus();
                         passwordReset();
                       },
                       style: FilledButton.styleFrom(

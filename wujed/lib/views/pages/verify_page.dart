@@ -264,6 +264,8 @@ class _VerifyPageState extends State<VerifyPage> {
 
                     FilledButton(
                       onPressed: () {
+                        FocusScope.of(context).unfocus();
+                        
                         final code =
                             field1Controller.text.trim() +
                             field2Controller.text.trim() +

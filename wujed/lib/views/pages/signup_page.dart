@@ -460,6 +460,7 @@ class _SignupPageState extends State<SignupPage> {
 
                       FilledButton(
                         onPressed: () {
+                          FocusScope.of(context).unfocus();
                           onSignup();
                         },
                         style: FilledButton.styleFrom(

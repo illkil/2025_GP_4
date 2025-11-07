@@ -106,6 +106,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         actions: [
           TextButton(
             onPressed: () {
+              FocusScope.of(context).unfocus();
               onDonePressed();
             },
             child: Padding(

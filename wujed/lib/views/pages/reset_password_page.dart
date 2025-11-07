@@ -320,6 +320,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
                     FilledButton(
                       onPressed: () {
+                        FocusScope.of(context).unfocus();
                         resetPassword();
                       },
                       style: FilledButton.styleFrom(

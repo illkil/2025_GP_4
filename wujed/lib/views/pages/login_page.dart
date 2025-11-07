@@ -394,6 +394,7 @@ class _LoginPageState extends State<LoginPage> {
 
                       FilledButton(
                         onPressed: () async {
+                          FocusScope.of(context).unfocus();
                           await onLogin();
                         },
                         style: FilledButton.styleFrom(
