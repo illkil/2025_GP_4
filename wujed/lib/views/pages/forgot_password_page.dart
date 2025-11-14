@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:wujed/views/pages/verify_page.dart';
 import 'package:wujed/l10n/generated/app_localizations.dart';
 import 'package:email_otp/email_otp.dart';
@@ -148,6 +149,11 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                       autocorrect: false,
                       controller: _controllerEmail,
                       keyboardType: TextInputType.emailAddress,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.allow(
+                          RegExp(r'[a-zA-Z0-9@._\-]'),
+                        ),
+                      ],
                       decoration: InputDecoration(
                         labelText: t.forgot_email_label,
                         labelStyle: const TextStyle(fontSize: 16.0),

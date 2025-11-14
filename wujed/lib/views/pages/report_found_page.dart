@@ -255,10 +255,9 @@ class _ReportFoundPageState extends State<ReportFoundPage> {
                       const SizedBox(height: 30.0),
 
                       FilledButton(
-                        onPressed: () {
-                          FocusScope.of(context).unfocus();
-                          _submitting ? null : () => _submitFoundReport(t);
-                        },
+                        onPressed: _submitting
+                            ? null
+                            : () => _submitFoundReport(t),
                         style: FilledButton.styleFrom(
                           minimumSize: const Size(double.infinity, 50),
                           backgroundColor: const Color.fromRGBO(46, 23, 21, 1),

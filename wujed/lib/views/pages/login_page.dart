@@ -285,7 +285,7 @@ class _LoginPageState extends State<LoginPage> {
                         autocorrect: false,
                         inputFormatters: [
                           FilteringTextInputFormatter.allow(
-                            RegExp(r'[a-zA-Z0-9@._]'),
+                            RegExp(r'[a-zA-Z0-9@._\-]'),
                           ),
                         ],
 
