@@ -314,7 +314,7 @@ class _SignupPageState extends State<SignupPage> {
                         keyboardType: TextInputType.emailAddress,
                         inputFormatters: [
                           FilteringTextInputFormatter.allow(
-                            RegExp(r'[a-zA-Z0-9@._]'),
+                            RegExp(r'[a-zA-Z0-9@._\-]'),
                           ),
                         ],
 

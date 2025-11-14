@@ -21,7 +21,7 @@ CATEGORIES = [ #predefined categories
     "documents and ids",
     "keys",
     "cosmetics and personal care",
-    "jewelry",
+    "accessories and jewelry",
     "others"
 ]
 

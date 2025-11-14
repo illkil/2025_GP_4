@@ -1,9 +1,8 @@
 import 'dart:async';
 import 'package:email_otp/email_otp.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:wujed/l10n/generated/app_localizations.dart';
-import 'package:wujed/views/pages/login_page.dart';
 import 'package:wujed/views/pages/reset_password_page.dart';
 
 class VerifyPage extends StatefulWidget {
@@ -83,83 +82,6 @@ class _VerifyPageState extends State<VerifyPage> {
           },
         ),
       );
-      // if (!mounted) return;
-
-      // setState(() {
-      //   isSendingEmail = true;
-      // });
-
-      // await FirebaseAuth.instance.sendPasswordResetEmail(email: widget.email);
-
-      // setState(() {
-      //   isSendingEmail = false;
-      // });
-
-      // showDialog(
-      //   context: context,
-      //   builder: (BuildContext context) {
-      //     return AlertDialog(
-      //       backgroundColor: Colors.white,
-      //       surfaceTintColor: Colors.transparent,
-      //       shape: RoundedRectangleBorder(
-      //         borderRadius: BorderRadius.circular(20),
-      //       ),
-      //       elevation: 8,
-      //       alignment: Alignment.center,
-      //       titlePadding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-      //       contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
-      //       actionsPadding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
-      //       title: Row(
-      //         mainAxisAlignment: MainAxisAlignment.center,
-      //         children: [
-      //           Text(
-      //             t.verify_reset_password_email,
-      //             style: const TextStyle(
-      //               color: Color.fromRGBO(46, 23, 21, 1),
-      //               fontSize: 18,
-      //               fontWeight: FontWeight.bold,
-      //             ),
-      //           ),
-      //         ],
-      //       ),
-      //       content: Text(
-      //         t.verify_reset_password_info,
-      //         textAlign: TextAlign.center,
-      //       ),
-      //       actionsAlignment: MainAxisAlignment.end,
-      //       actions: [
-      //         FilledButton(
-      //           onPressed: () {
-      //             Navigator.pushAndRemoveUntil(
-      //               context,
-      //               MaterialPageRoute(
-      //                 builder: (context) {
-      //                   return LoginPage();
-      //                 },
-      //               ),
-      //               (route) => false,
-      //             );
-      //           },
-      //           style: FilledButton.styleFrom(
-      //             minimumSize: const Size(double.infinity, 45),
-      //             backgroundColor: const Color.fromRGBO(46, 23, 21, 1),
-      //             shape: RoundedRectangleBorder(
-      //               borderRadius: BorderRadius.circular(10),
-      //             ),
-      //           ),
-      //           child: Text(
-      //             t.btn_continue,
-      //             style: const TextStyle(
-      //               color: Colors.white,
-      //               fontWeight: FontWeight.bold,
-      //               fontSize: 16,
-      //             ),
-      //           ),
-      //         ),
-      //       ],
-      //     );
-      //   },
-      // );
     } else {
       setState(() {
         errorText = t.verify_invalid_code;
@@ -265,12 +187,18 @@ class _VerifyPageState extends State<VerifyPage> {
                     FilledButton(
                       onPressed: () {
                         FocusScope.of(context).unfocus();
-                        
-                        final code =
-                            field1Controller.text.trim() +
-                            field2Controller.text.trim() +
-                            field3Controller.text.trim() +
-                            field4Controller.text.trim();
+                        final isArabic =
+                            Localizations.localeOf(context).languageCode ==
+                            'ar';
+
+                        final f1 = field1Controller.text.trim();
+                        final f2 = field2Controller.text.trim();
+                        final f3 = field3Controller.text.trim();
+                        final f4 = field4Controller.text.trim();
+
+                        final code = isArabic
+                            ? "$f4$f3$f2$f1" //reverse order for Arabic
+                            : "$f1$f2$f3$f4"; //normal order for English
 
                         if (code.length < 4) {
                           setState(() {
@@ -354,35 +282,40 @@ class _VerifyPageState extends State<VerifyPage> {
     return SizedBox(
       height: 60,
       width: 60,
-      child: TextField(
-        controller: controller,
-        autocorrect: false,
-        maxLength: 1,
-        textAlign: TextAlign.center,
-        style: const TextStyle(fontSize: 35, fontWeight: FontWeight.w600),
-        decoration: InputDecoration(
-          counterText: '',
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(14),
-            borderSide: const BorderSide(
-              color: Color.fromRGBO(46, 23, 21, 1),
-              width: 2.0,
+      child: Directionality(
+        textDirection: TextDirection.ltr,
+        child: TextField(
+          controller: controller,
+          autocorrect: false,
+          maxLength: 1,
+          textDirection: TextDirection.ltr,
+          textAlign: TextAlign.center,
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+          style: const TextStyle(fontSize: 35, fontWeight: FontWeight.w600),
+          decoration: InputDecoration(
+            counterText: '',
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(14),
+              borderSide: const BorderSide(
+                color: Color.fromRGBO(46, 23, 21, 1),
+                width: 2.0,
+              ),
             ),
           ),
+          keyboardType: TextInputType.number,
+          onChanged: (value) {
+            if (value.isNotEmpty) {
+              FocusScope.of(context).nextFocus();
+            } else {
+              FocusScope.of(context).previousFocus();
+            }
+            updateButtonColor();
+          },
+          onEditingComplete: () {
+            FocusScope.of(context).unfocus();
+          },
         ),
-        keyboardType: TextInputType.number,
-        onChanged: (value) {
-          if (value.isNotEmpty) {
-            FocusScope.of(context).nextFocus();
-          } else {
-            FocusScope.of(context).previousFocus();
-          }
-          updateButtonColor();
-        },
-        onEditingComplete: () {
-          FocusScope.of(context).unfocus();
-        },
       ),
     );
   }
