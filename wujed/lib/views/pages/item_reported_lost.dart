@@ -77,9 +77,11 @@ class _ItemReportedLostState extends State<ItemReportedLost> {
       stream: ReportService().ReportStream(widget.reportId),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator(
-            color: Color.fromRGBO(255, 175, 0, 1),
-          ));
+          return const Center(
+            child: CircularProgressIndicator(
+              color: Color.fromRGBO(255, 175, 0, 1),
+            ),
+          );
         }
         if (snapshot.hasError) {
           return Center(child: Text(t.common_error_generic));
@@ -199,7 +201,12 @@ class _ItemReportedLostState extends State<ItemReportedLost> {
                                           if (lp == null) return child;
                                           return const Center(
                                             child: CircularProgressIndicator(
-                                              color: Color.fromRGBO(255, 175, 0, 1),
+                                              color: Color.fromRGBO(
+                                                255,
+                                                175,
+                                                0,
+                                                1,
+                                              ),
                                             ),
                                           );
                                         },
@@ -460,10 +467,15 @@ class _ItemReportedLostState extends State<ItemReportedLost> {
                                   actions: [
                                     FilledButton(
                                       onPressed: () {
+                                        Navigator.pop(context);
+                                        Navigator.pop(context);
+
                                         //hard delete from database then navigate to history
-                                        ReportService().deleteReport(widget.reportId);
-                                        Navigator.pop(context);
-                                        Navigator.pop(context);
+                                        Future.microtask(() {
+                                          ReportService().deleteReport(
+                                            widget.reportId,
+                                          );
+                                        });
                                       },
                                       style: FilledButton.styleFrom(
                                         minimumSize: const Size(

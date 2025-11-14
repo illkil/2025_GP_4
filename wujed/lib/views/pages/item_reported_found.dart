@@ -413,12 +413,15 @@ class _ItemReportedFoundState extends State<ItemReportedFound> {
                               actions: [
                                 FilledButton(
                                   onPressed: () {
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+
                                     //hard delete from database then navigate to history
-                                    ReportService().deleteReport(
-                                      widget.reportId,
-                                    );
-                                    Navigator.pop(context);
-                                    Navigator.pop(context);
+                                    Future.microtask(() {
+                                      ReportService().deleteReport(
+                                        widget.reportId,
+                                      );
+                                    });
                                   },
                                   style: FilledButton.styleFrom(
                                     minimumSize: const Size(

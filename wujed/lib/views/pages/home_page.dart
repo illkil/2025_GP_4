@@ -237,104 +237,135 @@ class _HomePageState extends State<HomePage> {
                       final report = snapshot.data!.docs.first;
                       final data = report.data();
 
-                      return SizedBox(
-                        height: 100.0,
-                        width: 360.0,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                color: const Color.fromRGBO(0, 0, 0, 0.05),
-                                offset: const Offset(0, 4),
-                                blurRadius: 16,
-                                spreadRadius: 0,
-                              ),
-                            ],
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: SizedBox(
-                              height: 100.0,
-                              child: Stack(
-                                children: [
-                                  SizedBox(
-                                    height: 80.0,
-                                    width: 80.0,
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(20),
-                                      child: Image.asset(
-                                        'lib/assets/images/CoffeeBrew.WEBP',
+                      final imgs = (data['images'] as List<dynamic>? ?? [])
+                          .cast<String>();
+                      final imageUrl = imgs.isNotEmpty ? imgs.first : null;
+
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  ItemReportedLost(reportId: report.id),
+                            ),
+                          );
+                        },
+                        child: SizedBox(
+                          height: 100.0,
+                          width: 360.0,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: const Color.fromRGBO(0, 0, 0, 0.05),
+                                  offset: const Offset(0, 4),
+                                  blurRadius: 16,
+                                  spreadRadius: 0,
+                                ),
+                              ],
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SizedBox(
+                                height: 100.0,
+                                child: Stack(
+                                  children: [
+                                    SizedBox(
+                                      height: 80.0,
+                                      width: 80.0,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(20),
+                                        child:
+                                            imageUrl != null &&
+                                                imageUrl.isNotEmpty
+                                            ? Image.network(
+                                                imageUrl,
+                                                fit: BoxFit.cover,
+                                                errorBuilder: (_, __, ___) =>
+                                                    Icon(
+                                                      Icons.image,
+                                                      size: 50.0,
+                                                      color:
+                                                          Colors.grey.shade400,
+                                                    ),
+                                              )
+                                            : Icon(
+                                                Icons.image,
+                                                size: 50.0,
+                                                color: Colors.grey.shade400,
+                                              ),
                                       ),
                                     ),
-                                  ),
-                                  Stack(
-                                    children: [
-                                      PositionedDirectional(
-                                        top: 10,
-                                        start: 95,
-                                        child: Text(
-                                          data['title'],
-                                          style: const TextStyle(
-                                            color: Color.fromRGBO(
-                                              46,
-                                              23,
-                                              21,
-                                              1,
+                                    Stack(
+                                      children: [
+                                        PositionedDirectional(
+                                          top: 10,
+                                          start: 95,
+                                          child: Text(
+                                            data['title'],
+                                            style: const TextStyle(
+                                              color: Color.fromRGBO(
+                                                46,
+                                                23,
+                                                21,
+                                                1,
+                                              ),
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.bold,
                                             ),
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        PositionedDirectional(
+                                          top: 35,
+                                          start: 95,
+                                          child: Text(
+                                            t.home_card_subtitle,
+                                            style: TextStyle(
+                                              color: Colors.grey.shade500,
+                                              fontSize: 12,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    PositionedDirectional(
+                                      top: 0,
+                                      bottom: 0,
+                                      end: 10,
+                                      child: Container(
+                                        decoration: const BoxDecoration(
+                                          color: Color.fromRGBO(
+                                            255,
+                                            204,
+                                            92,
+                                            0.4,
+                                          ),
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: IconButton(
+                                          onPressed: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ItemReportedLost(
+                                                      reportId: report.id,
+                                                    ),
+                                              ),
+                                            );
+                                          },
+                                          icon: const Icon(
+                                            Icons.arrow_forward_ios_rounded,
+                                            size: 20,
                                           ),
                                         ),
                                       ),
-                                      PositionedDirectional(
-                                        top: 35,
-                                        start: 95,
-                                        child: Text(
-                                          t.home_card_subtitle,
-                                          style: TextStyle(
-                                            color: Colors.grey.shade500,
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  PositionedDirectional(
-                                    top: 0,
-                                    bottom: 0,
-                                    end: 10,
-                                    child: Container(
-                                      decoration: const BoxDecoration(
-                                        color: Color.fromRGBO(
-                                          255,
-                                          204,
-                                          92,
-                                          0.4,
-                                        ),
-                                        shape: BoxShape.circle,
-                                      ),
-                                      child: IconButton(
-                                        onPressed: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  ItemReportedLost(
-                                                    reportId: report.id,
-                                                  ),
-                                            ),
-                                          );
-                                        },
-                                        icon: const Icon(
-                                          Icons.arrow_forward_ios_rounded,
-                                          size: 20,
-                                        ),
-                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ),
