@@ -45,23 +45,41 @@ class ReportService {
     return urls;
   }
 
-  Future<String> classifyItem(
+  // Changed return type to Map so we can access:
+  // accepted, reason, category, labels, imageDetails
+  Future<Map<String, dynamic>?> classifyItem(
+    String type, // send report type to implement the logic
     List<String> imageUrls,
     String description,
   ) async {
-    final uri = Uri.parse("https://wujed-classifier-1031003478013.us-central1.run.app/classify"); //link of deployed fast api model server to cloud run
+    final uri = Uri.parse(
+      "https://wujed-classifier-1031003478013.us-central1.run.app/classify",
+    ); //link of deployed fast api model server to cloud run
 
-    final response = await http.post( //make post request to send to the fastapi server (u must turn it on in your device)
+    final response = await http.post(
+      //make post request to send to the fastapi server (u must turn it on in your device)
       uri,
-      headers: {"Content-Type": "application/json"}, //we are sending a json file
-      body: jsonEncode({"image_urls": imageUrls, "description": description}), //the data that we defined in the model
+      headers: {
+        "Content-Type": "application/json",
+      }, //we are sending a json file
+      body: jsonEncode({
+        "type": type, // backend now requires report type lost/found
+        "image_urls": imageUrls,
+        "description": description,
+      }), //the data that we defined in the model
     );
 
-    if (response.statusCode == 200) { //200 means server responded successfully
-      final data = jsonDecode(response.body); //convert from jason to object
-      return data["category"]; //extract the category and return it, we used ['category'] because the model returns the labels also! ['labels'] just incase we need to check it 
+    if (response.statusCode == 200) {
+      //200 means server responded successfully
+      final data =
+          jsonDecode(response.body)
+              as Map<
+                String,
+                dynamic
+              >; //convert response JSON to a Map<String, dynamic>
+      return data; //now returns the full classification result (accepted, reason, category, labels, imageDetails)
     } else {
-      return "processing"; //if server didnt respond successfully then return the category as processing (since it failed processing mean that we will try again soon)
+      return null; //if server didnt respond successfully then return the category as null (since it failed processing mean that we will try again soon)
     }
   }
 
@@ -99,15 +117,21 @@ class ReportService {
         'updatedAt': FieldValue.serverTimestamp(),
       });
 
-      Future(() async { //made it as future so it will not take so long for the report to be submitted, without it it will force the user to wait for the category to be selected by the model first which take some time
-        String predictedCategory = await classifyItem(imageUrls, description); //get the category from the method above, sending the images and description
+      Future(() async {
+        //made it as future so it will not take so long for the report to be submitted, without it it will force the user to wait for the category to be selected by the model first which take some time
+        String predictedCategory = await classifyItem(
+          imageUrls,
+          description,
+        ); //get the category from the method above, sending the images and description
 
-        if(predictedCategory == 'processing' || predictedCategory.isEmpty) { //if categoraization was not successful try again after some time (5 seconds) if the second time is not successful then categorization will be done from cloud functions later (check functions/index.js)
+        if (predictedCategory == 'processing' || predictedCategory.isEmpty) {
+          //if categoraization was not successful try again after some time (5 seconds) if the second time is not successful then categorization will be done from cloud functions later (check functions/index.js)
           await Future.delayed(Duration(seconds: 5));
           predictedCategory = await classifyItem(imageUrls, description);
         }
 
-        await _db.collection('reports').doc(reportId).update({ //update the report from firestore with the predected category
+        await _db.collection('reports').doc(reportId).update({
+          //update the report from firestore with the predected category
           'category': predictedCategory,
           'updatedAt': FieldValue.serverTimestamp(),
         });
