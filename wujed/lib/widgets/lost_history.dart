@@ -4,6 +4,7 @@ import 'package:wujed/services/report_service.dart';
 import 'package:wujed/views/pages/item_reported_lost.dart';
 import 'package:wujed/l10n/generated/app_localizations.dart';
 import 'package:intl/intl.dart';
+import 'package:wujed/utils/dialogs.dart';
 
 Color statusToColor(String status) {
   switch (status.toLowerCase()) {
@@ -139,165 +140,158 @@ class _LostHistoryState extends State<LostHistory> {
   }
 
   Widget historyItem(
-    BuildContext context,
-    String title,
-    DateTime date,
-    String status,
-    Color color, [
-    String? imageUrl,
-    String? rejectReason,
-    String? reportId,
-  ]) {
-    final t = AppLocalizations.of(context);
-    return Container(
-      height: 100.0,
-      width: 360.0,
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Color.fromRGBO(0, 0, 0, 0.05),
-            offset: Offset(0, 4),
-            blurRadius: 16,
-            spreadRadius: 0,
-          ),
-        ],
-      ),
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: Colors.white,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: SizedBox(
-            height: 100.0,
-            child: Stack(
-              children: [
-                SizedBox(
-                  height: 80.0,
-                  width: 80.0,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Color.fromRGBO(0, 0, 0, 0.2),
-                          width: 1,
-                        ),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: imageUrl != null && imageUrl.isNotEmpty
-                          ? Image.network(
-                              imageUrl,
-                              fit: BoxFit.cover,
-                              errorBuilder: (_, __, ___) => Icon(
-                                Icons.image,
-                                size: 50.0,
-                                color: Colors.grey.shade400,
-                              ),
-                            )
-                          : Icon(
-                              Icons.image,
-                              size: 50.0,
-                              color: Colors.grey.shade400,
-                            ),
-                    ),
-                  ),
-                ),
-                Stack(
-                  children: [
-                    PositionedDirectional(
-                      top: 5,
-                      start: 95,
-                      child: Text(
-                        title,
-                        style: TextStyle(
-                          color: Color.fromRGBO(46, 23, 21, 1),
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                    PositionedDirectional(
-                      top: 30,
-                      start: 95,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            Icons.calendar_month_rounded,
-                            size: 16,
-                            color: Colors.grey.shade500,
-                          ),
-                          SizedBox(width: 5.0),
-                          Text(
-                            formatDate(context, date),
-                            style: TextStyle(
-                              color: Colors.grey.shade500,
-                              fontSize: 12,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    PositionedDirectional(
-                      top: 57,
-                      start: 95,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(Icons.circle, size: 12, color: color),
-                          SizedBox(width: 5.0),
-                          Text(
-                            statusToText(t, status),
-                            style: TextStyle(
-                              color: color,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 12,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                if (status.toLowerCase() == 'rejected' && rejectReason != null)
-                  PositionedDirectional(
-                    top: 75,
-                    start: 95,
-                    child: Text(
-                      ReportService().mapRejectReasonToMessage(
-                        rejectReason,
-                        'lost',
-                      ),
-                      style: TextStyle(
-                        color: Colors.red.shade300,
-                        fontSize: 11,
-                      ),
-                    ),
-                  ),
+  BuildContext context,
+  String title,
+  DateTime date,
+  String status,
+  Color color, [
+  String? imageUrl,
+  String? rejectReason,
+  String? reportId,
+]) {
+  final t = AppLocalizations.of(context);
 
-                PositionedDirectional(
-                  top: 0,
-                  bottom: 0,
-                  end: 0,
-                  child: IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              ItemReportedLost(reportId: reportId!),
-                        ),
-                      );
-                    },
-                    icon: Icon(Icons.arrow_forward_ios_rounded, size: 20),
+  return Container(
+    width: double.infinity,
+    decoration: BoxDecoration(
+      boxShadow: [
+        BoxShadow(
+          color: const Color.fromRGBO(0, 0, 0, 0.05),
+          offset: const Offset(0, 4),
+          blurRadius: 16,
+        ),
+      ],
+      borderRadius: BorderRadius.circular(20),
+      color: Colors.white,
+    ),
+    padding: const EdgeInsets.all(10),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // ---------------- LEFT: IMAGE ----------------
+        ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Container(
+            height: 80,
+            width: 80,
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: const Color.fromRGBO(0, 0, 0, 0.2),
+                width: 1,
+              ),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: imageUrl != null && imageUrl.isNotEmpty
+                ? Image.network(
+                    imageUrl,
+                    fit: BoxFit.cover,
+                    errorBuilder: (_, __, ___) => Icon(
+                      Icons.image,
+                      size: 40,
+                      color: Colors.grey.shade400,
+                    ),
+                  )
+                : Icon(
+                    Icons.image,
+                    size: 40,
+                    color: Colors.grey.shade400,
+                  ),
+          ),
+        ),
+
+        const SizedBox(width: 12),
+
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // TITLE
+              Text(
+                title,
+                style: const TextStyle(
+                  color: Color.fromRGBO(46, 23, 21, 1),
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                ),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+
+              const SizedBox(height: 6),
+
+              // DATE
+              Row(
+                children: [
+                  Icon(
+                    Icons.calendar_month_rounded,
+                    size: 16,
+                    color: Colors.grey.shade500,
+                  ),
+                  const SizedBox(width: 5),
+                  Text(
+                    formatDate(context, date),
+                    style: TextStyle(
+                      color: Colors.grey.shade500,
+                      fontSize: 12,
+                    ),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 6),
+
+              // STATUS
+              Row(
+                children: [
+                  Icon(
+                    Icons.circle,
+                    size: 12,
+                    color: color,
+                  ),
+                  const SizedBox(width: 5),
+                  Text(
+                    statusToText(t, status),
+                    style: TextStyle(
+                      color: color,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+
+              // ---------------- REJECTION MESSAGE ----------------
+              if (status.toLowerCase() == 'rejected' && rejectReason != null) ...[
+                const SizedBox(height: 6),
+                Text(
+                  mapRejectReasonToMessage(
+                    context,
+                    rejectReason,
+                    'lost',
+                  ),
+                  style: TextStyle(
+                    color: Colors.red.shade300,
+                    fontSize: 12,
+                    height: 1.3,
                   ),
                 ),
               ],
-            ),
+            ],
           ),
         ),
-      ),
-    );
-  }
+        IconButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ItemReportedLost(reportId: reportId!),
+              ),
+            );
+          },
+          icon: const Icon(Icons.arrow_forward_ios_rounded, size: 20),
+        ),
+      ],
+    ),
+  );
+}
 }

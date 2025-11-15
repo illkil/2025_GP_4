@@ -299,5 +299,11 @@
   "error_create_report": "Failed creating report",
   "error_submit_report": "Failed submitting report",
 
-  "report_sumbitted_successfully": "All done! your report has been\nsubmitted successfully"
+  "report_sumbitted_successfully": "All done! your report has been\nsubmitted successfully",
+
+  "couldnt_process": "Your report could not be processed. Please try again.",
+  "describe_clearly": "Please describe the item more clearly.",
+  "image_unclear": "The image looks unclear. Try uploading a clearer photo.",
+  "couldnt_process": "Your report could not be processed. Please try again."
+
 }

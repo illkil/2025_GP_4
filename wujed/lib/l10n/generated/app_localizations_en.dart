@@ -743,4 +743,15 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get report_sumbitted_successfully =>
       'All done! your report has been\nsubmitted successfully';
+
+  @override
+  String get couldnt_process =>
+      'Your report could not be processed. Please try again.';
+
+  @override
+  String get describe_clearly => 'Please describe the item more clearly.';
+
+  @override
+  String get image_unclear =>
+      'The image looks unclear. Try uploading a clearer photo.';
 }

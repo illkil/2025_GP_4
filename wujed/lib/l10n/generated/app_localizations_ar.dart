@@ -741,4 +741,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get report_sumbitted_successfully => 'تم بنجاح! تم إرسال بلاغك بنجاح';
+
+  @override
+  String get couldnt_process => 'لم يتم معالجة تقريرك، رجاءً حاول مرة اخرى.';
+
+  @override
+  String get describe_clearly => 'رجاءً، اكتب الوصف بطريقة اوضح.';
+
+  @override
+  String get image_unclear => 'الصورة تبدو غير واضحة، حاول رفع صورة اوضح.';
 }

@@ -1477,6 +1477,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'All done! your report has been\nsubmitted successfully'**
   String get report_sumbitted_successfully;
+
+  /// No description provided for @couldnt_process.
+  ///
+  /// In en, this message translates to:
+  /// **'Your report could not be processed. Please try again.'**
+  String get couldnt_process;
+
+  /// No description provided for @describe_clearly.
+  ///
+  /// In en, this message translates to:
+  /// **'Please describe the item more clearly.'**
+  String get describe_clearly;
+
+  /// No description provided for @image_unclear.
+  ///
+  /// In en, this message translates to:
+  /// **'The image looks unclear. Try uploading a clearer photo.'**
+  String get image_unclear;
 }
 
 class _AppLocalizationsDelegate

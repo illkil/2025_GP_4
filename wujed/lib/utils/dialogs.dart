@@ -62,3 +62,20 @@ Future<void> showAppDialog(
     ),
   );
 }
+
+//Rejection messsage for the user
+  String mapRejectReasonToMessage(context, String? reason, String type) {
+    final t = AppLocalizations.of(context);
+    if (reason == null) {
+      return t.couldnt_process;
+    }
+
+    switch (reason) {
+      case 'junk_description':
+       return t.describe_clearly;
+      case 'no_objects_detected':
+        return t.image_unclear;
+      default:
+        return t.couldnt_process;
+    }
+  }

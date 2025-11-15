@@ -300,6 +300,8 @@
   "error_create_report": "فشل في إنشاء البلاغ",
   "error_submit_report": "فشل في إرسال البلاغ",
 
-  "report_sumbitted_successfully": "تم بنجاح! تم إرسال بلاغك بنجاح"
-
+  "report_sumbitted_successfully": "تم بنجاح! تم إرسال بلاغك بنجاح",
+  "couldnt_process": "لم يتم معالجة تقريرك، رجاءً حاول مرة اخرى.",
+  "describe_clearly": "رجاءً، اكتب الوصف بطريقة اوضح.",
+  "image_unclear": "الصورة تبدو غير واضحة، حاول رفع صورة اوضح."
 }

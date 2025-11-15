@@ -186,24 +186,6 @@ class ReportService {
     }
   }
 
-  //Rejection messsage for the user
-  String mapRejectReasonToMessage(String? reason, String type) {
-    if (reason == null) {
-      return 'Your report could not be processed. Please try again.';
-    }
-
-    switch (reason) {
-      case 'junk_description':
-        return type == 'lost'
-            ? 'Please describe the lost item more clearly.'
-            : 'Please describe the found item more clearly.';
-      case 'no_objects_detected':
-        return 'The image looks unclear. Try uploading a clearer photo.';
-      default:
-        return 'Your report could not be processed. Please try again.';
-    }
-  }
-
   /// Live list for the signed-in user's reports
   Stream<QuerySnapshot<Map<String, dynamic>>> myReportsStream() {
     final uid = _auth.currentUser?.uid;
