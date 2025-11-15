@@ -71,28 +71,6 @@ onAuthStateChanged(auth, async (user) => {
   }
 });
 
-// تبديل اللغة
-if (langButton) {
-  langButton.addEventListener("click", async () => {
-    const currentLang = localStorage.getItem("lang") || "en";
-    const newLang = currentLang === "en" ? "ar" : "en";
-
-    loadLanguage(newLang);
-    localStorage.setItem("lang", newLang);
-    langButton.querySelector("span:last-child").textContent =
-      newLang === "ar" ? "العربية" : "English";
-
-    const user = auth.currentUser;
-    if (user) {
-      try {
-        const userRef = doc(db, "users", user.uid);
-        await updateDoc(userRef, { language: newLang });
-      } catch (err) {
-        console.error("Error updating language:", err);
-      }
-    }
-  });
-}
 
 //  تبديل اللغة وتحديث Firestore
 langButton?.addEventListener("click", async () => {
