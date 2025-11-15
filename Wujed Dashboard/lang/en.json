@@ -54,8 +54,8 @@
   "Similarity": "Similarity Score:",
   "lostItem": "Lost Item",
   "foundItem": "Found Item",
-  "reportTitle": "Title",
-  "description": "Description",
+  "reportTitle": "Title: ",
+  "description": "Description: ",
   "dashboardsPath": "Dashboards",
   "rejectedMatchesPath": "Rejected Matches",
   "flaggedMatchesPath": "Flagged Matches",
@@ -82,5 +82,12 @@
   "resendCodeFailed": "Failed to resend code. Try again later.",
   "done-btn": "Done",
   "restore-btn": "Restore",
-  "reviewedMatches": "Reviewed Matches"
+  "doneTab": "Reviewed Matches",
+  "reportApproved": "Report Approved!",
+  "reportRejected": "Report Rejected!",
+  "reportApprovedBody": "{code} has been approved and will continue processing",
+  "reportRejectedBody": "{code} has been rejected and removed from processing",
+  "cancelLogout": "Cancel",
+  "confirmLogout": "Logout"
+
 }

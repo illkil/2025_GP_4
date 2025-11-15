@@ -84,5 +84,11 @@
   "resendCodeFailed": "فشل في إعادة إرسال الرمز. حاول مرة أخرى لاحقاً.",
   "done-btn": "تم",
   "restore-btn": "استعادة",
-  "reviewedMatches": "المطابقات التي تم مراجعتها"
+  "doneTab": "المطابقات التي تم مراجعتها",
+  "reportApproved": "تمت الموافقة على التقرير!",
+  "reportRejected": "تم رفض التقرير!",
+  "reportApprovedBody": "{code} تمت الموافقة عليه وسيستمر المعالجة",
+  "reportRejectedBody": "{code} تم رفضه وإزالته من المعالجة",
+  "cancelLogout": "الغاء",
+  "confirmLogout": "تسجيل الخروج"
 }

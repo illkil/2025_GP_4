@@ -30,7 +30,7 @@
 
     <!-- Profile -->
     <div class="profile" id="profileBtn">
-      <img src="Images/ProfilePic.jpg" alt="Profile">
+      <img alt="PFP" />
       <div class="pname"></div>
     </div>
 
@@ -46,6 +46,15 @@
         <span data-i18n="logout">Log Out</span>
       </div>
     </div>
+      <!-- Logout Modal -->
+      <div id="logoutModal">
+        <div class="modal-content">
+          <p id="logoutMessage"></p>
+          <button id="cancelLogout" data-i18n="cancelLogout">Cancel</button>
+          <button id="confirmLogout" data-i18n="confirmLogout">Logout</button>
+        </div>
+      </div>
+
   </aside>
 
   <!-- Content -->
@@ -160,6 +169,44 @@
     </div>
   </main>
 </div>
+<script>
+  // نجيب الحاوية الأساسية للتقارير
+  const activeList = document.querySelector('.reports-wrap');
+
+  // دالة لتحويل نص التاريخ إلى كائن Date
+  function parseDate(dateStr) {
+    // إزالة النصوص مثل "by User123"
+    const parts = dateStr.split(' by ')[0];
+    return new Date(parts);
+  }
+
+  // دالة لترتيب التقارير داخل container
+  function sortReports(container, ascending = true) {
+    const reports = Array.from(container.querySelectorAll('.report'));
+    reports.sort((a, b) => {
+      const dateA = parseDate(a.querySelector('.r-date').textContent);
+      const dateB = parseDate(b.querySelector('.r-date').textContent);
+      return ascending ? dateA - dateB : dateB - dateA;
+    });
+    // إعادة إدراج التقارير بالترتيب الجديد
+    reports.forEach(report => container.appendChild(report));
+  }
+
+  // عند اختيار السورت
+  document.querySelectorAll('.sort-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const sortType = item.dataset.sort; // 'date_desc' أو 'date_asc'
+      if (sortType === 'date_desc') {
+        sortReports(activeList, false); // الأحدث أولاً
+      } else {
+        sortReports(activeList, true);  // الأقدم أولاً
+      }
+      sortPanel.classList.remove('show');
+    });
+  });
+
+  // باقي كود Expand/Collapse والتوست يبقى مثل ما هو
+</script>
 
 <script>
   // Profile popover
@@ -169,7 +216,6 @@
   profileBtn.addEventListener('click',(e)=>{ e.stopPropagation(); profilePanel.classList.toggle('show'); });
   document.addEventListener('click',(e)=>{ if(!profilePanel.contains(e.target)&&!profileBtn.contains(e.target)){ closeProfile(); } });
   document.getElementById('ppLang')?.addEventListener('click',()=>{ closeProfile(); switchLanguage(); });
-  document.getElementById('ppLogout')?.addEventListener('click',()=>{ closeProfile(); if(confirm('Are you sure you want to log out?')){ window.location.href='Sign-In.html'; } });
 
   /* ===== Sort popover ===== */
   const sortBtn   = document.querySelector('.sort-btn');
@@ -201,30 +247,55 @@
   const toastWrap = document.querySelector('.toast-wrap');
   let toastTimeout = null;
   function showToast(kind, code) {
-    toastWrap.innerHTML = '';
-    if (toastTimeout) clearTimeout(toastTimeout);
-    const toast = document.createElement('div');
-    toast.className = 'toast';
-    const title = kind === 'approve' ? 'Report Approved!' : 'Report Rejected!';
-    const body  = `${code} has been ${kind === 'approve'
-      ? 'approved and will continue processing'
-      : 'rejected and removed from processing'
-    }.`;
-    toast.innerHTML = `
-      <div>
-        <p class="toast-title">${title}</p>
-        <p class="toast-text">${body}</p>
-      </div>
-      <button class="toast-close" aria-label="Dismiss">
-        <span class="iconify" data-icon="mdi:close"></span>
-      </button>
-    `;
-    toastWrap.appendChild(toast);
-    requestAnimationFrame(() => toast.classList.add('show'));
-    const close = () => { toast.classList.remove('show'); setTimeout(() => { toastWrap.innerHTML = ''; }, 180); };
-    toast.querySelector('.toast-close').addEventListener('click', close);
-    toastTimeout = setTimeout(close, 3500);
+  toastWrap.innerHTML = '';
+  if (toastTimeout) clearTimeout(toastTimeout);
+
+  let title = '';
+  let body = '';
+
+  if (kind === 'approve') {
+    title = window.currentLang === 'ar'
+      ? currentTranslations['reportApproved'] || 'تمت الموافقة على التقرير!'
+      : currentTranslations['reportApproved'] || 'Report Approved!';
+
+    body = window.currentLang === 'ar'
+      ? (currentTranslations['reportApprovedBody'] || '{code} تمت الموافقة عليه وسيستمر المعالجة')
+      : (currentTranslations['reportApprovedBody'] || '{code} has been approved and will continue processing');
+  } else {
+    title = window.currentLang === 'ar'
+      ? currentTranslations['reportRejected'] || 'تم رفض التقرير!'
+      : currentTranslations['reportRejected'] || 'Report Rejected!';
+
+    body = window.currentLang === 'ar'
+      ? (currentTranslations['reportRejectedBody'] || '{code} تم رفضه وإزالته من المعالجة')
+      : (currentTranslations['reportRejectedBody'] || '{code} has been rejected and removed from processing');
   }
+
+  body = body.replace('{code}', code);
+
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.innerHTML = `
+    <div>
+      <p class="toast-title">${title}</p>
+      <p class="toast-text">${body}</p>
+    </div>
+    <button class="toast-close" aria-label="Dismiss">
+      <span class="iconify" data-icon="mdi:close"></span>
+    </button>
+  `;
+  toastWrap.appendChild(toast);
+  requestAnimationFrame(() => toast.classList.add('show'));
+
+  const close = () => {
+    toast.classList.remove('show');
+    setTimeout(() => { toastWrap.innerHTML = ''; }, 180);
+  };
+
+  toast.querySelector('.toast-close').addEventListener('click', close);
+  toastTimeout = setTimeout(close, 3500);
+}
+
   function removeReport(article) {
     article.style.transition = 'opacity .15s ease, height .2s ease, margin .2s ease, padding .2s ease';
     const h = article.getBoundingClientRect().height;

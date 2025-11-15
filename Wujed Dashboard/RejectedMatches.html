@@ -9,7 +9,6 @@
   <link rel="stylesheet" href="./css/RejectedMatches.css" />
   <link rel="icon" type="image/png" href="images/Logo.png">
 </head>
-
 <body>
 
   <div class="app">
@@ -32,7 +31,7 @@
 
       <!-- Profile -->
       <div class="profile" id="profileBtn">
-        <img src="Images/ProfilePic.jpg" alt="Profile">
+        <img alt="PFP" />
         <div class="pname"></div>
       </div>
 
@@ -48,7 +47,18 @@
           <span data-i18n="logout">Log Out</span>
         </div>
       </div>
+      <!-- Logout Modal -->
+      <div id="logoutModal">
+        <div class="modal-content">
+          <p id="logoutMessage"></p>
+          <button id="cancelLogout" data-i18n="cancelLogout">Cancel</button>
+          <button id="confirmLogout" data-i18n="confirmLogout">Logout</button>
+        </div>
+      </div>
+
+
     </aside>
+
 
     <!-- Content -->
     <main class="content">
@@ -83,7 +93,13 @@
         </div>
       </div>
 
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="activeTab" data-i18n="rejectedMatchesPath">Rejected Matches</button>
+        <button class="tab-btn" data-tab="doneTab" data-i18n="doneTab">Reviewed Matches </button>
+      </div>
+
       <!-- List -->
+      <div class="tab-content active" id="activeTab">
       <div class="reports-wrap" role="list" id="activeList">
         <!-- Match 1 -->
         <article class="report" data-id="MAT-000001" role="listitem" aria-expanded="false">
@@ -91,7 +107,7 @@
             <div class="row-click">
               <h3 class="m-title">MAT-000001</h3>
               <p class="m-score"><span data-i18n="Similarity">Similarity Score:</span> <span>79%</span></p>
-              <p class="m-date">May 25, 2025</p>
+              <p class="m-date">May 21, 2025</p>
             </div>
             <div class="report-actions">
               <button class="done-btn" data-i18n="done-btn">Done</button>
@@ -110,8 +126,7 @@
                 <p class="label" data-i18n="reportTitle">Title: </p><span class="value title">Coffee Brewer</span>
                 <p class="label" style="display:block; margin-top:14px;" data-i18n="description">Description:</p>
                 <div class="value desc">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et
-                  dolore magna aliqua.
+                  A small coffee brewer, in black and silver.
                 </div>
               </div>
             </div>
@@ -120,11 +135,11 @@
               <img class="match-image" src="Images/Coffee Mug.jpg" alt="Found item image">
               <div class="field">
                 <p class="section-name" data-i18n="foundItem">Found Item</p>
-                <p class="label" data-i18n="reportTitle2">Title: </p><span class="value title">Coffee Mug</span>
-                <p class="label" style="display:block; margin-top:14px;" data-i18n="description2">Description:</p>
+                <p class="label" data-i18n="reportTitle">Title: </p><span class="value title">Coffee Mug</span>
+                <p class="label" style="display:block; margin-top:14px;" data-i18n="description">Description:</p>
                 <div class="value desc">
-                  Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                </div>
+                A coffee mug, white and heavy, made of earthenware.                
+              </div>
               </div>
             </div>
           </div>
@@ -139,9 +154,54 @@
         <article class="report" data-id="MAT-000002" role="listitem" aria-expanded="false">
           <div class="report-row">
             <div class="row-click">
+              <h3 class="m-title">MAT-000002</h3>
+              <p class="m-score"><span data-i18n="Similarity">Similarity Score:</span> <span>82%</span></p>
+              <p class="m-date">June 25, 2025</p>
+            </div>
+            <div class="report-actions">
+              <button class="done-btn" data-i18n="done-btn">Done</button>
+              <button class="chevron-btn" aria-label="Expand/Collapse" tabindex="0">
+                <span class="iconify chevron" data-icon="mdi:chevron-down"></span>
+              </button>
+            </div>
+          </div>
+
+          <div class="details">
+            <!-- Lost Item -->
+            <div class="match-block">
+              <img class="match-image" src="Images/watch2.jpeg" alt="Lost item image">
+              <div class="field">
+                <p class="section-name" data-i18n="lostItem">Lost Item</p>
+                <p class="label" data-i18n="reportTitle">Title: </p><span class="value title">ساعة فضية</span>
+                <p class="label" style="display:block; margin-top:14px;" data-i18n="description">Description:</p>
+                <div class="value desc">
+                ساعة يد فضية كلاسيكية بحزام جلدي أسود، تعمل بشكل طبيعي ولم تتعرض لأي خدوش واضحة.
+                </div>
+              </div>
+            </div>
+            <!-- Found Item -->
+            <div class="match-block">
+              <img class="match-image" src="Images/watch.jpeg" alt="Found item image">
+              <div class="field">
+                <p class="section-name" data-i18n="foundItem">Found Item</p>
+                <p class="label" data-i18n="reportTitle">Title: </p><span class="value title"> ساعة جلد اسود</span>
+                <p class="label" style="display:block; margin-top:14px;" data-i18n="description">Description:</p>
+                <div class="value desc">
+                ساعة بحزام أسود، تعمل بكفاءة.
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        
+                <!-- Match 1 -->
+        <article class="report" data-id="MAT-000001" role="listitem" aria-expanded="false">
+          <div class="report-row">
+            <div class="row-click">
               <h3 class="m-title">MAT-000001</h3>
               <p class="m-score"><span data-i18n="Similarity">Similarity Score:</span> <span>79%</span></p>
-              <p class="m-date">May 25, 2025</p>
+              <p class="m-date">May 21, 2025</p>
             </div>
             <div class="report-actions">
               <button class="done-btn" data-i18n="done-btn">Done</button>
@@ -160,8 +220,7 @@
                 <p class="label" data-i18n="reportTitle">Title: </p><span class="value title">Coffee Brewer</span>
                 <p class="label" style="display:block; margin-top:14px;" data-i18n="description">Description:</p>
                 <div class="value desc">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et
-                  dolore magna aliqua.
+                  A small coffee brewer, in black and silver.
                 </div>
               </div>
             </div>
@@ -170,108 +229,254 @@
               <img class="match-image" src="Images/Coffee Mug.jpg" alt="Found item image">
               <div class="field">
                 <p class="section-name" data-i18n="foundItem">Found Item</p>
-                <p class="label" data-i18n="reportTitle2">Title: </p><span class="value title">Coffee Mug</span>
-                <p class="label" style="display:block; margin-top:14px;" data-i18n="description2">Description:</p>
+                <p class="label" data-i18n="reportTitle">Title: </p><span class="value title">Coffee Mug</span>
+                <p class="label" style="display:block; margin-top:14px;" data-i18n="description">Description:</p>
                 <div class="value desc">
-                  Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                A coffee mug, white and heavy, made of earthenware.                
+              </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+
+
+
+
+
+
+        <article class="report" data-id="MAT-000002" role="listitem" aria-expanded="false">
+          <div class="report-row">
+            <div class="row-click">
+              <h3 class="m-title">MAT-000002</h3>
+              <p class="m-score"><span data-i18n="Similarity">Similarity Score:</span> <span>82%</span></p>
+              <p class="m-date">June 25, 2025</p>
+            </div>
+            <div class="report-actions">
+              <button class="done-btn" data-i18n="done-btn">Done</button>
+              <button class="chevron-btn" aria-label="Expand/Collapse" tabindex="0">
+                <span class="iconify chevron" data-icon="mdi:chevron-down"></span>
+              </button>
+            </div>
+          </div>
+
+          <div class="details">
+            <!-- Lost Item -->
+            <div class="match-block">
+              <img class="match-image" src="Images/watch2.jpeg" alt="Lost item image">
+              <div class="field">
+                <p class="section-name" data-i18n="lostItem">Lost Item</p>
+                <p class="label" data-i18n="reportTitle">Title: </p><span class="value title">ساعة فضية</span>
+                <p class="label" style="display:block; margin-top:14px;" data-i18n="description">Description:</p>
+                <div class="value desc">
+                ساعة يد فضية كلاسيكية بحزام جلدي أسود، تعمل بشكل طبيعي ولم تتعرض لأي خدوش واضحة.
+                </div>
+              </div>
+            </div>
+            <!-- Found Item -->
+            <div class="match-block">
+              <img class="match-image" src="Images/watch.jpeg" alt="Found item image">
+              <div class="field">
+                <p class="section-name" data-i18n="foundItem">Found Item</p>
+                <p class="label" data-i18n="reportTitle">Title: </p><span class="value title"> ساعة جلد اسود</span>
+                <p class="label" style="display:block; margin-top:14px;" data-i18n="description">Description:</p>
+                <div class="value desc">
+                ساعة بحزام أسود، تعمل بكفاءة.
                 </div>
               </div>
             </div>
           </div>
         </article>
+  
       </div>
-      <div class="done-section">
-        <h2 data-i18n="reviewedMatches">Reviewed Matches</h2>
-        <div class="reports-wrap" id="doneList"></div>
       </div>
+
+    <div class="tab-content" id="doneTab">
+      <div class="reports-wrap" id="doneList">
+        <!-- سيتم نقل التقارير هنا -->
+      </div>
+    </div>
+
     </main>
   </div>
   <script>
+    // Tabs functionality
+const tabBtns = document.querySelectorAll('.tab-btn');
+const tabContents = document.querySelectorAll('.tab-content');
+
+tabBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    // Remove active class from all buttons
+    tabBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    // Show the corresponding tab content
+    const target = btn.dataset.tab;
+    tabContents.forEach(tc => {
+      tc.classList.toggle('active', tc.id === target);
+    });
+  });
+});
+
     const activeList = document.getElementById("activeList");
-    const doneList = document.getElementById("doneList");
+const doneList = document.getElementById("doneList");
 
-    // تحميل الحالة المحفوظة عند فتح الصفحة
-    window.addEventListener("DOMContentLoaded", () => {
-      const doneIds = JSON.parse(localStorage.getItem("doneReports")) || [];
-      doneIds.forEach(id => {
-        const report = document.querySelector(`.report[data-id="${id}"]`);
-        if (report) markAsDone(report, false);
-      });
+// تحميل الحالة المحفوظة عند فتح الصفحة
+window.addEventListener("DOMContentLoaded", () => {
+  const doneIds = JSON.parse(localStorage.getItem("doneReports")) || [];
+  doneIds.forEach(id => {
+    const report = document.querySelector(`.report[data-id="${id}"]`);
+    if (report) markAsDone(report, false);
+  });
+
+  removeDuplicates();
+});
+
+// إزالة أي نسخ مكررة حسب data-id
+function removeDuplicates() {
+  const seen = new Set();
+  document.querySelectorAll('.report').forEach(report => {
+    const id = report.dataset.id;
+    if (seen.has(id)) {
+      report.remove();
+    } else {
+      seen.add(id);
+    }
+  });
+}
+
+// لما يضغط زر Done
+activeList.addEventListener("click", (e) => {
+  if (e.target.classList.contains("done-btn")) {
+    const report = e.target.closest(".report");
+    const id = report.dataset.id;
+    markAsDone(report, true);
+    saveDone(id);
+  }
+});
+
+// لما يضغط زر Restore
+doneList.addEventListener("click", (e) => {
+  if (e.target.classList.contains("restore-btn")) {
+    const report = e.target.closest(".report");
+    const id = report.dataset.id;
+    restoreReport(report);
+    removeDone(id);
+  }
+});
+
+// تحويل التقرير للمقروء (رمادي) ونقله للـ Reviewed
+function markAsDone(report, animate = true) {
+  if (!report) return;
+  report.classList.add("done");
+  report.querySelector(".done-btn")?.remove();
+
+  // إزالة أي نسخة مكررة قبل النقل
+  const existing = doneList.querySelector(`.report[data-id="${report.dataset.id}"]`);
+  if (existing && existing !== report) existing.remove();
+
+  doneList.appendChild(report);
+
+  // نضيف زر "Restore"
+  if (!report.querySelector(".restore-btn")) {
+    const restoreBtn = document.createElement("button");
+    restoreBtn.className = "restore-btn";
+    restoreBtn.textContent = "Restore";
+    report.querySelector(".report-actions").prepend(restoreBtn);
+  }
+
+  if (animate) report.scrollIntoView({ behavior: "smooth" });
+}
+
+// استرجاع التقرير للـ Rejected
+function restoreReport(report) {
+  if (!report) return;
+  report.classList.remove("done");
+  report.querySelector(".restore-btn")?.remove();
+
+  // إزالة أي نسخة مكررة قبل النقل
+  const existing = activeList.querySelector(`.report[data-id="${report.dataset.id}"]`);
+  if (existing && existing !== report) existing.remove();
+
+  const doneBtn = document.createElement("button");
+  doneBtn.className = "done-btn";
+  doneBtn.textContent = "Done";
+  report.querySelector(".report-actions").prepend(doneBtn);
+
+  activeList.appendChild(report);
+  report.scrollIntoView({ behavior: "smooth" });
+}
+
+// حفظ الحالة
+function saveDone(id) {
+  let doneIds = JSON.parse(localStorage.getItem("doneReports")) || [];
+  if (!doneIds.includes(id)) {
+    doneIds.push(id);
+    localStorage.setItem("doneReports", JSON.stringify(doneIds));
+  }
+}
+
+// حذف من التخزين لما يرجع للـ Rejected
+function removeDone(id) {
+  let doneIds = JSON.parse(localStorage.getItem("doneReports")) || [];
+  doneIds = doneIds.filter(x => x !== id);
+  localStorage.setItem("doneReports", JSON.stringify(doneIds));
+}
+
+// دالة لترتيب التقارير
+function parseDate(dateStr) {
+  return new Date(dateStr);
+}
+
+function sortReports(container, ascending = true) {
+  const reports = Array.from(container.querySelectorAll('.report'));
+  reports.sort((a, b) => {
+    const dateA = parseDate(a.querySelector('.m-date').textContent);
+    const dateB = parseDate(b.querySelector('.m-date').textContent);
+    return ascending ? dateA - dateB : dateB - dateA;
+  });
+  reports.forEach(r => container.appendChild(r));
+}
+window.addEventListener("DOMContentLoaded", () => {
+  // 1. استرجاع Done Reports
+  const doneIds = JSON.parse(localStorage.getItem("doneReports")) || [];
+  doneIds.forEach(id => {
+    const report = document.querySelector(`.report[data-id="${id}"]`);
+    if (report) markAsDone(report, false);
+  });
+
+  removeDuplicates();
+
+  // 2. استرجاع Tab الحالي
+  const savedTab = localStorage.getItem('activeTab') || 'activeTab';
+  tabBtns.forEach(b => b.classList.toggle('active', b.dataset.tab === savedTab));
+  tabContents.forEach(tc => tc.classList.toggle('active', tc.id === savedTab));
+});
+
+
+// عند اختيار السورت
+document.querySelectorAll('.sort-item').forEach(item => {
+  item.addEventListener('click', () => {
+    const sortType = item.dataset.sort; // 'date_desc' أو 'date_asc'
+    [activeList, doneList].forEach(list => {
+      if (sortType === 'date_desc') sortReports(list, false);
+      else sortReports(list, true);
     });
+    sortPanel.classList.remove('show');
+  });
+});
 
-    // لما يضغط زر Done
-    activeList.addEventListener("click", (e) => {
-      if (e.target.classList.contains("done-btn")) {
-        const report = e.target.closest(".report");
-        const id = report.dataset.id;
-        markAsDone(report, true);
-        saveDone(id);
-      }
-    });
+// Expand/collapse باستخدام Event Delegation
+document.addEventListener('click', (e) => {
+  const report = e.target.closest('.report');
+  if (!report) return;
 
-    // لما يضغط زر Restore
-    doneList.addEventListener("click", (e) => {
-      if (e.target.classList.contains("restore-btn")) {
-        const report = e.target.closest(".report");
-        const id = report.dataset.id;
-        restoreReport(report);
-        removeDone(id);
-      }
-    });
-
-    // تحويل التقرير للمقروء (رمادي)
-    function markAsDone(report, animate = true) {
-      report.classList.add("done");
-      report.querySelector(".done-btn")?.remove();
-      doneList.appendChild(report);
-      // نضيف زر "Restore"
-      const restoreBtn = document.createElement("button");
-      restoreBtn.className = "restore-btn";
-      restoreBtn.setAttribute("data-i18n", "restore-btn");
-      restoreBtn.textContent = 
-        window.currentLang === "ar" 
-          ? currentTranslations["restore-btn"] || "استعادة" 
-          : currentTranslations["restore-btn"] || "Restore";
-
-            report.querySelector(".report-actions").prepend(restoreBtn);
-      if (animate) report.scrollIntoView({ behavior: "smooth" });
-      updateTranslations();
-
-    }
-
-    // استرجاع التقرير للريجيكتد العادي
-    function restoreReport(report) {
-      report.classList.remove("done");
-      report.querySelector(".restore-btn")?.remove();
-      const doneBtn = document.createElement("button");
-      doneBtn.className = "done-btn";
-      doneBtn.setAttribute("data-i18n", "done-btn");
-      doneBtn.textContent = 
-        window.currentLang === "ar" 
-          ? currentTranslations["done-btn"] || "تم" 
-          : currentTranslations["done-btn"] || "Done";
-
-      report.querySelector(".report-actions").prepend(doneBtn);
-      activeList.appendChild(report);
-      report.scrollIntoView({ behavior: "smooth" });
-      updateTranslations();
-    }
-
-    // حفظ الحالة
-    function saveDone(id) {
-      const doneIds = JSON.parse(localStorage.getItem("doneReports")) || [];
-      if (!doneIds.includes(id)) {
-        doneIds.push(id);
-        localStorage.setItem("doneReports", JSON.stringify(doneIds));
-      }
-    }
-
-    // حذف من التخزين لما يرجع فوق
-    function removeDone(id) {
-      let doneIds = JSON.parse(localStorage.getItem("doneReports")) || [];
-      doneIds = doneIds.filter(x => x !== id);
-      localStorage.setItem("doneReports", JSON.stringify(doneIds));
-    }
+  // Toggle عن طريق row-click أو chevron-btn
+  if (e.target.closest('.chevron-btn') || e.target.closest('.row-click')) {
+    const expanded = report.getAttribute('aria-expanded') === 'true';
+    report.setAttribute('aria-expanded', String(!expanded));
+  }
+});
 
   </script>
 
@@ -284,7 +489,6 @@
     profileBtn.addEventListener('click', (e) => { e.stopPropagation(); profilePanel.classList.toggle('show'); });
     document.addEventListener('click', (e) => { if (!profilePanel.contains(e.target) && !profileBtn.contains(e.target)) { closeProfile(); } });
     document.getElementById('ppLang')?.addEventListener('click', () => { closeProfile(); switchLanguage(); });
-    document.getElementById('ppLogout')?.addEventListener('click', () => { closeProfile(); if (confirm('Are you sure you want to log out?')) { window.location.href = 'Sign-In.html'; } });
 
     // Sort panel
     const sortBtn = document.querySelector('.sort-btn'); const sortPanel = document.getElementById('sortPanel'); const sortClose = document.getElementById('sortClose');
