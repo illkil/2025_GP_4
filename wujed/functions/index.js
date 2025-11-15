@@ -41,26 +41,53 @@ exports.retryClassification = onDocumentCreated(
       // extract the report attributes
       const data = snap.data();
 
-      // only retry if category is processing or null
-      if (data.category != null && data.category != "processing") return;
+      // Flutter already rejected or completed the report
+      if (data.status === "rejected" || data.status === "done") return;
+
+      // Flutter already assigned a reason — do NOT overwrite it
+      if (data.rejectReason != null) return;
+
+      // Do not retry if Flutter already classified it
+      if (data.category != null) return;
+
 
       // delay retry by 60 seconds to make some time
       // for report images/data to upload first
+      // delay retry by 60 seconds
       await new Promise((resolve) => setTimeout(resolve, 60000));
 
-      // check again after the delay incase the category
+      // check again after the delay in case the category
       // selection was successful during the delay
-      if (data.category != null && data.category != "processing") return;
+      const freshSnap = await snap.ref.get();
+      const freshData = freshSnap.data();
+      if (freshData.category != null || freshData.status === "rejected") return;
+
 
       // send images, description to server
       const res = await axios.post("https://wujed-classifier-1031003478013.us-central1.run.app/classify", {
+        type: data.type,
         image_urls: data.images,
         description: data.description,
       });
 
-      // update category for the firestore document
+      // accepted/rejected logic
+      const accepted = res.data.accepted === true;
+      const reason = res.data.reason || null;
+      const category = res.data.category || null;
+
+      if (!accepted) {
+        // classifier rejected the report
+        await snap.ref.update({
+          status: "rejected",
+          rejectReason: reason,
+          updatedAt: new Date(),
+        });
+        return;
+      }
+
+      // accepted → update category (if any)
       await snap.ref.update({
-        category: res.data.category,
+        category: category,
         updatedAt: new Date(),
       });
     });

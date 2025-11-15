@@ -113,21 +113,64 @@ class ReportService {
         'location': location,
         'address': address,
         'status': 'ongoing',
+        'rejectReason': null,
         'createdAt': FieldValue.serverTimestamp(),
         'updatedAt': FieldValue.serverTimestamp(),
       });
 
       Future(() async {
         //made it as future so it will not take so long for the report to be submitted, without it it will force the user to wait for the category to be selected by the model first which take some time
-        String predictedCategory = await classifyItem(
+        final result = await classifyItem(
+          type,
           imageUrls,
           description,
-        ); //get the category from the method above, sending the images and description
+        ); // we send the information to the method above, to get the category and other data mentioned above the method.
 
-        if (predictedCategory == 'processing' || predictedCategory.isEmpty) {
+        if (result == null) {
+          // classification failed -> keep category as null
+          // cloud Function can still retry later based on category == null
+          return;
+        }
+        /*if (predictedCategory == 'processing' || predictedCategory.isEmpty) {
           //if categoraization was not successful try again after some time (5 seconds) if the second time is not successful then categorization will be done from cloud functions later (check functions/index.js)
           await Future.delayed(Duration(seconds: 5));
           predictedCategory = await classifyItem(imageUrls, description);
+        }*/
+        //if you want the retry in flutter too:
+        /*if (result == null) {
+          await Future.delayed(Duration(seconds: 3));
+          final retry = await classifyItem(type, imageUrls, description);
+
+          if (retry == null) {
+            return; // let cloud function handle it
+          }
+
+          result = retry;
+        } */
+
+        //store if the report was accepted or not, and the reason if not (can be null).
+        //reason is either junk description or no objects detected
+        final bool accepted = result['accepted'] == true;
+        final String? reason = result['reason'] as String?;
+
+        //if report is rejected update status
+        if (!accepted) {
+          await _db.collection('reports').doc(reportId).update({
+            'status': 'rejected',
+            'rejectReason': reason,
+            'updatedAt': FieldValue.serverTimestamp(),
+          });
+          return;
+        }
+
+        //stoer category even if empty
+        String predictedCategory = (result['category'] ?? '') as String;
+
+        //if the result is found but still category empty retry (extra step for caution)
+        if (predictedCategory.isEmpty) {
+          // no category returned category as null
+          // Cloud Function can still retry based on category == null
+          return;
         }
 
         await _db.collection('reports').doc(reportId).update({
@@ -140,6 +183,24 @@ class ReportService {
       return reportId;
     } catch (e) {
       return 'Failed-creating-report';
+    }
+  }
+
+  //Rejection messsage for the user
+  String mapRejectReasonToMessage(String? reason, String type) {
+    if (reason == null) {
+      return 'Your report could not be processed. Please try again.';
+    }
+
+    switch (reason) {
+      case 'junk_description':
+        return type == 'lost'
+            ? 'Please describe the lost item more clearly.'
+            : 'Please describe the found item more clearly.';
+      case 'no_objects_detected':
+        return 'The image looks unclear. Try uploading a clearer photo.';
+      default:
+        return 'Your report could not be processed. Please try again.';
     }
   }
 

@@ -99,8 +99,10 @@ class _FoundHistoryState extends State<FoundHistory> {
             final ts = data['createdAt'] as Timestamp?;
             final date = ts?.toDate() ?? DateTime.now();
 
-            final status = (data['status'] as String?) ?? 'submitted';
-            final color = statusToColor(status);
+            final status = data['status'] as String?;
+            final color = statusToColor(status!);
+
+            final rejectReason = data['rejectReason'] as String?;
 
             //the item listed, if clicked it takes to the details page
             return Padding(
@@ -123,6 +125,7 @@ class _FoundHistoryState extends State<FoundHistory> {
                   status,
                   color,
                   imageUrl,
+                  rejectReason,
                   doc.id,
                 ),
               ),
@@ -140,6 +143,7 @@ class _FoundHistoryState extends State<FoundHistory> {
     String status,
     Color color, [
     String? imageUrl,
+    String? rejectReason,
     String? reportId,
   ]) {
     final t = AppLocalizations.of(context);
@@ -254,6 +258,22 @@ class _FoundHistoryState extends State<FoundHistory> {
                     ),
                   ],
                 ),
+                if (status.toLowerCase() == 'rejected' && rejectReason != null)
+                  PositionedDirectional(
+                    top: 75,
+                    start: 95,
+                    child: Text(
+                      ReportService().mapRejectReasonToMessage(
+                        rejectReason,
+                        'found',
+                      ),
+                      style: TextStyle(
+                        color: Colors.red.shade300,
+                        fontSize: 11,
+                      ),
+                    ),
+                  ),
+
                 PositionedDirectional(
                   top: 0,
                   bottom: 0,

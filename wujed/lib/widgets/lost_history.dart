@@ -101,8 +101,10 @@ class _LostHistoryState extends State<LostHistory> {
             final ts = data['createdAt'] as Timestamp?;
             final date = ts?.toDate() ?? DateTime.now();
 
-            final status = (data['status'] as String?) ?? 'submitted';
-            final color = statusToColor(status);
+            final status = data['status'] as String?;
+            final color = statusToColor(status!);
+
+            final rejectReason = data['rejectReason'] as String?;
 
             //the item listed, if clicked it takes to the details page
             return Padding(
@@ -125,6 +127,7 @@ class _LostHistoryState extends State<LostHistory> {
                   status,
                   color,
                   imageUrl,
+                  rejectReason,
                   doc.id,
                 ),
               ),
@@ -142,6 +145,7 @@ class _LostHistoryState extends State<LostHistory> {
     String status,
     Color color, [
     String? imageUrl,
+    String? rejectReason,
     String? reportId,
   ]) {
     final t = AppLocalizations.of(context);
@@ -256,6 +260,22 @@ class _LostHistoryState extends State<LostHistory> {
                     ),
                   ],
                 ),
+                if (status.toLowerCase() == 'rejected' && rejectReason != null)
+                  PositionedDirectional(
+                    top: 75,
+                    start: 95,
+                    child: Text(
+                      ReportService().mapRejectReasonToMessage(
+                        rejectReason,
+                        'lost',
+                      ),
+                      style: TextStyle(
+                        color: Colors.red.shade300,
+                        fontSize: 11,
+                      ),
+                    ),
+                  ),
+
                 PositionedDirectional(
                   top: 0,
                   bottom: 0,
