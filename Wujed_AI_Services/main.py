@@ -6,8 +6,7 @@ import requests
 import os
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "wujed.json" #google cloud service account key
-print("CWD:", os.getcwd())
-print("Creds exists:", os.path.exists(r"C:\dev\2025_GP_4\Wujed_AI_Services\wujed.json"))
+
 from validation import validate_report
 client = OpenAI(api_key="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")
 #openAI key from gpgroud.agr@gmail.com account
@@ -91,7 +90,7 @@ def classify(request: ClassifyRequest):
 
     category = chat.choices[0].message.content.strip() #get category from gpt
 
-    # 5) FINAL RESPONSE
+    # 3) FINAL RESPONSE
     return {
         "accepted": True,
         "reason": reject_reason,
