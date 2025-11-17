@@ -4,7 +4,7 @@ Wujed is an intelligent digital platform designed to help the residents of Riyad
 
 ## Technology
 
-- **Programming Languages**: Dart, Python, HTML, CSS, Json, and JavaScript.
+- **Programming Languages**: Dart, Python, HTML, CSS, JSON, and JavaScript.
   
 - **Frameworks/Libraries**: Flutter framework.
 
@@ -16,7 +16,7 @@ Wujed is an intelligent digital platform designed to help the residents of Riyad
       - *Firebase App Check (Security)*
 
   
-- **AI & Machine Learning**: •	Google Vision API, OpenAI's (NLP) API, and	Google Maps API.
+- **AI & Machine Learning**: Google Vision API, OpenAI's (NLP) API, and	Google Maps API.
 
 
 ## Getting Started
