@@ -105,17 +105,17 @@ class ReportService {
       // 2️⃣ Only after success → write to Firestore
       await _db.collection('reports').doc(reportId).set({
         'ownerUid': user.uid,
+        'reportID': reportId,
         'type': type,
         'title': title,
         'description': description,
-        'category': null,
         'images': imageUrls,
         'location': location,
         'address': address,
         'status': 'ongoing',
-        'rejectReason': null,
         'createdAt': FieldValue.serverTimestamp(),
         'updatedAt': FieldValue.serverTimestamp(),
+        'expiresAt': null,
       });
 
       Future(() async {

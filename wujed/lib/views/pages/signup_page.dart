@@ -109,8 +109,6 @@ class _SignupPageState extends State<SignupPage> {
           'first_name': '',
           'last_name': '',
           'phone_number': '',
-          'role':
-              'user', //this might be a security concern, stating the user role in client side is wrong its better to do it in server side somehow, i'll check it later
           'language': lang ?? 'en',
           'created_at': Timestamp.now(),
         });
