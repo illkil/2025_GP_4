@@ -63,14 +63,13 @@ class GoogleSignInService {
         final docSnapshot = await userDoc.get();
         if (!docSnapshot.exists) {
           await userDoc.set({
-            'uid': user.uid,
+            'user_id': user.uid,
             'username': uniqueUsername,
             'email': user.email,
+            'profile_photo': '',
             'first_name': '',
             'last_name': '',
             'phone_number': '',
-            'role':
-                'user', //this might be a security concern, stating the user role in client side is wrong its better to do it in server side somehow, i'll check it later
             'language': lang ?? 'en',
             'created_at': Timestamp.now(),
           });

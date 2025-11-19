@@ -34,6 +34,8 @@ class MainPage extends StatelessWidget {
           //User signed in
           final user = snapshot.data!;
 
+          user.reload();
+
           //User not verified then Log out and go to Login
           if (!user.emailVerified) {
             return LoginPage();
