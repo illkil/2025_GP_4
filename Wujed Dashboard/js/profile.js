@@ -141,4 +141,12 @@ window.addEventListener("click", (e) => {
 function closeProfile() {
   const profilePanel = document.getElementById("profilePopover");
   if (profilePanel) profilePanel.classList.remove("show");
+};
+
+// تحديث كل العناصر اللي فيها data-i18n (يشمل الديناميكية)
+function updateTranslations() {
+  for (const key in currentTranslations) {
+    const elements = document.querySelectorAll(`[data-i18n="${key}"]`);
+    elements.forEach(el => el.textContent = currentTranslations[key]);
+  }
 }

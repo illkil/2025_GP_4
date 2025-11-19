@@ -1,4 +1,4 @@
-    :root{
+      :root{
     --sidebar:#F6F6F5;
     --text:#000;
     --muted40: rgba(0,0,0,.4);
@@ -159,7 +159,7 @@ body[dir="rtl"] .sort-panel {
 
   .restore-btn {
     background-color: #FFCC5C;
-    color: white;
+    color: rgb(88, 58, 58);
   }
 
   .restore-btn:hover {
@@ -167,14 +167,13 @@ body[dir="rtl"] .sort-panel {
   }
 
   .done {
-    opacity: 0.6;
-    background-color: #f0f0f0;
+    background-color: #ffffff;
     transition: 0.3s;
   }
 
   .done-section {
     margin-top: 40px;
-    border-top: 2px solid #ddd;
+    border-top: 2px solid ;
     padding-top: 20px;
   }
 
@@ -235,13 +234,7 @@ body[dir="rtl"] .sort-panel {
     background-color: #5b3534;
 }
 
-.restore-btn {
-    background-color: #FFCC5C;
-    color: white;
-}
-.restore-btn:hover {
-    background-color: #edbd53;
-}
+
 .tabs {
       display: flex;
       gap: 8px;

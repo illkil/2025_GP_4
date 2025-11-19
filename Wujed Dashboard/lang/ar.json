@@ -90,5 +90,7 @@
   "reportApprovedBody": "{code} تمت الموافقة عليه وسيستمر المعالجة",
   "reportRejectedBody": "{code} تم رفضه وإزالته من المعالجة",
   "cancelLogout": "الغاء",
-  "confirmLogout": "تسجيل الخروج"
+  "confirmLogout": "تسجيل الخروج",
+  "msgPasswordsNotMatch": "❌ كلمتا المرور غير متطابقتين.",
+  "msgPasswordRegex": "يمكن أن تحتوي كلمة المرور على حروف إنجليزية وأرقام ورموز مسموح بها فقط."
 }
