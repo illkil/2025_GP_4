@@ -6,6 +6,7 @@ import 'package:wujed/views/pages/match_after_accepting_page.dart';
 import 'package:wujed/views/pages/match_details_page.dart';
 import 'package:wujed/l10n/generated/app_localizations.dart';
 import 'package:wujed/views/pages/view_on_map.dart';
+import 'package:wujed/services/match_store.dart';
 
 class ItemReportedLost extends StatefulWidget {
   final String reportId;
@@ -584,10 +585,16 @@ class _ItemReportedLostState extends State<ItemReportedLost> {
                             final result = await Navigator.push<String>(
                               context,
                               MaterialPageRoute(
-                                builder: (_) => hideMug
-                                    ? const MatchAfterAcceptingPage()
-                                    : const MatchDetailsPage(),
-                              ),
+                                builder: (_) {
+                                  const String reportId = 'coffee_brewer_1';
+
+                                  final bool accepted = MatchStore.instance.isAccepted(reportId);
+
+                                  return accepted
+                                      ? const MatchAfterAcceptingPage()
+                                      : const MatchDetailsPage();
+                                },
+                              )
                             );
                             if (result == 'Accepted') {
                               setState(() => hideMug = true);

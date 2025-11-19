@@ -3,6 +3,7 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:wujed/l10n/generated/app_localizations.dart';
 import 'package:wujed/services/chat_store.dart';
 import 'package:wujed/views/pages/chat_page.dart';
+import 'package:wujed/services/match_store.dart'; 
 
 class MatchDetailsPage extends StatefulWidget {
   const MatchDetailsPage({super.key});
@@ -261,15 +262,28 @@ class _MatchDetailsPageState extends State<MatchDetailsPage> {
                       if (confirmed == 'Confirm') {
                         if (!context.mounted) return;
                         const String matchedUser = 'MatchedUser1';
+
+                        const String reportId = 'coffee_brewer_1'; 
+                        MatchStore.instance.accept(reportId);
+
                         ChatStore.instance.addUser(matchedUser);
+
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              "Your match has been accepted! Check your chat with $matchedUser",
+                            ),
+                          ),
+                        );
+
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) =>
-                                ChatPage(location: false, name: matchedUser),
+                            builder: (_) => ChatPage(location: false, name: matchedUser),
                           ),
                         );
                       }
+
                     },
                     style: FilledButton.styleFrom(
                       minimumSize: const Size(170, 45),
