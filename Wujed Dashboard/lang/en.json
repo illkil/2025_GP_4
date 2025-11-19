@@ -88,6 +88,8 @@
   "reportApprovedBody": "{code} has been approved and will continue processing",
   "reportRejectedBody": "{code} has been rejected and removed from processing",
   "cancelLogout": "Cancel",
-  "confirmLogout": "Logout"
+  "confirmLogout": "Logout",
+  "msgPasswordsNotMatch": "❌ Passwords do not match.",
+  "msgPasswordRegex": "Password can only contain English letters, numbers, and allowed symbols."
 
 }
