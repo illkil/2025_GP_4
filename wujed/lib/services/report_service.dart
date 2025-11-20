@@ -30,19 +30,23 @@ class ReportService {
     String reportId,
     List<File> files,
   ) async {
-    // if (!kUseStorage) {
-    //   // Dev mode: no uploads; return placeholders (or [] if you prefer)
-    //   return List<String>.from(kDevPlaceholderImages);
-    // }
+    // 🔐 DEV MODE: we skip real Firebase Storage uploads for now
+    // (to avoid billing / API / permission issues) and just return
+    // placeholder URLs so the app continues to work.
+    //
+    // When Storage is ready, you can restore the original upload logic.
+    return List<String>.from(kDevPlaceholderImages);
 
-    final urls = <String>[];
-    for (final file in files) {
-      final name = const Uuid().v4();
-      final ref = _storage.ref('reports/$type/$reportId/images/$name.jpg');
-      final snap = await ref.putFile(file);
-      urls.add(await snap.ref.getDownloadURL());
-    }
-    return urls;
+    // Original code (keep for later, but commented out):
+    //
+    // final urls = <String>[];
+    // for (final file in files) {
+    //   final name = const Uuid().v4();
+    //   final ref = _storage.ref('reports/$type/$reportId/images/$name.jpg');
+    //   final snap = await ref.putFile(file);
+    //   urls.add(await snap.ref.getDownloadURL());
+    // }
+    // return urls;
   }
 
   // Changed return type to Map so we can access:
@@ -55,7 +59,7 @@ class ReportService {
   //   final uri = Uri.parse(
   //     "https://wujed-classifier-1031003478013.us-central1.run.app/classify",
   //   ); //link of deployed fast api model server to cloud run
-
+  //
   //   final response = await http.post(
   //     //make post request to send to the fastapi server (u must turn it on in your device)
   //     uri,
@@ -68,7 +72,7 @@ class ReportService {
   //       "description": description,
   //     }), //the data that we defined in the model
   //   );
-
+  //
   //   if (response.statusCode == 200) {
   //     //200 means server responded successfully
   //     final data =
@@ -99,7 +103,7 @@ class ReportService {
     final reportId = const Uuid().v4();
 
     try {
-      // 1️⃣ Upload all images first
+      // 1️⃣ Upload all images first (dev mode: returns placeholder URLs)
       final imageUrls = await _uploadImages(type, reportId, imageFiles);
 
       // 2️⃣ Only after success → write to Firestore
@@ -124,7 +128,7 @@ class ReportService {
       //     imageUrls,
       //     description,
       //   ); // we send the information to the method above, to get the category and other data mentioned above the method.
-
+      //
       //   if (result == null) {
       //     // classification failed -> keep category as null
       //     // cloud Function can still retry later based on category == null
@@ -139,19 +143,19 @@ class ReportService {
       //   /*if (result == null) {
       //     await Future.delayed(Duration(seconds: 3));
       //     final retry = await classifyItem(type, imageUrls, description);
-
+      //
       //     if (retry == null) {
       //       return; // let cloud function handle it
       //     }
-
+      //
       //     result = retry;
       //   } */
-
+      //
       //   //store if the report was accepted or not, and the reason if not (can be null).
       //   //reason is either junk description or no objects detected
       //   final bool accepted = result['accepted'] == true;
       //   final String? reason = result['reason'] as String?;
-
+      //
       //   //if report is rejected update status
       //   if (!accepted) {
       //     await _db.collection('reports').doc(reportId).update({
@@ -161,17 +165,17 @@ class ReportService {
       //     });
       //     return;
       //   }
-
+      //
       //   //stoer category even if empty
       //   String predictedCategory = (result['category'] ?? '') as String;
-
+      //
       //   //if the result is found but still category empty retry (extra step for caution)
       //   if (predictedCategory.isEmpty) {
       //     // no category returned category as null
       //     // Cloud Function can still retry based on category == null
       //     return;
       //   }
-
+      //
       //   await _db.collection('reports').doc(reportId).update({
       //     //update the report from firestore with the predected category
       //     'category': predictedCategory,

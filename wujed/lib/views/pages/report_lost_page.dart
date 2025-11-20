@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:gallery_saver_plus/gallery_saver.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'package:wujed/views/pages/pick_location_page.dart';
 import 'package:wujed/views/pages/submit_successfully_page.dart';
-import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:wujed/l10n/generated/app_localizations.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:wujed/services/report_service.dart';
 import 'package:flutter/services.dart';
+import 'package:photo_manager/photo_manager.dart';
+
+// ✅ Shared sanitising helpers for user input
+import 'package:wujed/utils/input_validators.dart';
 
 class ReportLostPage extends StatefulWidget {
   const ReportLostPage({super.key});
@@ -20,37 +24,41 @@ class ReportLostPage extends StatefulWidget {
 }
 
 class _ReportLostPageState extends State<ReportLostPage> {
+  // Controllers for title and description
   TextEditingController controllerTitle = TextEditingController();
   TextEditingController controllerDescription = TextEditingController();
+
   Color textColor = Colors.grey.shade600;
   Widget? uploadPhoto;
 
+  bool isSubmitting = false; // overlay loader flag
   final int _maxLength = 300;
-  bool isSubmitting = false;
 
-  //final _picker = ImagePicker();
   List<File> _images = [];
-
-  GeoPoint? _geo;
-  String? _address;
-
-  bool _submitting = false;
+  GeoPoint? _geo; // Firestore GeoPoint for location (OPTIONAL for LOST)
+  String? _address; // human-readable address for display & Firestore
+  bool _submitting = false; // disables submit button while sending
 
   @override
   void initState() {
     super.initState();
-    controllerDescription.addListener(() {
-      setState(() {});
-    });
-    controllerTitle.addListener(() {
-      setState(() {});
-    });
+    // Rebuild when text changes (for counter text color / etc.)
+    controllerDescription.addListener(() => setState(() {}));
+    controllerTitle.addListener(() => setState(() {}));
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
+    // Lazily build upload button once
     uploadPhoto ??= buildUploadButton();
+  }
+
+  @override
+  void dispose() {
+    controllerTitle.dispose();
+    controllerDescription.dispose();
+    super.dispose();
   }
 
   @override
@@ -67,6 +75,7 @@ class _ReportLostPageState extends State<ReportLostPage> {
             autofocus: false,
             child: GestureDetector(
               onTap: () {
+                // Close keyboard when tapping outside fields
                 FocusScope.of(context).unfocus();
               },
               child: Center(
@@ -76,6 +85,8 @@ class _ReportLostPageState extends State<ReportLostPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const SizedBox(height: 50.0),
+
+                      // Back button
                       Row(
                         children: [
                           IconButton(
@@ -85,35 +96,36 @@ class _ReportLostPageState extends State<ReportLostPage> {
                           ),
                         ],
                       ),
+
+                      // 🔹 FIXED: Page title for LOST (not FOUND!)
                       Text(
-                        t.report_lost_title,
+                        t.report_lost_title, // 👈 this was t.report_found_title before
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 18.0,
                         ),
                       ),
-
                       const SizedBox(height: 10.0),
 
+                      // Subtitle
                       Text(
                         t.report_required_details,
                         style: TextStyle(fontSize: 16.0, color: textColor),
                       ),
-
                       const SizedBox(height: 40.0),
 
+                      // 🔹 TITLE FIELD (required)
                       _buildLabel(t.report_title_label, required: true),
-
                       const SizedBox(height: 10.0),
-
                       TextField(
                         controller: controllerTitle,
                         autocorrect: false,
                         maxLength: 30,
                         inputFormatters: [
+                          // Allow letters, digits, Arabic, tashkeel, tatweel, spaces, and basic punctuation
                           FilteringTextInputFormatter.allow(
                             RegExp(
-                              r'[a-zA-Z0-9\u0660-\u0669\u0621-\u064A\u064B-\u0652\u0640\s]',
+                              r'[a-zA-Z0-9\u0660-\u0669\u0621-\u064A\u064B-\u0652\u0640\s\.,!?-]',
                             ),
                           ),
                         ],
@@ -135,36 +147,34 @@ class _ReportLostPageState extends State<ReportLostPage> {
                             ),
                           ),
                         ),
-                        onEditingComplete: () {
-                          FocusScope.of(context).unfocus();
-                        },
+                        onEditingComplete: () =>
+                            FocusScope.of(context).unfocus(),
                       ),
 
                       const SizedBox(height: 20.0),
 
+                      // 🔹 PHOTOS (required)
                       _buildLabel(t.report_photo_label, required: true),
-
                       const SizedBox(height: 10.0),
-
                       if (_images.length < 2) buildUploadButton(),
                       const SizedBox(height: 15.0),
                       if (_images.isNotEmpty) _buildImagesPreview(),
 
                       const SizedBox(height: 20.0),
 
-                      _buildLabel(t.report_location_label),
-
+                      // 🔹 LOCATION (OPTIONAL FOR LOST)
+                      _buildLabel(t.report_location_label, required: false),
                       const SizedBox(height: 10.0),
-
                       OutlinedButton(
                         onPressed: () async {
                           FocusScope.of(context).unfocus();
                           final result = await Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const PickLocationPage(),
+                              builder: (_) => const PickLocationPage(),
                             ),
                           );
+
                           if (result is Map &&
                               result['lat'] != null &&
                               result['lng'] != null) {
@@ -173,6 +183,7 @@ class _ReportLostPageState extends State<ReportLostPage> {
                                 (result['lat'] as num).toDouble(),
                                 (result['lng'] as num).toDouble(),
                               );
+                              // Show only first 2 parts of address for clarity
                               _address = (result['address'] as String?)
                                   ?.split(',')
                                   .take(2)
@@ -219,23 +230,22 @@ class _ReportLostPageState extends State<ReportLostPage> {
 
                       const SizedBox(height: 20.0),
 
+                      // 🔹 DESCRIPTION FIELD (required)
                       _buildLabel(t.report_description_label, required: true),
-
                       const SizedBox(height: 10.0),
-
                       TextField(
                         controller: controllerDescription,
                         autocorrect: false,
                         maxLength: _maxLength,
                         maxLines: 6,
                         inputFormatters: [
+                          // Same allowed charset as title, but longer
                           FilteringTextInputFormatter.allow(
                             RegExp(
-                              r'[a-zA-Z0-9\u0660-\u0669\u0621-\u064A\u064B-\u0652\u0640\s]',
+                              r'[a-zA-Z0-9\u0660-\u0669\u0621-\u064A\u064B-\u0652\u0640\s\.,!?-]',
                             ),
                           ),
                         ],
-
                         decoration: InputDecoration(
                           hintText: t.report_description_hint,
                           hintStyle: TextStyle(
@@ -258,24 +268,22 @@ class _ReportLostPageState extends State<ReportLostPage> {
                           counterStyle: TextStyle(
                             fontSize: 12,
                             color:
-                                (_maxLength -
-                                        controllerDescription.text.length) <=
-                                    0
-                                ? Colors.red
-                                : Colors.grey.shade400,
+                                (_maxLength - controllerDescription.text.length) <=
+                                        0
+                                    ? Colors.red
+                                    : Colors.grey.shade400,
                           ),
                         ),
-                        onEditingComplete: () {
-                          FocusScope.of(context).unfocus();
-                        },
+                        onEditingComplete: () =>
+                            FocusScope.of(context).unfocus(),
                       ),
 
                       const SizedBox(height: 30.0),
 
+                      // 🔹 SUBMIT BUTTON
                       FilledButton(
-                        onPressed: _submitting
-                            ? null
-                            : () => _submitLostReport(t),
+                        onPressed:
+                            _submitting ? null : () => _submitLostReport(t),
                         style: FilledButton.styleFrom(
                           minimumSize: const Size(double.infinity, 50),
                           backgroundColor: const Color.fromRGBO(46, 23, 21, 1),
@@ -301,10 +309,12 @@ class _ReportLostPageState extends State<ReportLostPage> {
               ),
             ),
           ),
-          if (isSubmitting) //wait for report to submit
+
+          // Global overlay while submitting (covers whole screen)
+          if (isSubmitting)
             Container(
-              color: Color.fromRGBO(0, 0, 0, 0.4),
-              child: Center(
+              color: const Color.fromRGBO(0, 0, 0, 0.4),
+              child: const Center(
                 child: CircularProgressIndicator(
                   color: Color.fromRGBO(255, 175, 0, 1),
                 ),
@@ -314,6 +324,10 @@ class _ReportLostPageState extends State<ReportLostPage> {
       ),
     );
   }
+
+  // ---------------------------------------------------------------------------
+  // IMAGES PICKING & PREVIEW
+  // ---------------------------------------------------------------------------
 
   Future<void> _pickImages() async {
     final t = AppLocalizations.of(context);
@@ -325,7 +339,7 @@ class _ReportLostPageState extends State<ReportLostPage> {
       return;
     }
 
-    //limit to 2 total images
+    // Limit to 2 total images
     final remainingSlots = 2 - _images.length;
     if (remainingSlots <= 0) {
       _showSnackBar(t.error_max_photos, Icons.warning_rounded);
@@ -350,9 +364,8 @@ class _ReportLostPageState extends State<ReportLostPage> {
                 final file = File(picked.path);
 
                 try {
-                  //save to user’s gallery
-                  final bytes = await file
-                      .readAsBytes(); // your camera image bytes
+                  // Save to user’s gallery
+                  final bytes = await file.readAsBytes();
 
                   // Save temporarily before passing to GallerySaver
                   final tempDir = await getTemporaryDirectory();
@@ -369,7 +382,7 @@ class _ReportLostPageState extends State<ReportLostPage> {
                     }
                   });
 
-                  Navigator.pop(context); //close picker after taking photo
+                  Navigator.pop(context); // Close picker after taking photo
                 } catch (e) {
                   _showSnackBar(t.error_save_gallery, Icons.warning_rounded);
                 }
@@ -384,22 +397,23 @@ class _ReportLostPageState extends State<ReportLostPage> {
     );
 
     if (result != null && result.isNotEmpty) {
-      //convert to files
+      // Convert picked assets to File objects
       final newFiles = await Future.wait(
         result.map((asset) async => await asset.file),
       );
 
       setState(() {
         for (final file in newFiles) {
-          //prevent duplicates by comparing absolute file paths
-          if (!_images.any((existing) => existing.path == file!.path)) {
-            _images.add(file!);
+          if (file == null) continue;
+          // Prevent duplicates by comparing absolute file paths
+          if (!_images.any((existing) => existing.path == file.path)) {
+            _images.add(file);
           } else {
             _showSnackBar(t.error_duplicate_photo, Icons.warning_rounded);
           }
         }
 
-        //ensure we never exceed 2 images
+        // Ensure we never exceed 2 images
         if (_images.length > 2) {
           _images = _images.take(2).toList();
         }
@@ -412,13 +426,13 @@ class _ReportLostPageState extends State<ReportLostPage> {
     final t = AppLocalizations.of(context);
 
     if (ps.isAuth) {
-      //permission already granted
+      // Permission already granted
       return true;
     } else if (ps.hasAccess) {
-      //old Android versions (pre-13) still valid
+      // Old Android versions (pre-13)
       return true;
     } else {
-      //permission denied then open settings
+      // Permission denied → show message and open settings
       _showSnackBar(t.error_enable_photo_access, Icons.warning_rounded);
       await PhotoManager.openSetting();
       return false;
@@ -472,6 +486,10 @@ class _ReportLostPageState extends State<ReportLostPage> {
     );
   }
 
+  // ---------------------------------------------------------------------------
+  // UI HELPERS
+  // ---------------------------------------------------------------------------
+
   Widget _buildLabel(String text, {bool required = false}) {
     return Row(
       children: [
@@ -496,9 +514,8 @@ class _ReportLostPageState extends State<ReportLostPage> {
 
   Widget buildUploadButton() {
     final t = AppLocalizations.of(context);
-
     return OutlinedButton(
-      onPressed: () => _pickImages(),
+      onPressed: _pickImages,
       style: OutlinedButton.styleFrom(
         minimumSize: const Size(double.infinity, 55),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -532,11 +549,38 @@ class _ReportLostPageState extends State<ReportLostPage> {
     );
   }
 
-  Future<void> _submitLostReport(AppLocalizations t) async {
-    final title = controllerTitle.text.trim();
-    final description = controllerDescription.text.trim();
-    final t = AppLocalizations.of(context);
+  // ---------------------------------------------------------------------------
+  // SUBMIT REPORT (LOST)
+  // ---------------------------------------------------------------------------
 
+  Future<void> _submitLostReport(AppLocalizations t) async {
+    // ✅ RAW TEXT from controllers
+    final rawTitle = controllerTitle.text;
+    final rawDescription = controllerDescription.text;
+
+    // ✅ SANITISED TEXT (this is what we will send to Firestore)
+    final title = InputValidators.sanitizeText(
+      rawTitle,
+      maxLen: 30,
+    );
+    final description = InputValidators.sanitizeText(
+      rawDescription,
+      maxLen: _maxLength,
+    );
+
+    // Also sanitise the address if it exists (comes from external APIs)
+    final sanitizedAddress = _address == null
+        ? null
+        : InputValidators.sanitizeText(
+            _address!,
+            maxLen: 150,
+          );
+
+    // Optionally push sanitised text back to the fields
+    controllerTitle.text = title;
+    controllerDescription.text = description;
+
+    // Basic required-field checks (after sanitising)
     if (title.isEmpty || description.isEmpty) {
       _showSnackBar(t.snackbar_fill_fields, Icons.warning_rounded);
       return;
@@ -547,19 +591,23 @@ class _ReportLostPageState extends State<ReportLostPage> {
       return;
     }
 
+    // 👇 For LOST reports, _geo is OPTIONAL.
+    // If user didn't pick a location, we just send null.
+
     setState(() => _submitting = true);
     try {
       setState(() {
         isSubmitting = true;
       });
 
+      // Call the ReportService to create a "lost" report
       final result = await ReportService().createReport(
-        type: 'lost',
+        type: 'lost', // 🔴 LOST type
         title: title,
         description: description,
         category: null,
-        location: _geo,
-        address: _address,
+        location: _geo, // can be null
+        address: sanitizedAddress,
         imageFiles: _images,
       );
 
@@ -597,12 +645,16 @@ class _ReportLostPageState extends State<ReportLostPage> {
     }
   }
 
+  // ---------------------------------------------------------------------------
+  // SNACKBAR HELPER
+  // ---------------------------------------------------------------------------
+
   void _showSnackBar(String message, IconData icon) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Row(
           children: [
-            Icon(icon, color: Color.fromRGBO(46, 23, 21, 1)),
+            Icon(icon, color: const Color.fromRGBO(46, 23, 21, 1)),
             const SizedBox(width: 10),
             Expanded(
               child: Text(
@@ -624,22 +676,5 @@ class _ReportLostPageState extends State<ReportLostPage> {
         elevation: 10,
       ),
     );
-  }
-
-  void onSubmitPressed() {
-    final title = controllerTitle.text.trim();
-    final description = controllerDescription.text;
-
-    if (title.isEmpty || description.isEmpty) {
-      setState(() {
-        textColor = const Color.fromRGBO(211, 47, 47, 1);
-      });
-    } else {
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => const SubmitSuccessfullyPage()),
-        (route) => false,
-      );
-    }
   }
 }

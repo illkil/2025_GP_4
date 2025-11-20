@@ -1,0 +1,18 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    function isSignedIn() { return request.auth != null; }
+
+    // App images: reports/{uid}/{reportId}/{filename}
+    match /reports/{uid}/{reportId}/{fileName} {
+      allow write: if isSignedIn()
+        && request.auth.uid == uid
+        && request.resource.contentType.matches('image/.*')
+        && request.resource.size < 5 * 1024 * 1024
+        // basic extension sanity (jpg/jpeg/png/webp)
+        && fileName.matches('.*\\.(jpe?g|png|webp)$');
+      // keep private by default
+      allow read: if false;
+    }
+  }
+}
