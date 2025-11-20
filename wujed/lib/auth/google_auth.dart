@@ -62,11 +62,13 @@ class GoogleSignInService {
             .doc(user.uid);
         final docSnapshot = await userDoc.get();
         if (!docSnapshot.exists) {
-          await userDoc.set({
-            'user_id': user.uid,
+          await userDoc.collection('public').doc('data').set({
             'username': uniqueUsername,
-            'email': user.email,
             'profile_photo': '',
+          });
+
+          await userDoc.collection('private').doc('data').set({
+            'email': user.email,
             'first_name': '',
             'last_name': '',
             'phone_number': '',
@@ -92,7 +94,7 @@ class GoogleSignInService {
   }
 
   static Future<String> generateUniqeUsername(String username) async {
-    final userRef = FirebaseFirestore.instance.collection('users');
+    final userRef = FirebaseFirestore.instance.collectionGroup('public');
     final random = Random();
     String newUsername = username;
     bool exist = true;

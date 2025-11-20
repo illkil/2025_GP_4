@@ -166,7 +166,7 @@ class _LostHistoryState extends State<LostHistory> {
     ),
     padding: const EdgeInsets.all(10),
     child: Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         // ---------------- LEFT: IMAGE ----------------
         ClipRRect(

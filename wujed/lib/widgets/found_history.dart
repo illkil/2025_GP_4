@@ -163,7 +163,7 @@ class _FoundHistoryState extends State<FoundHistory> {
     ),
     padding: const EdgeInsets.all(10),
     child: Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         // ---------------- LEFT: IMAGE ----------------
         ClipRRect(

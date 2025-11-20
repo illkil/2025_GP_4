@@ -99,19 +99,28 @@ class _SignupPageState extends State<SignupPage> {
 
         final prefs = await SharedPreferences.getInstance();
         final String? lang = prefs.getString('preferredLanguage');
+        final firestore = FirebaseFirestore.instance;
 
-        await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
-          //create the user collection (storing the user in firestore)
-          'user_id': user.uid,
-          'username': username,
-          'email': email,
-          'profile_photo': '',
-          'first_name': '',
-          'last_name': '',
-          'phone_number': '',
-          'language': lang ?? 'en',
-          'created_at': Timestamp.now(),
-        });
+        await firestore
+            .collection('users')
+            .doc(user.uid)
+            .collection('public')
+            .doc('data')
+            .set({'username': username, 'profile_photo': ''});
+
+        await firestore
+            .collection('users')
+            .doc(user.uid)
+            .collection('private')
+            .doc('data')
+            .set({
+              'email': email,
+              'first_name': '',
+              'last_name': '',
+              'phone_number': '',
+              'language': lang ?? 'en',
+              'created_at': Timestamp.now(),
+            });
 
         await user.updateDisplayName(
           username,
@@ -623,9 +632,9 @@ class _SignupPageState extends State<SignupPage> {
       return;
     }
 
-    usernameTimer = Timer(const Duration(milliseconds: 500), () async {
+    usernameTimer = Timer(const Duration(milliseconds: 300), () async {
       final existingUser = await FirebaseFirestore.instance
-          .collection('users')
+          .collectionGroup('public')
           .where('username', isEqualTo: username)
           .get(); //check if the username is taking or not if there is a username same as what the user entered assign it to existingUser
 
@@ -680,29 +689,35 @@ class _SignupPageState extends State<SignupPage> {
         emailValid = false;
       });
       return;
+    } else {
+      setState(() {
+        emailWarning = '';
+        emailValid = true;
+      });
+      return;
     }
 
-    emailTimer = Timer(const Duration(milliseconds: 500), () async {
-      final existingUser = await FirebaseFirestore.instance
-          .collection('users')
-          .where('email', isEqualTo: email)
-          .get(); //check if the email is taking or not if there is a email same as what the user entered assign it to existingUser
+    // emailTimer = Timer(const Duration(milliseconds: 500), () async {
+    //   final existingUser = await FirebaseFirestore.instance
+    //       .collectionGroup('private')
+    //       .where('email', isEqualTo: email)
+    //       .get(); //check if the email is taking or not if there is a email same as what the user entered assign it to existingUser
 
-      if (existingUser.docs.isNotEmpty) {
-        //email is taking (existingUser is not empty)
-        setState(() {
-          emailWarning = t.signup_email_exists;
-          emailValid = false;
-        });
-        return;
-      } else {
-        setState(() {
-          emailWarning = '';
-          emailValid = true;
-        });
-        return;
-      }
-    });
+    //   if (existingUser.docs.isNotEmpty) {
+    //     //email is taking (existingUser is not empty)
+    //     setState(() {
+    //       emailWarning = t.signup_email_exists;
+    //       emailValid = false;
+    //     });
+    //     return;
+    //   } else {
+    //     setState(() {
+    //       emailWarning = '';
+    //       emailValid = true;
+    //     });
+    //     return;
+    //   }
+    // });
 
     setState(() {
       emailValid = true;

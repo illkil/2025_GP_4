@@ -6,13 +6,15 @@ const axios = require("axios");
 
 admin.initializeApp();
 
-exports.setUserRole = onDocumentCreated("users/{user_id}", async (event) => {
-  const userID = event.params.user_id;
+exports.setUserRole = onDocumentCreated("users/{user_id}/private/data",
+    async (event) => {
+      const userID = event.params.user_id;
 
-  await admin.firestore().collection("users").doc(userID).update({
-    role: "user",
-  });
-});
+      await admin.firestore().collection("users").doc(userID)
+          .collection("private").doc("data").update({
+            role: "user",
+          });
+    });
 
 exports.resetUserPassword = onCall(async (request) => {
   const email = request.data.email;

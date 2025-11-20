@@ -30,13 +30,23 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Future _loadUserData() async {
     try {
-      final doc = await FirebaseFirestore.instance
+      final publicDoc = await FirebaseFirestore.instance
           .collection('users')
           .doc(user.uid)
-          .get(); //get the doc associated with the uses
-      if (doc.exists) {
+          .collection('public')
+          .doc('data')
+          .get();
+
+      final privateDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .collection('private')
+          .doc('data')
+          .get();
+
+      if (publicDoc.exists && privateDoc.exists) {
         setState(() {
-          userData = doc; //if it exist set userdata to the doc data
+          userData = {...publicDoc.data()!, ...privateDoc.data()!};
         });
       }
     } catch (e) {
@@ -132,6 +142,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                 await firestore
                                     .collection('users')
                                     .doc(user.uid)
+                                    .collection('private')
+                                    .doc('data')
                                     .update({'language': 'en'});
                               } else {
                                 MyApp.of(
@@ -144,6 +156,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                 await firestore
                                     .collection('users')
                                     .doc(user.uid)
+                                    .collection('private')
+                                    .doc('data')
                                     .update({'language': 'ar'});
                               }
                             },
