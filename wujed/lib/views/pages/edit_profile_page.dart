@@ -7,6 +7,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:wujed/l10n/generated/app_localizations.dart';
 
+// ✅ Shared sanitising helpers used everywhere in the app
+import 'package:wujed/utils/input_validators.dart';
+
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key});
 
@@ -15,37 +18,57 @@ class EditProfilePage extends StatefulWidget {
 }
 
 class _EditProfilePageState extends State<EditProfilePage> {
-  final user = FirebaseAuth.instance.currentUser!; //current logged in user
+  /// Currently logged-in user (Firebase Auth)
+  final user = FirebaseAuth.instance.currentUser!;
+
+  /// Combined user data from:
+  ///   users/{uid}/public/data  +  users/{uid}/private/data
   var userData;
+
+  /// Shows full-screen loader while we update Firestore
   bool isUpdating = false;
 
+  /// Text controllers for each editable field
   final TextEditingController _controllerUsername = TextEditingController();
-  // TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerFirstName = TextEditingController();
   final TextEditingController _controllerLastName = TextEditingController();
   final TextEditingController _controllerPhoneNumber = TextEditingController();
 
+  /// Flags + warning messages for live validation
   bool updateMade = false;
+
   String usernameWarning = "";
   bool usernameValid = false;
+
   String firstNameWarning = "";
   bool firstNameValid = false;
+
   String lastNameWarning = "";
   bool lastNameValid = false;
+
   String phoneNumberWarning = "";
   bool phoneNumberValid = false;
+
+  /// Timer used to debounce Firestore username check
   Timer? usernameTimer;
 
   @override
   void initState() {
     super.initState();
+
+    // Attach listeners so we validate while the user types.
     _controllerUsername.addListener(validateUsername);
     _controllerFirstName.addListener(validateFirstName);
     _controllerLastName.addListener(validateLastName);
     _controllerPhoneNumber.addListener(validatePhoneNumber);
+
+    // Load user data from Firestore when page opens.
     _loadUserData();
   }
 
+  /// Reads user profile from Firestore:
+  ///  - public:  username
+  ///  - private: first_name, last_name, phone_number, ...
   Future _loadUserData() async {
     try {
       final publicDoc = await FirebaseFirestore.instance
@@ -64,7 +87,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
       if (publicDoc.exists && privateDoc.exists) {
         setState(() {
+          // Merge public + private fields into one map
           userData = {...publicDoc.data()!, ...privateDoc.data()!};
+
+          // Pre-fill controllers with existing values
           _controllerUsername.text = userData['username'] ?? '';
           _controllerFirstName.text = userData['first_name'] ?? '';
           _controllerLastName.text = userData['last_name'] ?? '';
@@ -72,16 +98,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
         });
       }
     } catch (e) {
-      print(
-        'Error loading user data: $e',
-      ); //incase any error happens while loading
+      // If something goes wrong, just print it (no crash)
+      print('Error loading user data: $e');
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    // While we are still loading profile data, show a loader screen
     if (userData == null) {
-      //wait for user data to load before showing the page
       return const Scaffold(
         backgroundColor: Color.fromRGBO(249, 249, 249, 1),
         body: Center(
@@ -110,11 +135,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_rounded),
           onPressed: () {
+            // pop and tell previous page that nothing changed
             Navigator.pop(context, false);
           },
         ),
-
         actions: [
+          // "Done" button → triggers Firestore updates
           TextButton(
             onPressed: () {
               FocusScope.of(context).unfocus();
@@ -136,7 +162,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
       ),
       body: Stack(
         children: [
+          // Main content
           GestureDetector(
+            // Hide keyboard when tapping outside fields
             onTap: () {
               FocusScope.of(context).unfocus();
             },
@@ -146,6 +174,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
+                    // Simple avatar placeholder (no image upload yet)
                     Container(
                       width: 95,
                       height: 95,
@@ -169,6 +198,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     ),
                     const SizedBox(height: 20.0),
 
+                    // ---------------- USERNAME ----------------
                     Row(
                       children: [
                         Text(
@@ -185,6 +215,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       _controllerUsername,
                       TextInputType.text,
                       [
+                        // Only allow letters, digits, dot and underscore
                         FilteringTextInputFormatter.allow(
                           RegExp(r'[a-zA-Z0-9._]'),
                         ),
@@ -204,25 +235,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         ],
                       ),
 
-                    // const SizedBox(height: 20.0),
-
-                    // Row(
-                    //   children: [
-                    //     Text(
-                    //       t.signup_email_label,
-                    //       style: const TextStyle(
-                    //         color: Color.fromRGBO(46, 23, 21, 1),
-                    //         fontSize: 18,
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
-                    // const SizedBox(height: 10.0),
-                    // _buildTextField(_controllerEmail, TextInputType.text, [
-                    //   FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')),
-                    // ], hint: userData['email']),
                     const SizedBox(height: 20.0),
 
+                    // ---------------- FIRST NAME ----------------
                     Row(
                       children: [
                         Text(
@@ -238,7 +253,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     _buildTextField(
                       _controllerFirstName,
                       TextInputType.text,
-                      [FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]'))],
+                      [
+                        // Only English letters allowed here
+                        FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')),
+                      ],
                       hint: userData['first_name'] == ''
                           ? t.placeholder_not_provided
                           : userData['first_name'],
@@ -258,6 +276,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
                     const SizedBox(height: 20.0),
 
+                    // ---------------- LAST NAME ----------------
                     Row(
                       children: [
                         Text(
@@ -273,7 +292,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     _buildTextField(
                       _controllerLastName,
                       TextInputType.text,
-                      [FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]'))],
+                      [
+                        FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')),
+                      ],
                       hint: userData['last_name'] == ''
                           ? t.placeholder_not_provided
                           : userData['last_name'],
@@ -293,6 +314,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
                     const SizedBox(height: 20.0),
 
+                    // ---------------- PHONE NUMBER ----------------
                     Row(
                       children: [
                         Text(
@@ -308,7 +330,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     _buildTextField(
                       _controllerPhoneNumber,
                       TextInputType.phone,
-                      [FilteringTextInputFormatter.digitsOnly],
+                      [
+                        // Only digits, we prepend +966 ourselves
+                        FilteringTextInputFormatter.digitsOnly,
+                      ],
                       hint: userData['phone_number'] == ''
                           ? t.phone_placeholder
                           : userData['phone_number'],
@@ -332,10 +357,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
             ),
           ),
 
-          if (isUpdating) //wait for user account to be created
+          // Full-screen loading overlay while we update Firestore
+          if (isUpdating)
             Container(
-              color: Color.fromRGBO(0, 0, 0, 0.4),
-              child: Center(
+              color: const Color.fromRGBO(0, 0, 0, 0.4),
+              child: const Center(
                 child: CircularProgressIndicator(
                   color: Color.fromRGBO(255, 175, 0, 1),
                 ),
@@ -346,6 +372,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
   }
 
+  /// Small helper to create nicely styled text fields.
+  ///
+  /// `isPhone = true` adds the "+966 |" prefix.
   Widget _buildTextField(
     TextEditingController controller,
     TextInputType type,
@@ -360,7 +389,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         controller: controller,
         keyboardType: type,
         inputFormatters: formatters,
-        maxLength: isPhone ? 9 : 20,
+        maxLength: isPhone ? 9 : 20, // 9 digits after +966
         autocorrect: false,
         decoration: InputDecoration(
           counterText: '',
@@ -379,14 +408,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
               ? Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Padding(
-                      padding: const EdgeInsetsDirectional.only(
+                    const Padding(
+                      padding: EdgeInsetsDirectional.only(
                         start: 15,
                         top: 3,
                       ),
                       child: Text(
                         '+966',
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: Color.fromRGBO(46, 23, 21, 1),
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -416,20 +445,54 @@ class _EditProfilePageState extends State<EditProfilePage> {
     );
   }
 
+  /// Called when the user taps the "Done" button.
+  ///
+  /// Steps:
+  ///  1) Sanitise all input (important!).
+  ///  2) Compare with old values; if nothing changed → show message.
+  ///  3) For each changed + valid field → update the correct Firestore doc:
+  ///       - username → users/{uid}/public/data
+  ///       - first/last/phone → users/{uid}/private/data
+  ///  4) Show success Snackbar and pop back to profile page.
   Future onDonePressed() async {
-    final username = _controllerUsername.text.trim();
-    final firstName = _controllerFirstName.text.trim();
-    final lastName = _controllerLastName.text.trim();
-    final phoneNumber = _controllerPhoneNumber.text.trim();
     final t = AppLocalizations.of(context);
-
     final user = FirebaseAuth.instance.currentUser;
+    if (user == null) return; // Extra safety: user not logged in
 
-    if (user == null) return; // User is not logged in
+    // --------- 1) SANITISE INPUT BEFORE USING IT ---------
+
+    // Username: trim, limit length, remove < >
+    final username = InputValidators.sanitizeText(
+      _controllerUsername.text,
+      maxLen: 20,
+    );
+
+    // First name: same idea, up to 50 chars
+    final firstName = InputValidators.sanitizeText(
+      _controllerFirstName.text,
+      maxLen: 50,
+    );
+
+    // Last name: up to 50 chars
+    final lastName = InputValidators.sanitizeText(
+      _controllerLastName.text,
+      maxLen: 50,
+    );
+
+    // Phone: we only trim, and rely on digitsOnly + length validation
+    final phoneNumber = _controllerPhoneNumber.text.trim();
+
+    // Push sanitised values back into the text fields
+    // so the user sees exactly what we are saving.
+    _controllerUsername.text = username;
+    _controllerFirstName.text = firstName;
+    _controllerLastName.text = lastName;
+    _controllerPhoneNumber.text = phoneNumber;
 
     try {
-      final firestore = await FirebaseFirestore.instance;
+      final firestore = FirebaseFirestore.instance;
 
+      // --------- 2) If nothing changed → show message & return ---------
       if (username == userData['username'].toString().trim() &&
           firstName == userData['first_name'].toString().trim() &&
           lastName == userData['last_name'].toString().trim() &&
@@ -438,7 +501,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           SnackBar(
             content: Row(
               children: [
-                Icon(
+                const Icon(
                   Icons.warning_rounded,
                   color: Color.fromRGBO(46, 23, 21, 1),
                 ),
@@ -466,6 +529,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
         return;
       }
 
+      // --------- 3) Update ONLY changed + valid fields ---------
+
+      // Username → users/{uid}/public/data
       if (username.isNotEmpty &&
           usernameValid &&
           username != userData['username'].toString().trim()) {
@@ -480,6 +546,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
             .update({'username': username});
         updateMade = true;
       }
+
+      // First name → users/{uid}/private/data
       if (firstName.isNotEmpty &&
           firstNameValid &&
           firstName != userData['first_name'].toString().trim()) {
@@ -494,6 +562,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
             .update({'first_name': firstName});
         updateMade = true;
       }
+
+      // Last name → users/{uid}/private/data
       if (lastName.isNotEmpty &&
           lastNameValid &&
           lastName != userData['last_name'].toString().trim()) {
@@ -508,6 +578,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
             .update({'last_name': lastName});
         updateMade = true;
       }
+
+      // Phone number → users/{uid}/private/data
       if (phoneNumber.isNotEmpty &&
           phoneNumberValid &&
           phoneNumber != userData['phone_number'].toString().trim()) {
@@ -522,6 +594,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
             .update({'phone_number': phoneNumber});
         updateMade = true;
       }
+
+      // --------- 4) If at least one field updated → show success ---------
       if (updateMade) {
         setState(() {
           isUpdating = false;
@@ -531,7 +605,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
           SnackBar(
             content: Row(
               children: [
-                Icon(Icons.check_circle, color: Color.fromRGBO(46, 23, 21, 1)),
+                const Icon(
+                  Icons.check_circle,
+                  color: Color.fromRGBO(46, 23, 21, 1),
+                ),
                 const SizedBox(width: 10),
                 Text(
                   t.profile_update_success,
@@ -554,14 +631,22 @@ class _EditProfilePageState extends State<EditProfilePage> {
           ),
         );
 
-        Navigator.pop(context, true); //go back to profile page
+        // Pop back to ProfilePage and tell it that something changed (true)
+        Navigator.pop(context, true);
       }
     } catch (e) {
+      setState(() {
+        isUpdating = false;
+      });
+      // Generic failure message
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Row(
             children: [
-              Icon(Icons.warning_rounded, color: Color.fromRGBO(46, 23, 21, 1)),
+              const Icon(
+                Icons.warning_rounded,
+                color: Color.fromRGBO(46, 23, 21, 1),
+              ),
               const SizedBox(width: 10),
               Text(
                 t.profile_update_failed,
@@ -586,19 +671,27 @@ class _EditProfilePageState extends State<EditProfilePage> {
     }
   }
 
+  // ---------------------------------------------------------------------------
+  // LIVE VALIDATION HELPERS
+  // ---------------------------------------------------------------------------
+
+  /// Username rules:
+  ///   - letters, numbers, . and _
+  ///   - must contain at least one letter
   bool isUsernameValid(String username) {
-    //user name can contain only letters and numbers and . and _
     final validUsernameRegex = RegExp(r'^[a-zA-Z0-9._]+$');
     final containLetterRegex = RegExp(r'[a-zA-Z]');
     return validUsernameRegex.hasMatch(username) &&
         containLetterRegex.hasMatch(username);
   }
 
+  /// Validates username while typing + checks Firestore to ensure
+  /// it is not already used by another user.
   void validateUsername() {
-    //immediate error checking
     final username = _controllerUsername.text.trim();
     final t = AppLocalizations.of(context);
 
+    // Cancel previous timer (debounce)
     if (usernameTimer?.isActive ?? false) usernameTimer!.cancel();
 
     if (username.isEmpty) {
@@ -625,21 +718,23 @@ class _EditProfilePageState extends State<EditProfilePage> {
       return;
     }
 
+    // After 300ms of no typing → check uniqueness in Firestore
     usernameTimer = Timer(const Duration(milliseconds: 300), () async {
       final existingUser = await FirebaseFirestore.instance
           .collectionGroup('public')
           .where('username', isEqualTo: username)
-          .get(); //check if the username is taking or not if there is a username same as what the user entered assign it to existingUser
+          .get();
 
       if (existingUser.docs.isNotEmpty) {
         final foundUid = existingUser.docs.first.reference.parent.parent!.id;
         if (foundUid != user.uid) {
-          //username is taken and it does not belong to current user
+          // Username belongs to someone else → invalid
           setState(() {
             usernameWarning = t.signup_username_taken;
             usernameValid = false;
           });
         } else {
+          // Username is ours → allow it
           setState(() {
             usernameWarning = '';
             usernameValid = true;
@@ -649,15 +744,25 @@ class _EditProfilePageState extends State<EditProfilePage> {
       }
     });
 
+    // While waiting for Firestore, consider it tentatively valid
     setState(() {
       usernameWarning = '';
       usernameValid = true;
     });
   }
 
+  /// First name must be at least 2 characters (or empty if user didn't set it).
   void validateFirstName() {
     final firstName = _controllerFirstName.text.trim();
     final t = AppLocalizations.of(context);
+
+    if (firstName.isEmpty) {
+      setState(() {
+        firstNameWarning = '';
+        firstNameValid = false;
+      });
+      return;
+    }
 
     if (firstName.length < 2) {
       setState(() {
@@ -675,9 +780,18 @@ class _EditProfilePageState extends State<EditProfilePage> {
     firstNameValid = true;
   }
 
+  /// Last name: same rules as first name.
   void validateLastName() {
     final lastName = _controllerLastName.text.trim();
     final t = AppLocalizations.of(context);
+
+    if (lastName.isEmpty) {
+      setState(() {
+        lastNameWarning = '';
+        lastNameValid = false;
+      });
+      return;
+    }
 
     if (lastName.length < 2) {
       setState(() {
@@ -695,9 +809,18 @@ class _EditProfilePageState extends State<EditProfilePage> {
     lastNameValid = true;
   }
 
+  /// Phone number must be exactly 9 digits (because we prepend +966).
   void validatePhoneNumber() {
     final phoneNumber = _controllerPhoneNumber.text.trim();
     final t = AppLocalizations.of(context);
+
+    if (phoneNumber.isEmpty) {
+      setState(() {
+        phoneNumberWarning = '';
+        phoneNumberValid = false;
+      });
+      return;
+    }
 
     if (phoneNumber.length != 9) {
       setState(() {
@@ -706,6 +829,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
       });
       return;
     }
+
     setState(() {
       phoneNumberWarning = '';
       phoneNumberValid = true;
