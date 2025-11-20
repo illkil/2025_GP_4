@@ -1,6 +1,8 @@
 const {onCall} = require("firebase-functions/v2/https");
+const {onRequest} = require("firebase-functions/v2/https");
 const {onDocumentCreated} = require("firebase-functions/v2/firestore");
 const admin = require("firebase-admin");
+const cors = require("cors")({origin: true});
 // axios is a library used to send http request to fastApi server
 const axios = require("axios");
 
@@ -15,6 +17,36 @@ exports.setUserRole = onDocumentCreated("users/{user_id}/private/data",
             role: "user",
           });
     });
+
+exports.checkAdminEmail = onRequest((req, res) => {
+  cors(req, res, async () => {
+    if (req.method !== "POST") {
+      return res.status(405).send({error: "Method not allowed"});
+    }
+
+    const email = req.body && req.body.email ?
+  req.body.email.toLowerCase() :
+  null;
+
+    if (!email) {
+      return res.status(400).send({exists: false, error: "Missing email"});
+    }
+
+    try {
+      const privateDocs = await admin.firestore()
+          .collectionGroup("private")
+          .where("email", "==", email)
+          .where("role", "==", "admin")
+          .get();
+
+      return res.send({exists: !privateDocs.empty});
+    } catch (error) {
+      console.error("Error:", error);
+      return res.status(500).send({exists: false});
+    }
+  });
+});
+
 
 exports.resetUserPassword = onCall(async (request) => {
   const email = request.data.email;

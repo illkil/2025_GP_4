@@ -40,15 +40,19 @@ onAuthStateChanged(auth, async (user) => {
   }
 
   try {
-    const docRef = doc(db, "users", user.uid);
-    const docSnap = await getDoc(docRef);
+    const publicDocRef = doc(db, "users", user.uid, "public", "data");
+    const publicDocSnap = await getDoc(publicDocRef);
 
-    if (!docSnap.exists()) return;
+    const privateDocRef = doc(db, "users", user.uid, "private", "data");
+    const privateDocSnap = await getDoc(privateDocRef);
 
-    const data = docSnap.data();
-    const firstName = data.first_name?.trim() || "Admin";
-    const photoURL = data.profile_photo || "Images/ProfilePic.jpg";
-    const userLang = data.language || cachedLang || "en";
+    if (!publicDocSnap.exists() || !privateDocSnap.exists()) return;
+
+    const publicData = publicDocSnap.data();
+    const privateData = privateDocSnap.data();
+    const firstName = privateData.first_name?.trim() || "Admin";
+    const photoURL = publicData.profile_photo || "Images/ProfilePic.jpg";
+    const userLang = privateData.language || cachedLang || "en";
 
     // تحديث واجهة الصفحة (فقط إذا العناصر موجودة)
     if (nameInProfile) nameInProfile.textContent = firstName;
@@ -87,7 +91,7 @@ langButton?.addEventListener("click", async () => {
   const user = auth.currentUser;
   if (user) {
     try {
-      const userRef = doc(db, "users", user.uid);
+      const userRef = doc(db, "users", user.uid, "private", "data");
       await updateDoc(userRef, { language: newLang });
       console.log("Language updated in Firestore:", newLang);
     } catch (err) {

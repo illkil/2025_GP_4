@@ -1,49 +1,51 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title data-i18n="dashboardTitle">Dashboard · Home</title>
-<script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
-<link rel="stylesheet" href="./css/Home.css" />
-<link rel="icon" type="image/png" href="images/Logo.png">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title data-i18n="dashboardTitle">Dashboard · Home</title>
+  <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+  <link rel="stylesheet" href="./css/Home.css" />
+  <link rel="icon" type="image/png" href="images/Logo.png">
 </head>
+
 <body>
 
-<div class="app">
-  <!-- Sidebar -->
-  <aside class="sidebar">
-    <div class="brand selected">
-      <img src="Images/Logo.png" alt="Logo" />
-      <div class="name" data-i18n="brandName">Wujed</div>
-    </div>
-
-    <div class="section-label" data-i18n="dashboards">Dashboards</div>
-    <nav class="nav">
-      <a href="FlaggedReports.html" class="nav-item" data-i18n="flaggedReports">Flagged Reports</a>
-      <a href="RejectedMatches.html" class="nav-item" data-i18n="rejectedMatches">Rejected Matches</a>
-    </nav>
-
-    <div class="spacer"></div>
-
-    <!-- Profile -->
-    <div class="profile" id="profileBtn">
-      <img alt="PFP" />
-      <div class="pname"></div>
-    </div>
-
-    <!-- Profile Popover -->
-    <div class="profile-popover" id="profilePopover">
-      <div class="pp-item" id="ppLang">
-        <span class="iconify" data-icon="mdi:swap-horizontal"></span>
-        <span data-i18n="language">العربية</span>
+  <div class="app">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="brand selected">
+        <img src="Images/Logo.png" alt="Logo" />
+        <div class="name" data-i18n="brandName">Wujed</div>
       </div>
-      <div class="pp-divider"></div>
-      <div class="pp-item" id="ppLogout" style="font-weight:700;">
-        <span class="iconify" data-icon="mdi:logout"></span>
-        <span data-i18n="logout">Log Out</span>
+
+      <div class="section-label" data-i18n="dashboards">Dashboards</div>
+      <nav class="nav">
+        <a href="FlaggedReports.html" class="nav-item" data-i18n="flaggedReports">Flagged Reports</a>
+        <a href="RejectedMatches.html" class="nav-item" data-i18n="rejectedMatches">Rejected Matches</a>
+      </nav>
+
+      <div class="spacer"></div>
+
+      <!-- Profile -->
+      <div class="profile" id="profileBtn">
+        <img alt="PFP" />
+        <div class="pname"></div>
       </div>
-    </div>
+
+      <!-- Profile Popover -->
+      <div class="profile-popover" id="profilePopover">
+        <div class="pp-item" id="ppLang">
+          <span class="iconify" data-icon="mdi:swap-horizontal"></span>
+          <span data-i18n="language">العربية</span>
+        </div>
+        <div class="pp-divider"></div>
+        <div class="pp-item" id="ppLogout" style="font-weight:700;">
+          <span class="iconify" data-icon="mdi:logout"></span>
+          <span data-i18n="logout">Log Out</span>
+        </div>
+      </div>
       <!-- Logout Modal -->
       <div id="logoutModal">
         <div class="modal-content">
@@ -53,43 +55,44 @@
         </div>
       </div>
 
-  </aside>
+    </aside>
 
-  <!-- Main content -->
-  <main class="content">
+    <!-- Main content -->
+    <main class="content">
 
-    <div class="center-wrap">
-      <div class="center-card" aria-labelledby="welcome">
-      <h1 id="welcome" class="welcome">
-        <span data-i18n="welcome">Welcome,</span>
-        <span id="hiName">!</span>
-      </h1>
+      <div class="center-wrap">
+        <div class="center-card" aria-labelledby="welcome">
+          <h1 id="welcome" class="welcome">
+            <span data-i18n="welcome">Welcome,</span>
+            <span id="hiName">!</span>
+          </h1>
 
-        <p class="subtitle" data-i18n="subtitle">
-          Manage reports and matches easily from your dashboard.
-        </p>
+          <p class="subtitle" data-i18n="subtitle">
+            Manage reports and matches easily from your dashboard.
+          </p>
+        </div>
       </div>
-    </div>
 
-    <footer class="footer">
-      <span data-i18n="footerText">© 2025 Wujed</span>
-      <span data-i18n="rights">All rights reserved</span>
-    </footer>
-  </main>
-</div>
+      <footer class="footer">
+        <span data-i18n="footerText">© 2025 Wujed</span>
+        <span data-i18n="rights">All rights reserved</span>
+      </footer>
+    </main>
+  </div>
 
-<script>
-  // Profile popover
-  const profileBtn = document.getElementById('profileBtn');
-  const profilePanel = document.getElementById('profilePopover');
-  function closeProfile(){ profilePanel.classList.remove('show'); }
-  profileBtn.addEventListener('click',(e)=>{ e.stopPropagation(); profilePanel.classList.toggle('show'); });
-  document.addEventListener('click',(e)=>{ if(!profilePanel.contains(e.target)&&!profileBtn.contains(e.target)){ closeProfile(); } });
-  document.getElementById('ppLang')?.addEventListener('click',()=>{ closeProfile(); switchLanguage(); });
+  <script>
+    // Profile popover
+    const profileBtn = document.getElementById('profileBtn');
+    const profilePanel = document.getElementById('profilePopover');
+    function closeProfile() { profilePanel.classList.remove('show'); }
+    profileBtn.addEventListener('click', (e) => { e.stopPropagation(); profilePanel.classList.toggle('show'); });
+    document.addEventListener('click', (e) => { if (!profilePanel.contains(e.target) && !profileBtn.contains(e.target)) { closeProfile(); } });
+    document.getElementById('ppLang')?.addEventListener('click', () => { closeProfile(); switchLanguage(); });
 
 
-</script>
-<script src="./js/lang.js"></script>
-<script type="module" src="./js/profile.js"></script>
+  </script>
+  <script src="./js/lang.js"></script>
+  <script type="module" src="./js/profile.js"></script>
 </body>
+
 </html>

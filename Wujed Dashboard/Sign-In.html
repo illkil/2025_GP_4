@@ -1,14 +1,16 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title data-i18n="signInTitle">Sign In</title>
-<script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
-<link rel="stylesheet" href="./css/Sign-In.css" />
-<link rel="icon" type="image/png" href="images/Logo.png">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title data-i18n="signInTitle">Sign In</title>
+  <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+  <link rel="stylesheet" href="./css/Sign-In.css" />
+  <link rel="icon" type="image/png" href="images/Logo.png">
 
 </head>
+
 <body>
 
   <section class="card">
@@ -16,7 +18,7 @@
 
     <!-- Message area -->
     <div class="message-wrap">
-      <p id="msgInfo"  class="message show" data-i18n="msgInfo">Fill the details to continue</p>
+      <p id="msgInfo" class="message show" data-i18n="msgInfo">Fill the details to continue</p>
       <p id="msgError" class="message" data-i18n="msgError">Please enter a valid email address.</p>
     </div>
 
@@ -52,104 +54,105 @@
     </form>
   </section>
 
-<script>
-  const emailEl = document.getElementById('email');
-  const pwEl = document.getElementById('password');
-  const submitBtn = document.getElementById('submitBtn');
-  const eyeIcon = document.getElementById('eyeIcon');
-  const msgInfo = document.getElementById('msgInfo');
-  const msgError = document.getElementById('msgError');
+  <script>
+    const emailEl = document.getElementById('email');
+    const pwEl = document.getElementById('password');
+    const submitBtn = document.getElementById('submitBtn');
+    const eyeIcon = document.getElementById('eyeIcon');
+    const msgInfo = document.getElementById('msgInfo');
+    const msgError = document.getElementById('msgError');
 
-  function updateButtonState(){
-    const emailValid = emailEl.checkValidity();
-    const pwValid = pwEl.value.trim() !== '';
-    const ok = emailValid && pwValid;
+    function updateButtonState() {
+      const emailValid = emailEl.checkValidity();
+      const pwValid = pwEl.value.trim() !== '';
+      const ok = emailValid && pwValid;
 
-    submitBtn.disabled = !ok;
-    submitBtn.classList.toggle('enabled', ok);
+      submitBtn.disabled = !ok;
+      submitBtn.classList.toggle('enabled', ok);
 
-    // Fade between info and error
-    if (emailEl.value && !emailValid) {
-      msgInfo.classList.remove('show');
-      msgError.classList.add('show');
-    } else {
-      msgError.classList.remove('show');
-      msgInfo.classList.add('show');
+      // Fade between info and error
+      if (emailEl.value && !emailValid) {
+        msgInfo.classList.remove('show');
+        msgError.classList.add('show');
+      } else {
+        msgError.classList.remove('show');
+        msgInfo.classList.add('show');
+      }
     }
-  }
 
-  emailEl.addEventListener('input', updateButtonState);
-  pwEl.addEventListener('input', updateButtonState);
+    emailEl.addEventListener('input', updateButtonState);
+    pwEl.addEventListener('input', updateButtonState);
 
-  // Toggle password visibility
-  document.getElementById('togglePw').addEventListener('click', () => {
-    const showing = pwEl.type === 'text';
-    pwEl.type = showing ? 'password' : 'text';
-    eyeIcon.innerHTML = showing
-      ? '<span class="iconify" data-icon="mdi:eye-outline" data-width="24" data-height="24"></span>'
-      : '<span class="iconify" data-icon="mdi:eye-off-outline" data-width="24" data-height="24"></span>';
-  });
+    // Toggle password visibility
+    document.getElementById('togglePw').addEventListener('click', () => {
+      const showing = pwEl.type === 'text';
+      pwEl.type = showing ? 'password' : 'text';
+      eyeIcon.innerHTML = showing
+        ? '<span class="iconify" data-icon="mdi:eye-outline" data-width="24" data-height="24"></span>'
+        : '<span class="iconify" data-icon="mdi:eye-off-outline" data-width="24" data-height="24"></span>';
+    });
 
-  // Prevent actual submit for demo
-  document.getElementById('loginForm').addEventListener('submit', (e) => {
-    if (!emailEl.checkValidity()) {
-      e.preventDefault();
-      msgInfo.classList.remove('show');
-      msgError.classList.add('show');
-    }
-  });
-</script>
-<!-- Firebase  -->
-<script type="module">
-  import { auth, db } from "./js/firebase-init.js";
-  import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
-  import { doc, getDoc } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
+    // Prevent actual submit for demo
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
+      if (!emailEl.checkValidity()) {
+        e.preventDefault();
+        msgInfo.classList.remove('show');
+        msgError.classList.add('show');
+      }
+    });
+  </script>
+  <!-- Firebase  -->
+  <script type="module">
+    import { auth, db } from "./js/firebase-init.js";
+    import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
+    import { doc, getDoc } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
 
-  window.addEventListener("DOMContentLoaded", () => {
-    const msgInfo = document.getElementById("msgInfo");
-    const msgError = document.getElementById("msgError");
+    window.addEventListener("DOMContentLoaded", () => {
+      const msgInfo = document.getElementById("msgInfo");
+      const msgError = document.getElementById("msgError");
 
-    document.getElementById("loginForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
+      document.getElementById("loginForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
 
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value.trim();
+        const email = document.getElementById("email").value.trim();
+        const password = document.getElementById("password").value.trim();
 
-      try {
-        // 1️⃣ Sign in
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
+        try {
+          // 1️⃣ Sign in
+          const userCredential = await signInWithEmailAndPassword(auth, email, password);
+          const user = userCredential.user;
 
-        // 2️⃣ Fetch user doc from Firestore
-        const docRef = doc(db, "users", user.uid);
-        const docSnap = await getDoc(docRef);
+          // 2️⃣ Fetch user doc from Firestore
+          const privateDocRef = doc(db, "users", user.uid, "private", "data");
+          const privateDocSnap = await getDoc(privateDocRef);
 
-        if (docSnap.exists()) {
-          const role = docSnap.data().role || "user";
+          if (privateDocSnap.exists()) {
+            const role = privateDocSnap.data().role || "user";
 
-          if (role === "admin") {
-            msgError.classList.remove("show");
-            msgInfo.classList.add("show");
-            window.location.href = "Home.html";
+            if (role === "admin") {
+              msgError.classList.remove("show");
+              msgInfo.classList.add("show");
+              window.location.href = "Home.html";
+            } else {
+              msgInfo.classList.remove("show");
+              msgError.classList.add("show");
+              msgError.textContent = currentTranslations.adminDenied;
+            }
           } else {
             msgInfo.classList.remove("show");
             msgError.classList.add("show");
-            msgError.textContent = currentTranslations.adminDenied;
+            msgError.textContent = "User data not found.";
           }
-        } else {
+        } catch (error) {
+          console.error("Login failed:", error);
           msgInfo.classList.remove("show");
           msgError.classList.add("show");
-          msgError.textContent = "User data not found.";
+          msgError.textContent = currentTranslations.msgError2;
         }
-      } catch (error) {
-        console.error("Login failed:", error);
-        msgInfo.classList.remove("show");
-        msgError.classList.add("show");
-        msgError.textContent = currentTranslations.msgError2;
-      }
+      });
     });
-  });
-</script>
-<script src="./js/lang.js"></script>
+  </script>
+  <script src="./js/lang.js"></script>
 </body>
+
 </html>
