@@ -163,111 +163,11 @@ class _MatchAfterAcceptingPageState extends State<MatchAfterAcceptingPage> {
               const SizedBox(height: 20.0),
 
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  FilledButton(
-                    onPressed: () async {
-                      final confirmReceived = await showDialog<String>(
-                        context: context,
-                        barrierDismissible: true,
-                        barrierColor: Colors.black54,
-                        builder: (_) => AlertDialog(
-                          backgroundColor: Colors.white,
-                          surfaceTintColor: Colors.transparent,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          elevation: 8,
-                          alignment: Alignment.center,
-                          titlePadding: const EdgeInsets.fromLTRB(
-                            20,
-                            20,
-                            20,
-                            0,
-                          ),
-                          contentPadding: const EdgeInsets.fromLTRB(
-                            20,
-                            10,
-                            20,
-                            20,
-                          ),
-                          actionsPadding: const EdgeInsets.fromLTRB(
-                            20,
-                            0,
-                            20,
-                            20,
-                          ),
-                          title: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                t.dialog_are_you_sure,
-                                style: const TextStyle(
-                                  color: Color.fromRGBO(46, 23, 21, 1),
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                          content: Text(
-                            t.dialog_confirm_received_note,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                              color: Color.fromRGBO(46, 23, 21, 1),
-                              fontSize: 14,
-                            ),
-                          ),
-                          actionsAlignment: MainAxisAlignment.end,
-                          actions: [
-                            FilledButton(
-                              onPressed: () =>
-                                  Navigator.pop(context, 'Confirm'),
-                              style: FilledButton.styleFrom(
-                                minimumSize: const Size(double.infinity, 45),
-                                backgroundColor: const Color.fromRGBO(
-                                  46,
-                                  23,
-                                  21,
-                                  1,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                              child: Text(
-                                t.btn_confirm,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 10.0),
-                            OutlinedButton(
-                              onPressed: () => Navigator.pop(context, 'Cancel'),
-                              style: OutlinedButton.styleFrom(
-                                minimumSize: const Size(double.infinity, 45),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                              child: Text(
-                                t.btn_cancel,
-                                style: const TextStyle(
-                                  color: Color.fromRGBO(46, 23, 21, 1),
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      );
-
-                      if (confirmReceived == 'Confirm') {
-                        final done = await showDialog(
+                  Expanded(
+                    child: FilledButton(
+                      onPressed: () async {
+                        final confirmReceived = await showDialog<String>(
                           context: context,
                           barrierDismissible: true,
                           barrierColor: Colors.black54,
@@ -301,7 +201,7 @@ class _MatchAfterAcceptingPageState extends State<MatchAfterAcceptingPage> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  t.toast_congrats,
+                                  t.dialog_are_you_sure,
                                   style: const TextStyle(
                                     color: Color.fromRGBO(46, 23, 21, 1),
                                     fontSize: 18,
@@ -311,14 +211,222 @@ class _MatchAfterAcceptingPageState extends State<MatchAfterAcceptingPage> {
                               ],
                             ),
                             content: Text(
-                              t.toast_got_item_back,
+                              t.dialog_confirm_received_note,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                color: Color.fromRGBO(46, 23, 21, 1),
+                                fontSize: 14,
+                              ),
+                            ),
+                            actionsAlignment: MainAxisAlignment.end,
+                            actions: [
+                              FilledButton(
+                                onPressed: () =>
+                                    Navigator.pop(context, 'Confirm'),
+                                style: FilledButton.styleFrom(
+                                  minimumSize: const Size(double.infinity, 45),
+                                  backgroundColor: const Color.fromRGBO(
+                                    46,
+                                    23,
+                                    21,
+                                    1,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                                child: Text(
+                                  t.btn_confirm,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 10.0),
+                              OutlinedButton(
+                                onPressed: () => Navigator.pop(context, 'Cancel'),
+                                style: OutlinedButton.styleFrom(
+                                  minimumSize: const Size(double.infinity, 45),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                                child: Text(
+                                  t.btn_cancel,
+                                  style: const TextStyle(
+                                    color: Color.fromRGBO(46, 23, 21, 1),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                    
+                        if (confirmReceived == 'Confirm') {
+                          final done = await showDialog(
+                            context: context,
+                            barrierDismissible: true,
+                            barrierColor: Colors.black54,
+                            builder: (_) => AlertDialog(
+                              backgroundColor: Colors.white,
+                              surfaceTintColor: Colors.transparent,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              elevation: 8,
+                              alignment: Alignment.center,
+                              titlePadding: const EdgeInsets.fromLTRB(
+                                20,
+                                20,
+                                20,
+                                0,
+                              ),
+                              contentPadding: const EdgeInsets.fromLTRB(
+                                20,
+                                10,
+                                20,
+                                20,
+                              ),
+                              actionsPadding: const EdgeInsets.fromLTRB(
+                                20,
+                                0,
+                                20,
+                                20,
+                              ),
+                              title: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    t.toast_congrats,
+                                    style: const TextStyle(
+                                      color: Color.fromRGBO(46, 23, 21, 1),
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              content: Text(
+                                t.toast_got_item_back,
+                                textAlign: TextAlign.center,
+                              ),
+                              actionsAlignment: MainAxisAlignment.end,
+                              actions: [
+                                FilledButton(
+                                  onPressed: () {
+                                    Navigator.pop(context, 'Continue');
+                                  },
+                                  style: FilledButton.styleFrom(
+                                    minimumSize: const Size(double.infinity, 45),
+                                    backgroundColor: const Color.fromRGBO(
+                                      46,
+                                      23,
+                                      21,
+                                      1,
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    t.btn_continue,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                    
+                          if (done == 'Continue') {
+                            if (!context.mounted) return;
+                            Navigator.pop(context);
+                            Navigator.pop(context, 'Done');
+                          }
+                        }
+                      },
+                      style: FilledButton.styleFrom(
+                        minimumSize: const Size(170, 45),
+                        backgroundColor: const Color.fromRGBO(101, 166, 91, 1),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: Text(
+                        t.btn_confirm_receipt,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(width: 10.0),
+
+                  Expanded(
+                    child: FilledButton(
+                      onPressed: () async {
+                        final confirmed = await showDialog<String>(
+                          context: context,
+                          barrierDismissible: true,
+                          barrierColor: Colors.black54,
+                          builder: (_) => AlertDialog(
+                            backgroundColor: Colors.white,
+                            surfaceTintColor: Colors.transparent,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            elevation: 8,
+                            alignment: Alignment.center,
+                            titlePadding: const EdgeInsets.fromLTRB(
+                              20,
+                              20,
+                              20,
+                              0,
+                            ),
+                            contentPadding: const EdgeInsets.fromLTRB(
+                              20,
+                              10,
+                              20,
+                              20,
+                            ),
+                            actionsPadding: const EdgeInsets.fromLTRB(
+                              20,
+                              0,
+                              20,
+                              20,
+                            ),
+                            title: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  t.dialog_are_you_sure,
+                                  style: const TextStyle(
+                                    color: Color.fromRGBO(46, 23, 21, 1),
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            content: Text(
+                              t.dialog_remove_permanently_note,
                               textAlign: TextAlign.center,
                             ),
                             actionsAlignment: MainAxisAlignment.end,
                             actions: [
                               FilledButton(
                                 onPressed: () {
-                                  Navigator.pop(context, 'Continue');
+                                  Navigator.pop(context, 'Confirm');
                                 },
                                 style: FilledButton.styleFrom(
                                   minimumSize: const Size(double.infinity, 45),
@@ -333,9 +441,29 @@ class _MatchAfterAcceptingPageState extends State<MatchAfterAcceptingPage> {
                                   ),
                                 ),
                                 child: Text(
-                                  t.btn_continue,
+                                  t.btn_confirm,
                                   style: const TextStyle(
                                     color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 10.0),
+                              OutlinedButton(
+                                onPressed: () {
+                                  Navigator.pop(context, 'Cancel');
+                                },
+                                style: OutlinedButton.styleFrom(
+                                  minimumSize: const Size(double.infinity, 45),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                                child: Text(
+                                  t.btn_cancel,
+                                  style: const TextStyle(
+                                    color: Color.fromRGBO(46, 23, 21, 1),
                                     fontWeight: FontWeight.bold,
                                     fontSize: 16,
                                   ),
@@ -344,150 +472,25 @@ class _MatchAfterAcceptingPageState extends State<MatchAfterAcceptingPage> {
                             ],
                           ),
                         );
-
-                        if (done == 'Continue') {
+                        if (confirmed == 'Confirm') {
                           if (!context.mounted) return;
-                          Navigator.pop(context);
-                          Navigator.pop(context, 'Done');
+                          Navigator.pop(context, 'Revoked');
                         }
-                      }
-                    },
-                    style: FilledButton.styleFrom(
-                      minimumSize: const Size(170, 45),
-                      backgroundColor: const Color.fromRGBO(101, 166, 91, 1),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: Text(
-                      t.btn_confirm_receipt,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(width: 10.0),
-
-                  FilledButton(
-                    onPressed: () async {
-                      final confirmed = await showDialog<String>(
-                        context: context,
-                        barrierDismissible: true,
-                        barrierColor: Colors.black54,
-                        builder: (_) => AlertDialog(
-                          backgroundColor: Colors.white,
-                          surfaceTintColor: Colors.transparent,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          elevation: 8,
-                          alignment: Alignment.center,
-                          titlePadding: const EdgeInsets.fromLTRB(
-                            20,
-                            20,
-                            20,
-                            0,
-                          ),
-                          contentPadding: const EdgeInsets.fromLTRB(
-                            20,
-                            10,
-                            20,
-                            20,
-                          ),
-                          actionsPadding: const EdgeInsets.fromLTRB(
-                            20,
-                            0,
-                            20,
-                            20,
-                          ),
-                          title: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                t.dialog_are_you_sure,
-                                style: const TextStyle(
-                                  color: Color.fromRGBO(46, 23, 21, 1),
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                          content: Text(
-                            t.dialog_remove_permanently_note,
-                            textAlign: TextAlign.center,
-                          ),
-                          actionsAlignment: MainAxisAlignment.end,
-                          actions: [
-                            FilledButton(
-                              onPressed: () {
-                                Navigator.pop(context, 'Confirm');
-                              },
-                              style: FilledButton.styleFrom(
-                                minimumSize: const Size(double.infinity, 45),
-                                backgroundColor: const Color.fromRGBO(
-                                  46,
-                                  23,
-                                  21,
-                                  1,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                              child: Text(
-                                t.btn_confirm,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 10.0),
-                            OutlinedButton(
-                              onPressed: () {
-                                Navigator.pop(context, 'Cancel');
-                              },
-                              style: OutlinedButton.styleFrom(
-                                minimumSize: const Size(double.infinity, 45),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                              child: Text(
-                                t.btn_cancel,
-                                style: const TextStyle(
-                                  color: Color.fromRGBO(46, 23, 21, 1),
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ),
-                          ],
+                      },
+                      style: FilledButton.styleFrom(
+                        minimumSize: const Size(170, 45),
+                        backgroundColor: const Color.fromRGBO(166, 91, 91, 1),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                      );
-                      if (confirmed == 'Confirm') {
-                        if (!context.mounted) return;
-                        Navigator.pop(context, 'Revoked');
-                      }
-                    },
-                    style: FilledButton.styleFrom(
-                      minimumSize: const Size(170, 45),
-                      backgroundColor: const Color.fromRGBO(166, 91, 91, 1),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
                       ),
-                    ),
-                    child: Text(
-                      t.btn_revoke,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 12,
+                      child: Text(
+                        t.btn_revoke,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                        ),
                       ),
                     ),
                   ),

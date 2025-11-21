@@ -292,27 +292,28 @@ class _ChatPageState extends State<ChatPage> {
                       ),
 
                       // Text input for typing message (currently not saved)
-                      Container(
-                        height: 40,
-                        width: 300,
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade200,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: TextField(
-                          autocorrect: false,
-                          decoration: InputDecoration(
-                            hintText: t.chat_hint,
-                            border: InputBorder.none,
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                              vertical: 10,
-                            ),
+                      Expanded(
+                        child: Container(
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade200,
+                            borderRadius: BorderRadius.circular(20),
                           ),
-                          onEditingComplete: () {
-                            // Hide keyboard when user presses "done"
-                            FocusScope.of(context).unfocus();
-                          },
+                          child: TextField(
+                            autocorrect: false,
+                            decoration: InputDecoration(
+                              hintText: t.chat_hint,
+                              border: InputBorder.none,
+                              contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 10,
+                              ),
+                            ),
+                            onEditingComplete: () {
+                              // Hide keyboard when user presses "done"
+                              FocusScope.of(context).unfocus();
+                            },
+                          ),
                         ),
                       ),
 

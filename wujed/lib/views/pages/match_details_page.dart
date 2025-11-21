@@ -157,269 +157,272 @@ class _MatchDetailsPageState extends State<MatchDetailsPage> {
               ),
               const SizedBox(height: 20.0),
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  FilledButton(
-                    onPressed: () async {
-                      final confirmed = await showDialog<String>(
-                        context: context,
-                        barrierDismissible: true,
-                        barrierColor: Colors.black54,
-                        builder: (_) => AlertDialog(
-                          backgroundColor: Colors.white,
-                          surfaceTintColor: Colors.transparent,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          elevation: 8,
-                          alignment: Alignment.center,
-                          titlePadding: const EdgeInsets.fromLTRB(
-                            20,
-                            20,
-                            20,
-                            0,
-                          ),
-                          contentPadding: const EdgeInsets.fromLTRB(
-                            20,
-                            10,
-                            20,
-                            20,
-                          ),
-                          actionsPadding: const EdgeInsets.fromLTRB(
-                            20,
-                            0,
-                            20,
-                            20,
-                          ),
-                          title: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                t.dialog_are_you_sure_item,
-                                style: const TextStyle(
-                                  color: Color.fromRGBO(46, 23, 21, 1),
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
+                  Expanded(
+                    child: FilledButton(
+                      onPressed: () async {
+                        final confirmed = await showDialog<String>(
+                          context: context,
+                          barrierDismissible: true,
+                          barrierColor: Colors.black54,
+                          builder: (_) => AlertDialog(
+                            backgroundColor: Colors.white,
+                            surfaceTintColor: Colors.transparent,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            elevation: 8,
+                            alignment: Alignment.center,
+                            titlePadding: const EdgeInsets.fromLTRB(
+                              20,
+                              20,
+                              20,
+                              0,
+                            ),
+                            contentPadding: const EdgeInsets.fromLTRB(
+                              20,
+                              10,
+                              20,
+                              20,
+                            ),
+                            actionsPadding: const EdgeInsets.fromLTRB(
+                              20,
+                              0,
+                              20,
+                              20,
+                            ),
+                            title: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  t.dialog_are_you_sure_item,
+                                  style: const TextStyle(
+                                    color: Color.fromRGBO(46, 23, 21, 1),
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            content: Text(
+                              t.dialog_accept_match_note,
+                              textAlign: TextAlign.center,
+                            ),
+                            actionsAlignment: MainAxisAlignment.end,
+                            actions: [
+                              FilledButton(
+                                onPressed: () {
+                                  Navigator.pop(context, 'Confirm');
+                                },
+                                style: FilledButton.styleFrom(
+                                  minimumSize: const Size(double.infinity, 45),
+                                  backgroundColor: const Color.fromRGBO(
+                                    46,
+                                    23,
+                                    21,
+                                    1,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                                child: Text(
+                                  t.btn_confirm,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 10.0),
+                              OutlinedButton(
+                                onPressed: () {
+                                  Navigator.pop(context, 'Cancel');
+                                },
+                                style: OutlinedButton.styleFrom(
+                                  minimumSize: const Size(double.infinity, 45),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                                child: Text(
+                                  t.btn_cancel,
+                                  style: const TextStyle(
+                                    color: Color.fromRGBO(46, 23, 21, 1),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
                                 ),
                               ),
                             ],
                           ),
-                          content: Text(
-                            t.dialog_accept_match_note,
-                            textAlign: TextAlign.center,
-                          ),
-                          actionsAlignment: MainAxisAlignment.end,
-                          actions: [
-                            FilledButton(
-                              onPressed: () {
-                                Navigator.pop(context, 'Confirm');
-                              },
-                              style: FilledButton.styleFrom(
-                                minimumSize: const Size(double.infinity, 45),
-                                backgroundColor: const Color.fromRGBO(
-                                  46,
-                                  23,
-                                  21,
-                                  1,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                              child: Text(
-                                t.btn_confirm,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                ),
+                        );
+                    
+                        if (confirmed == 'Confirm') {
+                          if (!context.mounted) return;
+                          const String matchedUser = 'MatchedUser1';
+                    
+                          const String reportId = 'coffee_brewer_1'; 
+                          MatchStore.instance.accept(reportId);
+                    
+                          ChatStore.instance.addUser(matchedUser);
+                    
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                "Your match has been accepted! Check your chat with $matchedUser",
                               ),
                             ),
-                            const SizedBox(height: 10.0),
-                            OutlinedButton(
-                              onPressed: () {
-                                Navigator.pop(context, 'Cancel');
-                              },
-                              style: OutlinedButton.styleFrom(
-                                minimumSize: const Size(double.infinity, 45),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                              child: Text(
-                                t.btn_cancel,
-                                style: const TextStyle(
-                                  color: Color.fromRGBO(46, 23, 21, 1),
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                ),
-                              ),
+                          );
+                    
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => ChatPage(location: false, name: matchedUser),
                             ),
-                          ],
+                          );
+                        }
+                    
+                      },
+                      style: FilledButton.styleFrom(
+                        minimumSize: const Size(170, 45),
+                        backgroundColor: const Color.fromRGBO(101, 166, 91, 1),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                      );
-
-                      if (confirmed == 'Confirm') {
-                        if (!context.mounted) return;
-                        const String matchedUser = 'MatchedUser1';
-
-                        const String reportId = 'coffee_brewer_1'; 
-                        MatchStore.instance.accept(reportId);
-
-                        ChatStore.instance.addUser(matchedUser);
-
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              "Your match has been accepted! Check your chat with $matchedUser",
-                            ),
-                          ),
-                        );
-
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => ChatPage(location: false, name: matchedUser),
-                          ),
-                        );
-                      }
-
-                    },
-                    style: FilledButton.styleFrom(
-                      minimumSize: const Size(170, 45),
-                      backgroundColor: const Color.fromRGBO(101, 166, 91, 1),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
                       ),
-                    ),
-                    child: Text(
-                      t.btn_accept,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 12,
+                      child: Text(
+                        t.btn_accept,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                        ),
                       ),
                     ),
                   ),
                   const SizedBox(width: 10.0),
-                  FilledButton(
-                    onPressed: () async {
-                      final confirmed = await showDialog<String>(
-                        context: context,
-                        barrierDismissible: true,
-                        barrierColor: Colors.black54,
-                        builder: (_) => AlertDialog(
-                          backgroundColor: Colors.white,
-                          surfaceTintColor: Colors.transparent,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          elevation: 8,
-                          alignment: Alignment.center,
-                          titlePadding: const EdgeInsets.fromLTRB(
-                            20,
-                            20,
-                            20,
-                            0,
-                          ),
-                          contentPadding: const EdgeInsets.fromLTRB(
-                            20,
-                            10,
-                            20,
-                            20,
-                          ),
-                          actionsPadding: const EdgeInsets.fromLTRB(
-                            20,
-                            0,
-                            20,
-                            20,
-                          ),
-                          title: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                t.dialog_are_you_sure,
-                                style: const TextStyle(
-                                  color: Color.fromRGBO(46, 23, 21, 1),
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
+                  Expanded(
+                    child: FilledButton(
+                      onPressed: () async {
+                        final confirmed = await showDialog<String>(
+                          context: context,
+                          barrierDismissible: true,
+                          barrierColor: Colors.black54,
+                          builder: (_) => AlertDialog(
+                            backgroundColor: Colors.white,
+                            surfaceTintColor: Colors.transparent,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            elevation: 8,
+                            alignment: Alignment.center,
+                            titlePadding: const EdgeInsets.fromLTRB(
+                              20,
+                              20,
+                              20,
+                              0,
+                            ),
+                            contentPadding: const EdgeInsets.fromLTRB(
+                              20,
+                              10,
+                              20,
+                              20,
+                            ),
+                            actionsPadding: const EdgeInsets.fromLTRB(
+                              20,
+                              0,
+                              20,
+                              20,
+                            ),
+                            title: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  t.dialog_are_you_sure,
+                                  style: const TextStyle(
+                                    color: Color.fromRGBO(46, 23, 21, 1),
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            content: Text(
+                              t.dialog_remove_permanently_note,
+                              textAlign: TextAlign.center,
+                            ),
+                            actionsAlignment: MainAxisAlignment.end,
+                            actions: [
+                              FilledButton(
+                                onPressed: () {
+                                  Navigator.pop(context, 'Confirm');
+                                },
+                                style: FilledButton.styleFrom(
+                                  minimumSize: const Size(double.infinity, 45),
+                                  backgroundColor: const Color.fromRGBO(
+                                    46,
+                                    23,
+                                    21,
+                                    1,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                                child: Text(
+                                  t.btn_confirm,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 10.0),
+                              OutlinedButton(
+                                onPressed: () {
+                                  Navigator.pop(context, 'Cancel');
+                                },
+                                style: OutlinedButton.styleFrom(
+                                  minimumSize: const Size(double.infinity, 45),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                                child: Text(
+                                  t.btn_cancel,
+                                  style: const TextStyle(
+                                    color: Color.fromRGBO(46, 23, 21, 1),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16,
+                                  ),
                                 ),
                               ),
                             ],
                           ),
-                          content: Text(
-                            t.dialog_remove_permanently_note,
-                            textAlign: TextAlign.center,
-                          ),
-                          actionsAlignment: MainAxisAlignment.end,
-                          actions: [
-                            FilledButton(
-                              onPressed: () {
-                                Navigator.pop(context, 'Confirm');
-                              },
-                              style: FilledButton.styleFrom(
-                                minimumSize: const Size(double.infinity, 45),
-                                backgroundColor: const Color.fromRGBO(
-                                  46,
-                                  23,
-                                  21,
-                                  1,
-                                ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                              child: Text(
-                                t.btn_confirm,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ),
-                            const SizedBox(height: 10.0),
-                            OutlinedButton(
-                              onPressed: () {
-                                Navigator.pop(context, 'Cancel');
-                              },
-                              style: OutlinedButton.styleFrom(
-                                minimumSize: const Size(double.infinity, 45),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                              child: Text(
-                                t.btn_cancel,
-                                style: const TextStyle(
-                                  color: Color.fromRGBO(46, 23, 21, 1),
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ),
-                          ],
+                        );
+                    
+                        if (confirmed == 'Confirm') {
+                          if (!context.mounted) return;
+                          Navigator.pop(context, 'Rejected');
+                        }
+                      },
+                      style: FilledButton.styleFrom(
+                        minimumSize: const Size(170, 45),
+                        backgroundColor: const Color.fromRGBO(166, 91, 91, 1),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                      );
-
-                      if (confirmed == 'Confirm') {
-                        if (!context.mounted) return;
-                        Navigator.pop(context, 'Rejected');
-                      }
-                    },
-                    style: FilledButton.styleFrom(
-                      minimumSize: const Size(170, 45),
-                      backgroundColor: const Color.fromRGBO(166, 91, 91, 1),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
                       ),
-                    ),
-                    child: Text(
-                      t.btn_reject,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 12,
+                      child: Text(
+                        t.btn_reject,
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12,
+                        ),
                       ),
                     ),
                   ),
