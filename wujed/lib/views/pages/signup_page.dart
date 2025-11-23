@@ -312,7 +312,7 @@ class _SignupPageState extends State<SignupPage> {
                           maxLength: 20,
                           decoration: InputDecoration(
                             counterText: '',
-                            labelText: t.signup_username_label,
+                            labelText: t.login_email_label,
                             labelStyle: const TextStyle(fontSize: 16.0),
                             floatingLabelBehavior:
                                 FloatingLabelBehavior.always,
@@ -322,8 +322,9 @@ class _SignupPageState extends State<SignupPage> {
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(14),
                             ),
-                            focusedBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(14),
+                              borderSide: const BorderSide(
                                 color: Color.fromRGBO(46, 23, 21, 1),
                                 width: 2.0,
                               ),
@@ -362,7 +363,7 @@ class _SignupPageState extends State<SignupPage> {
                             ),
                           ],
                           decoration: InputDecoration(
-                            labelText: t.signup_email_label,
+                            labelText: t.login_email_label,
                             labelStyle: const TextStyle(fontSize: 16.0),
                             floatingLabelBehavior:
                                 FloatingLabelBehavior.always,
@@ -372,8 +373,9 @@ class _SignupPageState extends State<SignupPage> {
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(14),
                             ),
-                            focusedBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(14),
+                              borderSide: const BorderSide(
                                 color: Color.fromRGBO(46, 23, 21, 1),
                                 width: 2.0,
                               ),
@@ -407,7 +409,7 @@ class _SignupPageState extends State<SignupPage> {
                           autocorrect: false,
                           obscureText: hidePassword,
                           decoration: InputDecoration(
-                            labelText: t.signup_password_label,
+                            labelText: t.login_email_label,
                             labelStyle: const TextStyle(fontSize: 16.0),
                             floatingLabelBehavior:
                                 FloatingLabelBehavior.always,
@@ -417,12 +419,14 @@ class _SignupPageState extends State<SignupPage> {
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(14),
                             ),
-                            focusedBorder: const OutlineInputBorder(
-                              borderSide: BorderSide(
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(14),
+                              borderSide: const BorderSide(
                                 color: Color.fromRGBO(46, 23, 21, 1),
                                 width: 2.0,
                               ),
                             ),
+                          
                             suffixIcon: IconButton(
                               onPressed: () => setState(() {
                                 hidePassword = !hidePassword;

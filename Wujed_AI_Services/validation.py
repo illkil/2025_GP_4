@@ -111,7 +111,7 @@ def analyze_images_for_objects(image_urls: list[str]) -> dict:
 
     for image_url in image_urls:
       try:
-        http_response = requests.get(image_url, timeout=8)
+        http_response = requests.get(image_url, timeout=10)
         http_response.raise_for_status()
         image_content = http_response.content
       except Exception as error:

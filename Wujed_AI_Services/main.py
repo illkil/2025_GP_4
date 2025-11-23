@@ -19,7 +19,7 @@ CATEGORIES = [ #predefined categories
     "electronics",
     "clothing",
     "bags and wallets",
-    "documents and ids",
+    "documents/books and ids",
     "keys",
     "cosmetics and personal care",
     "accessories and jewelry",
@@ -48,7 +48,7 @@ def classify(request: ClassifyRequest):
     accepted = validation_result["accepted"]
     reject_reason = validation_result["reason"]
     image_analysis = validation_result["image_analysis"]
-    report_type = validation_result["normalized_type"]
+    #report_type = validation_result["normalized_type"]
     cleaned_text = validation_result.get("cleaned_text")
 
     # If report was not valid return immediately, do not go through categorization
@@ -95,8 +95,7 @@ def classify(request: ClassifyRequest):
     Decision Rules:
     1. If the image labels strongly indicate a specific physical object (example: water bottle, bag, phone, wallet, keys), then trust the image over the text.
     2. Only trust the text (title/description) when the image labels are unclear or generic.
-    3. If text and image disagree but the image is strong, assume the user described the wrong item by mistake.
-    4. Return only the final category name. No explanation.
+    3. Return only the final category name. No explanation.
 
     Return the single best category:
     """
