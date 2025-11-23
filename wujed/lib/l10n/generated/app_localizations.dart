@@ -1495,6 +1495,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The image looks unclear. Try uploading a clearer photo.'**
   String get image_unclear;
+
+  /// No description provided for @error_profile_picture_update_failed.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to update profile picture. Please try again.'**
+  String get error_profile_picture_update_failed;
+
+  /// No description provided for @success_profile_picture_updated.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile picture updated successfully!'**
+  String get success_profile_picture_updated;
+
+  /// No description provided for @validation_phone_9_digits.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number must be exactly 9 numbers'**
+  String get validation_phone_9_digits;
 }
 
 class _AppLocalizationsDelegate

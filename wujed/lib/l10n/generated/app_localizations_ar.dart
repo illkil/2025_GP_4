@@ -750,4 +750,15 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get image_unclear => 'الصورة تبدو غير واضحة، حاول رفع صورة اوضح.';
+
+  @override
+  String get error_profile_picture_update_failed =>
+      'فشل تحديث صورة الملف الشخصي. حاول مرة أخرى.';
+
+  @override
+  String get success_profile_picture_updated => 'تم تحديث الصورة بنجاح!';
+
+  @override
+  String get validation_phone_9_digits =>
+      'يجب أن يتكون رقم الهاتف من 9 أرقام بعد رمز الدولة.';
 }

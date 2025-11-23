@@ -304,6 +304,8 @@
   "couldnt_process": "Your report could not be processed. Please try again.",
   "describe_clearly": "Please describe the item more clearly.",
   "image_unclear": "The image looks unclear. Try uploading a clearer photo.",
-  "couldnt_process": "Your report could not be processed. Please try again."
-
+  "couldnt_process": "Your report could not be processed. Please try again.",
+  "error_profile_picture_update_failed": "Failed to update profile picture. Please try again.",
+  "success_profile_picture_updated": "Profile picture updated successfully!",
+  "validation_phone_9_digits": "Phone number must be exactly 9 numbers"
 }

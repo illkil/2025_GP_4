@@ -72,6 +72,12 @@ class _ProfilePageState extends State<ProfilePage> {
 
     final t = AppLocalizations.of(context);
 
+    // التحقق من وجود رابط الصورة
+    bool hasProfilePhoto = userData['profile_photo'] != null &&
+        userData['profile_photo'].toString().isNotEmpty;
+// 🚨 استخدام متغير لتخزين رابط الصورة لتسهيل القراءة وتطبيق المفتاح
+final String profilePhotoUrl = hasProfilePhoto ? userData['profile_photo'] : '';
+
     return Scaffold(
       backgroundColor: const Color.fromRGBO(249, 249, 249, 1),
       appBar: AppBar(
@@ -84,7 +90,8 @@ class _ProfilePageState extends State<ProfilePage> {
               MaterialPageRoute(builder: (_) => const EditProfilePage()),
             );
 
-            if (updated) {
+            // عند العودة من صفحة التعديل، إذا تم التحديث، أعد تحميل البيانات
+            if (updated == true) {
               _loadUserData();
             }
           },
@@ -185,11 +192,9 @@ class _ProfilePageState extends State<ProfilePage> {
                               ],
                             ),
                           ),
-
                           const SizedBox(height: 10.0),
                           const Divider(),
                           const SizedBox(height: 10.0),
-
                           GestureDetector(
                             onTap: () async {
                               Navigator.push(
@@ -220,11 +225,9 @@ class _ProfilePageState extends State<ProfilePage> {
                               ],
                             ),
                           ),
-
                           const SizedBox(height: 10.0),
                           const Divider(),
                           const SizedBox(height: 10.0),
-
                           GestureDetector(
                             onTap: () async {
                               if (GoogleSignInService.getCurrentUser() !=
@@ -280,24 +283,34 @@ class _ProfilePageState extends State<ProfilePage> {
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(
-                  width: 95,
-                  height: 95,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.grey.shade500,
-                  ),
-                  child: const Icon(
-                    IconlyBold.profile,
-                    color: Colors.white,
-                    size: 70,
-                  ),
-                ),
+children: [
+                        // ----------------------------------------------------
+                        // 🖼️ الكود المُعدَّل لعرض الصورة الشخصية
+                        // ----------------------------------------------------
+                        CircleAvatar(
+                            // 💡 المفتاح يتغير عند تغيير رابط الصورة، مما يجبر Flutter على إعادة بناء الـ CircleAvatar بالكامل
+                            key: ValueKey(profilePhotoUrl), 
+                            radius: 47.5,
+                            backgroundColor: Colors.grey.shade500,
+                            // إذا كانت هناك صورة، اعرضها
+                            backgroundImage: hasProfilePhoto
+                                ? NetworkImage(profilePhotoUrl)
+                                : null,
+                            // إذا لم تكن هناك صورة، اعرض الأيقونة
+                            child: hasProfilePhoto
+                                ? null // لا شيء إذا كان هناك صورة
+                                : const Icon( // عرض الأيقونة إذا لم تكن هناك صورة
+                                    IconlyBold.profile,
+                                    color: Colors.white,
+                                    size: 70,
+                                ),
+                        ),
+                // ----------------------------------------------------
+
                 const SizedBox(height: 10.0),
                 Text(
                   userData['username'], //get user data
-                  style: TextStyle(
+                  style: const TextStyle(
                     color: Color.fromRGBO(46, 23, 21, 1),
                     fontWeight: FontWeight.bold,
                     fontSize: 24,
@@ -308,7 +321,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   style: TextStyle(color: Colors.grey.shade600, fontSize: 14),
                 ),
                 const SizedBox(height: 20.0),
-
                 Row(
                   children: [
                     Text(
@@ -327,9 +339,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ? userData['first_name']
                       : t.placeholder_not_provided, //display first name if exist, else display Not provided
                 ),
-
                 const SizedBox(height: 20.0),
-
                 Row(
                   children: [
                     Text(
@@ -348,9 +358,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ? userData['last_name']
                       : t.placeholder_not_provided, //display last name if exist, else display Not provided
                 ),
-
                 const SizedBox(height: 20.0),
-
                 Row(
                   children: [
                     Text(

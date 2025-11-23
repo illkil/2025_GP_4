@@ -754,4 +754,16 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get image_unclear =>
       'The image looks unclear. Try uploading a clearer photo.';
+
+  @override
+  String get error_profile_picture_update_failed =>
+      'Failed to update profile picture. Please try again.';
+
+  @override
+  String get success_profile_picture_updated =>
+      'Profile picture updated successfully!';
+
+  @override
+  String get validation_phone_9_digits =>
+      'Phone number must be exactly 9 numbers';
 }

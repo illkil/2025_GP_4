@@ -256,3 +256,136 @@ body[dir="rtl"] .sort-panel-close {
   background-color: #2E1715;
   color: #fff;
 }
+
+/* ===========================
+     📱 Responsive: Mobile
+   =========================== */
+@media (max-width: 768px) {
+
+  /* Sidebar تصغير */
+  .sidebar {
+    width: 150px;
+    padding: 10px;
+  }
+
+  .brand img {
+    width: 28px;
+    height: 28px;
+  }
+
+  .brand .name {
+    font-size: 14px;
+  }
+
+  .nav-item {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  /* محتوى الصفحة */
+  .content {
+    padding: 12px 14px;
+  }
+
+  .header {
+    margin-bottom: 8px;
+  }
+
+  .crumbs {
+    font-size: 14px;
+  }
+
+  /* زر الفرز */
+  .sort-btn .iconify {
+    width: 26px;
+    height: 26px;
+  }
+
+  /* البانل */
+  .sort-panel {
+    width: 210px;
+    right: 10px;
+    padding: 10px;
+  }
+
+  body[dir="rtl"] .sort-panel {
+    left: 10px;
+  }
+
+  /* قائمة البلاغات */
+  .report {
+    padding: 14px 0;
+  }
+
+  .r-title {
+    font-size: 18px;
+  }
+
+  .r-reason, .r-date {
+    font-size: 16px;
+  }
+
+  .report-row {
+    grid-template-columns: 1fr 40px;
+    gap: 10px;
+  }
+
+  .chevron {
+    width: 36px;
+    height: 36px;
+  }
+
+  /* التفاصيل */
+  .details-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .detail-image {
+    width: 100%;
+    height: 200px;
+  }
+
+  .field {
+    width: 100%;
+  }
+
+  .value.title,
+  .value.desc {
+    width: 100%;
+  }
+
+  /* أزرار الإجراءات */
+  .actions {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .btn {
+    width: 45%;
+    height: 46px;
+    font-size: 18px;
+  }
+
+  /* التوست */
+  .toast {
+    min-width: 280px;
+    max-width: 90%;
+  }
+
+  /* المودال */
+  #logoutModal .modal-content {
+    width: 90%;
+    min-width: unset;
+    padding: 16px 20px;
+  }
+
+  #logoutModal #logoutMessage {
+    font-size: 16px;
+  }
+
+  #logoutModal button {
+    padding: 6px 12px;
+    font-size: 14px;
+  }
+}

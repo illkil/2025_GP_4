@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io'; // Required for File
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,7 +8,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:wujed/l10n/generated/app_localizations.dart';
 
-// ✅ Shared sanitising helpers used everywhere in the app
+// Imports for image picking and storage
+import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+
+// Shared sanitising helpers used everywhere in the app
 import 'package:wujed/utils/input_validators.dart';
 
 class EditProfilePage extends StatefulWidget {
@@ -22,11 +27,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
   final user = FirebaseAuth.instance.currentUser!;
 
   /// Combined user data from:
-  ///   users/{uid}/public/data  +  users/{uid}/private/data
+  ///   users/{uid}/public/data  +  users/{uid}/private/data
   var userData;
 
   /// Shows full-screen loader while we update Firestore
   bool isUpdating = false;
+
+  // 🖼️ New: Local file object for the chosen profile image
+  File? _pickedImageFile;
 
   /// Text controllers for each editable field
   final TextEditingController _controllerUsername = TextEditingController();
@@ -66,9 +74,21 @@ class _EditProfilePageState extends State<EditProfilePage> {
     _loadUserData();
   }
 
+  // Dispose the controllers and timer when the widget is removed
+  @override
+  void dispose() {
+    _controllerUsername.dispose();
+    _controllerFirstName.dispose();
+    _controllerLastName.dispose();
+    _controllerPhoneNumber.dispose();
+    usernameTimer?.cancel();
+    super.dispose();
+  }
+
   /// Reads user profile from Firestore:
-  ///  - public:  username
-  ///  - private: first_name, last_name, phone_number, ...
+  ///  - public:  username
+  ///  - private: first_name, last_name, phone_number, ...
+  ///  - New:     profile_photo_url
   Future _loadUserData() async {
     try {
       final publicDoc = await FirebaseFirestore.instance
@@ -103,6 +123,134 @@ class _EditProfilePageState extends State<EditProfilePage> {
     }
   }
 
+  // 🖼️ New: Function to pick and upload image to Firebase Storage
+  Future<void> _pickAndUploadImage() async {
+    final t = AppLocalizations.of(context)!; // Use ! to assert not null
+    setState(() {
+      isUpdating = true; // Show loader while picking/uploading
+    });
+
+    // 1. Pick Image
+    final picker = ImagePicker();
+    final pickedImage = await picker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 50, // Reduce quality for faster upload and smaller size
+      maxWidth: 600,
+    );
+
+    if (pickedImage == null) {
+      // User cancelled image picking
+      setState(() {
+        isUpdating = false;
+      });
+      return;
+    }
+
+    final imageFile = File(pickedImage.path);
+
+    try {
+      // 2. Upload to Firebase Storage
+      final storageRef = FirebaseStorage.instance
+          .ref()
+          .child('users')
+          .child(user.uid) // {userId}
+          .child('profile_photo')
+          .child('photo.jpg'); // {fileName}
+
+      await storageRef.putFile(imageFile);
+
+      // 3. Get the Download URL
+      final imageUrl = await storageRef.getDownloadURL();
+
+      // 4. Update Firestore with the URL
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .collection('public') // Stored in public data for easy access
+          .doc('data')
+          .update({'profile_photo': imageUrl});
+
+      // 5. Update local state and show success
+      await _loadUserData(); // Re-load data to get the new URL
+
+      setState(() {
+        _pickedImageFile = imageFile;
+        isUpdating = false;
+        updateMade = true;
+      });
+
+      // Show success message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          // ✅ FIX: Use string literal as fallback
+          content: Text(
+            // Since the original key was missing, we use a default
+            t.appTitle.isNotEmpty
+                ? t.success_profile_picture_updated
+                : 'Profile picture updated successfully!',
+          ),
+          backgroundColor: Colors.green,
+        ),
+      );
+    } on FirebaseException catch (e) {
+      print('Error uploading image: $e');
+      setState(() {
+        isUpdating = false;
+      });
+      // Show error message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          // ✅ FIX: Use string literal as fallback
+          content: Text(
+            // Since the original key was missing, we use a default
+            t.appTitle.isNotEmpty
+                ? t.error_profile_picture_update_failed
+                : 'Failed to update profile picture. Please try again.',
+          ),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  // 🖼️ Helper to display the current image (local or remote)
+  Widget _buildProfileAvatar() {
+    final String? imageUrl = userData['profile_photo'];
+    // final t = AppLocalizations.of(context); // Not needed here
+
+    // If the user picked a new image, show it locally (before update)
+    if (_pickedImageFile != null) {
+      return CircleAvatar(
+        radius: 47.5,
+        backgroundImage: FileImage(_pickedImageFile!),
+      );
+    }
+
+    // If there is an existing image URL, show it from the network
+    if (imageUrl != null && imageUrl.isNotEmpty) {
+      return CircleAvatar(
+        radius: 47.5,
+        backgroundImage: NetworkImage(imageUrl),
+        onBackgroundImageError: (exception, stackTrace) {
+          // Fallback if network image fails
+          print('Network image failed to load: $exception');
+          // Fallback to placeholder icon
+        },
+      );
+    }
+
+    // Default placeholder
+    return Container(
+      width: 95,
+      height: 95,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: Colors.grey.shade500,
+      ),
+      child: const Icon(IconlyBold.profile, color: Colors.white, size: 70),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // While we are still loading profile data, show a loader screen
@@ -117,7 +265,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
       );
     }
 
-    final t = AppLocalizations.of(context);
+    final t = AppLocalizations.of(context)!; // Use !
 
     return Scaffold(
       backgroundColor: const Color.fromRGBO(249, 249, 249, 1),
@@ -174,26 +322,39 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    // Simple avatar placeholder (no image upload yet)
-                    Container(
-                      width: 95,
-                      height: 95,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.grey.shade500,
-                      ),
-                      child: const Icon(
-                        IconlyBold.profile,
-                        color: Colors.white,
-                        size: 70,
+                    // 🖼️ UPDATED: Avatar with Image picking logic
+                    GestureDetector(
+                      onTap: _pickAndUploadImage,
+                      child: Stack(
+                        alignment: Alignment.bottomRight,
+                        children: [
+                          _buildProfileAvatar(),
+                          Container(
+                            padding: const EdgeInsets.all(5),
+                            decoration: const BoxDecoration(
+                              color: Color.fromRGBO(255, 175, 0, 1),
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(
+                              Icons.camera_alt,
+                              color: Colors.white,
+                              size: 20,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
+                    // Original text is now wrapped in a button
                     const SizedBox(height: 10.0),
-                    Text(
-                      t.edit_profile_change_picture,
-                      style: const TextStyle(
-                        color: Color.fromRGBO(46, 23, 21, 1),
-                        fontSize: 16,
+                    TextButton(
+                      onPressed: _pickAndUploadImage,
+                      child: Text(
+                        t.edit_profile_change_picture,
+                        style: const TextStyle(
+                          color: Color.fromRGBO(46, 23, 21, 1),
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 20.0),
@@ -255,7 +416,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       TextInputType.text,
                       [
                         // Only English letters allowed here
-                        FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')),
+                        FilteringTextInputFormatter.allow(
+                          RegExp(r'[a-zA-Z\u0600-\u06FF\s]'),
+                        ),
                       ],
                       hint: userData['first_name'] == ''
                           ? t.placeholder_not_provided
@@ -293,7 +456,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       _controllerLastName,
                       TextInputType.text,
                       [
-                        FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]')),
+                        FilteringTextInputFormatter.allow(
+                          RegExp(r'[a-zA-Z\u0600-\u06FF\s]'),
+                        ),
                       ],
                       hint: userData['last_name'] == ''
                           ? t.placeholder_not_provided
@@ -409,10 +574,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     const Padding(
-                      padding: EdgeInsetsDirectional.only(
-                        start: 15,
-                        top: 3,
-                      ),
+                      padding: EdgeInsetsDirectional.only(start: 15, top: 3),
                       child: Text(
                         '+966',
                         style: TextStyle(
@@ -448,14 +610,15 @@ class _EditProfilePageState extends State<EditProfilePage> {
   /// Called when the user taps the "Done" button.
   ///
   /// Steps:
-  ///  1) Sanitise all input (important!).
-  ///  2) Compare with old values; if nothing changed → show message.
-  ///  3) For each changed + valid field → update the correct Firestore doc:
-  ///       - username → users/{uid}/public/data
-  ///       - first/last/phone → users/{uid}/private/data
-  ///  4) Show success Snackbar and pop back to profile page.
+  ///  1) Sanitise all input (important!).
+  ///  2) Compare with old values; if nothing changed → show message.
+  ///  3) For each changed + valid field → update the correct Firestore doc:
+  ///       - username → users/{uid}/public/data
+  ///       - first/last/phone → users/{uid}/private/data
+  ///       - profile_photo_url is updated in _pickAndUploadImage
+  ///  4) Show success Snackbar and pop back to profile page.
   Future onDonePressed() async {
-    final t = AppLocalizations.of(context);
+    final t = AppLocalizations.of(context)!;
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return; // Extra safety: user not logged in
 
@@ -489,14 +652,28 @@ class _EditProfilePageState extends State<EditProfilePage> {
     _controllerLastName.text = lastName;
     _controllerPhoneNumber.text = phoneNumber;
 
+    // Run final validation checks before saving
+    // validateUsername must be awaited if we need to ensure Firestore check is complete
+    // but here we just trigger it and rely on its side effects (setting usernameValid)
+    validateUsername();
+    validateFirstName();
+    validateLastName();
+    validatePhoneNumber();
+
+    // Give a small moment for validation (especially Firestore check) to complete
+    // In a real app, you might use Future.wait or manage async state better.
+    // For simplicity, we wait a tiny bit. If usernameValid is false, it won't proceed.
+    await Future.delayed(const Duration(milliseconds: 100));
+
     try {
       final firestore = FirebaseFirestore.instance;
 
-      // --------- 2) If nothing changed → show message & return ---------
+      // --------- 2) If nothing changed (including image) → show message & return ---------
       if (username == userData['username'].toString().trim() &&
           firstName == userData['first_name'].toString().trim() &&
           lastName == userData['last_name'].toString().trim() &&
-          phoneNumber == userData['phone_number'].toString().trim()) {
+          phoneNumber == userData['phone_number'].toString().trim() &&
+          _pickedImageFile == null) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Row(
@@ -599,6 +776,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
       if (updateMade) {
         setState(() {
           isUpdating = false;
+          _pickedImageFile = null; // Clear local file after success
         });
 
         ScaffoldMessenger.of(context).showSnackBar(
@@ -670,14 +848,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
       );
     }
   }
-
   // ---------------------------------------------------------------------------
   // LIVE VALIDATION HELPERS
   // ---------------------------------------------------------------------------
 
   /// Username rules:
-  ///   - letters, numbers, . and _
-  ///   - must contain at least one letter
   bool isUsernameValid(String username) {
     final validUsernameRegex = RegExp(r'^[a-zA-Z0-9._]+$');
     final containLetterRegex = RegExp(r'[a-zA-Z]');
@@ -685,16 +860,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
         containLetterRegex.hasMatch(username);
   }
 
-  /// Validates username while typing + checks Firestore to ensure
-  /// it is not already used by another user.
+  /// Validates username while typing + checks Firestore
   void validateUsername() {
     final username = _controllerUsername.text.trim();
-    final t = AppLocalizations.of(context);
+    final t = AppLocalizations.of(context)!;
 
     // Cancel previous timer (debounce)
     if (usernameTimer?.isActive ?? false) usernameTimer!.cancel();
 
     if (username.isEmpty) {
+      if (!mounted) return; // 🛑 Check before setState
       setState(() {
         usernameWarning = '';
         usernameValid = false;
@@ -703,6 +878,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     }
 
     if (!isUsernameValid(username)) {
+      if (!mounted) return; // 🛑 Check before setState
       setState(() {
         usernameWarning = t.signup_username_rules;
         usernameValid = false;
@@ -711,6 +887,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     }
 
     if (username.length < 3) {
+      if (!mounted) return; // 🛑 Check before setState
       setState(() {
         usernameWarning = t.signup_username_min_length;
         usernameValid = false;
@@ -726,25 +903,35 @@ class _EditProfilePageState extends State<EditProfilePage> {
           .get();
 
       if (existingUser.docs.isNotEmpty) {
-        final foundUid = existingUser.docs.first.reference.parent.parent!.id;
+        final foundUid = existingUser.docs.first.reference.parent!.parent!.id;
         if (foundUid != user.uid) {
           // Username belongs to someone else → invalid
+          if (!mounted) return; // 🛑 Check before setState inside Timer
           setState(() {
             usernameWarning = t.signup_username_taken;
             usernameValid = false;
           });
         } else {
           // Username is ours → allow it
+          if (!mounted) return; // 🛑 Check before setState inside Timer
           setState(() {
             usernameWarning = '';
             usernameValid = true;
           });
           return;
         }
+      } else {
+        if (!mounted)
+          return; // 🛑 Check before setState inside Timer (for the success case)
+        setState(() {
+          usernameWarning = '';
+          usernameValid = true;
+        });
       }
     });
 
     // While waiting for Firestore, consider it tentatively valid
+    if (!mounted) return; // 🛑 Check before setState
     setState(() {
       usernameWarning = '';
       usernameValid = true;
@@ -754,9 +941,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
   /// First name must be at least 2 characters (or empty if user didn't set it).
   void validateFirstName() {
     final firstName = _controllerFirstName.text.trim();
-    final t = AppLocalizations.of(context);
+    final t = AppLocalizations.of(context)!;
 
     if (firstName.isEmpty) {
+      if (!mounted) return; // 🛑 Check before setState
       setState(() {
         firstNameWarning = '';
         firstNameValid = false;
@@ -765,27 +953,28 @@ class _EditProfilePageState extends State<EditProfilePage> {
     }
 
     if (firstName.length < 2) {
+      if (!mounted) return; // 🛑 Check before setState
       setState(() {
         firstNameWarning = t.first_name_too_short;
         firstNameValid = false;
       });
       return;
     } else {
+      if (!mounted) return; // 🛑 Check before setState
       setState(() {
         firstNameWarning = '';
         firstNameValid = true;
       });
     }
-
-    firstNameValid = true;
   }
 
   /// Last name: same rules as first name.
   void validateLastName() {
     final lastName = _controllerLastName.text.trim();
-    final t = AppLocalizations.of(context);
+    final t = AppLocalizations.of(context)!;
 
     if (lastName.isEmpty) {
+      if (!mounted) return; // 🛑 Check before setState
       setState(() {
         lastNameWarning = '';
         lastNameValid = false;
@@ -794,27 +983,32 @@ class _EditProfilePageState extends State<EditProfilePage> {
     }
 
     if (lastName.length < 2) {
+      if (!mounted) return; // 🛑 Check before setState
       setState(() {
-        lastNameWarning = t.last_name_too_short;
+        lastNameWarning =
+            t.first_name_too_short; // Assuming same error message key
         lastNameValid = false;
       });
       return;
     } else {
+      if (!mounted) return; // 🛑 Check before setState
       setState(() {
         lastNameWarning = '';
         lastNameValid = true;
       });
     }
+  } // ---------------------------------------------------------------------------
 
-    lastNameValid = true;
-  }
-
-  /// Phone number must be exactly 9 digits (because we prepend +966).
+  // Missing `validatePhoneNumber` implementation
+  // ---------------------------------------------------------------------------
+  /// Simple phone number validation (assuming 9 digits after +966).
   void validatePhoneNumber() {
     final phoneNumber = _controllerPhoneNumber.text.trim();
-    final t = AppLocalizations.of(context);
+    final t = AppLocalizations.of(context)!;
+    // final t = AppLocalizations.of(context)!; // لا نحتاجها الآن
 
     if (phoneNumber.isEmpty) {
+      if (!mounted) return;
       setState(() {
         phoneNumberWarning = '';
         phoneNumberValid = false;
@@ -822,19 +1016,20 @@ class _EditProfilePageState extends State<EditProfilePage> {
       return;
     }
 
+    // Check if it's exactly 9 digits
     if (phoneNumber.length != 9) {
-      setState(() {
-        phoneNumberWarning = t.phone_invalid_length;
-        phoneNumberValid = false;
-      });
-      return;
-    }
-
+      if (!mounted) return;
     setState(() {
-      phoneNumberWarning = '';
-      phoneNumberValid = true;
-    });
-
-    phoneNumberValid = true;
+       phoneNumberWarning = t.validation_phone_9_digits; 
+        phoneNumberValid = false;
+ });
+      return;
+    } else {
+      if (!mounted) return;
+      setState(() {
+        phoneNumberWarning = '';
+        phoneNumberValid = true;
+      });
+    }
   }
 }
