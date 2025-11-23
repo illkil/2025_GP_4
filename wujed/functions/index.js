@@ -107,6 +107,7 @@ exports.retryClassification = onDocumentCreated(
 
       // send images, description to server
       const res = await axios.post("https://wujed-classifier-1031003478013.us-central1.run.app/classify", {
+        title: data.title,
         type: data.type,
         image_urls: data.images,
         description: data.description,
