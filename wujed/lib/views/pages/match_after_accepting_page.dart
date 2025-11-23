@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:wujed/l10n/generated/app_localizations.dart';
+import 'package:wujed/services/match_store.dart';
 
 class MatchAfterAcceptingPage extends StatefulWidget {
   const MatchAfterAcceptingPage({super.key});
@@ -473,6 +474,7 @@ class _MatchAfterAcceptingPageState extends State<MatchAfterAcceptingPage> {
                           ),
                         );
                         if (confirmed == 'Confirm') {
+                          MatchStore.instance.revoke('coffee_brewer_1');
                           if (!context.mounted) return;
                           Navigator.pop(context, 'Revoked');
                         }

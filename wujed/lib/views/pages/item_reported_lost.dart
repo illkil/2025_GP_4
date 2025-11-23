@@ -451,12 +451,18 @@ class _ItemReportedLostState extends State<ItemReportedLost> {
                                       20,
                                     ),
                                     title: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Text(
                                           t.dialog_are_you_sure,
                                           style: const TextStyle(
-                                            color: Color.fromRGBO(46, 23, 21, 1),
+                                            color: Color.fromRGBO(
+                                              46,
+                                              23,
+                                              21,
+                                              1,
+                                            ),
                                             fontSize: 18,
                                             fontWeight: FontWeight.bold,
                                           ),
@@ -473,7 +479,7 @@ class _ItemReportedLostState extends State<ItemReportedLost> {
                                         onPressed: () {
                                           Navigator.pop(context);
                                           Navigator.pop(context);
-                            
+
                                           //hard delete from database then navigate to history
                                           Future.microtask(() {
                                             ReportService().deleteReport(
@@ -526,7 +532,12 @@ class _ItemReportedLostState extends State<ItemReportedLost> {
                                         child: Text(
                                           t.btn_cancel,
                                           style: const TextStyle(
-                                            color: Color.fromRGBO(46, 23, 21, 1),
+                                            color: Color.fromRGBO(
+                                              46,
+                                              23,
+                                              21,
+                                              1,
+                                            ),
                                             fontWeight: FontWeight.bold,
                                             fontSize: 16,
                                           ),
@@ -592,13 +603,14 @@ class _ItemReportedLostState extends State<ItemReportedLost> {
                                 builder: (_) {
                                   const String reportId = 'coffee_brewer_1';
 
-                                  final bool accepted = MatchStore.instance.isAccepted(reportId);
+                                  final bool accepted = MatchStore.instance
+                                      .isAccepted(reportId);
 
                                   return accepted
                                       ? const MatchAfterAcceptingPage()
                                       : const MatchDetailsPage();
                                 },
-                              )
+                              ),
                             );
                             if (result == 'Accepted') {
                               setState(() => hideMug = true);
@@ -614,7 +626,7 @@ class _ItemReportedLostState extends State<ItemReportedLost> {
 
                       const SizedBox(height: 20.0),
 
-                      if (!hideMug)
+                      if (!MatchStore.instance.isAccepted('coffee_brewer_1'))
                         buildMatchCard(
                           imagePath: 'lib/assets/images/CoffeeMug1.png',
                           title: t.item_title_coffee_mug,

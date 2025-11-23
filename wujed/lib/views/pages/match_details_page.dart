@@ -268,14 +268,6 @@ class _MatchDetailsPageState extends State<MatchDetailsPage> {
                     
                           ChatStore.instance.addUser(matchedUser);
                     
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                "Your match has been accepted! Check your chat with $matchedUser",
-                              ),
-                            ),
-                          );
-                    
                           Navigator.push(
                             context,
                             MaterialPageRoute(
