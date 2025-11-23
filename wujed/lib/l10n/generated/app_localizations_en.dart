@@ -766,4 +766,8 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get validation_phone_9_digits =>
       'Phone number must be exactly 9 numbers';
+
+  @override
+  String get reject_notif =>
+      'Your last report was rejected. Check the History page to see the reason.';
 }

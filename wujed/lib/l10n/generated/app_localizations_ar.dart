@@ -761,4 +761,8 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get validation_phone_9_digits =>
       'يجب أن يتكون رقم الهاتف من 9 أرقام بعد رمز الدولة.';
+
+  @override
+  String get reject_notif =>
+      'تم رفض بلاغك الاخير. لمعرفة السبب، يمكنك الذهاب إلى صفحة السجل';
 }
