@@ -5,10 +5,14 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title data-i18n="signInTitle">Sign In</title>
+
   <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+
+  <!-- Load sanitiser -->
+  <script src="js/sanitise.js"></script>
+
   <link rel="stylesheet" href="./css/Sign-In.css" />
   <link rel="icon" type="image/png" href="images/Logo.png">
-
 </head>
 
 <body>
@@ -16,14 +20,12 @@
   <section class="card">
     <h1 data-i18n="signIn">Sign In</h1>
 
-    <!-- Message area -->
     <div class="message-wrap">
       <p id="msgInfo" class="message show" data-i18n="msgInfo">Fill the details to continue</p>
       <p id="msgError" class="message" data-i18n="msgError">Please enter a valid email address.</p>
     </div>
 
     <form id="loginForm" novalidate>
-      <!-- Email -->
       <div class="field-group">
         <label for="email" data-i18n="emailLabel">Email</label>
         <div class="field">
@@ -31,7 +33,6 @@
         </div>
       </div>
 
-      <!-- Password -->
       <div class="field-group">
         <label for="password" data-i18n="passwordLabel">Password</label>
         <div class="field">
@@ -44,12 +45,10 @@
         </div>
       </div>
 
-      <!-- Forgot password -->
       <div class="forgot-wrap">
-        <a class="forgot" href="ForgotPassword.html" disabled data-i18n="forgot">Forgot Password?</a>
+        <a class="forgot" href="ForgotPassword.html" data-i18n="forgot">Forgot Password?</a>
       </div>
 
-      <!-- Submit -->
       <button type="submit" id="submitBtn" class="submit" disabled data-i18n="signInBtn">Sign In</button>
     </form>
   </section>
@@ -70,7 +69,6 @@
       submitBtn.disabled = !ok;
       submitBtn.classList.toggle('enabled', ok);
 
-      // Fade between info and error
       if (emailEl.value && !emailValid) {
         msgInfo.classList.remove('show');
         msgError.classList.add('show');
@@ -83,7 +81,6 @@
     emailEl.addEventListener('input', updateButtonState);
     pwEl.addEventListener('input', updateButtonState);
 
-    // Toggle password visibility
     document.getElementById('togglePw').addEventListener('click', () => {
       const showing = pwEl.type === 'text';
       pwEl.type = showing ? 'password' : 'text';
@@ -91,38 +88,38 @@
         ? '<span class="iconify" data-icon="mdi:eye-outline" data-width="24" data-height="24"></span>'
         : '<span class="iconify" data-icon="mdi:eye-off-outline" data-width="24" data-height="24"></span>';
     });
-
-    // Prevent actual submit for demo
-    document.getElementById('loginForm').addEventListener('submit', (e) => {
-      if (!emailEl.checkValidity()) {
-        e.preventDefault();
-        msgInfo.classList.remove('show');
-        msgError.classList.add('show');
-      }
-    });
   </script>
-  <!-- Firebase  -->
+
+  <!-- Firebase Login -->
   <script type="module">
     import { auth, db } from "./js/firebase-init.js";
     import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
     import { doc, getDoc } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
 
     window.addEventListener("DOMContentLoaded", () => {
-      const msgInfo = document.getElementById("msgInfo");
-      const msgError = document.getElementById("msgError");
 
       document.getElementById("loginForm").addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        const email = document.getElementById("email").value.trim();
-        const password = document.getElementById("password").value.trim();
+        const rawEmail = document.getElementById("email").value;
+        const rawPassword = document.getElementById("password").value;
+
+        // 🔒 Sanitize inputs
+        const result = window.sanitiseTextInput(rawEmail, 100);
+        if (!result.ok) {
+          msgInfo.classList.remove("show");
+          msgError.textContent = currentTranslations.msgError || result.error;
+          msgError.classList.add("show");
+          return;
+        }
+
+        const email = result.value.toLowerCase();
+        const password = rawPassword.trim(); // password isn't rendered — safe
 
         try {
-          // 1️⃣ Sign in
           const userCredential = await signInWithEmailAndPassword(auth, email, password);
           const user = userCredential.user;
 
-          // 2️⃣ Fetch user doc from Firestore
           const privateDocRef = doc(db, "users", user.uid, "private", "data");
           const privateDocSnap = await getDoc(privateDocRef);
 
@@ -152,6 +149,7 @@
       });
     });
   </script>
+
   <script src="./js/lang.js"></script>
 </body>
 

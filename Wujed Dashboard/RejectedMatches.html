@@ -58,9 +58,7 @@
       </div>
     </aside>
 
-
-<div class="overlay" onclick="closeSidebar()"></div>
-
+    <div class="overlay" onclick="closeSidebar()"></div>
 
     <!-- Content -->
     <main class="content">
@@ -73,9 +71,10 @@
         <button class="sort-btn" aria-label="Sort">
           <span class="iconify" data-icon="mdi:tune-variant"></span>
         </button>
-<button class="menu-btn" onclick="toggleSidebar()">
-  <span class="iconify" data-icon="mdi:menu"></span>
-</button>
+        <button class="menu-btn" onclick="toggleSidebar()">
+          <span class="iconify" data-icon="mdi:menu"></span>
+        </button>
+
         <!-- Sort Panel -->
         <div class="sort-panel" id="sortPanel">
           <div class="sort-panel-header">
@@ -149,12 +148,6 @@
             </div>
           </article>
 
-
-
-
-
-
-
           <article class="report" data-id="MAT-000002" role="listitem" aria-expanded="false">
             <div class="report-row">
               <div class="row-click">
@@ -198,8 +191,8 @@
             </div>
           </article>
 
+          <!-- duplicates kept as in your original ... -->
 
-          <!-- Match 1 -->
           <article class="report" data-id="MAT-000001" role="listitem" aria-expanded="false">
             <div class="report-row">
               <div class="row-click">
@@ -242,12 +235,6 @@
               </div>
             </div>
           </article>
-
-
-
-
-
-
 
           <article class="report" data-id="MAT-000002" role="listitem" aria-expanded="false">
             <div class="report-row">
@@ -303,6 +290,7 @@
 
     </main>
   </div>
+
   <script>
     // Tabs functionality
     const tabBtns = document.querySelectorAll('.tab-btn');
@@ -310,22 +298,23 @@
 
     tabBtns.forEach(btn => {
       btn.addEventListener('click', () => {
-        // Remove active class from all buttons
         tabBtns.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
 
-        // Show the corresponding tab content
         const target = btn.dataset.tab;
         tabContents.forEach(tc => {
           tc.classList.toggle('active', tc.id === target);
         });
+
+        // save active tab
+        localStorage.setItem('activeTab', target);
       });
     });
 
     const activeList = document.getElementById("activeList");
     const doneList = document.getElementById("doneList");
 
-    // تحميل الحالة المحفوظة عند فتح الصفحة
+    // Load saved state on page load
     window.addEventListener("DOMContentLoaded", () => {
       const doneIds = JSON.parse(localStorage.getItem("doneReports")) || [];
       doneIds.forEach(id => {
@@ -334,9 +323,12 @@
       });
 
       removeDuplicates();
+
+      const savedTab = localStorage.getItem('activeTab') || 'activeTab';
+      tabBtns.forEach(b => b.classList.toggle('active', b.dataset.tab === savedTab));
+      tabContents.forEach(tc => tc.classList.toggle('active', tc.id === savedTab));
     });
 
-    // إزالة أي نسخ مكررة حسب data-id
     function removeDuplicates() {
       const seen = new Set();
       document.querySelectorAll('.report').forEach(report => {
@@ -349,7 +341,6 @@
       });
     }
 
-    // لما يضغط زر Done
     activeList.addEventListener("click", (e) => {
       if (e.target.classList.contains("done-btn")) {
         const report = e.target.closest(".report");
@@ -359,7 +350,6 @@
       }
     });
 
-    // لما يضغط زر Restore
     doneList.addEventListener("click", (e) => {
       if (e.target.classList.contains("restore-btn")) {
         const report = e.target.closest(".report");
@@ -369,19 +359,16 @@
       }
     });
 
-    // تحويل التقرير للمقروء (رمادي) ونقله للـ Reviewed
     function markAsDone(report, animate = true) {
       if (!report) return;
       report.classList.add("done");
       report.querySelector(".done-btn")?.remove();
 
-      // إزالة أي نسخة مكررة قبل النقل
       const existing = doneList.querySelector(`.report[data-id="${report.dataset.id}"]`);
       if (existing && existing !== report) existing.remove();
 
       doneList.appendChild(report);
 
-      // نضيف زر "Restore"
       if (!report.querySelector(".restore-btn")) {
         const restoreBtn = document.createElement("button");
         restoreBtn.className = "restore-btn";
@@ -392,13 +379,11 @@
       if (animate) report.scrollIntoView({ behavior: "smooth" });
     }
 
-    // استرجاع التقرير للـ Rejected
     function restoreReport(report) {
       if (!report) return;
       report.classList.remove("done");
       report.querySelector(".restore-btn")?.remove();
 
-      // إزالة أي نسخة مكررة قبل النقل
       const existing = activeList.querySelector(`.report[data-id="${report.dataset.id}"]`);
       if (existing && existing !== report) existing.remove();
 
@@ -411,7 +396,6 @@
       report.scrollIntoView({ behavior: "smooth" });
     }
 
-    // حفظ الحالة
     function saveDone(id) {
       let doneIds = JSON.parse(localStorage.getItem("doneReports")) || [];
       if (!doneIds.includes(id)) {
@@ -420,14 +404,12 @@
       }
     }
 
-    // حذف من التخزين لما يرجع للـ Rejected
     function removeDone(id) {
       let doneIds = JSON.parse(localStorage.getItem("doneReports")) || [];
       doneIds = doneIds.filter(x => x !== id);
       localStorage.setItem("doneReports", JSON.stringify(doneIds));
     }
 
-    // دالة لترتيب التقارير
     function parseDate(dateStr) {
       return new Date(dateStr);
     }
@@ -441,27 +423,10 @@
       });
       reports.forEach(r => container.appendChild(r));
     }
-    window.addEventListener("DOMContentLoaded", () => {
-      // 1. استرجاع Done Reports
-      const doneIds = JSON.parse(localStorage.getItem("doneReports")) || [];
-      doneIds.forEach(id => {
-        const report = document.querySelector(`.report[data-id="${id}"]`);
-        if (report) markAsDone(report, false);
-      });
 
-      removeDuplicates();
-
-      // 2. استرجاع Tab الحالي
-      const savedTab = localStorage.getItem('activeTab') || 'activeTab';
-      tabBtns.forEach(b => b.classList.toggle('active', b.dataset.tab === savedTab));
-      tabContents.forEach(tc => tc.classList.toggle('active', tc.id === savedTab));
-    });
-
-
-    // عند اختيار السورت
     document.querySelectorAll('.sort-item').forEach(item => {
       item.addEventListener('click', () => {
-        const sortType = item.dataset.sort; // 'date_desc' أو 'date_asc'
+        const sortType = item.dataset.sort;
         [activeList, doneList].forEach(list => {
           if (sortType === 'date_desc') sortReports(list, false);
           else sortReports(list, true);
@@ -469,9 +434,7 @@
         sortPanel.classList.remove('show');
       });
     });
-
   </script>
-
 
   <script>
     // Profile popover
@@ -479,49 +442,63 @@
     const profilePanel = document.getElementById('profilePopover');
     function closeProfile() { profilePanel.classList.remove('show'); }
     profileBtn.addEventListener('click', (e) => { e.stopPropagation(); profilePanel.classList.toggle('show'); });
-    document.addEventListener('click', (e) => { if (!profilePanel.contains(e.target) && !profileBtn.contains(e.target)) { closeProfile(); } });
+    document.addEventListener('click', (e) => {
+      if (!profilePanel.contains(e.target) && !profileBtn.contains(e.target)) {
+        closeProfile();
+      }
+    });
     document.getElementById('ppLang')?.addEventListener('click', () => { closeProfile(); switchLanguage(); });
 
     // Sort panel
-    const sortBtn = document.querySelector('.sort-btn'); const sortPanel = document.getElementById('sortPanel'); const sortClose = document.getElementById('sortClose');
+    const sortBtn = document.querySelector('.sort-btn');
+    const sortPanel = document.getElementById('sortPanel');
+    const sortClose = document.getElementById('sortClose');
     sortBtn.addEventListener('click', (e) => { e.stopPropagation(); sortPanel.classList.toggle('show'); });
     sortClose.addEventListener('click', (e) => { e.stopPropagation(); sortPanel.classList.remove('show'); });
-    document.addEventListener('click', (e) => { if (!sortPanel.contains(e.target) && !sortBtn.contains(e.target)) { sortPanel.classList.remove('show'); } });
-    document.querySelectorAll('.sort-item').forEach(item => { item.addEventListener('click', () => { console.log('Selected sort:', item.dataset.sort); sortPanel.classList.remove('show'); }); });
+    document.addEventListener('click', (e) => {
+      if (!sortPanel.contains(e.target) && !sortBtn.contains(e.target)) {
+        sortPanel.classList.remove('show');
+      }
+    });
+    document.querySelectorAll('.sort-item').forEach(item => {
+      item.addEventListener('click', () => {
+        console.log('Selected sort:', item.dataset.sort);
+        sortPanel.classList.remove('show');
+      });
+    });
 
-    // Expand/collapse (row click + chevron button)
+    // Expand/collapse
     document.querySelectorAll('.report').forEach(report => {
       report.addEventListener('click', (e) => {
-        // لو ضغط على زر (approve/reject) أو chevron نتجاهل لتجنب تداخل
         if (e.target.closest('.btn') || e.target.closest('.chevron-btn')) return;
 
         const expanded = report.getAttribute('aria-expanded') === 'true';
         report.setAttribute('aria-expanded', String(!expanded));
       });
 
-      // chevron يظل يشتغل
       report.querySelector('.chevron-btn').addEventListener('click', (e) => {
         e.stopPropagation();
         const expanded = report.getAttribute('aria-expanded') === 'true';
         report.setAttribute('aria-expanded', String(!expanded));
       });
     });
-
-
   </script>
-  <script>
-  function toggleSidebar() {
-    document.querySelector(".sidebar").classList.toggle("open");
-    document.querySelector(".overlay").classList.toggle("show");
-  }
 
-  function closeSidebar() {
-    document.querySelector(".sidebar").classList.remove("open");
-    document.querySelector(".overlay").classList.remove("show");
-  }
-</script>
+  <script>
+    function toggleSidebar() {
+      document.querySelector(".sidebar").classList.toggle("open");
+      document.querySelector(".overlay").classList.toggle("show");
+    }
+
+    function closeSidebar() {
+      document.querySelector(".sidebar").classList.remove("open");
+      document.querySelector(".overlay").classList.remove("show");
+    }
+  </script>
 
   <script src="./js/lang.js"></script>
+  <!-- 🔹 sanitiser loaded for future text inputs -->
+  <script src="./js/sanitise.js"></script>
   <script type="module" src="./js/profile.js"></script>
 </body>
 
