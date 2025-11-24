@@ -308,5 +308,7 @@
   "error_profile_picture_update_failed": "Failed to update profile picture. Please try again.",
   "success_profile_picture_updated": "Profile picture updated successfully!",
   "validation_phone_9_digits": "Phone number must be exactly 9 numbers",
-  "reject_notif": "Your last report was rejected. Check the History page to see the reason."
+  "reject_notif": "Your last report was rejected. Check the History page to see the reason.",
+  "report_rejected": "Report Rejected",
+  "now": "Now"
 }

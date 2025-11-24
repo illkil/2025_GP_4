@@ -770,4 +770,10 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get reject_notif =>
       'Your last report was rejected. Check the History page to see the reason.';
+
+  @override
+  String get report_rejected => 'Report Rejected';
+
+  @override
+  String get now => 'Now';
 }

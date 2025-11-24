@@ -765,4 +765,10 @@ class AppLocalizationsAr extends AppLocalizations {
   @override
   String get reject_notif =>
       'تم رفض بلاغك الاخير. لمعرفة السبب، يمكنك الذهاب إلى صفحة السجل';
+
+  @override
+  String get report_rejected => 'البلاغ مرفوض';
+
+  @override
+  String get now => 'الآن';
 }

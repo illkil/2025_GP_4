@@ -9,6 +9,7 @@ class NotificationsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
+    final width = MediaQuery.of(context).size.width;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -37,20 +38,20 @@ class NotificationsPage extends StatelessWidget {
                 width: double.infinity,
                 child: Stack(
                   children: [
-                    const PositionedDirectional(
+                    PositionedDirectional(
                       start: 20,
                       child: Row(
                         children: [
                           Text(
-                            'Report Rejected',
-                            style: TextStyle(
+                            t.report_rejected,
+                            style: const TextStyle(
                               color: Color.fromRGBO(46, 23, 21, 1),
                               fontWeight: FontWeight.bold,
                               fontSize: 14,
                             ),
                           ),
-                          SizedBox(width: 6),
-                          Icon(
+                          const SizedBox(width: 6),
+                          const Icon(
                             Icons.circle,
                             size: 10,
                             color: Color.fromRGBO(255, 0, 0, 1),
@@ -58,18 +59,23 @@ class NotificationsPage extends StatelessWidget {
                         ],
                       ),
                     ),
+
                     PositionedDirectional(
                       start: 20,
                       top: 20,
-                      child: Text(
-                        'Your last report was rejected. Check the History page to see the reason.',
-                        style: TextStyle(
-                          color: Colors.grey.shade600,
-                          fontSize: 14,
+                      child: SizedBox(
+                        width: width - 100,
+                        child: Text(
+                          t.reject_notif,
+                          style: TextStyle(
+                            color: Colors.grey.shade600,
+                            fontSize: 14,
+                          ),
                         ),
                       ),
                     ),
-                    const PositionedDirectional(end: 20, child: Text('Now')),
+
+                    PositionedDirectional(end: 20, child: Text(t.now)),
                   ],
                 ),
               ),
@@ -107,11 +113,14 @@ class NotificationsPage extends StatelessWidget {
                   PositionedDirectional(
                     start: 20,
                     top: 20,
-                    child: Text(
-                      t.notifications_expired_body,
-                      style: TextStyle(
-                        color: Colors.grey.shade600,
-                        fontSize: 14,
+                    child: SizedBox(
+                      width: width - 100,
+                      child: Text(
+                        t.notifications_expired_body,
+                        style: TextStyle(
+                          color: Colors.grey.shade600,
+                          fontSize: 14,
+                        ),
                       ),
                     ),
                   ),
@@ -150,11 +159,14 @@ class NotificationsPage extends StatelessWidget {
                   PositionedDirectional(
                     start: 20,
                     top: 20,
-                    child: Text(
-                      t.notifications_new_match_body,
-                      style: TextStyle(
-                        color: Colors.grey.shade600,
-                        fontSize: 14,
+                    child: SizedBox(
+                      width: width - 100,
+                      child: Text(
+                        t.notifications_new_match_body,
+                        style: TextStyle(
+                          color: Colors.grey.shade600,
+                          fontSize: 14,
+                        ),
                       ),
                     ),
                   ),
@@ -193,11 +205,14 @@ class NotificationsPage extends StatelessWidget {
                   PositionedDirectional(
                     start: 20,
                     top: 20,
-                    child: Text(
-                      t.notifications_expiring_soon_body,
-                      style: TextStyle(
-                        color: Colors.grey.shade600,
-                        fontSize: 14,
+                    child: SizedBox(
+                      width: width - 100,
+                      child: Text(
+                        t.notifications_expiring_soon_body,
+                        style: TextStyle(
+                          color: Colors.grey.shade600,
+                          fontSize: 14,
+                        ),
                       ),
                     ),
                   ),
