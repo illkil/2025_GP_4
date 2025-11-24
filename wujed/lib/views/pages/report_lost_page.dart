@@ -61,6 +61,84 @@ class _ReportLostPageState extends State<ReportLostPage> {
     super.dispose();
   }
 
+  Widget _importantBox(AppLocalizations t) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: const Color(0xFFFFE9A8),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: const Color(0xFFE0A500), width: 1.2),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const Icon(Icons.error_rounded, color: Color(0xFFC38E00), size: 30),
+          const SizedBox(width: 10),
+          Expanded(
+            child: RichText(
+              text: TextSpan(
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: Color(0xFF8A6500),
+                  height: 1.4,
+                ),
+                children: [
+                  TextSpan(
+                    text: t.important,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  TextSpan(text: t.important_box),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _noteBox(AppLocalizations t) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: const Color(0xFFE8F1FF), // light blue
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: const Color(0xFF4A90E2), width: 1.2),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const Icon(
+            Icons.info_outline_rounded,
+            color: Color(0xFF1E4C9A),
+            size: 30,
+          ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: RichText(
+              text: TextSpan(
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: Color(0xFF1E4C9A),
+                  height: 1.4,
+                ),
+                children: [
+                  TextSpan(
+                    text: t.note,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  TextSpan(text: t.note_box),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
@@ -96,7 +174,6 @@ class _ReportLostPageState extends State<ReportLostPage> {
                           ),
                         ],
                       ),
-
                       // 🔹 FIXED: Page title for LOST (not FOUND!)
                       Text(
                         t.report_lost_title, // 👈 this was t.report_found_title before
@@ -112,7 +189,12 @@ class _ReportLostPageState extends State<ReportLostPage> {
                         t.report_required_details,
                         style: TextStyle(fontSize: 16.0, color: textColor),
                       ),
-                      const SizedBox(height: 40.0),
+
+                      const SizedBox(height: 20.0),
+                      _importantBox(t),
+                      const SizedBox(height: 10.0),
+                      _noteBox(t),
+                      const SizedBox(height: 20.0),
 
                       // 🔹 TITLE FIELD (required)
                       _buildLabel(t.report_title_label, required: true),
@@ -268,10 +350,11 @@ class _ReportLostPageState extends State<ReportLostPage> {
                           counterStyle: TextStyle(
                             fontSize: 12,
                             color:
-                                (_maxLength - controllerDescription.text.length) <=
-                                        0
-                                    ? Colors.red
-                                    : Colors.grey.shade400,
+                                (_maxLength -
+                                        controllerDescription.text.length) <=
+                                    0
+                                ? Colors.red
+                                : Colors.grey.shade400,
                           ),
                         ),
                         onEditingComplete: () =>
@@ -282,8 +365,9 @@ class _ReportLostPageState extends State<ReportLostPage> {
 
                       // 🔹 SUBMIT BUTTON
                       FilledButton(
-                        onPressed:
-                            _submitting ? null : () => _submitLostReport(t),
+                        onPressed: _submitting
+                            ? null
+                            : () => _submitLostReport(t),
                         style: FilledButton.styleFrom(
                           minimumSize: const Size(double.infinity, 50),
                           backgroundColor: const Color.fromRGBO(46, 23, 21, 1),
@@ -559,10 +643,7 @@ class _ReportLostPageState extends State<ReportLostPage> {
     final rawDescription = controllerDescription.text;
 
     // ✅ SANITISED TEXT (this is what we will send to Firestore)
-    final title = InputValidators.sanitizeText(
-      rawTitle,
-      maxLen: 30,
-    );
+    final title = InputValidators.sanitizeText(rawTitle, maxLen: 30);
     final description = InputValidators.sanitizeText(
       rawDescription,
       maxLen: _maxLength,
@@ -571,10 +652,7 @@ class _ReportLostPageState extends State<ReportLostPage> {
     // Also sanitise the address if it exists (comes from external APIs)
     final sanitizedAddress = _address == null
         ? null
-        : InputValidators.sanitizeText(
-            _address!,
-            maxLen: 150,
-          );
+        : InputValidators.sanitizeText(_address!, maxLen: 150);
 
     // Optionally push sanitised text back to the fields
     controllerTitle.text = title;
