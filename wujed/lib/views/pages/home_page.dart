@@ -25,6 +25,7 @@ class _HomePageState extends State<HomePage> {
   final _db = FirebaseFirestore.instance;
   //FOR NOTIFICATION SIMULATION
   bool _showRejectedBanner = false;
+  bool _hasRejectedNotification = false;
 
   StreamSubscription<QuerySnapshot<Map<String, dynamic>>>? _rejectedSub;
 
@@ -55,7 +56,10 @@ class _HomePageState extends State<HomePage> {
       final status = data['status'];
 
       if (status == 'rejected' && !_showRejectedBanner) {
-        setState(() => _showRejectedBanner = true);
+        setState(() {
+          _showRejectedBanner = true;
+          _hasRejectedNotification = true;
+        });
 
         await Future.delayed(const Duration(seconds: 3));
 
@@ -111,8 +115,10 @@ class _HomePageState extends State<HomePage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) =>
-                                        const NotificationsPage(),
+                                    builder: (context) => NotificationsPage(
+                                      showRejectedNotification:
+                                          _hasRejectedNotification,
+                                    ),
                                   ),
                                 );
                               },

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:wujed/l10n/generated/app_localizations.dart';
 
 class NotificationsPage extends StatelessWidget {
-  const NotificationsPage({super.key});
+  final bool showRejectedNotification;
+
+  const NotificationsPage({super.key, required this.showRejectedNotification});
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +28,55 @@ class NotificationsPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           const Divider(),
+
+          if (showRejectedNotification) ...[
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: SizedBox(
+                height: 80,
+                width: double.infinity,
+                child: Stack(
+                  children: [
+                    const PositionedDirectional(
+                      start: 20,
+                      child: Row(
+                        children: [
+                          Text(
+                            'Report Rejected',
+                            style: TextStyle(
+                              color: Color.fromRGBO(46, 23, 21, 1),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
+                          ),
+                          SizedBox(width: 6),
+                          Icon(
+                            Icons.circle,
+                            size: 10,
+                            color: Color.fromRGBO(255, 0, 0, 1),
+                          ),
+                        ],
+                      ),
+                    ),
+                    PositionedDirectional(
+                      start: 20,
+                      top: 20,
+                      child: Text(
+                        'Your last report was rejected. Check the History page to see the reason.',
+                        style: TextStyle(
+                          color: Colors.grey.shade600,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                    const PositionedDirectional(end: 20, child: Text('Now')),
+                  ],
+                ),
+              ),
+            ),
+            const Divider(),
+          ],
+
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: SizedBox(
@@ -73,6 +124,7 @@ class NotificationsPage extends StatelessWidget {
             ),
           ),
           const Divider(),
+
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: SizedBox(
@@ -115,6 +167,7 @@ class NotificationsPage extends StatelessWidget {
             ),
           ),
           const Divider(),
+
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: SizedBox(
