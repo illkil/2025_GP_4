@@ -1513,6 +1513,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Phone number must be exactly 9 numbers'**
   String get validation_phone_9_digits;
+
+  /// No description provided for @reject_notif.
+  ///
+  /// In en, this message translates to:
+  /// **'Your last report was rejected. Check the History page to see the reason.'**
+  String get reject_notif;
+
+  /// No description provided for @report_rejected.
+  ///
+  /// In en, this message translates to:
+  /// **'Report Rejected'**
+  String get report_rejected;
+
+  /// No description provided for @now.
+  ///
+  /// In en, this message translates to:
+  /// **'Now'**
+  String get now;
 }
 
 class _AppLocalizationsDelegate

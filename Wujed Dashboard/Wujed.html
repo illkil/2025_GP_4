@@ -5,10 +5,17 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title data-i18n="WujedTitle">Wujed</title>
+
   <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+
+  <!-- Sanitiser loaded for consistency -->
+  <script src="js/sanitise.js"></script>
+
   <link rel="stylesheet" href="./css/Wujed.css" />
   <link rel="icon" type="image/png" href="images/Logo.png">
+
   <script src="./js/lang.js"></script>
+
   <style>
     .lang-btn {
       position: absolute;
@@ -37,7 +44,8 @@
 </head>
 
 <body>
-  <!-- language btn -->
+
+  <!-- language button -->
   <button id="langBtn" class="lang-btn">AR</button>
 
   <main class="content" aria-labelledby="welcome">
@@ -65,17 +73,17 @@
   </footer>
 
   <script>
-    //language btn
+    // Language button
     const langBtn = document.getElementById("langBtn");
 
-    //load language
+    // Load saved language
     window.addEventListener("DOMContentLoaded", () => {
       const savedLang = localStorage.getItem("lang") || "en";
       loadLanguage(savedLang);
       langBtn.textContent = savedLang === "ar" ? "EN" : "AR";
     });
 
-    //when pressing the btn change language
+    // Toggle language on click
     langBtn.addEventListener("click", () => {
       const currentLang = localStorage.getItem("lang") || "en";
       const newLang = currentLang === "en" ? "ar" : "en";
@@ -84,6 +92,7 @@
       langBtn.textContent = newLang === "ar" ? "EN" : "AR";
     });
   </script>
+
 </body>
 
 </html>

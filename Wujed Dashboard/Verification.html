@@ -6,6 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title data-i18n="verificationPageTitle">Verification (OTP)</title>
   <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+
+  <!-- Sanitiser: shared input validation helpers -->
+  <script src="js/sanitise.js"></script>
+
   <link rel="stylesheet" href="./css/Verification.css" />
   <link rel="icon" type="image/png" href="images/Logo.png">
 </head>
@@ -34,7 +38,6 @@
         </div>
       </div>
 
-      <!-- Resend row (text left, timer right) -->
       <div class="resend-row">
         <button type="button" id="resendBtn" class="resend-btn" data-i18n="resendBtn">Resend code</button>
         <span id="resendTime" class="resend-time"></span>
@@ -44,12 +47,11 @@
     </form>
   </section>
 
-
   <!-- EmailJS Library -->
   <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
   <script>
     (function () {
-      emailjs.init("UtmASjdZ_iMNSqjx8");
+      emailjs.init("6biv6WkGElpXf0lj9");
     })();
   </script>
 
@@ -57,7 +59,7 @@
     import { auth } from "./js/firebase-init.js";
     import { sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
 
-    //session check
+    // If you want to force flow correctness, you can re-enable this later:
     // if (!sessionStorage.getItem("otp") || !sessionStorage.getItem("verifiedEmail")) {
     //   window.location.href = "ForgotPassword.html";
     // }
@@ -67,14 +69,14 @@
     const msgInfo = document.getElementById("msgInfo");
     const msgError = document.getElementById("msgError");
 
-    //clean
     function clearMessages() {
       msgInfo.classList.remove("show");
       msgError.classList.remove("show");
     }
 
-    //checking usesr input
+    // Live input check
     otpEl.addEventListener("input", () => {
+      // keep only digits
       const digits = otpEl.value.replace(/\D/g, "");
       if (otpEl.value !== digits) otpEl.value = digits;
 
@@ -85,8 +87,7 @@
         msgError.classList.add("show");
         submitBtn.disabled = true;
         submitBtn.classList.remove("enabled");
-      }
-      else {
+      } else {
         msgInfo.textContent = currentTranslations.msgSuccessOtp;
         msgInfo.classList.add("show");
         submitBtn.disabled = false;
@@ -94,15 +95,29 @@
       }
     });
 
-    //validate OTP then send firebase email
+    // Validate OTP then send Firebase reset email
     document.getElementById("otpForm").addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      const enteredOtp = otpEl.value.trim();
-      const savedOtp = sessionStorage.getItem("otp");
-      const email = sessionStorage.getItem("verifiedEmail");
+      // Re-normalise and sanitise on submit
+      const rawOtp = otpEl.value.trim();
+      const digits = rawOtp.replace(/\D/g, "");
+      otpEl.value = digits; // keep field clean
 
       clearMessages();
+
+      const sanitiseResult = window.sanitiseTextInput(digits, 6);
+      if (!sanitiseResult.ok || sanitiseResult.value.length !== 6) {
+        msgError.textContent = currentTranslations.msgErrorOtp || sanitiseResult.error;
+        msgError.classList.add("show");
+        submitBtn.disabled = true;
+        submitBtn.classList.remove("enabled");
+        return;
+      }
+
+      const enteredOtp = sanitiseResult.value;
+      const savedOtp = sessionStorage.getItem("otp");
+      const email = sessionStorage.getItem("verifiedEmail");
 
       if (enteredOtp !== savedOtp) {
         msgError.textContent = currentTranslations.msgInvalidOtp;
@@ -117,7 +132,6 @@
         msgInfo.textContent = currentTranslations.msgValidOpt;
         msgInfo.classList.add("show");
 
-        //send firebase reset password email
         await sendPasswordResetEmail(auth, email, {
           url: "https://wujed-379c7.firebaseapp.com/Reset-Password.html",
           handleCodeInApp: true,
@@ -139,7 +153,7 @@
       }
     });
 
-    //resending code
+    // Resend OTP cooldown
     const RESEND_COOLDOWN_MS = 30000;
     const STORAGE_KEY = "otp_resend_until";
     const resendBtn = document.getElementById("resendBtn");
@@ -170,13 +184,13 @@
       }
     });
 
-    //OTP code cooldown
     function initCooldown() {
       const until = Number(localStorage.getItem(STORAGE_KEY) || 0);
       const remaining = until - Date.now();
       if (remaining > 0) startCooldown(remaining);
       else clearCooldown();
     }
+
     function startCooldown(ms) {
       const until = Date.now() + ms;
       localStorage.setItem(STORAGE_KEY, String(until));
@@ -189,6 +203,7 @@
         else updateTime(rem);
       }, 250);
     }
+
     function clearCooldown() {
       if (timerId) clearInterval(timerId);
       timerId = null;
@@ -196,6 +211,7 @@
       resendBtn.disabled = false;
       resendTime.textContent = "";
     }
+
     function updateTime(ms) {
       const totalSec = Math.ceil(ms / 1000);
       const m = Math.floor(totalSec / 60);
@@ -203,8 +219,6 @@
       resendTime.textContent = `${m}:${String(s).padStart(2, "0")}`;
     }
   </script>
-
-
 
   <script src="./js/lang.js"></script>
 </body>

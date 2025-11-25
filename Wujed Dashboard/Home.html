@@ -46,6 +46,7 @@
           <span data-i18n="logout">Log Out</span>
         </div>
       </div>
+
       <!-- Logout Modal -->
       <div id="logoutModal">
         <div class="modal-content">
@@ -54,7 +55,6 @@
           <button id="confirmLogout" data-i18n="confirmLogout">Logout</button>
         </div>
       </div>
-
     </aside>
 
     <!-- Main content -->
@@ -86,12 +86,20 @@
     const profilePanel = document.getElementById('profilePopover');
     function closeProfile() { profilePanel.classList.remove('show'); }
     profileBtn.addEventListener('click', (e) => { e.stopPropagation(); profilePanel.classList.toggle('show'); });
-    document.addEventListener('click', (e) => { if (!profilePanel.contains(e.target) && !profileBtn.contains(e.target)) { closeProfile(); } });
-    document.getElementById('ppLang')?.addEventListener('click', () => { closeProfile(); switchLanguage(); });
-
-
+    document.addEventListener('click', (e) => {
+      if (!profilePanel.contains(e.target) && !profileBtn.contains(e.target)) {
+        closeProfile();
+      }
+    });
+    document.getElementById('ppLang')?.addEventListener('click', () => {
+      closeProfile();
+      switchLanguage();
+    });
   </script>
+
   <script src="./js/lang.js"></script>
+  <!-- 🔹 Load sanitiser here so it's available if we add inputs in future -->
+  <script src="./js/sanitise.js"></script>
   <script type="module" src="./js/profile.js"></script>
 </body>
 

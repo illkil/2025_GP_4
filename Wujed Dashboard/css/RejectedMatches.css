@@ -614,3 +614,15 @@ body[dir="rtl"] .sort-panel {
 }
 
 }
+/* إظهار زر المنيو فقط في الشاشات الصغيرة (الجوال) */
+.menu-btn {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .menu-btn {
+    display: flex; /* أو block حسب تصميمك */
+    align-items: center;
+    justify-content: center;
+  }
+}
