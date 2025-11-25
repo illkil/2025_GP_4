@@ -310,5 +310,6 @@
   "validation_phone_9_digits": "Phone number must be exactly 9 numbers",
   "reject_notif": "Your last report was rejected. Check the History page to see the reason.",
   "report_rejected": "Report Rejected",
-  "now": "Now"
+  "now": "Now",
+  "error_phone_must_start_with_5": "Phone number must start with 5"
 }

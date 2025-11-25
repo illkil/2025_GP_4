@@ -58,7 +58,7 @@
       </div>
 
     </aside>
-
+    <div class="overlay" onclick="closeSidebar()"></div>
     <!-- Content -->
     <main class="content">
       <div class="header">
@@ -69,6 +69,9 @@
         </div>
         <button class="sort-btn" aria-label="Sort">
           <span class="iconify" data-icon="mdi:tune-variant"></span>
+        </button>
+        <button class="menu-btn" onclick="toggleSidebar()">
+          <span class="iconify" data-icon="mdi:menu"></span>
         </button>
 
         <!-- Sort Panel -->
@@ -326,8 +329,19 @@
         removeReport(article);
       });
     });
-
   </script>
+  <script>
+    function toggleSidebar() {
+      document.querySelector(".sidebar").classList.toggle("open");
+      document.querySelector(".overlay").classList.toggle("show");
+    }
+
+    function closeSidebar() {
+      document.querySelector(".sidebar").classList.remove("open");
+      document.querySelector(".overlay").classList.remove("show");
+    }
+  </script>
+
   <script src="./js/lang.js"></script>
   <script type="module" src="./js/profile.js"></script>
 </body>

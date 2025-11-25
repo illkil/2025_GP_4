@@ -1531,6 +1531,8 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Now'**
   String get now;
+
+  String get error_phone_must_start_with_5;
 }
 
 class _AppLocalizationsDelegate

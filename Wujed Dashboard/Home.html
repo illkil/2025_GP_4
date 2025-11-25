@@ -56,10 +56,14 @@
         </div>
       </div>
     </aside>
+    
+    <div class="overlay" onclick="closeSidebar()"></div>
 
     <!-- Main content -->
     <main class="content">
-
+      <button class="menu-btn" onclick="toggleSidebar()">
+        <span class="iconify" data-icon="mdi:menu"></span>
+      </button>
       <div class="center-wrap">
         <div class="center-card" aria-labelledby="welcome">
           <h1 id="welcome" class="welcome">
@@ -96,7 +100,17 @@
       switchLanguage();
     });
   </script>
+  <script>
+    function toggleSidebar() {
+      document.querySelector(".sidebar").classList.toggle("open");
+      document.querySelector(".overlay").classList.toggle("show");
+    }
 
+    function closeSidebar() {
+      document.querySelector(".sidebar").classList.remove("open");
+      document.querySelector(".overlay").classList.remove("show");
+    }
+  </script>
   <script src="./js/lang.js"></script>
   <!-- 🔹 Load sanitiser here so it's available if we add inputs in future -->
   <script src="./js/sanitise.js"></script>

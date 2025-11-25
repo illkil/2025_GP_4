@@ -44,4 +44,28 @@
     .welcome{ font-size:40px; }
     .subtitle{ font-size:18px; }
   }
-  
+      .lang-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: transparent;
+      border: 1px solid rgba(0, 0, 0, .2);
+      border-radius: 8px;
+      padding: 6px 12px;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 600;
+      color: #000;
+      transition: all 0.2s ease;
+    }
+
+    .lang-btn:hover {
+      background: rgba(0, 0, 0, .05);
+    }
+
+    body[dir="rtl"] .lang-btn {
+      right: auto;
+      left: 20px;
+    }
+
+    

@@ -1019,10 +1019,17 @@ class _EditProfilePageState extends State<EditProfilePage> {
     // Check if it's exactly 9 digits
     if (phoneNumber.length != 9) {
       if (!mounted) return;
-    setState(() {
-       phoneNumberWarning = t.validation_phone_9_digits; 
+      setState(() {
+        phoneNumberWarning = t.validation_phone_9_digits;
         phoneNumberValid = false;
- });
+      });
+      return;
+    } else if (phoneNumber.startsWith('5') == false) {
+      if (!mounted) return; // 🛑 Check before setState
+      setState(() {
+        phoneNumberWarning = t.error_phone_must_start_with_5;
+        phoneNumberValid = false;
+      });
       return;
     } else {
       if (!mounted) return;
