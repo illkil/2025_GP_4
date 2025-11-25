@@ -312,7 +312,7 @@ class _SignupPageState extends State<SignupPage> {
                           maxLength: 20,
                           decoration: InputDecoration(
                             counterText: '',
-                            labelText: t.login_email_label,
+                            labelText: t.signup_username_label,
                             labelStyle: const TextStyle(fontSize: 16.0),
                             floatingLabelBehavior:
                                 FloatingLabelBehavior.always,
@@ -363,7 +363,7 @@ class _SignupPageState extends State<SignupPage> {
                             ),
                           ],
                           decoration: InputDecoration(
-                            labelText: t.login_email_label,
+                            labelText: t.signup_email_label,
                             labelStyle: const TextStyle(fontSize: 16.0),
                             floatingLabelBehavior:
                                 FloatingLabelBehavior.always,
@@ -409,7 +409,7 @@ class _SignupPageState extends State<SignupPage> {
                           autocorrect: false,
                           obscureText: hidePassword,
                           decoration: InputDecoration(
-                            labelText: t.login_email_label,
+                            labelText: t.signup_password_label,
                             labelStyle: const TextStyle(fontSize: 16.0),
                             floatingLabelBehavior:
                                 FloatingLabelBehavior.always,
