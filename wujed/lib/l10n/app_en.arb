@@ -311,12 +311,9 @@
   "reject_notif": "Your last report was rejected. Check the History page to see the reason.",
   "report_rejected": "Report Rejected",
   "now": "Now",
-<<<<<<< HEAD
-  "error_phone_must_start_with_5": "Phone number must start with 5"
-=======
+  "error_phone_must_start_with_5": "Phone number must start with 5",
   "important": "Important: ",
   "important_box": "This report is analyzed by AI. Describe the item clearly and avoid personal information or emotional text.",
   "note": "Note: ",
   "note_box": "Please describe only one item per report."
->>>>>>> 403c1218843f87d6b557c63e7fa93cc24cb6b357
 }

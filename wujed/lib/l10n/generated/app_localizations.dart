@@ -1532,9 +1532,8 @@ abstract class AppLocalizations {
   /// **'Now'**
   String get now;
 
-<<<<<<< HEAD
   String get error_phone_must_start_with_5;
-=======
+
   /// No description provided for @important.
   ///
   /// In en, this message translates to:
@@ -1558,7 +1557,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please describe only one item per report.'**
   String get note_box;
->>>>>>> 403c1218843f87d6b557c63e7fa93cc24cb6b357
 }
 
 class _AppLocalizationsDelegate
