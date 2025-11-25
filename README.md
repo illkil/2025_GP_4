@@ -16,36 +16,42 @@ Wujed is an intelligent digital platform designed to help the residents of Riyad
       - *Firebase App Check (Security)*
 
   
-- **AI & Machine Learning**: Google Vision API, OpenAI's (NLP) API, and	Google Maps API.
-
+- **AI & Machine Learning**: Google Vision API, and OpenAI's (NLP) API.
+- **Map API**: Google Maps API.
 
 ## Getting Started
 
-### Prerequisites
+### Launch Instructions
 
 Before running the project, make sure you have:
 
-- **Flutter**: If you haven't already, install Flutter by following the [official Flutter installation guide](https://docs.flutter.dev/get-started/install).
+- **Flutter SDK**: If you haven't already, Install Flutter from the official link: [official Flutter installation guide](https://docs.flutter.dev/get-started/install).
 
-- **Integrated Development Environment (IDE)**: We recommend using Visual Studio Code (VS Code) for developing Flutter apps. If you don't have it installed, you can download it from [here](https://code.visualstudio.com/download).
+- **Integrated Development Environment (IDE)**: We recommend using Visual Studio Code (VS Code) for developing Flutter applications. If you don't have it installed, you can download it from [here](https://code.visualstudio.com/download).
 
 - **Emulator**:
   - You can use Xcode. you can download it from [here](https://apps.apple.com/sa/app/xcode/id497799835?mt=12).
   - Or you can use Android Studio, which you can download from [here](https://developer.android.com/studio).
 
 
-### Installation
+### Installation and Launch Steps
 
 
-1. Clone the Repository
+1. Cloning the Project
 ```
 $ git clone https://github.com/illkil/2025_GP_4.git
 ```
-2. Go to the Project Directory
+2. Accessing the Project Folder
 ```
-$ cd 2025_GP_4
+$ cd wujed
 ```
-3. Run the app
+3. Running the Application
 ```
 $ flutter run
 ```
+
+### Notes
+
+It is recommended to use a physical machine or a powerful emulator for optimal performance.
+
+Be sure to enable the required APIs in Google Cloud Console and Firebase before launching.
