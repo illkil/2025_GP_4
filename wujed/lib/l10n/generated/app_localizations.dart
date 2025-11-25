@@ -1532,6 +1532,10 @@ abstract class AppLocalizations {
   /// **'Now'**
   String get now;
 
+  /// No description provided for @error_phone_must_start_with_5.
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number must start with 5'**
   String get error_phone_must_start_with_5;
 
   /// No description provided for @important.

@@ -5,6 +5,7 @@ const admin = require("firebase-admin");
 const cors = require("cors")({origin: true});
 // axios is a library used to send http request to fastApi server
 const axios = require("axios");
+const crypto = require("crypto");
 
 admin.initializeApp();
 
@@ -135,3 +136,101 @@ exports.retryClassification = onDocumentCreated(
       });
     });
 
+
+
+///////////////////////////////////////////////////////////////// ( WUJED DASHBOARD START ) /////////////////////////////////////////////////////////////////
+
+// OTP Settings
+const OTP_COLLECTION = "password_reset_otps";
+const OTP_TTL_MS = 10 * 60 * 1000; // 10 minutes
+const OTP_MAX_ATTEMPTS = 5;
+
+exports.requestPasswordResetOtp = onCall(async (request) => {
+  const emailRaw = (request.data && request.data.email) || "";
+  const email = emailRaw.toLowerCase().trim();
+
+  if (!email || !email.includes("@")) {
+    throw new Error("Invalid email");
+  }
+
+  // Check if user exists (avoid sending OTP to unknown emails)
+  let userRecord;
+  try {
+    userRecord = await admin.auth().getUserByEmail(email);
+  } catch (err) {
+    // Don't leak info — pretend success
+    return { success: true };
+  }
+
+  // Generate 6-digit OTP
+  const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+  // Hash OTP before storing
+  const otpHash = crypto.createHash("sha256").update(otp).digest("hex");
+
+  const expiresAt = Date.now() + OTP_TTL_MS;
+
+  // Store OTP record
+  await admin.firestore().collection(OTP_COLLECTION).doc(email).set({
+    email,
+    otpHash,
+    expiresAt,
+    attempts: 0,
+    createdAt: admin.firestore.FieldValue.serverTimestamp(),
+  });
+
+  // TODO: Replace this with real email sending (SendGrid/Nodemailer/etc.)
+  console.log(`Generated OTP for ${email}: ${otp}`);
+
+  return { success: true };
+});
+
+exports.verifyPasswordResetOtp = onCall(async (request) => {
+  const emailRaw = (request.data && request.data.email) || "";
+  const otpRaw = (request.data && request.data.otp) || "";
+
+  const email = emailRaw.toLowerCase().trim();
+  const otp = otpRaw.trim();
+
+  if (!email || !otp || otp.length !== 6) {
+    throw new Error("Invalid arguments");
+  }
+
+  const docRef = admin.firestore().collection(OTP_COLLECTION).doc(email);
+  const snap = await docRef.get();
+
+  if (!snap.exists) {
+    return { valid: false, reason: "not_found" };
+  }
+
+  const data = snap.data();
+  const now = Date.now();
+
+  // OTP expired?
+  if (now > data.expiresAt) {
+    await docRef.delete();
+    return { valid: false, reason: "expired" };
+  }
+
+  // Too many failed attempts?
+  const attempts = data.attempts || 0;
+  if (attempts >= OTP_MAX_ATTEMPTS) {
+    await docRef.delete();
+    return { valid: false, reason: "too_many_attempts" };
+  }
+
+  // Compare hash
+  const otpHash = crypto.createHash("sha256").update(otp).digest("hex");
+  if (otpHash !== data.otpHash) {
+    await docRef.update({ attempts: attempts + 1 });
+    return { valid: false, reason: "mismatch" };
+  }
+
+  // Success — delete OTP
+  await docRef.delete();
+
+  return { valid: true };
+});
+
+
+///////////////////////////////////////////////////////////////// ( WUJED DASHBOARD END ) /////////////////////////////////////////////////////////////////

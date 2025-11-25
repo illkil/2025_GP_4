@@ -773,6 +773,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get now => 'الآن';
 
   @override
+  String get error_phone_must_start_with_5 => 'يجب أن يبدأ رقم الهاتف بالرقم 5';
+
+  @override
   String get important => 'هام: ';
 
   @override

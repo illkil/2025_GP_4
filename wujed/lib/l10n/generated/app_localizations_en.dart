@@ -778,6 +778,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get now => 'Now';
 
   @override
+  String get error_phone_must_start_with_5 => 'Phone number must start with 5';
+
+  @override
   String get important => 'Important: ';
 
   @override

@@ -1,8 +1,13 @@
 // firebase-init.js
+
+self.FIREBASE_APPCHECK_DEBUG_TOKEN = "8A9D2C98-F2E8-4276-932E-1309E90C1801"; //TO BE REMOVED IN THE FUTURE
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-analytics.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
+import { initializeAppCheck, ReCaptchaV3Provider } 
+from "https://www.gstatic.com/firebasejs/12.4.0/firebase-app-check.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDbJL2avV8tXAukcG4eK0mQUBT6BkzivCQ",
@@ -14,8 +19,12 @@ const firebaseConfig = {
   measurementId: "G-PVCT9CJGRG"
 };
 
-// initialize once
 const app = initializeApp(firebaseConfig);
+const appCheck = initializeAppCheck(app, {
+  provider: new ReCaptchaV3Provider("6LfJShgsAAAAABlOMMfosMsbF0y-N_2BmNBdzziC"),
+  isTokenAutoRefreshEnabled: true,
+});
+
 const analytics = getAnalytics(app);
 const auth = getAuth(app);
 const db = getFirestore(app);

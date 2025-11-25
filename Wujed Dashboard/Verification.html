@@ -47,178 +47,243 @@
     </form>
   </section>
 
-  <!-- EmailJS Library -->
-  <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-  <script>
-    (function () {
-      emailjs.init("6biv6WkGElpXf0lj9");
-    })();
-  </script>
+  <!-- EmailJS Library 
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script>
+  (function () {
+    emailjs.init("6biv6WkGElpXf0lj9");
+  })();
+</script>
+-->
 
-  <script type="module">
-    import { auth } from "./js/firebase-init.js";
-    import { sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
+<script type="module">
+  import { auth } from "./js/firebase-init.js";
+  import { sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
+  import { getFunctions, httpsCallable } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-functions.js";
 
-    // If you want to force flow correctness, you can re-enable this later:
-    // if (!sessionStorage.getItem("otp") || !sessionStorage.getItem("verifiedEmail")) {
-    //   window.location.href = "ForgotPassword.html";
-    // }
+  const functions = getFunctions();
 
-    const otpEl = document.getElementById("otp");
-    const submitBtn = document.getElementById("submitBtn");
-    const msgInfo = document.getElementById("msgInfo");
-    const msgError = document.getElementById("msgError");
+  // If you want to force flow correctness, you can re-enable this later:
+  // if (!sessionStorage.getItem("otp") || !sessionStorage.getItem("verifiedEmail")) {
+  //   window.location.href = "ForgotPassword.html";
+  // }
 
-    function clearMessages() {
-      msgInfo.classList.remove("show");
-      msgError.classList.remove("show");
+  const otpEl = document.getElementById("otp");
+  const submitBtn = document.getElementById("submitBtn");
+  const msgInfo = document.getElementById("msgInfo");
+  const msgError = document.getElementById("msgError");
+  const resendBtn = document.getElementById("resendBtn");
+  const resendTime = document.getElementById("resendTime");
+
+  function clearMessages() {
+    msgInfo.classList.remove("show");
+    msgError.classList.remove("show");
+  }
+
+  // Live input check
+  otpEl.addEventListener("input", () => {
+    // keep only digits
+    const digits = otpEl.value.replace(/\D/g, "");
+    if (otpEl.value !== digits) otpEl.value = digits;
+
+    clearMessages();
+
+    if (digits.length === 0 || digits.length < 6) {
+      msgError.textContent = currentTranslations.msgErrorOtp;
+      msgError.classList.add("show");
+      submitBtn.disabled = true;
+      submitBtn.classList.remove("enabled");
+    } else {
+      msgInfo.textContent = currentTranslations.msgSuccessOtp;
+      msgInfo.classList.add("show");
+      submitBtn.disabled = false;
+      submitBtn.classList.add("enabled");
+    }
+  });
+
+  // Validate OTP then send Firebase reset email
+  document.getElementById("otpForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    // Re-normalise and sanitise on submit
+    const rawOtp = otpEl.value.trim();
+    const digits = rawOtp.replace(/\D/g, "");
+    otpEl.value = digits; // keep field clean
+
+    clearMessages();
+
+    const sanitiseResult = window.sanitiseTextInput(digits, 6);
+    if (!sanitiseResult.ok || sanitiseResult.value.length !== 6) {
+      msgError.textContent = currentTranslations.msgErrorOtp || sanitiseResult.error;
+      msgError.classList.add("show");
+      submitBtn.disabled = true;
+      submitBtn.classList.remove("enabled");
+      return;
     }
 
-    // Live input check
-    otpEl.addEventListener("input", () => {
-      // keep only digits
-      const digits = otpEl.value.replace(/\D/g, "");
-      if (otpEl.value !== digits) otpEl.value = digits;
+    const enteredOtp = sanitiseResult.value;
 
-      clearMessages();
+    // ❌ OLD CLIENT-SIDE OTP CHECK (kept for reference)
+    /*
+    const savedOtp = sessionStorage.getItem("otp");
 
-      if (digits.length === 0 || digits.length < 6) {
-        msgError.textContent = currentTranslations.msgErrorOtp;
-        msgError.classList.add("show");
-        submitBtn.disabled = true;
-        submitBtn.classList.remove("enabled");
-      } else {
-        msgInfo.textContent = currentTranslations.msgSuccessOtp;
-        msgInfo.classList.add("show");
+    if (enteredOtp !== savedOtp) {
+      msgError.textContent = currentTranslations.msgInvalidOtp;
+      msgError.classList.add("show");
+      return;
+    }
+    */
+
+    const email = sessionStorage.getItem("verifiedEmail");
+
+    if (!email) {
+      msgError.textContent =
+        currentTranslations.msgEmailMissing ||
+        "Something went wrong. Please restart the reset process.";
+      msgError.classList.add("show");
+      return;
+    }
+
+    try {
+      submitBtn.disabled = true;
+      submitBtn.classList.remove("enabled");
+
+      // ✅ NEW: verify OTP on backend (Cloud Function)
+      const verifyOtp = httpsCallable(functions, "verifyPasswordResetOtp");
+      const result = await verifyOtp({ email, otp: enteredOtp });
+
+      if (!result.data || !result.data.valid) {
         submitBtn.disabled = false;
         submitBtn.classList.add("enabled");
-      }
-    });
 
-    // Validate OTP then send Firebase reset email
-    document.getElementById("otpForm").addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      // Re-normalise and sanitise on submit
-      const rawOtp = otpEl.value.trim();
-      const digits = rawOtp.replace(/\D/g, "");
-      otpEl.value = digits; // keep field clean
-
-      clearMessages();
-
-      const sanitiseResult = window.sanitiseTextInput(digits, 6);
-      if (!sanitiseResult.ok || sanitiseResult.value.length !== 6) {
-        msgError.textContent = currentTranslations.msgErrorOtp || sanitiseResult.error;
+        const reason = result.data && result.data.reason;
+        if (reason === "expired") {
+          msgError.textContent =
+            currentTranslations.msgOtpExpired ||
+            "The code has expired. Please request a new one.";
+        } else if (reason === "too_many_attempts") {
+          msgError.textContent =
+            currentTranslations.msgOtpTooMany ||
+            "Too many invalid attempts. Please request a new code.";
+        } else {
+          msgError.textContent = currentTranslations.msgInvalidOtp;
+        }
         msgError.classList.add("show");
-        submitBtn.disabled = true;
-        submitBtn.classList.remove("enabled");
         return;
       }
 
-      const enteredOtp = sanitiseResult.value;
-      const savedOtp = sessionStorage.getItem("otp");
-      const email = sessionStorage.getItem("verifiedEmail");
+      // OTP is valid → continue like before
+      msgInfo.textContent = currentTranslations.msgValidOpt;
+      msgInfo.classList.add("show");
 
-      if (enteredOtp !== savedOtp) {
-        msgError.textContent = currentTranslations.msgInvalidOtp;
-        msgError.classList.add("show");
-        return;
-      }
+      await sendPasswordResetEmail(auth, email, {
+        url: "https://wujed-379c7.firebaseapp.com/Reset-Password.html",
+        handleCodeInApp: true,
+      });
 
-      try {
-        submitBtn.disabled = true;
-        submitBtn.classList.remove("enabled");
+      // ❌ OLD: removing/storing OTP in sessionStorage (kept for reference)
+      /*
+      sessionStorage.removeItem("otp");
+      sessionStorage.setItem("otpVerified", "true");
+      */
 
-        msgInfo.textContent = currentTranslations.msgValidOpt;
-        msgInfo.classList.add("show");
+      // Optional: keep this if other pages rely on it
+      sessionStorage.setItem("otpVerified", "true");
 
-        await sendPasswordResetEmail(auth, email, {
-          url: "https://wujed-379c7.firebaseapp.com/Reset-Password.html",
-          handleCodeInApp: true,
-        });
+      msgInfo.textContent = currentTranslations.msgVarSuccess;
+      setTimeout(() => {
+        window.location.href = "Sign-In.html";
+      }, 3000);
+    } catch (err) {
+      console.error("Reset link error:", err);
+      msgError.textContent = currentTranslations.msgVarFailed;
+      msgError.classList.add("show");
+      submitBtn.disabled = false;
+      submitBtn.classList.add("enabled");
+    }
+  });
 
-        sessionStorage.removeItem("otp");
-        sessionStorage.setItem("otpVerified", "true");
+  // Resend OTP cooldown
+  const RESEND_COOLDOWN_MS = 30000;
+  const STORAGE_KEY = "otp_resend_until";
+  let timerId = null;
 
-        msgInfo.textContent = currentTranslations.msgVarSuccess;
-        setTimeout(() => {
-          window.location.href = "Sign-In.html";
-        }, 3000);
-      } catch (err) {
-        console.error("Reset link error:", err);
-        msgError.textContent = currentTranslations.msgVarFailed;
-        msgError.classList.add("show");
-        submitBtn.disabled = false;
-        submitBtn.classList.add("enabled");
-      }
-    });
+  startCooldown(RESEND_COOLDOWN_MS);
 
-    // Resend OTP cooldown
-    const RESEND_COOLDOWN_MS = 30000;
-    const STORAGE_KEY = "otp_resend_until";
-    const resendBtn = document.getElementById("resendBtn");
-    const resendTime = document.getElementById("resendTime");
-    let timerId = null;
-
+  resendBtn.addEventListener("click", async () => {
     startCooldown(RESEND_COOLDOWN_MS);
+    const email = sessionStorage.getItem("verifiedEmail");
+    if (!email) return;
 
-    resendBtn.addEventListener("click", async () => {
-      startCooldown(RESEND_COOLDOWN_MS);
-      const email = sessionStorage.getItem("verifiedEmail");
-      if (!email) return;
+    // ❌ OLD: client OTP generation + EmailJS (kept for reference)
+    /*
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    sessionStorage.setItem("otp", otp);
 
-      const otp = Math.floor(100000 + Math.random() * 900000).toString();
-      sessionStorage.setItem("otp", otp);
-
-      const templateParams = { email, passcode: otp, time: new Date().toLocaleTimeString() };
-      try {
-        await emailjs.send("service_texd7lk", "template_sg1hcgk", templateParams);
-        clearMessages();
-        msgInfo.textContent = currentTranslations.resendCode;
-        msgInfo.classList.add("show");
-      } catch (err) {
-        console.error("Resend error:", err);
-        clearMessages();
-        msgError.textContent = currentTranslations.resendCodeFailed;
-        msgError.classList.add("show");
-      }
-    });
-
-    function initCooldown() {
-      const until = Number(localStorage.getItem(STORAGE_KEY) || 0);
-      const remaining = until - Date.now();
-      if (remaining > 0) startCooldown(remaining);
-      else clearCooldown();
+    const templateParams = { email, passcode: otp, time: new Date().toLocaleTimeString() };
+    try {
+      await emailjs.send("service_texd7lk", "template_sg1hcgk", templateParams);
+      clearMessages();
+      msgInfo.textContent = currentTranslations.resendCode;
+      msgInfo.classList.add("show");
+    } catch (err) {
+      console.error("Resend error:", err);
+      clearMessages();
+      msgError.textContent = currentTranslations.resendCodeFailed;
+      msgError.classList.add("show");
     }
+    */
 
-    function startCooldown(ms) {
-      const until = Date.now() + ms;
-      localStorage.setItem(STORAGE_KEY, String(until));
-      resendBtn.disabled = true;
-      if (timerId) clearInterval(timerId);
-      updateTime(until - Date.now());
-      timerId = setInterval(() => {
-        const rem = until - Date.now();
-        if (rem <= 0) clearCooldown();
-        else updateTime(rem);
-      }, 250);
+    // ✅ NEW: request OTP from backend (Cloud Function)
+    const requestOtp = httpsCallable(functions, "requestPasswordResetOtp");
+    try {
+      await requestOtp({ email });
+      clearMessages();
+      msgInfo.textContent = currentTranslations.resendCode;
+      msgInfo.classList.add("show");
+    } catch (err) {
+      console.error("Resend error:", err);
+      clearMessages();
+      msgError.textContent = currentTranslations.resendCodeFailed;
+      msgError.classList.add("show");
     }
+  });
 
-    function clearCooldown() {
-      if (timerId) clearInterval(timerId);
-      timerId = null;
-      localStorage.removeItem(STORAGE_KEY);
-      resendBtn.disabled = false;
-      resendTime.textContent = "";
-    }
+  function initCooldown() {
+    const until = Number(localStorage.getItem(STORAGE_KEY) || 0);
+    const remaining = until - Date.now();
+    if (remaining > 0) startCooldown(remaining);
+    else clearCooldown();
+  }
 
-    function updateTime(ms) {
-      const totalSec = Math.ceil(ms / 1000);
-      const m = Math.floor(totalSec / 60);
-      const s = totalSec % 60;
-      resendTime.textContent = `${m}:${String(s).padStart(2, "0")}`;
-    }
-  </script>
+  function startCooldown(ms) {
+    const until = Date.now() + ms;
+    localStorage.setItem(STORAGE_KEY, String(until));
+    resendBtn.disabled = true;
+    if (timerId) clearInterval(timerId);
+    updateTime(until - Date.now());
+    timerId = setInterval(() => {
+      const rem = until - Date.now();
+      if (rem <= 0) clearCooldown();
+      else updateTime(rem);
+    }, 250);
+  }
+
+  function clearCooldown() {
+    if (timerId) clearInterval(timerId);
+    timerId = null;
+    localStorage.removeItem(STORAGE_KEY);
+    resendBtn.disabled = false;
+    resendTime.textContent = "";
+  }
+
+  function updateTime(ms) {
+    const totalSec = Math.ceil(ms / 1000);
+    const m = Math.floor(totalSec / 60);
+    const s = totalSec % 60;
+    resendTime.textContent = `${m}:${String(s).padStart(2, "0")}`;
+  }
+</script>
 
   <script src="./js/lang.js"></script>
 </body>

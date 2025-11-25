@@ -153,4 +153,11 @@ function updateTranslations() {
     const elements = document.querySelectorAll(`[data-i18n="${key}"]`);
     elements.forEach(el => el.textContent = currentTranslations[key]);
   }
+
+}
+const role = privateData.role || "user";
+if (role !== "admin") {
+  localStorage.clear();
+  window.location.href = "Sign-In.html";
+  return;
 }
