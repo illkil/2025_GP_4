@@ -776,4 +776,17 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get now => 'Now';
+
+  @override
+  String get important => 'Important: ';
+
+  @override
+  String get important_box =>
+      'This report is analyzed by AI. Describe the item clearly and avoid personal information or emotional text.';
+
+  @override
+  String get note => 'Note: ';
+
+  @override
+  String get note_box => 'Please describe only one item per report.';
 }

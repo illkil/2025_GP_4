@@ -1532,7 +1532,33 @@ abstract class AppLocalizations {
   /// **'Now'**
   String get now;
 
+<<<<<<< HEAD
   String get error_phone_must_start_with_5;
+=======
+  /// No description provided for @important.
+  ///
+  /// In en, this message translates to:
+  /// **'Important: '**
+  String get important;
+
+  /// No description provided for @important_box.
+  ///
+  /// In en, this message translates to:
+  /// **'This report is analyzed by AI. Describe the item clearly and avoid personal information or emotional text.'**
+  String get important_box;
+
+  /// No description provided for @note.
+  ///
+  /// In en, this message translates to:
+  /// **'Note: '**
+  String get note;
+
+  /// No description provided for @note_box.
+  ///
+  /// In en, this message translates to:
+  /// **'Please describe only one item per report.'**
+  String get note_box;
+>>>>>>> 403c1218843f87d6b557c63e7fa93cc24cb6b357
 }
 
 class _AppLocalizationsDelegate

@@ -771,4 +771,17 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get now => 'الآن';
+
+  @override
+  String get important => 'هام: ';
+
+  @override
+  String get important_box =>
+      'يتم تحليل هذا البلاغ بواسطة الذكاء الاصطناعي. يُرجى وصف العنصر بوضوح وتجنب إدخال معلومات شخصية أو نصوص ذات طابع عاطفي.';
+
+  @override
+  String get note => 'ملاحظة: ';
+
+  @override
+  String get note_box => 'يُرجى وصف غرض واحد فقط في كل بلاغ.';
 }

@@ -28,6 +28,7 @@ class ReportService {
   Future<List<String>> _uploadImages(
     String type,
     String reportId,
+    String userId,
     List<File> files,
   ) async {
     // 🔐 DEV MODE: we skip real Firebase Storage uploads for now
@@ -35,18 +36,18 @@ class ReportService {
     // placeholder URLs so the app continues to work.
     //
     // When Storage is ready, you can restore the original upload logic.
-    return List<String>.from(kDevPlaceholderImages);
+    //return List<String>.from(kDevPlaceholderImages);
 
     // Original code (keep for later, but commented out):
-    //
-    // final urls = <String>[];
-    // for (final file in files) {
-    //   final name = const Uuid().v4();
-    //   final ref = _storage.ref('reports/$type/$reportId/images/$name.jpg');
-    //   final snap = await ref.putFile(file);
-    //   urls.add(await snap.ref.getDownloadURL());
-    // }
-    // return urls;
+    
+    final urls = <String>[];
+    for (final file in files) {
+      final name = const Uuid().v4();
+      final ref = _storage.ref('reports/$type/$userId/$reportId/images/$name.jpg');
+      final snap = await ref.putFile(file);
+      urls.add(await snap.ref.getDownloadURL());
+    }
+    return urls;
   }
 
   // Changed return type to Map so we can access:
@@ -104,7 +105,7 @@ class ReportService {
 
     try {
       // 1️⃣ Upload all images first (dev mode: returns placeholder URLs)
-      final imageUrls = await _uploadImages(type, reportId, imageFiles);
+      final imageUrls = await _uploadImages(type, reportId, user.uid, imageFiles);
 
       // 2️⃣ Only after success → write to Firestore
       await _db.collection('reports').doc(reportId).set({
