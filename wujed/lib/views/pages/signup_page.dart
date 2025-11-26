@@ -332,7 +332,7 @@ class _SignupPageState extends State<SignupPage> {
                           ),
                           validator: (value) {
                             final v = value?.trim() ?? '';
-                            if (v.isEmpty) return t.login_error_fill_all;
+                            if (v.isEmpty) return;
                             return null;
                           },
                         ),
@@ -383,7 +383,7 @@ class _SignupPageState extends State<SignupPage> {
                           ),
                           validator: (value) {
                             final v = value?.trim() ?? '';
-                            if (v.isEmpty) return t.login_error_fill_all;
+                            if (v.isEmpty) return;
                             return null;
                           },
                         ),
@@ -441,7 +441,7 @@ class _SignupPageState extends State<SignupPage> {
                           ),
                           validator: (value) {
                             final v = value?.trim() ?? '';
-                            if (v.isEmpty) return t.login_error_fill_all;
+                            if (v.isEmpty) return;
                             return null;
                           },
                         ),

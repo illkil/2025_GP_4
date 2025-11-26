@@ -375,7 +375,7 @@ class _LoginPageState extends State<LoginPage> {
                           validator: (value) {
                             final v = value?.trim() ?? '';
                             if (v.isEmpty) {
-                              return t.login_error_fill_all;
+                              return;
                             }
                             return null;
                           },
@@ -441,7 +441,7 @@ class _LoginPageState extends State<LoginPage> {
                           validator: (value) {
                             final v = value?.trim() ?? '';
                             if (v.isEmpty) {
-                              return t.login_error_fill_all;
+                              return;
                             }
                             return null;
                           },
