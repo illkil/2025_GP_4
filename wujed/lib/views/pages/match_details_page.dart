@@ -3,10 +3,13 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:wujed/l10n/generated/app_localizations.dart';
 import 'package:wujed/services/chat_store.dart';
 import 'package:wujed/views/pages/chat_page.dart';
-import 'package:wujed/services/match_store.dart'; 
+import 'package:wujed/services/match_store.dart';
+import 'package:wujed/views/pages/match_after_accepting_page.dart';
 
 class MatchDetailsPage extends StatefulWidget {
-  const MatchDetailsPage({super.key});
+  final String reportId;
+
+  const MatchDetailsPage({super.key, required this.reportId});
 
   @override
   State<MatchDetailsPage> createState() => _MatchDetailsPageState();
@@ -258,24 +261,28 @@ class _MatchDetailsPageState extends State<MatchDetailsPage> {
                             ],
                           ),
                         );
-                    
+
                         if (confirmed == 'Confirm') {
                           if (!context.mounted) return;
+
                           const String matchedUser = 'MatchedUser1';
-                    
-                          const String reportId = 'coffee_brewer_1'; 
+                          final String reportId = widget.reportId;
+
+                          // 1) mark this match as accepted
                           MatchStore.instance.accept(reportId);
-                    
                           ChatStore.instance.addUser(matchedUser);
-                    
-                          Navigator.push(
+
+                          // 2) REPLACE MatchDetails with MatchAfterAccepting
+                          await Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                              builder: (_) => ChatPage(location: false, name: matchedUser),
+                              builder: (_) => MatchAfterAcceptingPage(
+                                reportId: reportId,
+                                openChatInitially: true,
+                              ),
                             ),
                           );
                         }
-                    
                       },
                       style: FilledButton.styleFrom(
                         minimumSize: const Size(170, 45),
@@ -395,7 +402,7 @@ class _MatchDetailsPageState extends State<MatchDetailsPage> {
                             ],
                           ),
                         );
-                    
+
                         if (confirmed == 'Confirm') {
                           if (!context.mounted) return;
                           Navigator.pop(context, 'Rejected');

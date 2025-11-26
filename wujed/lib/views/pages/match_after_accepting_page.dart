@@ -2,9 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:wujed/l10n/generated/app_localizations.dart';
 import 'package:wujed/services/match_store.dart';
+import 'package:wujed/services/report_service.dart';
+import 'package:wujed/data/notifiers.dart';
+import 'package:wujed/views/pages/chat_page.dart';
 
 class MatchAfterAcceptingPage extends StatefulWidget {
-  const MatchAfterAcceptingPage({super.key});
+  final String reportId;
+  final bool openChatInitially;
+
+  const MatchAfterAcceptingPage({
+    super.key,
+    required this.reportId,
+    this.openChatInitially = false,
+  });
 
   @override
   State<MatchAfterAcceptingPage> createState() =>
@@ -12,6 +22,30 @@ class MatchAfterAcceptingPage extends StatefulWidget {
 }
 
 class _MatchAfterAcceptingPageState extends State<MatchAfterAcceptingPage> {
+  bool _openedChat = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (widget.openChatInitially && !_openedChat) {
+      _openedChat = true;
+
+      // open chat after the page is built
+      Future.microtask(() async {
+        if (!mounted) return;
+
+        await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) =>
+                const ChatPage(location: false, name: 'MatchedUser1'),
+          ),
+        );
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
@@ -247,7 +281,8 @@ class _MatchAfterAcceptingPageState extends State<MatchAfterAcceptingPage> {
                               ),
                               const SizedBox(height: 10.0),
                               OutlinedButton(
-                                onPressed: () => Navigator.pop(context, 'Cancel'),
+                                onPressed: () =>
+                                    Navigator.pop(context, 'Cancel'),
                                 style: OutlinedButton.styleFrom(
                                   minimumSize: const Size(double.infinity, 45),
                                   shape: RoundedRectangleBorder(
@@ -266,7 +301,7 @@ class _MatchAfterAcceptingPageState extends State<MatchAfterAcceptingPage> {
                             ],
                           ),
                         );
-                    
+
                         if (confirmReceived == 'Confirm') {
                           final done = await showDialog(
                             context: context,
@@ -322,7 +357,10 @@ class _MatchAfterAcceptingPageState extends State<MatchAfterAcceptingPage> {
                                     Navigator.pop(context, 'Continue');
                                   },
                                   style: FilledButton.styleFrom(
-                                    minimumSize: const Size(double.infinity, 45),
+                                    minimumSize: const Size(
+                                      double.infinity,
+                                      45,
+                                    ),
                                     backgroundColor: const Color.fromRGBO(
                                       46,
                                       23,
@@ -345,11 +383,19 @@ class _MatchAfterAcceptingPageState extends State<MatchAfterAcceptingPage> {
                               ],
                             ),
                           );
-                    
+
                           if (done == 'Continue') {
+                            await ReportService().markReportAsDone(
+                              widget.reportId,
+                            );
+
                             if (!context.mounted) return;
-                            Navigator.pop(context);
-                            Navigator.pop(context, 'Done');
+
+                            selectedPageNotifier.value = 1;
+
+                            Navigator.of(
+                              context,
+                            ).popUntil((route) => route.isFirst);
                           }
                         }
                       },
@@ -474,7 +520,7 @@ class _MatchAfterAcceptingPageState extends State<MatchAfterAcceptingPage> {
                           ),
                         );
                         if (confirmed == 'Confirm') {
-                          MatchStore.instance.revoke('coffee_brewer_1');
+                          MatchStore.instance.revoke(widget.reportId);
                           if (!context.mounted) return;
                           Navigator.pop(context, 'Revoked');
                         }

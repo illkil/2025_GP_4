@@ -39,11 +39,13 @@ class ReportService {
     //return List<String>.from(kDevPlaceholderImages);
 
     // Original code (keep for later, but commented out):
-    
+
     final urls = <String>[];
     for (final file in files) {
       final name = const Uuid().v4();
-      final ref = _storage.ref('reports/$type/$userId/$reportId/images/$name.jpg');
+      final ref = _storage.ref(
+        'reports/$type/$userId/$reportId/images/$name.jpg',
+      );
       final snap = await ref.putFile(file);
       urls.add(await snap.ref.getDownloadURL());
     }
@@ -105,7 +107,12 @@ class ReportService {
 
     try {
       // 1️⃣ Upload all images first (dev mode: returns placeholder URLs)
-      final imageUrls = await _uploadImages(type, reportId, user.uid, imageFiles);
+      final imageUrls = await _uploadImages(
+        type,
+        reportId,
+        user.uid,
+        imageFiles,
+      );
 
       // 2️⃣ Only after success → write to Firestore
       await _db.collection('reports').doc(reportId).set({
@@ -227,6 +234,15 @@ class ReportService {
     final uid = _auth.currentUser?.uid;
     if (uid == null) return const Stream.empty();
     return _db.collection('reports').doc(reportId).snapshots();
+  }
+
+  Future<void> markReportAsDone(String reportId) async {
+    await FirebaseFirestore.instance.collection('reports').doc(reportId).update(
+      {
+        'status': 'done',
+        'updatedAt': FieldValue.serverTimestamp(), // optional
+      },
+    );
   }
 
   Future<void> deleteReport(String id) async {

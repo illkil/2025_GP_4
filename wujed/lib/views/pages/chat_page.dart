@@ -19,11 +19,7 @@ import 'package:wujed/data/notifiers.dart';
 /// `location` → whether we should show the map bubble when opening the page.
 /// `name`     → other user's name ("Ghaida44", etc.).
 class ChatPage extends StatefulWidget {
-  const ChatPage({
-    super.key,
-    required this.location,
-    required this.name,
-  });
+  const ChatPage({super.key, required this.location, required this.name});
 
   final bool location;
   final String name;
@@ -121,12 +117,7 @@ class _ChatPageState extends State<ChatPage> {
         isSender: false,
         isRead: true,
       ),
-      ChatBubble(
-        text: 'Hello!',
-        time: '9:01 AM',
-        isSender: true,
-        isRead: true,
-      ),
+      ChatBubble(text: 'Hello!', time: '9:01 AM', isSender: true, isRead: true),
     ];
   }
 
@@ -138,9 +129,10 @@ class _ChatPageState extends State<ChatPage> {
       // Handle Android back button: go back to main page tab instead of
       // stacking multiple copies of HomePage.
       onWillPop: () async {
-        selectedPageNotifier.value = 2; // 2 = messages tab (in your app)
-        Navigator.of(context).popUntil((route) => route.isFirst);
-        return false; // we already handled the back navigation
+        selectedPageNotifier.value =
+            2; // still ok if you want messages tab highlighted
+        Navigator.of(context).pop();
+        return false;
       },
       child: Scaffold(
         backgroundColor: const Color.fromRGBO(249, 249, 249, 1),
@@ -150,9 +142,8 @@ class _ChatPageState extends State<ChatPage> {
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () {
-              // Same behaviour as Android back button: return to main page.
               selectedPageNotifier.value = 2;
-              Navigator.of(context).popUntil((route) => route.isFirst);
+              Navigator.of(context).pop(); // 🔹 back to MatchDetails
             },
           ),
           title: Title(
@@ -273,11 +264,11 @@ class _ChatPageState extends State<ChatPage> {
                           // Navigate to page where user selects meeting place.
                           final result =
                               await Navigator.push<Map<String, dynamic>>(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => const ChatLocationPage(),
-                            ),
-                          );
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => const ChatLocationPage(),
+                                ),
+                              );
 
                           // If user chose to send location, show the map bubble.
                           if (result?['location'] == true) {

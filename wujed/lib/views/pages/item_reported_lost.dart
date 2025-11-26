@@ -7,6 +7,7 @@ import 'package:wujed/views/pages/match_details_page.dart';
 import 'package:wujed/l10n/generated/app_localizations.dart';
 import 'package:wujed/views/pages/view_on_map.dart';
 import 'package:wujed/services/match_store.dart';
+import 'package:wujed/data/notifiers.dart';
 
 class ItemReportedLost extends StatefulWidget {
   final String reportId;
@@ -95,6 +96,8 @@ class _ItemReportedLostState extends State<ItemReportedLost> {
         final title = (data['title'] as String?)?.trim() ?? t.common_untitled;
         final description =
             (data['description'] as String?)?.trim() ?? t.label_value_missing;
+
+        final status = (data['status'] as String?) ?? '';
 
         final loc = data['location'];
         String locationText = t.label_value_missing;
@@ -232,9 +235,17 @@ class _ItemReportedLostState extends State<ItemReportedLost> {
                           color: Colors.white,
                           shape: BoxShape.circle,
                         ),
-                        child: const BackButton(),
+                        child: IconButton(
+                          icon: const Icon(Icons.arrow_back),
+                          onPressed: () {
+                            // Always go back to History tab (index 1)
+                            selectedPageNotifier.value = 1;
+                            Navigator.of(context).pop();
+                          },
+                        ),
                       ),
                     ),
+
                     PositionedDirectional(
                       start: 0,
                       end: 0,
@@ -385,262 +396,277 @@ class _ItemReportedLostState extends State<ItemReportedLost> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 30),
 
-                      Row(
-                        children: [
-                          Expanded(
-                            child: FilledButton(
-                              onPressed: () {},
-                              style: FilledButton.styleFrom(
-                                minimumSize: const Size(170, 45),
-                                backgroundColor: const Color.fromRGBO(
-                                  101,
-                                  166,
-                                  91,
-                                  1,
+                      if (status != 'done' && status != 'rejected') ...[
+                        SizedBox(height: 30),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: FilledButton(
+                                onPressed: () {},
+                                style: FilledButton.styleFrom(
+                                  minimumSize: const Size(170, 45),
+                                  backgroundColor: const Color.fromRGBO(
+                                    101,
+                                    166,
+                                    91,
+                                    1,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
                                 ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                              child: Text(
-                                t.btn_renew,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 12,
+                                child: Text(
+                                  t.btn_renew,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
 
-                          SizedBox(width: 10),
+                            SizedBox(width: 10),
 
-                          Expanded(
-                            child: FilledButton(
-                              onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  barrierDismissible: true,
-                                  barrierColor: Colors.black54,
-                                  builder: (_) => AlertDialog(
-                                    backgroundColor: Colors.white,
-                                    surfaceTintColor: Colors.transparent,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                    elevation: 8,
-                                    alignment: Alignment.center,
-                                    titlePadding: const EdgeInsets.fromLTRB(
-                                      20,
-                                      20,
-                                      20,
-                                      0,
-                                    ),
-                                    contentPadding: const EdgeInsets.fromLTRB(
-                                      20,
-                                      10,
-                                      20,
-                                      20,
-                                    ),
-                                    actionsPadding: const EdgeInsets.fromLTRB(
-                                      20,
-                                      0,
-                                      20,
-                                      20,
-                                    ),
-                                    title: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                          t.dialog_are_you_sure,
-                                          style: const TextStyle(
-                                            color: Color.fromRGBO(
-                                              46,
-                                              23,
-                                              21,
-                                              1,
+                            Expanded(
+                              child: FilledButton(
+                                onPressed: () {
+                                  showDialog(
+                                    context: context,
+                                    barrierDismissible: true,
+                                    barrierColor: Colors.black54,
+                                    builder: (_) => AlertDialog(
+                                      backgroundColor: Colors.white,
+                                      surfaceTintColor: Colors.transparent,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      elevation: 8,
+                                      alignment: Alignment.center,
+                                      titlePadding: const EdgeInsets.fromLTRB(
+                                        20,
+                                        20,
+                                        20,
+                                        0,
+                                      ),
+                                      contentPadding: const EdgeInsets.fromLTRB(
+                                        20,
+                                        10,
+                                        20,
+                                        20,
+                                      ),
+                                      actionsPadding: const EdgeInsets.fromLTRB(
+                                        20,
+                                        0,
+                                        20,
+                                        20,
+                                      ),
+                                      title: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            t.dialog_are_you_sure,
+                                            style: const TextStyle(
+                                              color: Color.fromRGBO(
+                                                46,
+                                                23,
+                                                21,
+                                                1,
+                                              ),
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
                                             ),
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ],
+                                      ),
+                                      content: Text(
+                                        t.report_cancel_dialog_info,
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      actionsAlignment: MainAxisAlignment.end,
+                                      actions: [
+                                        FilledButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                            Navigator.pop(context);
+
+                                            //hard delete from database then navigate to history
+                                            Future.microtask(() {
+                                              ReportService().deleteReport(
+                                                widget.reportId,
+                                              );
+                                            });
+                                          },
+                                          style: FilledButton.styleFrom(
+                                            minimumSize: const Size(
+                                              double.infinity,
+                                              45,
+                                            ),
+                                            backgroundColor:
+                                                const Color.fromRGBO(
+                                                  46,
+                                                  23,
+                                                  21,
+                                                  1,
+                                                ),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                          ),
+                                          child: Text(
+                                            t.btn_confirm,
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                        ),
+                                        const SizedBox(height: 10.0),
+                                        OutlinedButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          style: OutlinedButton.styleFrom(
+                                            minimumSize: const Size(
+                                              double.infinity,
+                                              45,
+                                            ),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                          ),
+                                          child: Text(
+                                            t.btn_cancel,
+                                            style: const TextStyle(
+                                              color: Color.fromRGBO(
+                                                46,
+                                                23,
+                                                21,
+                                                1,
+                                              ),
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                            ),
                                           ),
                                         ),
                                       ],
                                     ),
-                                    content: Text(
-                                      t.report_cancel_dialog_info,
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    actionsAlignment: MainAxisAlignment.end,
-                                    actions: [
-                                      FilledButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                          Navigator.pop(context);
-
-                                          //hard delete from database then navigate to history
-                                          Future.microtask(() {
-                                            ReportService().deleteReport(
-                                              widget.reportId,
-                                            );
-                                          });
-                                        },
-                                        style: FilledButton.styleFrom(
-                                          minimumSize: const Size(
-                                            double.infinity,
-                                            45,
-                                          ),
-                                          backgroundColor: const Color.fromRGBO(
-                                            46,
-                                            23,
-                                            21,
-                                            1,
-                                          ),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                              10,
-                                            ),
-                                          ),
-                                        ),
-                                        child: Text(
-                                          t.btn_confirm,
-                                          style: const TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                          ),
-                                        ),
-                                      ),
-                                      const SizedBox(height: 10.0),
-                                      OutlinedButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        style: OutlinedButton.styleFrom(
-                                          minimumSize: const Size(
-                                            double.infinity,
-                                            45,
-                                          ),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(
-                                              10,
-                                            ),
-                                          ),
-                                        ),
-                                        child: Text(
-                                          t.btn_cancel,
-                                          style: const TextStyle(
-                                            color: Color.fromRGBO(
-                                              46,
-                                              23,
-                                              21,
-                                              1,
-                                            ),
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                                  );
+                                },
+                                style: FilledButton.styleFrom(
+                                  minimumSize: const Size(170, 45),
+                                  backgroundColor: const Color.fromRGBO(
+                                    166,
+                                    91,
+                                    91,
+                                    1,
                                   ),
-                                );
-                              },
-                              style: FilledButton.styleFrom(
-                                minimumSize: const Size(170, 45),
-                                backgroundColor: const Color.fromRGBO(
-                                  166,
-                                  91,
-                                  91,
-                                  1,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
                                 ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                              child: Text(
-                                t.btn_delete,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 12,
+                                child: Text(
+                                  t.btn_delete,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
+                          ],
+                        ),
+                      ],
 
                       const SizedBox(height: 30.0),
-
-                      Row(
-                        children: [
-                          Text(
-                            t.lost_found_matches_title,
-                            style: const TextStyle(
-                              color: Color.fromRGBO(43, 23, 21, 1),
-                              fontSize: 16,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 10.0),
-                      const Divider(),
-                      const SizedBox(height: 5.0),
-
-                      if (!hideBrew)
-                        buildMatchCard(
-                          imagePath: 'lib/assets/images/CoffeeBrew2.jpg',
-                          title: t.item_title_coffee_brewer,
-                          description: 'Lorem ipsum dolor sit\namet, consec...',
-                          confidence: t.match_confidence(90),
-                          confidenceColor: const Color.fromRGBO(25, 176, 0, 1),
-                          onPressed: () async {
-                            final result = await Navigator.push<String>(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) {
-                                  const String reportId = 'coffee_brewer_1';
-
-                                  final bool accepted = MatchStore.instance
-                                      .isAccepted(reportId);
-
-                                  return accepted
-                                      ? const MatchAfterAcceptingPage()
-                                      : const MatchDetailsPage();
-                                },
+                      if (status != 'done' && status != 'rejected') ...[
+                        Row(
+                          children: [
+                            Text(
+                              t.lost_found_matches_title,
+                              style: const TextStyle(
+                                color: Color.fromRGBO(43, 23, 21, 1),
+                                fontSize: 16,
                               ),
-                            );
-                            if (result == 'Accepted') {
-                              setState(() => hideMug = true);
-                            } else if (result == 'Revoked' ||
-                                result == 'Rejected') {
-                              setState(() {
-                                hideBrew = true;
-                                hideMug = false;
-                              });
-                            }
-                          },
+                            ),
+                          ],
                         ),
+                        const SizedBox(height: 10.0),
+                        const Divider(),
+                        const SizedBox(height: 5.0),
 
-                      const SizedBox(height: 20.0),
+                        if (!hideBrew)
+                          buildMatchCard(
+                            imagePath: 'lib/assets/images/CoffeeBrew2.jpg',
+                            title: t.item_title_coffee_brewer,
+                            description:
+                                'Lorem ipsum dolor sit\namet, consec...',
+                            confidence: t.match_confidence(90),
+                            confidenceColor: const Color.fromRGBO(
+                              25,
+                              176,
+                              0,
+                              1,
+                            ),
+                            onPressed: () async {
+                              final String reportId =
+                                  widget.reportId; // this report’s id
 
-                      if (!MatchStore.instance.isAccepted('coffee_brewer_1'))
-                        buildMatchCard(
-                          imagePath: 'lib/assets/images/CoffeeMug1.png',
-                          title: t.item_title_coffee_mug,
-                          description:
-                              'Consectetur adipiscing\nelit, sed do ei...',
-                          confidence: t.match_confidence(79),
-                          confidenceColor: const Color.fromRGBO(
-                            255,
-                            204,
-                            92,
-                            1,
+                              final bool accepted = MatchStore.instance
+                                  .isAccepted(reportId);
+
+                              final result = await Navigator.push<String>(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => accepted
+                                      ? MatchAfterAcceptingPage(
+                                          reportId: reportId,
+                                        )
+                                      : MatchDetailsPage(reportId: reportId),
+                                ),
+                              );
+
+                              if (result == 'Accepted') {
+                                setState(() => hideMug = true);
+                              } else if (result == 'Revoked' ||
+                                  result == 'Rejected') {
+                                setState(() {
+                                  hideBrew = true;
+                                  hideMug = false;
+                                });
+                              } else if (result == 'Done') {
+                                setState(() {
+                                  hideBrew = true;
+                                  hideMug = true;
+                                });
+                              }
+                            },
                           ),
-                          onPressed: () {},
-                        ),
+
+                        const SizedBox(height: 20.0),
+
+                        if (!MatchStore.instance.isAccepted('coffee_brewer_1'))
+                          buildMatchCard(
+                            imagePath: 'lib/assets/images/CoffeeMug1.png',
+                            title: t.item_title_coffee_mug,
+                            description:
+                                'Consectetur adipiscing\nelit, sed do ei...',
+                            confidence: t.match_confidence(79),
+                            confidenceColor: const Color.fromRGBO(
+                              255,
+                              204,
+                              92,
+                              1,
+                            ),
+                            onPressed: () {},
+                          ),
+                      ],
                     ],
                   ),
                 ),
