@@ -787,4 +787,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get note_box => 'يُرجى وصف غرض واحد فقط في كل بلاغ.';
+
+  @override
+  String get error_upload_photo => 'فشل رفع الصورة';
 }

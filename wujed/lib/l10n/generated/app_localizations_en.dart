@@ -792,4 +792,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get note_box => 'Please describe only one item per report.';
+
+  @override
+  String get error_upload_photo => 'Failed to upload photo';
 }

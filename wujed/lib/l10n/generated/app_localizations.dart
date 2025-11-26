@@ -1561,6 +1561,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please describe only one item per report.'**
   String get note_box;
+
+  /// No description provided for @error_upload_photo.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to upload photo'**
+  String get error_upload_photo;
 }
 
 class _AppLocalizationsDelegate

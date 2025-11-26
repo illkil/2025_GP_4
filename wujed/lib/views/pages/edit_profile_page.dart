@@ -7,6 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:wujed/l10n/generated/app_localizations.dart';
+import 'package:gallery_saver_plus/gallery_saver.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:wechat_assets_picker/wechat_assets_picker.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:photo_manager/photo_manager.dart';
 
 // Imports for image picking and storage
 import 'package:image_picker/image_picker.dart';
@@ -123,93 +128,89 @@ class _EditProfilePageState extends State<EditProfilePage> {
     }
   }
 
+  Future<bool> _requestPhotoPermission() async {
+    final PermissionState ps = await PhotoManager.requestPermissionExtend();
+    final t = AppLocalizations.of(context);
+
+    if (ps.isAuth) {
+      // Permission already granted
+      return true;
+    } else if (ps.hasAccess) {
+      // Old Android versions (pre-13)
+      return true;
+    } else {
+      // Permission denied → show message and open settings
+      _showSnackBar(t.error_enable_photo_access, Icons.warning_rounded);
+      await PhotoManager.openSetting();
+      return false;
+    }
+  }
+
   // 🖼️ New: Function to pick and upload image to Firebase Storage
   Future<void> _pickAndUploadImage() async {
-    final t = AppLocalizations.of(context)!; // Use ! to assert not null
-    setState(() {
-      isUpdating = true; // Show loader while picking/uploading
-    });
+    final t = AppLocalizations.of(context);
+    FocusScope.of(context).unfocus();
 
-    // 1. Pick Image
-    final picker = ImagePicker();
-    final pickedImage = await picker.pickImage(
-      source: ImageSource.gallery,
-      imageQuality: 50, // Reduce quality for faster upload and smaller size
-      maxWidth: 600,
-    );
-
-    if (pickedImage == null) {
-      // User cancelled image picking
-      setState(() {
-        isUpdating = false;
-      });
+    final hasPermission = await _requestPhotoPermission();
+    if (!hasPermission) {
+      _showSnackBar(t.error_allow_photo_access, Icons.warning_rounded);
       return;
     }
 
-    final imageFile = File(pickedImage.path);
+    final result = await AssetPicker.pickAssets(
+      context,
+      pickerConfig: AssetPickerConfig(
+        maxAssets: 1,
+        requestType: RequestType.image,
+        specialItemPosition: SpecialItemPosition.prepend,
+        specialItemBuilder: (context, _, __) {
+          return GestureDetector(
+            onTap: () async {
+              final picker = ImagePicker();
+              final picked = await picker.pickImage(
+                source: ImageSource.camera,
+                imageQuality: 85,
+              );
 
-    try {
-      // 2. Upload to Firebase Storage
-      final storageRef = FirebaseStorage.instance
-          .ref()
-          .child('users')
-          .child(user.uid) // {userId}
-          .child('profile_photo')
-          .child('photo.jpg'); // {fileName}
+              if (picked != null) {
+                final file = File(picked.path);
 
-      await storageRef.putFile(imageFile);
+                try {
+                  final bytes = await file.readAsBytes();
 
-      // 3. Get the Download URL
-      final imageUrl = await storageRef.getDownloadURL();
+                  final tempDir = await getTemporaryDirectory();
+                  final tempPath =
+                      '${tempDir.path}/wujed_${DateTime.now().millisecondsSinceEpoch}.jpg';
+                  final tempFile = await File(tempPath).writeAsBytes(bytes);
 
-      // 4. Update Firestore with the URL
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(user.uid)
-          .collection('public') // Stored in public data for easy access
-          .doc('data')
-          .update({'profile_photo': imageUrl});
+                  await GallerySaver.saveImage(tempFile.path);
 
-      // 5. Update local state and show success
-      await _loadUserData(); // Re-load data to get the new URL
+                  setState(() {
+                    _pickedImageFile = file; // صورة واحدة فقط
+                  });
 
-      setState(() {
-        _pickedImageFile = imageFile;
-        isUpdating = false;
-        updateMade = true;
-      });
+                  Navigator.pop(context); // يقفل البيكر
+                } catch (e) {
+                  _showSnackBar(t.error_save_gallery, Icons.warning_rounded);
+                }
+              }
+            },
+            child: const Center(
+              child: Icon(Icons.camera_alt, size: 42, color: Colors.grey),
+            ),
+          );
+        },
+      ),
+    );
 
-      // Show success message
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          // ✅ FIX: Use string literal as fallback
-          content: Text(
-            // Since the original key was missing, we use a default
-            t.appTitle.isNotEmpty
-                ? t.success_profile_picture_updated
-                : 'Profile picture updated successfully!',
-          ),
-          backgroundColor: Colors.green,
-        ),
-      );
-    } on FirebaseException catch (e) {
-      print('Error uploading image: $e');
-      setState(() {
-        isUpdating = false;
-      });
-      // Show error message
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          // ✅ FIX: Use string literal as fallback
-          content: Text(
-            // Since the original key was missing, we use a default
-            t.appTitle.isNotEmpty
-                ? t.error_profile_picture_update_failed
-                : 'Failed to update profile picture. Please try again.',
-          ),
-          backgroundColor: Colors.red,
-        ),
-      );
+    if (result != null && result.isNotEmpty) {
+      final file = await result.first.file;
+
+      if (file != null) {
+        setState(() {
+          _pickedImageFile = file; // صورة واحدة فقط
+        });
+      }
     }
   }
 
@@ -644,6 +645,44 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
     // Phone: we only trim, and rely on digitsOnly + length validation
     final phoneNumber = _controllerPhoneNumber.text.trim();
+    //  check if (updateMade)
+    bool updateMade = false;
+
+    if (_pickedImageFile != null) {
+      setState(() {
+        isUpdating = true;
+      });
+
+      try {
+        final storageRef = FirebaseStorage.instance
+            .ref()
+            .child('users')
+            .child(user.uid)
+            .child('profile_photo')
+            .child('photo.jpg');
+
+        await storageRef.putFile(_pickedImageFile!);
+        final url = await storageRef.getDownloadURL();
+
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(user.uid)
+            .collection('public')
+            .doc('data')
+            .update({'profile_photo': url});
+
+        updateMade = true;
+        _pickedImageFile = null;
+      } catch (e) {
+        final t = AppLocalizations.of(context)!;
+
+        _showSnackBar(t.error_upload_photo, Icons.warning_rounded);
+        setState(() {
+          isUpdating = false;
+        });
+        return;
+      }
+    }
 
     // Push sanitised values back into the text fields
     // so the user sees exactly what we are saving.
@@ -673,7 +712,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           firstName == userData['first_name'].toString().trim() &&
           lastName == userData['last_name'].toString().trim() &&
           phoneNumber == userData['phone_number'].toString().trim() &&
-          _pickedImageFile == null) {
+          updateMade == false) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Row(
@@ -1038,5 +1077,34 @@ class _EditProfilePageState extends State<EditProfilePage> {
         phoneNumberValid = true;
       });
     }
+  }
+
+  void _showSnackBar(String message, IconData icon) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            Icon(icon, color: const Color.fromRGBO(46, 23, 21, 1)),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                message,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                  color: Color.fromRGBO(46, 23, 21, 1),
+                ),
+              ),
+            ),
+          ],
+        ),
+        backgroundColor: const Color(0xFFFFE4B3),
+        duration: const Duration(seconds: 3),
+        behavior: SnackBarBehavior.floating,
+        margin: const EdgeInsets.all(20),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        elevation: 10,
+      ),
+    );
   }
 }
