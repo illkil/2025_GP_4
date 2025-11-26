@@ -573,7 +573,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String block_user_confirm(String name) {
-    return 'هل أنت متأكد أنك تريد حظر $name؟\n\nستستمر في استلام المطابقات المحتملة من هذا المستخدم، ولكن سيتم تنبيهك بأنك قمت بحظره قبل قبول المطابقة.';
+    return 'هل أنت متأكد أنك تريد حظر @$name؟\n\nستستمر في استلام المطابقات المحتملة من هذا المستخدم، ولكن سيتم تنبيهك بأنك قمت بحظره قبل قبول المطابقة.';
   }
 
   @override

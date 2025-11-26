@@ -572,7 +572,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String block_user_confirm(String name) {
-    return 'Are you sure you want to Block $name?\n\nYou will still receive possible matches from this person but you will be warned that you have them blocked before accepting the match.';
+    return 'Are you sure you want to Block @$name?\n\nYou will still receive possible matches from this person but you will be warned that you have them blocked before accepting the match.';
   }
 
   @override
