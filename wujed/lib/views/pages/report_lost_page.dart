@@ -185,9 +185,29 @@ class _ReportLostPageState extends State<ReportLostPage> {
                       const SizedBox(height: 10.0),
 
                       // Subtitle
-                      Text(
-                        t.report_required_details,
-                        style: TextStyle(fontSize: 16.0, color: textColor),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            t.report_required_details,
+                            style: TextStyle(fontSize: 16.0, color: textColor),
+                          ),
+                          Text(
+                            " (",
+                            style: TextStyle(fontSize: 16.0, color: textColor),
+                          ),
+                          Text(
+                            "*",
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              color: Color.fromRGBO(211, 47, 47, 1),
+                            ),
+                          ),
+                          Text(
+                            ")",
+                            style: TextStyle(fontSize: 16.0, color: textColor),
+                          ),
+                        ],
                       ),
 
                       const SizedBox(height: 20.0),
