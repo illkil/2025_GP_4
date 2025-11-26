@@ -552,6 +552,9 @@ class _SignupPageState extends State<SignupPage> {
                                 style: const TextStyle(
                                   color: Color.fromRGBO(0, 111, 255, 1),
                                   decoration: TextDecoration.underline,
+                                  decorationThickness: 1,
+                                  decorationColor:
+                                      Color.fromRGBO(0, 111, 255, 1),
                                 ),
                               ),
                             ),
