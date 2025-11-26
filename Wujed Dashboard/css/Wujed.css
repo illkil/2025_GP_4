@@ -69,3 +69,53 @@
     }
 
     
+  /* ===========================
+   Mobile Responsive (max 480)
+   =========================== */
+   
+   @media (max-width: 600px){
+
+  .content{
+    padding: 16px;
+  }
+
+  .center-card{
+    padding: 16px;
+  }
+
+  .welcome{
+    font-size: 32px;
+    margin-bottom: 12px;
+  }
+
+  .subtitle{
+    font-size: 16px;
+    margin-bottom: 22px;
+  }
+
+  .signin-btn{
+    width: 60%;
+    max-width: 300px;
+    height: 50px;
+    font-size:18px;
+    border-radius:12px;
+  }
+
+  .footer{
+    flex-direction:column;
+    gap:6px;
+    text-align:center;
+    font-size:12px;
+  }
+
+  .lang-btn{
+    top: 12px;
+    right: 12px;
+    font-size: 13px;
+    padding: 5px 10px;
+  }
+
+  body[dir="rtl"] .lang-btn{
+    left: 12px;
+  }
+}

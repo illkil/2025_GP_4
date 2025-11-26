@@ -127,3 +127,92 @@
     font-size:20px;
     color:rgba(27,30,40,.8);
   }
+  
+  /* ===========================
+   Mobile Responsive (max 480)
+   =========================== */
+
+  @media (max-width: 480px) {
+
+  body{
+    padding:20px;
+  }
+
+  .card{
+    width:100%;
+    height:auto;
+    padding:30px 15px;
+    border-radius:16px;
+  }
+
+  h1{
+    font-size:24px;
+  }
+
+  .message-wrap{
+    height:28px;
+    margin-bottom:25px;
+  }
+
+  .message{
+    font-size:18px;
+  }
+
+  form{
+    gap:20px;
+  }
+
+  label,
+  .field,
+  .forgot-wrap{
+    width:100%;
+    max-width: 335px;  }
+
+  label{
+    font-size:18px;
+  }
+
+.field{
+  width:335px;
+  height:50px;
+  background:#fff;
+  border:1px solid rgba(0,0,0,.2);
+  border-radius:8px;
+  display:flex;
+  align-items:center;
+  padding:0 12px;
+  gap:8px;
+  justify-content: space-between; 
+}
+
+  .field input {
+    flex: 1;
+    height: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 18px;
+    color: rgba(27, 30, 40, .8);
+    padding-right: 36px;
+  }
+
+  .toggle-btn {
+    flex-shrink: 0; 
+    width: 28px; 
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #7A7A7A;
+  }
+    .forgot{
+    font-size:16px;
+  }
+
+  .submit{
+    width:50%;
+    height:50px;
+    font-size:18px;
+  }
+}
