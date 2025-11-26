@@ -16,7 +16,6 @@
 </head>
 
 <body>
-
   <section class="card">
     <h1 data-i18n="signIn">Sign In</h1>
 
@@ -90,16 +89,109 @@
     });
   </script>
 
-  <!-- Firebase Login -->
+  <!-- Firebase Login with lockout protection -->
   <script type="module">
     import { auth, db } from "./js/firebase-init.js";
     import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
     import { doc, getDoc } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
 
+    // 🔐 Lockout state (similar idea to Flutter app)
+    let isLocked = false;
+    let lockEndTime = null;
+    const LOCK_STORAGE_KEY = "adminLoginLock";
+    let lockInterval = null;
+
+    function loadLockState() {
+      const raw = localStorage.getItem(LOCK_STORAGE_KEY);
+      if (!raw) return;
+
+      try {
+        const data = JSON.parse(raw);
+        if (data.lockEndTime && data.lockEndTime > Date.now()) {
+          isLocked = true;
+          lockEndTime = data.lockEndTime;
+          showLockMessage();
+          startLockCountdown();
+        } else {
+          // lock expired
+          localStorage.removeItem(LOCK_STORAGE_KEY);
+        }
+      } catch (e) {
+        console.error("Failed to parse lock state", e);
+        localStorage.removeItem(LOCK_STORAGE_KEY);
+      }
+    }
+
+    function saveLockState() {
+      if (!lockEndTime) return;
+      localStorage.setItem(
+        LOCK_STORAGE_KEY,
+        JSON.stringify({ lockEndTime })
+      );
+    }
+
+    function clearLockState() {
+      isLocked = false;
+      lockEndTime = null;
+      localStorage.removeItem(LOCK_STORAGE_KEY);
+      if (lockInterval) clearInterval(lockInterval);
+      msgError.classList.remove("show");
+      msgInfo.classList.add("show");
+    }
+
+    function startLockCountdown() {
+      if (lockInterval) clearInterval(lockInterval);
+
+      lockInterval = setInterval(() => {
+        if (!isLocked || !lockEndTime) {
+          clearInterval(lockInterval);
+          return;
+        }
+
+        const remainingMs = lockEndTime - Date.now();
+        if (remainingMs <= 0) {
+          clearInterval(lockInterval);
+          clearLockState();
+          return;
+        }
+        showLockMessage();
+      }, 1000);
+    }
+
+    function showLockMessage() {
+      if (!lockEndTime) return;
+
+      const remainingSec = Math.max(
+        0,
+        Math.floor((lockEndTime - Date.now()) / 1000)
+      );
+
+      msgInfo.classList.remove("show");
+      msgError.classList.add("show");
+
+      // Optional: if you have a dynamic translation like login_locked in lang.js
+      if (typeof window.currentTranslations !== "undefined" &&
+          typeof window.currentTranslations.login_locked === "function") {
+        msgError.textContent = window.currentTranslations.login_locked(remainingSec);
+      } else {
+        const mins = Math.ceil(remainingSec / 60);
+        msgError.textContent =
+          `Too many attempts. Please try again in ${mins} minute(s).`;
+      }
+    }
+
     window.addEventListener("DOMContentLoaded", () => {
+      // Load lock state from previous attempts
+      loadLockState();
 
       document.getElementById("loginForm").addEventListener("submit", async (e) => {
         e.preventDefault();
+
+        // 🚫 If locked, block immediately
+        if (isLocked) {
+          showLockMessage();
+          return;
+        }
 
         const rawEmail = document.getElementById("email").value;
         const rawPassword = document.getElementById("password").value;
@@ -108,7 +200,9 @@
         const result = window.sanitiseTextInput(rawEmail, 100);
         if (!result.ok) {
           msgInfo.classList.remove("show");
-          msgError.textContent = currentTranslations.msgError || result.error;
+          msgError.textContent =
+            (window.currentTranslations && window.currentTranslations.msgError) ||
+            result.error;
           msgError.classList.add("show");
           return;
         }
@@ -129,11 +223,15 @@
             if (role === "admin") {
               msgError.classList.remove("show");
               msgInfo.classList.add("show");
+              // ✅ Successful login → clear any existing lock
+              clearLockState();
               window.location.href = "Home.html";
             } else {
               msgInfo.classList.remove("show");
               msgError.classList.add("show");
-              msgError.textContent = currentTranslations.adminDenied;
+              msgError.textContent =
+                (window.currentTranslations && window.currentTranslations.adminDenied) ||
+                "Access denied. Admins only.";
             }
           } else {
             msgInfo.classList.remove("show");
@@ -144,7 +242,21 @@
           console.error("Login failed:", error);
           msgInfo.classList.remove("show");
           msgError.classList.add("show");
-          msgError.textContent = currentTranslations.msgError2;
+
+          // ⚠️ Same idea as app: brute force / too many attempts → lock for 3 minutes
+          if (error.code === "auth/too-many-requests") {
+            const threeMinutesMs = 3 * 60 * 1000;
+            isLocked = true;
+            lockEndTime = Date.now() + threeMinutesMs;
+            saveLockState();
+            startLockCountdown();
+            showLockMessage();
+          } else {
+            // Other errors → generic message from translations
+            msgError.textContent =
+              (window.currentTranslations && window.currentTranslations.msgError2) ||
+              "Login failed. Please check your credentials and try again.";
+          }
         }
       });
     });
