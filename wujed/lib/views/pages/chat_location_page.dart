@@ -9,11 +9,15 @@ class ChatLocationPage extends StatefulWidget {
 }
 
 class _PickLocationPageState extends State<ChatLocationPage> {
-  void screenTapped() {
-    showModalBottomSheet(
+  void screenTapped() async {
+    final result = await showModalBottomSheet(
       context: context,
       builder: (ctx) => BottomSheetWidget(page: 'ChatLocationPage'),
     );
+
+    if (result == 'current' || result == 'manual') {
+      Navigator.pop(context, 'choosed');
+    }
   }
 
   @override

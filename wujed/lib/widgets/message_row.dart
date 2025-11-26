@@ -31,8 +31,7 @@ class MessageRow extends StatelessWidget {
     final haveCheck = check
         ? (doubleTick ? Remix.check_double_line : Remix.check_line)
         : null;
-    final checkIcon =
-        doubleTick ? Remix.check_double_line : Remix.check_line;
+    final checkIcon = doubleTick ? Remix.check_double_line : Remix.check_line;
 
     final checkColor = doubleTickGreen
         ? const Color.fromRGBO(25, 176, 0, 1)
@@ -46,7 +45,99 @@ class MessageRow extends StatelessWidget {
         extentRatio: 0.26,
         children: [
           SlidableAction(
-            onPressed: (_) {},
+            onPressed: (_) {
+              showDialog(
+                context: context,
+                barrierDismissible: true,
+                barrierColor: Colors.black54,
+                builder: (_) => AlertDialog(
+                  backgroundColor: Colors.white,
+                  surfaceTintColor: Colors.transparent,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  elevation: 8,
+                  alignment: Alignment.center,
+                  titlePadding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                  contentPadding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
+                  actionsPadding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        t.block_dialog_title,
+                        style: const TextStyle(
+                          color: Color.fromRGBO(46, 23, 21, 1),
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  content: Text(
+                    t.block_user_confirm(name),
+                    textAlign: TextAlign.center,
+                  ),
+                  actionsAlignment: MainAxisAlignment.end,
+                  actions: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: FilledButton(
+                            onPressed: () {
+                              //unblok logic here
+                              Navigator.pop(context);
+                            },
+                            style: FilledButton.styleFrom(
+                              minimumSize: const Size(double.infinity, 45),
+                              backgroundColor: const Color.fromRGBO(
+                                46,
+                                23,
+                                21,
+                                1,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            child: Text(
+                              t.btn_confirm,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 10.0),
+                        Expanded(
+                          child: OutlinedButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            style: OutlinedButton.styleFrom(
+                              minimumSize: const Size(double.infinity, 45),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            child: Text(
+                              t.btn_cancel,
+                              style: const TextStyle(
+                                color: Color.fromRGBO(46, 23, 21, 1),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              );
+            },
             backgroundColor: const Color(0xFFFFE5E5),
             foregroundColor: const Color(0xFFE53935),
             label: t.action_block,
@@ -113,8 +204,9 @@ class MessageRow extends StatelessWidget {
                   color: isItemsMatched
                       ? const Color.fromRGBO(0, 111, 255, 1)
                       : Colors.grey.shade600,
-                  fontWeight:
-                      isItemsMatched ? FontWeight.bold : FontWeight.normal,
+                  fontWeight: isItemsMatched
+                      ? FontWeight.bold
+                      : FontWeight.normal,
                 ),
               ),
             ),

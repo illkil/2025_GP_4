@@ -563,8 +563,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get unblock_dialog_title => 'Unblock User';
 
   @override
+  String get block_dialog_title => 'Block User';
+
+  @override
   String unblock_user_confirm(String name) {
     return 'Are you sure you want to unblock $name?';
+  }
+
+  @override
+  String block_user_confirm(String name) {
+    return 'Are you sure you want to Block $name?\n\nYou will still receive possible matches from this person but you will be warned that you have them blocked before accepting the match.';
   }
 
   @override
@@ -745,15 +753,15 @@ class AppLocalizationsEn extends AppLocalizations {
       'All done! your report has been\nsubmitted successfully';
 
   @override
-  String get couldnt_process =>
-      'Your report could not be processed. Please try again.';
-
-  @override
   String get describe_clearly => 'Please describe the item more clearly.';
 
   @override
   String get image_unclear =>
       'The image looks unclear. Try uploading a clearer photo.';
+
+  @override
+  String get couldnt_process =>
+      'Your report could not be processed. Please try again.';
 
   @override
   String get error_profile_picture_update_failed =>

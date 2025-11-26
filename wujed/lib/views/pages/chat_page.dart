@@ -263,7 +263,7 @@ class _ChatPageState extends State<ChatPage> {
                         onPressed: () async {
                           // Navigate to page where user selects meeting place.
                           final result =
-                              await Navigator.push<Map<String, dynamic>>(
+                              await Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (_) => const ChatLocationPage(),
@@ -271,7 +271,7 @@ class _ChatPageState extends State<ChatPage> {
                               );
 
                           // If user chose to send location, show the map bubble.
-                          if (result?['location'] == true) {
+                          if (result == 'choosed') {
                             setState(() => _location = true);
                           }
                         },

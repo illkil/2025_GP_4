@@ -1136,11 +1136,23 @@ abstract class AppLocalizations {
   /// **'Unblock User'**
   String get unblock_dialog_title;
 
+  /// No description provided for @block_dialog_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Block User'**
+  String get block_dialog_title;
+
   /// No description provided for @unblock_user_confirm.
   ///
   /// In en, this message translates to:
   /// **'Are you sure you want to unblock {name}?'**
   String unblock_user_confirm(String name);
+
+  /// No description provided for @block_user_confirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to Block {name}?\n\nYou will still receive possible matches from this person but you will be warned that you have them blocked before accepting the match.'**
+  String block_user_confirm(String name);
 
   /// No description provided for @label_first_name.
   ///
@@ -1478,12 +1490,6 @@ abstract class AppLocalizations {
   /// **'All done! your report has been\nsubmitted successfully'**
   String get report_sumbitted_successfully;
 
-  /// No description provided for @couldnt_process.
-  ///
-  /// In en, this message translates to:
-  /// **'Your report could not be processed. Please try again.'**
-  String get couldnt_process;
-
   /// No description provided for @describe_clearly.
   ///
   /// In en, this message translates to:
@@ -1495,6 +1501,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The image looks unclear. Try uploading a clearer photo.'**
   String get image_unclear;
+
+  /// No description provided for @couldnt_process.
+  ///
+  /// In en, this message translates to:
+  /// **'Your report could not be processed. Please try again.'**
+  String get couldnt_process;
 
   /// No description provided for @error_profile_picture_update_failed.
   ///

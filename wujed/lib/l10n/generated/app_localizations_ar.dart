@@ -564,8 +564,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get unblock_dialog_title => 'إلغاء الحظر';
 
   @override
+  String get block_dialog_title => 'حظر المستخدم';
+
+  @override
   String unblock_user_confirm(String name) {
     return 'هل أنت متأكد أنك تريد إلغاء حظر $name؟';
+  }
+
+  @override
+  String block_user_confirm(String name) {
+    return 'هل أنت متأكد أنك تريد حظر $name؟\n\nستستمر في استلام المطابقات المحتملة من هذا المستخدم، ولكن سيتم تنبيهك بأنك قمت بحظره قبل قبول المطابقة.';
   }
 
   @override
@@ -743,13 +751,13 @@ class AppLocalizationsAr extends AppLocalizations {
   String get report_sumbitted_successfully => 'تم بنجاح! تم إرسال بلاغك بنجاح';
 
   @override
-  String get couldnt_process => 'لم يتم معالجة تقريرك، رجاءً حاول مرة اخرى.';
-
-  @override
   String get describe_clearly => 'رجاءً، اكتب الوصف بطريقة اوضح.';
 
   @override
   String get image_unclear => 'الصورة تبدو غير واضحة، حاول رفع صورة اوضح.';
+
+  @override
+  String get couldnt_process => 'لم يتم معالجة تقريرك، رجاءً حاول مرة اخرى.';
 
   @override
   String get error_profile_picture_update_failed =>

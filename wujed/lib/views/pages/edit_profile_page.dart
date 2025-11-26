@@ -337,7 +337,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               shape: BoxShape.circle,
                             ),
                             child: const Icon(
-                              Icons.camera_alt,
+                              IconlyBold.camera,
                               color: Colors.white,
                               size: 20,
                             ),

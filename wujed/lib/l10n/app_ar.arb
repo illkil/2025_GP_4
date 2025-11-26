@@ -224,12 +224,20 @@
   "blocked_users": "المستخدمون المحظورون",
   "unblock_user": "إلغاء الحظر",
   "unblock_dialog_title": "إلغاء الحظر",
+  "block_dialog_title": "حظر المستخدم",
   "unblock_user_confirm": "هل أنت متأكد أنك تريد إلغاء حظر {name}؟",
   "@unblock_user_confirm": {
     "placeholders": {
       "name": {"type": "String",  "example": "@JohnDoe"}
     }
   },
+  "block_user_confirm": "هل أنت متأكد أنك تريد حظر {name}؟\n\nستستمر في استلام المطابقات المحتملة من هذا المستخدم، ولكن سيتم تنبيهك بأنك قمت بحظره قبل قبول المطابقة.",
+  "@block_user_confirm": {
+    "placeholders": {
+      "name": {"type": "String",  "example": "@JohnDoe"}
+    }
+  },
+
 
 
   "label_first_name": "الاسم الأول",
