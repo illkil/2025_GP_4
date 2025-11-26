@@ -558,61 +558,61 @@ class _SignupPageState extends State<SignupPage> {
                           ],
                         ),
 
-                        const SizedBox(height: 10),
+                        //const SizedBox(height: 10),
 
                         // OR DIVIDER
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Divider(
-                                color: Colors.grey.shade400,
-                                thickness: 1,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 8),
-                              child: Text(
-                                t.common_or,
-                                style:
-                                    TextStyle(color: Colors.grey.shade600),
-                              ),
-                            ),
-                            Expanded(
-                              child: Divider(
-                                color: Colors.grey.shade400,
-                                thickness: 1,
-                              ),
-                            ),
-                          ],
-                        ),
+                        // Row(
+                        //   children: [
+                        //     Expanded(
+                        //       child: Divider(
+                        //         color: Colors.grey.shade400,
+                        //         thickness: 1,
+                        //       ),
+                        //     ),
+                        //     Padding(
+                        //       padding: const EdgeInsets.symmetric(
+                        //           horizontal: 8),
+                        //       child: Text(
+                        //         t.common_or,
+                        //         style:
+                        //             TextStyle(color: Colors.grey.shade600),
+                        //       ),
+                        //     ),
+                        //     Expanded(
+                        //       child: Divider(
+                        //         color: Colors.grey.shade400,
+                        //         thickness: 1,
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
 
-                        const SizedBox(height: 20),
+                        // const SizedBox(height: 20),
 
-                        // GOOGLE SIGN-IN
-                        GsiMaterialButton(
-                          onPressed: () async {
-                            if (!mounted) return;
-                            setState(() => isLoading = true);
+                        // // GOOGLE SIGN-IN
+                        // GsiMaterialButton(
+                        //   onPressed: () async {
+                        //     if (!mounted) return;
+                        //     setState(() => isLoading = true);
 
-                            final userCredential =
-                                await GoogleSignInService
-                                    .signInWithGoogle();
+                        //     final userCredential =
+                        //         await GoogleSignInService
+                        //             .signInWithGoogle();
 
-                            if (!mounted) return;
-                            setState(() => isLoading = false);
+                        //     if (!mounted) return;
+                        //     setState(() => isLoading = false);
 
-                            if (userCredential != null) {
-                              Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const MainPage(),
-                                ),
-                              );
-                            }
-                          },
-                          text: t.google_continue,
-                        ),
+                        //     if (userCredential != null) {
+                        //       Navigator.pushReplacement(
+                        //         context,
+                        //         MaterialPageRoute(
+                        //           builder: (context) => const MainPage(),
+                        //         ),
+                        //       );
+                        //     }
+                        //   },
+                        //   text: t.google_continue,
+                        // ),
                       ],
                     ),
                   ),
