@@ -68,9 +68,6 @@ class _ItemReportedLostState extends State<ItemReportedLost> {
     );
   }
 
-  bool hideMug = false;
-  bool hideBrew = false;
-
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context);
@@ -98,6 +95,10 @@ class _ItemReportedLostState extends State<ItemReportedLost> {
             (data['description'] as String?)?.trim() ?? t.label_value_missing;
 
         final status = (data['status'] as String?) ?? '';
+        final matchStatus = MatchStore.instance.statusOf(widget.reportId);
+
+        final bool showBrew = matchStatus != MatchStatus.revoked;   // hide brew when revoked
+        final bool showMug  = matchStatus != MatchStatus.accepted;  // hide mug when accepted
 
         final loc = data['location'];
         String locationText = t.label_value_missing;
@@ -489,42 +490,37 @@ class _ItemReportedLostState extends State<ItemReportedLost> {
                                       actions: [
                                         FilledButton(
                                           onPressed: () {
-                                            Navigator.pop(context);
-                                            Navigator.pop(context);
+                                          // 1) Close the dialog
+                                          Navigator.pop(context);
 
-                                            //hard delete from database then navigate to history
-                                            Future.microtask(() {
-                                              ReportService().deleteReport(
-                                                widget.reportId,
-                                              );
-                                            });
+                                          // 2) Make sure the History tab is selected
+                                          selectedPageNotifier.value = 1;
+
+                                          // 3) Go back from ItemReportedLost to the previous page (History)
+                                          Navigator.of(context).pop();
+
+                                          // 4) Delete the report
+                                          Future.microtask(() {
+                                            ReportService().deleteReport(widget.reportId);
+                                          });
                                           },
                                           style: FilledButton.styleFrom(
-                                            minimumSize: const Size(
-                                              double.infinity,
-                                              45,
-                                            ),
-                                            backgroundColor:
-                                                const Color.fromRGBO(
-                                                  46,
-                                                  23,
-                                                  21,
-                                                  1,
-                                                ),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                            ),
+                                          minimumSize: const Size(double.infinity, 45),
+                                          backgroundColor: const Color.fromRGBO(46, 23, 21, 1),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.circular(10),
+                                          ),
                                           ),
                                           child: Text(
-                                            t.btn_confirm,
-                                            style: const TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16,
-                                            ),
+                                          t.btn_confirm,
+                                          style: const TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16,
+                                          ),
                                           ),
                                         ),
+
                                         const SizedBox(height: 10.0),
                                         OutlinedButton(
                                           onPressed: () {
@@ -601,57 +597,38 @@ class _ItemReportedLostState extends State<ItemReportedLost> {
                         const Divider(),
                         const SizedBox(height: 5.0),
 
-                        if (!hideBrew)
-                          buildMatchCard(
-                            imagePath: 'lib/assets/images/CoffeeBrew2.jpg',
-                            title: t.item_title_coffee_brewer,
-                            description:
-                                'Lorem ipsum dolor sit\namet, consec...',
-                            confidence: t.match_confidence(90),
-                            confidenceColor: const Color.fromRGBO(
-                              25,
-                              176,
-                              0,
-                              1,
-                            ),
-                            onPressed: () async {
-                              final String reportId =
-                                  widget.reportId; // this report’s id
+                        if (showBrew)
+  buildMatchCard(
+    imagePath: 'lib/assets/images/CoffeeBrew2.jpg',
+    title: t.item_title_coffee_brewer,
+    description: 'Lorem ipsum dolor sit\namet, consec...',
+    confidence: t.match_confidence(90),
+    confidenceColor: const Color.fromRGBO(25, 176, 0, 1),
+    onPressed: () async {
+  final String reportId = widget.reportId;
 
-                              final bool accepted = MatchStore.instance
-                                  .isAccepted(reportId);
+  final bool accepted = MatchStore.instance.isAccepted(reportId);
 
-                              final result = await Navigator.push<String>(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => accepted
-                                      ? MatchAfterAcceptingPage(
-                                          reportId: reportId,
-                                        )
-                                      : MatchDetailsPage(reportId: reportId),
-                                ),
-                              );
+  await Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (_) => accepted
+          ? MatchAfterAcceptingPage(reportId: reportId)
+          : MatchDetailsPage(reportId: reportId),
+    ),
+  );
 
-                              if (result == 'Accepted') {
-                                setState(() => hideMug = true);
-                              } else if (result == 'Revoked' ||
-                                  result == 'Rejected') {
-                                setState(() {
-                                  hideBrew = true;
-                                  hideMug = false;
-                                });
-                              } else if (result == 'Done') {
-                                setState(() {
-                                  hideBrew = true;
-                                  hideMug = true;
-                                });
-                              }
-                            },
-                          ),
+  // Always rebuild when coming back, no matter *how* we returned
+  if (!mounted) return;
+  setState(() {});
+},
+
+  ),
+
 
                         const SizedBox(height: 20.0),
 
-                        if (!MatchStore.instance.isAccepted('coffee_brewer_1'))
+                        if (showMug)
                           buildMatchCard(
                             imagePath: 'lib/assets/images/CoffeeMug1.png',
                             title: t.item_title_coffee_mug,

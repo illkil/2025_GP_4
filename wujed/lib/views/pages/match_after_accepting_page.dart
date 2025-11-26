@@ -523,6 +523,7 @@ class _MatchAfterAcceptingPageState extends State<MatchAfterAcceptingPage> {
                           MatchStore.instance.revoke(widget.reportId);
                           if (!context.mounted) return;
                           Navigator.pop(context, 'Revoked');
+                          print('Revoke tapped');
                         }
                       },
                       style: FilledButton.styleFrom(

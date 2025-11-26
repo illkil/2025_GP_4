@@ -406,6 +406,7 @@ class _MatchDetailsPageState extends State<MatchDetailsPage> {
                         if (confirmed == 'Confirm') {
                           if (!context.mounted) return;
                           Navigator.pop(context, 'Rejected');
+                          print('Reject tapped');
                         }
                       },
                       style: FilledButton.styleFrom(
