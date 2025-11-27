@@ -1484,6 +1484,24 @@ abstract class AppLocalizations {
   /// **'Failed submitting report'**
   String get error_submit_report;
 
+  /// No description provided for @error_enable_camera_access.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enable camera access in Settings'**
+  String get error_enable_camera_access;
+
+  /// No description provided for @error_camera_access_denied.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera permission was denied'**
+  String get error_camera_access_denied;
+
+  /// No description provided for @error_camera_general.
+  ///
+  /// In en, this message translates to:
+  /// **'Unable to open the camera'**
+  String get error_camera_general;
+
   /// No description provided for @report_sumbitted_successfully.
   ///
   /// In en, this message translates to:

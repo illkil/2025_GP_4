@@ -97,8 +97,10 @@ class _ItemReportedLostState extends State<ItemReportedLost> {
         final status = (data['status'] as String?) ?? '';
         final matchStatus = MatchStore.instance.statusOf(widget.reportId);
 
-        final bool showBrew = matchStatus != MatchStatus.revoked;   // hide brew when revoked
-        final bool showMug  = matchStatus != MatchStatus.accepted;  // hide mug when accepted
+        final bool showBrew =
+            matchStatus != MatchStatus.revoked; // hide brew when revoked
+        final bool showMug =
+            matchStatus != MatchStatus.accepted; // hide mug when accepted
 
         final loc = data['location'];
         String locationText = t.label_value_missing;
@@ -490,34 +492,46 @@ class _ItemReportedLostState extends State<ItemReportedLost> {
                                       actions: [
                                         FilledButton(
                                           onPressed: () {
-                                          // 1) Close the dialog
-                                          Navigator.pop(context);
+                                            // 1) Close the dialog
+                                            Navigator.pop(context);
 
-                                          // 2) Make sure the History tab is selected
-                                          selectedPageNotifier.value = 1;
+                                            // 2) Make sure the History tab is selected
+                                            selectedPageNotifier.value = 1;
 
-                                          // 3) Go back from ItemReportedLost to the previous page (History)
-                                          Navigator.of(context).pop();
+                                            // 3) Go back from ItemReportedLost to the previous page (History)
+                                            Navigator.of(context).pop();
 
-                                          // 4) Delete the report
-                                          Future.microtask(() {
-                                            ReportService().deleteReport(widget.reportId);
-                                          });
+                                            // 4) Delete the report
+                                            Future.microtask(() {
+                                              ReportService().deleteReport(
+                                                widget.reportId,
+                                              );
+                                            });
                                           },
                                           style: FilledButton.styleFrom(
-                                          minimumSize: const Size(double.infinity, 45),
-                                          backgroundColor: const Color.fromRGBO(46, 23, 21, 1),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.circular(10),
-                                          ),
+                                            minimumSize: const Size(
+                                              double.infinity,
+                                              45,
+                                            ),
+                                            backgroundColor:
+                                                const Color.fromRGBO(
+                                                  46,
+                                                  23,
+                                                  21,
+                                                  1,
+                                                ),
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
                                           ),
                                           child: Text(
-                                          t.btn_confirm,
-                                          style: const TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                          ),
+                                            t.btn_confirm,
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16,
+                                            ),
                                           ),
                                         ),
 
@@ -598,33 +612,40 @@ class _ItemReportedLostState extends State<ItemReportedLost> {
                         const SizedBox(height: 5.0),
 
                         if (showBrew)
-  buildMatchCard(
-    imagePath: 'lib/assets/images/CoffeeBrew2.jpg',
-    title: t.item_title_coffee_brewer,
-    description: 'Lorem ipsum dolor sit\namet, consec...',
-    confidence: t.match_confidence(90),
-    confidenceColor: const Color.fromRGBO(25, 176, 0, 1),
-    onPressed: () async {
-  final String reportId = widget.reportId;
+                          buildMatchCard(
+                            imagePath: 'lib/assets/images/CoffeeBrew2.jpg',
+                            title: t.item_title_coffee_brewer,
+                            description:
+                                'Lorem ipsum dolor sit\namet, consec...',
+                            confidence: t.match_confidence(90),
+                            confidenceColor: const Color.fromRGBO(
+                              25,
+                              176,
+                              0,
+                              1,
+                            ),
+                            onPressed: () async {
+                              final String reportId = widget.reportId;
 
-  final bool accepted = MatchStore.instance.isAccepted(reportId);
+                              final bool accepted = MatchStore.instance
+                                  .isAccepted(reportId);
 
-  await Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (_) => accepted
-          ? MatchAfterAcceptingPage(reportId: reportId)
-          : MatchDetailsPage(reportId: reportId),
-    ),
-  );
+                              await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => accepted
+                                      ? MatchAfterAcceptingPage(
+                                          reportId: reportId,
+                                        )
+                                      : MatchDetailsPage(reportId: reportId),
+                                ),
+                              );
 
-  // Always rebuild when coming back, no matter *how* we returned
-  if (!mounted) return;
-  setState(() {});
-},
-
-  ),
-
+                              // Always rebuild when coming back, no matter *how* we returned
+                              if (!mounted) return;
+                              setState(() {});
+                            },
+                          ),
 
                         const SizedBox(height: 20.0),
 

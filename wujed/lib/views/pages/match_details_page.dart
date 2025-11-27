@@ -356,6 +356,7 @@ class _MatchDetailsPageState extends State<MatchDetailsPage> {
                             actions: [
                               FilledButton(
                                 onPressed: () {
+                                  MatchStore.instance.revoke(widget.reportId);
                                   Navigator.pop(context, 'Confirm');
                                 },
                                 style: FilledButton.styleFrom(

@@ -748,6 +748,16 @@ class AppLocalizationsAr extends AppLocalizations {
   String get error_submit_report => 'فشل في إرسال البلاغ';
 
   @override
+  String get error_enable_camera_access =>
+      'يرجى تفعيل إذن الكاميرا من الإعدادات';
+
+  @override
+  String get error_camera_access_denied => 'تم رفض إذن الوصول إلى الكاميرا';
+
+  @override
+  String get error_camera_general => 'تعذّر فتح الكاميرا';
+
+  @override
   String get report_sumbitted_successfully => 'تم بنجاح! تم إرسال بلاغك بنجاح';
 
   @override

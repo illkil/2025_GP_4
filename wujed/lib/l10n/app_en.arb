@@ -306,6 +306,10 @@
   "error_create_report": "Failed creating report",
   "error_submit_report": "Failed submitting report",
 
+  "error_enable_camera_access": "Please enable camera access in Settings",
+  "error_camera_access_denied": "Camera permission was denied",
+  "error_camera_general": "Unable to open the camera",
+
   "report_sumbitted_successfully": "All done! your report has been\nsubmitted successfully",
 
   "describe_clearly": "Please describe the item more clearly.",

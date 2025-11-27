@@ -749,6 +749,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get error_submit_report => 'Failed submitting report';
 
   @override
+  String get error_enable_camera_access =>
+      'Please enable camera access in Settings';
+
+  @override
+  String get error_camera_access_denied => 'Camera permission was denied';
+
+  @override
+  String get error_camera_general => 'Unable to open the camera';
+
+  @override
   String get report_sumbitted_successfully =>
       'All done! your report has been\nsubmitted successfully';
 

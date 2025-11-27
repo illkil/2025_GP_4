@@ -27,6 +27,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   String errorText = '';
   Color textColor = Colors.grey.shade600;
   bool isSending = false;
+  bool isEmailValid = false;
 
   String generateOTP() {
     final random = Random();
@@ -37,10 +38,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
     final t = AppLocalizations.of(context);
 
     //set these as empty at the start of the method so error messages dont stay on screen all the time when there is no longer an error
-    setState(() {
-      errorText = '';
-      textColor = Colors.grey.shade600;
-    });
+    if (isEmailValid) {
+      setState(() {
+        errorText = '';
+        textColor = Colors.grey.shade600;
+      });
+    }
 
     final email = _controllerEmail.text.trim().toLowerCase();
 
@@ -50,38 +53,43 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       });
       return;
     }
-
-    try {
-      setState(() {
-        isSending = true;
-      });
-
-      //Configure EmailOTP (thats gonna be sent to user)
-      EmailOTP.config(appName: "Wujed", otpLength: 4, otpType: OTPType.numeric);
-
-      //Send the OTP sent will be true or false,
-      final sent = await EmailOTP.sendOTP(email: email);
-
-      setState(() {
-        isSending = false;
-      });
-
-      if (!sent) {
+    if (isEmailValid) {
+      try {
         setState(() {
-          errorText = t.forgot_failed_otp;
+          isSending = true;
+        });
+
+        //Configure EmailOTP (thats gonna be sent to user)
+        EmailOTP.config(
+          appName: "Wujed",
+          otpLength: 4,
+          otpType: OTPType.numeric,
+        );
+
+        //Send the OTP sent will be true or false,
+        final sent = await EmailOTP.sendOTP(email: email);
+
+        setState(() {
+          isSending = false;
+        });
+
+        if (!sent) {
+          setState(() {
+            errorText = t.forgot_failed_otp;
+          });
+          return;
+        }
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => VerifyPage(email: email)),
+        );
+      } catch (e) {
+        setState(() {
+          errorText = t.forgot_network_error;
         });
         return;
       }
-
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => VerifyPage(email: email)),
-      );
-    } catch (e) {
-      setState(() {
-        errorText = t.forgot_network_error;
-      });
-      return;
     }
   }
 
@@ -236,22 +244,26 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
       setState(() {
         errorText = '';
         textColor = Colors.grey.shade600;
+        isEmailValid = false;
       });
       return;
     } else {
       setState(() {
         textColor = Colors.grey.shade600;
+        isEmailValid = true;
       });
     }
 
     if (!isValidEmail(email)) {
       setState(() {
         errorText = t.signup_invalid_email_format;
+        isEmailValid = false;
       });
       return;
     } else {
       setState(() {
         errorText = '';
+        isEmailValid = true;
       });
       return;
     }

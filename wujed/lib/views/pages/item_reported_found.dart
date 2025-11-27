@@ -360,6 +360,7 @@ class _ItemReportedFoundState extends State<ItemReportedFound> {
                       ),
                       SizedBox(height: 30),
 
+                      if(data['status'] == 'ongoing')
                       FilledButton(
                         onPressed: () {
                           showDialog(

@@ -308,6 +308,10 @@
   "error_create_report": "فشل في إنشاء البلاغ",
   "error_submit_report": "فشل في إرسال البلاغ",
 
+  "error_enable_camera_access": "يرجى تفعيل إذن الكاميرا من الإعدادات",
+  "error_camera_access_denied": "تم رفض إذن الوصول إلى الكاميرا",
+  "error_camera_general": "تعذّر فتح الكاميرا",
+
   "report_sumbitted_successfully": "تم بنجاح! تم إرسال بلاغك بنجاح",
   "couldnt_process": "لم يتم معالجة تقريرك، رجاءً حاول مرة اخرى.",
   "describe_clearly": "رجاءً، اكتب الوصف بطريقة اوضح.",

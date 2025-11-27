@@ -594,7 +594,7 @@ class _RejectedNotificationCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    "ًWujed",
+                    "Wujed",
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w800,

@@ -210,6 +210,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
         setState(() {
           _pickedImageFile = file; // صورة واحدة فقط
         });
+      
+        FocusScope.of(context).unfocus();
       }
     }
   }
