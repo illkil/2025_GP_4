@@ -70,6 +70,15 @@ onAuthStateChanged(auth, async (user) => {
     // تطبيق اللغة
     loadLanguage(userLang);
 
+
+    // 🔐 التحقق من الدور
+    const role = privateData.role || "user";
+    if (role !== "admin") {
+      localStorage.clear();
+      window.location.href = "Sign-In.html";
+      return;
+    }
+
   } catch (error) {
     console.error("Error loading user data:", error);
   }
@@ -154,10 +163,4 @@ function updateTranslations() {
     elements.forEach(el => el.textContent = currentTranslations[key]);
   }
 
-}
-const role = privateData.role || "user";
-if (role !== "admin") {
-  localStorage.clear();
-  window.location.href = "Sign-In.html";
-  return;
 }
