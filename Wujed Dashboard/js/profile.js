@@ -35,7 +35,7 @@ if (cachedLang && langButton) {
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
     localStorage.clear();
-    window.location.href = "Sign-In.html";
+    window.location.href = "Wujed.html";
     return;
   }
 
@@ -140,7 +140,7 @@ confirmLogout.addEventListener("click", async () => {
   logoutModal.style.display = "none";
   await signOut(auth);
   localStorage.clear();
-  window.location.href = "Sign-In.html";
+  window.location.href = "Wujed.html";
 });
 
 // Close modal if user clicks outside content
