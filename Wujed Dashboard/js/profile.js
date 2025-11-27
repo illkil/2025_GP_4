@@ -5,19 +5,19 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
 import { doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
 
-// Items DOM
+// items in the profile panel
 const nameInProfile = document.querySelector(".pname");
 const welcomeName = document.getElementById("hiName");
 const profileImage = document.querySelector(".profile img");
 const langButton = document.getElementById("ppLang");
 const logoutButton = document.getElementById("ppLogout");
 
-// loadLanguage function and currentTranslations object
+// load data from local storage
 const cachedName = localStorage.getItem("first_name");
 const cachedPhoto = localStorage.getItem("profile_photo");
 const cachedLang = localStorage.getItem("lang");
 
-// Display data directly from cache if available (no flicker)
+// display data directly from cache if available (no flicker)
 if (cachedName) {
   if (nameInProfile) nameInProfile.textContent = cachedName;
   if (welcomeName) welcomeName.textContent = cachedName + "!";
@@ -31,11 +31,11 @@ if (cachedLang && langButton) {
     cachedLang === "ar" ? "العربية" : "English";
 }
 
-// Monitor user state
+// listen for auth state changes
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
     localStorage.clear();
-    window.location.href = "Wujed.html";
+    window.location.href = " Wujed.html";
     return;
   }
 
@@ -54,7 +54,7 @@ onAuthStateChanged(auth, async (user) => {
     const photoURL = publicData.profile_photo || "Images/ProfilePic.jpg";
     const userLang = privateData.language || cachedLang || "en";
 
-    // Update page UI (only if elements exist)
+    // update page interface (only if elements exist)
     if (nameInProfile) nameInProfile.textContent = firstName;
     if (welcomeName) welcomeName.textContent = firstName + "!";
     if (profileImage) profileImage.src = photoURL;
@@ -62,20 +62,18 @@ onAuthStateChanged(auth, async (user) => {
       langButton.querySelector("span:last-child").textContent =
         userLang === "ar" ? "العربية" : "English";
 
-    // Save data to local storage
+    // save data in local storage
     localStorage.setItem("first_name", firstName);
     localStorage.setItem("profile_photo", photoURL);
     localStorage.setItem("lang", userLang);
 
-    // Apply language
+    // apply language
     loadLanguage(userLang);
 
-
-    // Check role
     const role = privateData.role || "user";
     if (role !== "admin") {
       localStorage.clear();
-      window.location.href = "Wujed.html";
+      window.location.href = " Wujed.html";
       return;
     }
 
@@ -85,18 +83,18 @@ onAuthStateChanged(auth, async (user) => {
 });
 
 
-// Language toggle and Firestore update
+// Language Switcher and Firestore Update
 langButton?.addEventListener("click", async () => {
   const currentLang = localStorage.getItem("lang") || "en";
   const newLang = currentLang === "en" ? "ar" : "en";
 
-  // Apply language immediately
+  //  Apply language immediately
   loadLanguage(newLang);
   localStorage.setItem("lang", newLang);
   langButton.querySelector("span:last-child").textContent =
     newLang === "ar" ? "العربية" : "English";
 
-  // Update in Firestore
+  //  Update in Firestore
   const user = auth.currentUser;
   if (user) {
     try {
@@ -140,7 +138,7 @@ confirmLogout.addEventListener("click", async () => {
   logoutModal.style.display = "none";
   await signOut(auth);
   localStorage.clear();
-  window.location.href = "Wujed.html";
+  window.location.href = " Wujed.html";
 });
 
 // Close modal if user clicks outside content
@@ -156,7 +154,7 @@ function closeProfile() {
   if (profilePanel) profilePanel.classList.remove("show");
 };
 
-// Update all elements with data-i18n attribute (including dynamic ones)
+//update translations for new elements after page load
 function updateTranslations() {
   for (const key in currentTranslations) {
     const elements = document.querySelectorAll(`[data-i18n="${key}"]`);
