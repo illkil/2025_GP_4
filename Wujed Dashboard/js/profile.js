@@ -75,7 +75,7 @@ onAuthStateChanged(auth, async (user) => {
     const role = privateData.role || "user";
     if (role !== "admin") {
       localStorage.clear();
-      window.location.href = "Sign-In.html";
+      window.location.href = "Wujed.html";
       return;
     }
 
