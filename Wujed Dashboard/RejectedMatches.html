@@ -389,7 +389,7 @@
 
       const doneBtn = document.createElement("button");
       doneBtn.className = "done-btn";
-      doneBtn.textContent = "Done";
+      doneBtn.textContent = currentTranslations["done-btn"] || "تم";
       report.querySelector(".report-actions").prepend(doneBtn);
 
       activeList.appendChild(report);
