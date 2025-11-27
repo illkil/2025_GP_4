@@ -123,7 +123,7 @@
 
     const enteredOtp = sanitiseResult.value;
 
-    // ❌ OLD CLIENT-SIDE OTP CHECK (kept for reference)
+    //  OLD CLIENT-SIDE OTP CHECK (kept for reference)
     /*
     const savedOtp = sessionStorage.getItem("otp");
 
@@ -148,7 +148,7 @@
       submitBtn.disabled = true;
       submitBtn.classList.remove("enabled");
 
-      // ✅ NEW: verify OTP on backend (Cloud Function)
+      //  NEW: verify OTP on backend (Cloud Function)
       const verifyOtp = httpsCallable(functions, "verifyPasswordResetOtp");
       const result = await verifyOtp({ email, otp: enteredOtp });
 
@@ -181,7 +181,7 @@
         handleCodeInApp: true,
       });
 
-      // ❌ OLD: removing/storing OTP in sessionStorage (kept for reference)
+      // OLD: removing/storing OTP in sessionStorage (kept for reference)
       /*
       sessionStorage.removeItem("otp");
       sessionStorage.setItem("otpVerified", "true");
@@ -215,7 +215,7 @@
     const email = sessionStorage.getItem("verifiedEmail");
     if (!email) return;
 
-    // ❌ OLD: client OTP generation + EmailJS (kept for reference)
+    //  OLD: client OTP generation + EmailJS (kept for reference)
     /*
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
     sessionStorage.setItem("otp", otp);
@@ -234,7 +234,7 @@
     }
     */
 
-    // ✅ NEW: request OTP from backend (Cloud Function)
+    //  NEW: request OTP from backend (Cloud Function)
     const requestOtp = httpsCallable(functions, "requestPasswordResetOtp");
     try {
       await requestOtp({ email });

@@ -171,23 +171,17 @@
             </div>
           </div>
         </article>
-
-        <!-- Add more reports ... -->
       </div>
     </main>
   </div>
   <script>
-    // نجيب الحاوية الأساسية للتقارير
     const activeList = document.querySelector('.reports-wrap');
 
-    // دالة لتحويل نص التاريخ إلى كائن Date
     function parseDate(dateStr) {
-      // إزالة النصوص مثل "by User123"
       const parts = dateStr.split(' by ')[0];
       return new Date(parts);
     }
 
-    // دالة لترتيب التقارير داخل container
     function sortReports(container, ascending = true) {
       const reports = Array.from(container.querySelectorAll('.report'));
       reports.sort((a, b) => {
@@ -195,24 +189,22 @@
         const dateB = parseDate(b.querySelector('.r-date').textContent);
         return ascending ? dateA - dateB : dateB - dateA;
       });
-      // إعادة إدراج التقارير بالترتيب الجديد
       reports.forEach(report => container.appendChild(report));
     }
 
-    // عند اختيار السورت
+    // sort panel event listeners
     document.querySelectorAll('.sort-item').forEach(item => {
       item.addEventListener('click', () => {
         const sortType = item.dataset.sort; // 'date_desc' أو 'date_asc'
         if (sortType === 'date_desc') {
-          sortReports(activeList, false); // الأحدث أولاً
+          sortReports(activeList, false);
         } else {
-          sortReports(activeList, true);  // الأقدم أولاً
+          sortReports(activeList, true);
         }
         sortPanel.classList.remove('show');
       });
     });
 
-    // باقي كود Expand/Collapse والتوست يبقى مثل ما هو
   </script>
 
   <script>
@@ -330,7 +322,9 @@
       });
     });
   </script>
+
   <script>
+    /* Sidebar toggle */
     function toggleSidebar() {
       document.querySelector(".sidebar").classList.toggle("open");
       document.querySelector(".overlay").classList.toggle("show");

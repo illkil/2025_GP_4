@@ -5,11 +5,7 @@
   --muted50: rgba(0, 0, 0, .5);
   --select-bg: rgba(0, 0, 0, .04);
   --divider: rgba(180, 188, 201, .8);
-  --approve: #65A65B;
-  --reject: #A65B5B;
-  --toast-bg: #fff;
-  --toast-border: rgba(0, 0, 0, .12);
-  --toast-shadow: 0 6px 24px rgba(0, 0, 0, .08);
+  --card: #fff;
 }
 
 * {
@@ -38,7 +34,6 @@ body {
 /* Sidebar */
 .sidebar {
   position: relative;
-  /* anchor for profile popover */
   width: 240px;
   background: var(--sidebar);
   display: flex;
@@ -202,7 +197,6 @@ body {
   padding-right: 8px;
   margin-bottom: 12px;
   position: relative;
-  /* anchor sort popover */
 }
 
 .crumbs {
@@ -296,7 +290,7 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 8px 8px;
+  padding: 8px;
   border-radius: 8px;
   cursor: pointer;
   font-size: 16px;
@@ -313,7 +307,7 @@ body {
   background: rgba(0, 0, 0, .05);
 }
 
-/* Only the list scrolls */
+/* List */
 .reports-wrap {
   flex: 1;
   min-height: 0;
@@ -336,23 +330,22 @@ body {
   align-items: center;
   gap: 16px;
   cursor: pointer;
-  /* row click toggles too */
 }
 
-.r-title {
+.m-title {
   font-size: 24px;
   font-weight: 700;
   margin: 0 0 8px;
   color: #000;
 }
 
-.r-reason {
+.m-score {
   font-size: 22px;
   margin: 0 0 8px;
   color: #000;
 }
 
-.r-date {
+.m-date {
   font-size: 22px;
   color: var(--muted50);
   margin: 0;
@@ -386,7 +379,7 @@ body {
   transform: rotate(180deg);
 }
 
-/* Details */
+/* Expanded details */
 .details {
   margin-top: 16px;
   padding: 16px 0 4px;
@@ -397,25 +390,37 @@ body {
   display: block;
 }
 
-/* Details grid: image | text | flexible spacer | actions (right) */
-.details-grid {
+.match-block {
   display: grid;
-  grid-template-columns: 250px 390px 1fr auto;
+  grid-template-columns: 250px 390px;
   gap: 20px;
   align-items: start;
   width: 100%;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--divider);
 }
 
-.detail-image {
+.match-block:last-child {
+  border-bottom: none;
+}
+
+.match-image {
   width: 250px;
   height: 250px;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 12px;
   background: #eee;
 }
 
 .field {
   width: 390px;
+}
+
+.section-name {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 8px;
+  color: #000;
 }
 
 .label {
@@ -437,97 +442,6 @@ body {
   line-height: 1.45;
   margin-top: 8px;
   width: 390px;
-}
-
-.actions {
-  display: flex;
-  gap: 14px;
-  align-self: start;
-  justify-self: end;
-}
-
-.btn {
-  width: 150px;
-  height: 50px;
-  border: none;
-  border-radius: 8px;
-  color: #fff;
-  font-size: 20px;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.btn-approve {
-  background: var(--approve);
-}
-
-.btn-reject {
-  background: var(--reject);
-}
-
-.btn:hover {
-  filter: brightness(.96);
-}
-
-.btn:focus-visible {
-  outline: 2px solid rgba(0, 0, 0, .4);
-  outline-offset: 2px;
-}
-
-/* Toast */
-.toast-wrap {
-  position: fixed;
-  top: 18px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 999;
-  pointer-events: none;
-}
-
-.toast {
-  background: var(--toast-bg);
-  border: 1px solid var(--toast-border);
-  box-shadow: var(--toast-shadow);
-  border-radius: 12px;
-  min-width: 360px;
-  max-width: 560px;
-  padding: 14px 16px;
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  opacity: 0;
-  translate: 0 -10px;
-  transition: opacity .18s ease, translate .18s ease;
-  pointer-events: auto;
-}
-
-.toast.show {
-  opacity: 1;
-  translate: 0 0;
-}
-
-.toast-title {
-  font-weight: 700;
-  margin: 0 0 4px;
-}
-
-.toast-text {
-  margin: 0;
-  color: var(--muted50);
-}
-
-.toast-close {
-  margin-left: auto;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 4px;
-  color: #6b7280;
-  border-radius: 6px;
-}
-
-.toast-close:hover {
-  background: rgba(0, 0, 0, .05);
 }
 
 .sort-panel {
@@ -554,9 +468,137 @@ body[dir="rtl"] .sort-panel {
   justify-content: space-between;
 }
 
-body[dir="rtl"] .sort-panel-close {
-  margin-left: 0;
-  margin-right: auto;
+.done-btn,
+.restore-btn {
+  border: none;
+  border-radius: 8px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: 0.2s;
+  font-weight: 600;
+}
+
+.done-btn {
+  background-color: #2E1715;
+  color: white;
+}
+
+.done-btn:hover {
+  background-color: #5b3534;
+}
+
+.restore-btn {
+  background-color: #FFCC5C;
+  color: rgb(88, 58, 58);
+}
+
+.restore-btn:hover {
+  background-color: #edbd53;
+}
+
+.done {
+  background-color: #ffffff;
+  transition: 0.3s;
+}
+
+.done-section {
+  margin-top: 40px;
+  border-top: 2px solid;
+  padding-top: 20px;
+}
+
+.report-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.content {
+  overflow-x: hidden;
+}
+
+
+.report-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-right: 10px;
+}
+
+.report-actions {
+  margin-right: 10px;
+}
+
+.report-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.report-actions {
+  flex-shrink: 0;
+}
+
+.done-btn,
+.restore-btn {
+  border: none;
+  border-radius: 8px;
+  width: 100px;
+  /* عرض ثابت */
+  height: 36px;
+  /* ارتفاع ثابت */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* لتوسيط النص داخل الزر */
+  cursor: pointer;
+  font-weight: 600;
+  padding: 0;
+  /* مهم عشان ما يزيد حجم الزر */
+  box-sizing: border-box;
+  /* يحافظ على الحجم مهما صار */
+}
+
+.done-btn {
+  background-color: #2E1715;
+  color: white;
+}
+
+.done-btn:hover {
+  background-color: #5b3534;
+}
+
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin: 16px;
+}
+
+.tab-btn {
+  padding: 8px 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  background: #eee;
+  cursor: pointer;
+}
+
+.tab-btn.active {
+  background: #2E1715;
+  color: white;
+}
+
+.tab-content {
+  display: none;
+  padding: 0 16px;
+}
+
+.tab-content.active {
+  display: block;
 }
 
 /* الـ Modal الخلفية */
@@ -621,10 +663,11 @@ body[dir="ltr"] .report-actions {
 }
 
 /* ===========================
-📱 Responsive: Mobile
+  📱 Responsive: Mobile
 =========================== */
 @media (max-width: 768px) {
 
+  /* Sidebar تصغير */
   .sidebar {
     width: 150px;
     padding: 10px;
@@ -644,6 +687,7 @@ body[dir="ltr"] .report-actions {
     font-size: 14px;
   }
 
+  /* محتوى الصفحة */
   .content {
     padding: 12px 14px;
   }
@@ -932,16 +976,4 @@ body[dir="ltr"] .report-actions {
     flex-shrink: 0;
   }
 
-  .report {
-    padding: 14px 0;
-  }
-
-  .r-title {
-    font-size: 18px;
-  }
-
-  .r-reason,
-  .r-date {
-    font-size: 16px;
-  }
 }

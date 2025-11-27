@@ -1,6 +1,6 @@
-let currentTranslations = {}; // نحفظ الترجمة الحالية هنا
+let currentTranslations = {}; // save current translations here
 
-// تحميل اللغة من ملف JSON
+// Load language from JSON file
 async function loadLanguage(lang) {
   try {
     const response = await fetch(`./lang/${lang}.json`);
@@ -8,26 +8,26 @@ async function loadLanguage(lang) {
 
     currentTranslations = translations; // حفظ الترجمة الحالية
     
-    // غيّر كل العناصر اللي فيها data-i18n
+    // Change all elements with data-i18n attribute
     for (const key in translations) {
       const elements = document.querySelectorAll(`[data-i18n="${key}"]`);
       elements.forEach(el => el.textContent = translations[key]);
     }
 
-    // غيّر اتجاه الصفحة حسب اللغة
+    // Change page direction based on language
     document.body.dir = lang === "ar" ? "rtl" : "ltr";
     document.body.style.fontFamily = lang === "ar"
       ? "'Segoe UI', Tahoma, sans-serif"
       : "'Segoe UI', Arial, sans-serif";
 
-    // حفظ اللغة الحالية في LocalStorage
+    // Save current language in LocalStorage
     localStorage.setItem("lang", lang);
 
-    // تحديث زر اللغة
+    // Update language button
     const btn = document.getElementById("langBtn");
     if (btn) btn.textContent = lang === "ar" ? "EN" : "AR";
 
-    // نحفظ اللغة الحالية عالمياً
+    // Save current language globally
     window.currentLang = lang;
 
   } catch (err) {
@@ -35,7 +35,7 @@ async function loadLanguage(lang) {
   }
 }
 
-// 🔁 تحديث الترجمة للعناصر الجديدة بعد تحميل الصفحة
+//  Update translations for new elements after page load
 function updateTranslations() {
   for (const key in currentTranslations) {
     const elements = document.querySelectorAll(`[data-i18n="${key}"]`);
@@ -43,14 +43,14 @@ function updateTranslations() {
   }
 }
 
-// التبديل بين اللغتين
+// Switch between languages
 function switchLanguage() {
   const current = localStorage.getItem("lang") || "en";
   const newLang = current === "en" ? "ar" : "en";
   loadLanguage(newLang);
 }
 
-// تحميل اللغة عند فتح الصفحة
+// Load language on page load
 window.addEventListener("DOMContentLoaded", () => {
   const savedLang = localStorage.getItem("lang") || "en";
   loadLanguage(savedLang);

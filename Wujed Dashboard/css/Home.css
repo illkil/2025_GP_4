@@ -219,19 +219,6 @@ body {
   color: #000;
 }
 
-@media (max-width: 900px) {
-  .welcome {
-    font-size: 40px;
-  }
-
-  .subtitle {
-    font-size: 24px;
-  }
-
-  .sidebar {
-    width: 210px;
-  }
-}
 
 .footer {
   display: flex;
@@ -242,23 +229,19 @@ body {
   color: var(--muted40);
 }
 
-/* الـ Modal الخلفية */
 #logoutModal {
   display: none;
-  /* افتراضي مخفي */
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-  /* شفافية */
   justify-content: center;
   align-items: center;
   z-index: 1000;
 }
 
-/* محتوى الـ Modal */
 #logoutModal .modal-content {
   background-color: #fff;
   padding: 20px 30px;
@@ -267,13 +250,11 @@ body {
   min-width: 300px;
 }
 
-/* النص */
 #logoutModal #logoutMessage {
   font-size: 18px;
   margin-bottom: 20px;
 }
 
-/* الأزرار */
 #logoutModal button {
   padding: 8px 16px;
   margin: 0 10px;
@@ -296,11 +277,17 @@ body {
 }
 
 /* ===========================
-  📱 Responsive: Mobile
+Responsive: Mobile
 =========================== */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
+  .welcome {
+    font-size: 40px;
+  }
 
-  /* Sidebar تصغير */
+  .subtitle {
+    font-size: 24px;
+  }
+
   .sidebar {
     width: 150px;
     padding: 10px;
@@ -320,7 +307,6 @@ body {
     font-size: 14px;
   }
 
-  /* محتوى الصفحة */
   .content {
     padding: 12px 14px;
   }
@@ -331,53 +317,6 @@ body {
 
   .crumbs {
     font-size: 14px;
-  }
-
-  /* زر الفرز */
-  .sort-btn .iconify {
-    width: 26px;
-    height: 26px;
-  }
-
-  /* البانل */
-  .sort-panel {
-    width: 210px;
-    right: 10px;
-    padding: 10px;
-  }
-
-  body[dir="rtl"] .sort-panel {
-    left: 10px;
-  }
-
-  /* قائمة البلاغات */
-  .report {
-    padding: 14px 0;
-  }
-
-  .r-title {
-    font-size: 18px;
-  }
-
-  .r-reason,
-  .r-date {
-    font-size: 16px;
-  }
-
-  .report-row {
-    grid-template-columns: 1fr 40px;
-    gap: 10px;
-  }
-
-  .chevron {
-    width: 36px;
-    height: 36px;
-  }
-
-  /* التفاصيل */
-  .details-grid {
-    grid-template-columns: 1fr;
-    gap: 14px;
   }
 
   .detail-image {
@@ -394,7 +333,6 @@ body {
     width: 100%;
   }
 
-  /* أزرار الإجراءات */
   .actions {
     justify-content: center;
     width: 100%;
@@ -406,148 +344,11 @@ body {
     font-size: 18px;
   }
 
-  /* التوست */
   .toast {
     min-width: 280px;
     max-width: 90%;
   }
 
-  /* المودال */
-  #logoutModal .modal-content {
-    width: 90%;
-    min-width: unset;
-    padding: 16px 20px;
-  }
-
-  #logoutModal #logoutMessage {
-    font-size: 16px;
-  }
-
-  #logoutModal button {
-    padding: 6px 12px;
-    font-size: 14px;
-  }
-}
-
-/* ===========================
-  📱 Responsive: Mobile
-=========================== */
-@media (max-width: 768px) {
-
-
-  /* Sidebar تصغير */
-  .sidebar {
-    width: 150px;
-    padding: 10px;
-  }
-
-  .brand img {
-    width: 28px;
-    height: 28px;
-  }
-
-  .brand .name {
-    font-size: 14px;
-  }
-
-  .nav-item {
-    padding: 8px;
-    font-size: 14px;
-  }
-
-  /* محتوى الصفحة */
-  .content {
-    padding: 12px 14px;
-  }
-
-  .header {
-    margin-bottom: 8px;
-  }
-
-  .crumbs {
-    font-size: 14px;
-  }
-
-  /* زر الفرز */
-  .sort-btn .iconify {
-    width: 26px;
-    height: 26px;
-  }
-
-  /* البانل */
-  .sort-panel {
-    width: 210px;
-    right: 10px;
-    padding: 10px;
-  }
-
-  body[dir="rtl"] .sort-panel {
-    left: 10px;
-  }
-
-  /* قائمة البلاغات */
-  .report {
-    padding: 14px 0;
-  }
-
-  .r-title {
-    font-size: 18px;
-  }
-
-  .r-reason,
-  .r-date {
-    font-size: 16px;
-  }
-
-  .report-row {
-    grid-template-columns: 1fr 40px;
-    gap: 10px;
-  }
-
-  .chevron {
-    width: 36px;
-    height: 36px;
-  }
-
-  /* التفاصيل */
-  .details-grid {
-    grid-template-columns: 1fr;
-    gap: 14px;
-  }
-
-  .detail-image {
-    width: 100%;
-    height: 200px;
-  }
-
-  .field {
-    width: 100%;
-  }
-
-  .value.title,
-  .value.desc {
-    width: 100%;
-  }
-
-  /* أزرار الإجراءات */
-  .actions {
-    justify-content: center;
-    width: 100%;
-  }
-
-  .btn {
-    width: 45%;
-    height: 46px;
-    font-size: 18px;
-  }
-
-  /* التوست */
-  .toast {
-    min-width: 280px;
-    max-width: 90%;
-  }
-
-  /* المودال */
   #logoutModal .modal-content {
     width: 90%;
     min-width: unset;
@@ -563,93 +364,6 @@ body {
     font-size: 14px;
   }
 
-
-  /* قائمة البلاغات */
-  .report {
-    padding: 10px 0;
-  }
-
-  .m-title {
-    font-size: 18px;
-  }
-
-  .m-score,
-  .m-date {
-    font-size: 16px;
-  }
-
-  .report-row {
-    display: grid;
-    grid-template-columns: 1fr 34px;
-    gap: 8px;
-  }
-
-  .chevron {
-    width: 30px;
-    height: 30px;
-  }
-
-  /* التفاصيل بعد الفتح */
-  .details {
-    padding: 12px 0 2px;
-  }
-
-  .match-block {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    padding: 12px 0;
-  }
-
-  .match-image {
-    width: 100%;
-    height: 200px;
-  }
-
-  .field {
-    width: 100%;
-  }
-
-  .value.title,
-  .value.desc {
-    width: 100%;
-    font-size: 16px;
-  }
-
-  /* أزرار الإجراءات */
-  .report-actions {
-    justify-content: center;
-    gap: 8px;
-  }
-
-  .action-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    margin: 20px 0;
-    flex-wrap: wrap;
-  }
-
-  .done-btn,
-  .restore-btn {
-    width: 120px;
-    height: 40px;
-    font-size: 16px;
-    font-weight: 600;
-  }
-
-  /* Tabs */
-  .tabs {
-    gap: 6px;
-    margin: 10px;
-  }
-
-  .tab-btn {
-    padding: 6px 12px;
-    font-size: 14px;
-  }
-
-  /* المودال */
   #logoutModal .modal-content {
     width: 90%;
     padding: 14px 18px;
@@ -678,13 +392,11 @@ body {
 
   .sidebar.open {
     left: 0;
-    /* يطلع */
   }
 
 
   .sidebar.open {
     left: 0;
-    /* يطلع */
   }
 
   /* Overlay */
@@ -703,7 +415,6 @@ body {
     display: block;
   }
 
-  /* زر القائمة */
   .menu-btn {
     position: fixed;
     display: none;
@@ -736,6 +447,5 @@ body {
     width: 40px;
     height: 40px;
     color: #2E1715;
-    /* لون أقوى */
   }
 }

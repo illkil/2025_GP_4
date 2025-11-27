@@ -5,19 +5,19 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-auth.js";
 import { doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
 
-// العناصر من الصفحة (لو موجودة)
+// Items DOM
 const nameInProfile = document.querySelector(".pname");
 const welcomeName = document.getElementById("hiName");
 const profileImage = document.querySelector(".profile img");
 const langButton = document.getElementById("ppLang");
 const logoutButton = document.getElementById("ppLogout");
 
-// تحميل البيانات من التخزين المحلي
+// loadLanguage function and currentTranslations object
 const cachedName = localStorage.getItem("first_name");
 const cachedPhoto = localStorage.getItem("profile_photo");
 const cachedLang = localStorage.getItem("lang");
 
-// عرض البيانات مباشرة من الكاش لو موجودة (بدون وميض)
+// Display data directly from cache if available (no flicker)
 if (cachedName) {
   if (nameInProfile) nameInProfile.textContent = cachedName;
   if (welcomeName) welcomeName.textContent = cachedName + "!";
@@ -31,7 +31,7 @@ if (cachedLang && langButton) {
     cachedLang === "ar" ? "العربية" : "English";
 }
 
-// متابعة حالة المستخدم
+// Monitor user state
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
     localStorage.clear();
@@ -54,7 +54,7 @@ onAuthStateChanged(auth, async (user) => {
     const photoURL = publicData.profile_photo || "Images/ProfilePic.jpg";
     const userLang = privateData.language || cachedLang || "en";
 
-    // تحديث واجهة الصفحة (فقط إذا العناصر موجودة)
+    // Update page UI (only if elements exist)
     if (nameInProfile) nameInProfile.textContent = firstName;
     if (welcomeName) welcomeName.textContent = firstName + "!";
     if (profileImage) profileImage.src = photoURL;
@@ -62,16 +62,16 @@ onAuthStateChanged(auth, async (user) => {
       langButton.querySelector("span:last-child").textContent =
         userLang === "ar" ? "العربية" : "English";
 
-    // حفظ البيانات في التخزين المحلي
+    // Save data to local storage
     localStorage.setItem("first_name", firstName);
     localStorage.setItem("profile_photo", photoURL);
     localStorage.setItem("lang", userLang);
 
-    // تطبيق اللغة
+    // Apply language
     loadLanguage(userLang);
 
 
-    // 🔐 التحقق من الدور
+    // Check role
     const role = privateData.role || "user";
     if (role !== "admin") {
       localStorage.clear();
@@ -85,18 +85,18 @@ onAuthStateChanged(auth, async (user) => {
 });
 
 
-//  تبديل اللغة وتحديث Firestore
+// Language toggle and Firestore update
 langButton?.addEventListener("click", async () => {
   const currentLang = localStorage.getItem("lang") || "en";
   const newLang = currentLang === "en" ? "ar" : "en";
 
-  //  تطبيق اللغة فورًا
+  // Apply language immediately
   loadLanguage(newLang);
   localStorage.setItem("lang", newLang);
   langButton.querySelector("span:last-child").textContent =
     newLang === "ar" ? "العربية" : "English";
 
-  //  تحديث في Firestore
+  // Update in Firestore
   const user = auth.currentUser;
   if (user) {
     try {
@@ -119,7 +119,7 @@ if (logoutButton) {
   logoutButton.addEventListener("click", () => {
     closeProfile();
 
-    // تحديث نص الرسالة حسب اللغة
+    // Update message text based on language
     const lang = localStorage.getItem("lang") || "en";
     const msg = lang === "ar" 
       ? "هل أنت متأكد أنك تريد تسجيل الخروج؟" 
@@ -130,12 +130,12 @@ if (logoutButton) {
   });
 }
 
-// إلغاء تسجيل الخروج
+// Cancel logout
 cancelLogout.addEventListener("click", () => {
   logoutModal.style.display = "none";
 });
 
-// تأكيد تسجيل الخروج
+// Confirm logout
 confirmLogout.addEventListener("click", async () => {
   logoutModal.style.display = "none";
   await signOut(auth);
@@ -143,7 +143,7 @@ confirmLogout.addEventListener("click", async () => {
   window.location.href = "Sign-In.html";
 });
 
-// إغلاق الـ Modal إذا ضغط المستخدم خارج المحتوى
+// Close modal if user clicks outside content
 window.addEventListener("click", (e) => {
   if (e.target === logoutModal) {
     logoutModal.style.display = "none";
@@ -156,7 +156,7 @@ function closeProfile() {
   if (profilePanel) profilePanel.classList.remove("show");
 };
 
-// تحديث كل العناصر اللي فيها data-i18n (يشمل الديناميكية)
+// Update all elements with data-i18n attribute (including dynamic ones)
 function updateTranslations() {
   for (const key in currentTranslations) {
     const elements = document.querySelectorAll(`[data-i18n="${key}"]`);
