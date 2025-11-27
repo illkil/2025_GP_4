@@ -1,146 +1,258 @@
-  :root{
-    --sidebar:#F6F6F5;
-    --text:#000000;
-    --muted40: rgba(0,0,0,.4);
-    --select-bg: rgba(0,0,0,.04); /* 4% black */
-    --accent:#FFCC5C;
-  }
-  *{ box-sizing:border-box; }
-  body{
-    margin:0;
-    font-family: "Segoe UI", Arial, sans-serif;
-    color:var(--text);
-    background:#fff;
+:root {
+  --sidebar: #F6F6F5;
+  --text: #000000;
+  --muted40: rgba(0, 0, 0, .4);
+  --select-bg: rgba(0, 0, 0, .04);
+  /* 4% black */
+  --accent: #FFCC5C;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: var(--text);
+  background: #fff;
+}
+
+/* Layout */
+.app {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+  position: relative;
+  /* anchor for profile popover */
+  width: 240px;
+  background: var(--sidebar);
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  gap: 12px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 12px;
+  user-select: none;
+  cursor: pointer;
+}
+
+.brand.selected {
+  background: var(--select-bg);
+}
+
+.brand img {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.brand .name {
+  font-size: 16px;
+  font-weight: 700;
+  color: #000;
+}
+
+.section-label {
+  font-size: 12px;
+  color: var(--muted40);
+  margin: 6px 10px 0;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 4px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 12px;
+  cursor: pointer;
+  color: #000;
+}
+
+.nav-item.selected {
+  background: var(--select-bg);
+}
+
+.nav-item:hover {
+  background: rgba(0, 0, 0, .06);
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.profile:hover {
+  background: rgba(0, 0, 0, .06);
+}
+
+.profile img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #ddd;
+}
+
+.profile .pname {
+  font-size: 14px;
+  color: #000;
+}
+
+/* Profile Popover */
+.profile-popover {
+  position: absolute;
+  bottom: 64px;
+  left: 12px;
+  width: 210px;
+  height: 115px;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, .12);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .10);
+  padding: 10px;
+  display: none;
+  z-index: 50;
+}
+
+.profile-popover.show {
+  display: block;
+}
+
+.pp-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #000;
+}
+
+.pp-item .iconify {
+  width: 18px;
+  height: 18px;
+  color: #4b5563;
+}
+
+.pp-item:hover {
+  background: rgba(0, 0, 0, .05);
+}
+
+.pp-divider {
+  height: 1px;
+  background: rgba(0, 0, 0, .12);
+  margin: 6px 4px;
+}
+
+/* Content */
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 18px 24px;
+}
+
+.crumbs {
+  font-size: 16px;
+  color: #000;
+  margin-bottom: 8px;
+}
+
+.center-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.center-card {
+  text-align: center;
+  max-width: 900px;
+  padding: 24px;
+}
+
+.welcome {
+  font-size: 50px;
+  line-height: 1.15;
+  margin: 0 0 16px;
+  font-weight: 600;
+}
+
+.welcome #hiName {
+  color: var(--accent);
+  font-weight: 800;
+}
+
+.subtitle {
+  font-size: 30px;
+  line-height: 1.3;
+  margin: 0;
+  font-weight: 300;
+  color: #000;
+}
+
+@media (max-width: 900px) {
+  .welcome {
+    font-size: 40px;
   }
 
-  /* Layout */
-  .app{
-    display:flex;
-    min-height:100vh;
+  .subtitle {
+    font-size: 24px;
   }
 
-  /* Sidebar */
-  .sidebar{
-    position: relative; /* anchor for profile popover */
-    width: 240px;
-    background: var(--sidebar);
-    display:flex;
-    flex-direction:column;
-    padding: 12px;
-    gap: 12px;
+  .sidebar {
+    width: 210px;
   }
+}
 
-  .brand{
-    display:flex; align-items:center; gap:10px;
-    padding:10px;
-    border-radius:12px;
-    user-select:none;
-    cursor:pointer;
-  }
-  .brand.selected{ background: var(--select-bg); }
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 24px;
+  font-size: 14px;
+  color: var(--muted40);
+}
 
-  .brand img{
-    width:32px; height:32px; border-radius:8px; object-fit:cover;
-  }
-  .brand .name{
-    font-size:16px; font-weight:700; color:#000;
-  }
-
-  .section-label{
-    font-size:12px;
-    color: var(--muted40);
-    margin: 6px 10px 0;
-  }
-
-  .nav{
-    display:flex; flex-direction:column; gap:6px; padding: 4px;
-  }
-  .nav-item{
-    display:flex; align-items:center; gap:10px;
-    text-decoration: none;
-    padding:10px;
-    border-radius:12px;
-    cursor:pointer;
-    color:#000;
-  }
-  .nav-item.selected{ background: var(--select-bg); }
-  .nav-item:hover{ background: rgba(0,0,0,.06); }
-
-  .spacer{ flex:1 1 auto; }
-
-  .profile{
-    display:flex; align-items:center; gap:10px;
-    padding:10px; border-radius:12px;
-    cursor:pointer;
-  }
-  .profile:hover{ background:rgba(0,0,0,.06); }
-  .profile img{
-    width:32px; height:32px; border-radius:50%;
-    object-fit:cover; background:#ddd;
-  }
-  .profile .pname{ font-size:14px; color:#000; }
-
-  /* Profile Popover */
-  .profile-popover{
-    position: absolute;
-    bottom: 64px;
-    left: 12px;
-    width:210px; height:115px;
-    background:#fff;
-    border:1px solid rgba(0,0,0,.12);
-    border-radius:12px;
-    box-shadow:0 8px 24px rgba(0,0,0,.10);
-    padding:10px;
-    display:none;
-    z-index:50;
-  }
-  .profile-popover.show{ display:block; }
-
-  .pp-item{
-    display:flex; align-items:center; gap:10px;
-    padding:8px; border-radius:8px; cursor:pointer;
-    font-size:16px; color:#000;
-  }
-  .pp-item .iconify{ width:18px; height:18px; color:#4b5563; }
-  .pp-item:hover{ background:rgba(0,0,0,.05); }
-  .pp-divider{
-    height:1px; background:rgba(0,0,0,.12);
-    margin:6px 4px;
-  }
-
-  /* Content */
-  .content{
-    flex:1; display:flex; flex-direction:column;
-    padding: 18px 24px;
-  }
-  .crumbs{ font-size:16px; color:#000; margin-bottom: 8px; }
-
-  .center-wrap{ flex:1; display:flex; align-items:center; justify-content:center; }
-  .center-card{ text-align:center; max-width: 900px; padding: 24px; }
-
-  .welcome{ font-size:50px; line-height:1.15; margin:0 0 16px; font-weight:600; }
-  .welcome #hiName{ color: var(--accent); font-weight:800; }
-  .subtitle{ font-size:30px; line-height:1.3; margin:0; font-weight:300; color:#000; }
-
-  @media (max-width: 900px){
-    .welcome{ font-size: 40px; }
-    .subtitle{ font-size: 24px; }
-    .sidebar{ width: 210px; }
-  }
-  .footer{
-    display:flex; justify-content:space-between; align-items:center;
-    padding:12px 24px; font-size:14px; color:var(--muted40);
-  }
-
-  /* الـ Modal الخلفية */
+/* الـ Modal الخلفية */
 #logoutModal {
-  display: none; /* افتراضي مخفي */
+  display: none;
+  /* افتراضي مخفي */
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0,0,0,0.5); /* شفافية */
+  background-color: rgba(0, 0, 0, 0.5);
+  /* شفافية */
   justify-content: center;
   align-items: center;
   z-index: 1000;
@@ -179,10 +291,13 @@
   color: #fff;
 }
 
+.menu-btn {
+  display: none;
+}
 
 /* ===========================
-     📱 Responsive: Mobile
-   =========================== */
+  📱 Responsive: Mobile
+=========================== */
 @media (max-width: 768px) {
 
   /* Sidebar تصغير */
@@ -244,7 +359,8 @@
     font-size: 18px;
   }
 
-  .r-reason, .r-date {
+  .r-reason,
+  .r-date {
     font-size: 16px;
   }
 
@@ -312,16 +428,12 @@
     font-size: 14px;
   }
 }
-/* ===========================
-     📱 Responsive: Mobile
-   =========================== */
-@media (max-width: 768px) {
-
 
 /* ===========================
-     📱 Responsive: Mobile
-   =========================== */
+  📱 Responsive: Mobile
+=========================== */
 @media (max-width: 768px) {
+
 
   /* Sidebar تصغير */
   .sidebar {
@@ -382,7 +494,8 @@
     font-size: 18px;
   }
 
-  .r-reason, .r-date {
+  .r-reason,
+  .r-date {
     font-size: 16px;
   }
 
@@ -449,7 +562,7 @@
     padding: 6px 12px;
     font-size: 14px;
   }
-}
+
 
   /* قائمة البلاغات */
   .report {
@@ -509,21 +622,21 @@
     gap: 8px;
   }
 
-.action-buttons {
+  .action-buttons {
     display: flex;
     justify-content: center;
     gap: 12px;
     margin: 20px 0;
     flex-wrap: wrap;
-}
+  }
 
-.done-btn,
-.restore-btn {
+  .done-btn,
+  .restore-btn {
     width: 120px;
     height: 40px;
     font-size: 16px;
     font-weight: 600;
-}
+  }
 
   /* Tabs */
   .tabs {
@@ -551,36 +664,37 @@
     font-size: 13px;
   }
 
-}
-
-/* Sidebar للجوال */
-@media (max-width: 768px) {
-.sidebar {
+  .sidebar {
     position: fixed;
-    left: -240px; /* مخفي */
+    left: -240px;
+    /* مخفي */
     top: 0;
     height: 100%;
     width: 240px;
     background: var(--sidebar);
     z-index: 100;
     transition: left 0.3s ease;
-}
+  }
 
-.sidebar.open {
-    left: 0; /* يطلع */
-}
+  .sidebar.open {
+    left: 0;
+    /* يطلع */
+  }
 
 
   .sidebar.open {
-    left: 0; /* يطلع */
+    left: 0;
+    /* يطلع */
   }
 
   /* Overlay */
   .overlay {
     position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.4);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
     display: none;
     z-index: 50;
   }
@@ -588,42 +702,40 @@
   .overlay.show {
     display: block;
   }
+
   /* زر القائمة */
-.menu-btn {
-  display: none;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 8px;
-}
-
-.menu-btn .iconify {
-  width: 28px;
-  height: 28px;
-}
-@media (max-width: 768px) {
   .menu-btn {
-    display: block;
-  } 
-}
-@media (max-width: 768px) {
-    .chevron {
-        width: 40px;
-        height: 40px;
-        color: #2E1715; /* لون أقوى */
-    }
-}
-
-}
-/* إظهار زر المنيو فقط في الشاشات الصغيرة (الجوال) */
-.menu-btn {
-  display: none;
-}
-
-@media (max-width: 768px) {
-  .menu-btn {
-    display: flex; /* أو block حسب تصميمك */
+    position: fixed;
+    display: none;
+    background: none;
+    border: none;
+    padding: 8px;
+    top: 5px;
+    right: 10px;
+    z-index: 50;
+    width: 50px;
+    height: 50px;
+    display: flex;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
+  }
+
+  .menu-btn .iconify {
+    width: 28px;
+    height: 28px;
+  }
+
+
+  body[dir="rtl"] .menu-btn {
+    right: auto;
+    left: 10px;
+  }
+
+  .chevron {
+    width: 40px;
+    height: 40px;
+    color: #2E1715;
+    /* لون أقوى */
   }
 }
