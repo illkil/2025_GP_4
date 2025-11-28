@@ -6,11 +6,11 @@ Using artificial intelligence, Wujed compares text and image features to identif
 
 In addition to the mobile application, Wujed includes a dedicated **web-based dashboard** for administrators. This dashboard allows the system team to monitor flagged reports and review AI-generated rejected matches, improving the platform’s accuracy and reliability.
 
----
+
 
 ## Technologies Used
 
-### ** Programming Languages **
+### **Programming Languages**
 - Dart  
 - Python  
 - HTML  
@@ -19,10 +19,10 @@ In addition to the mobile application, Wujed includes a dedicated **web-based da
 - JSON
 - Node.js
 
-### ** Frameworks **
+### **Frameworks**
 - Flutter Framework
 
-### ** Database & Cloud Services **
+### **Database & Cloud Services**
 - Firebase Authentication  
 - Cloud Firestore  
 - Firebase Storage  
@@ -30,18 +30,18 @@ In addition to the mobile application, Wujed includes a dedicated **web-based da
 - Firebase Cloud Messaging (Notifications)  
 - Firebase App Check (Security)
 
-### ** AI & Machine Learning **
+### **AI & Machine Learning**
 - Google Vision API  
 - OpenAI NLP API
 
-### ** Maps**
+### **Maps**
 - Google Maps API
 
 ---
   
 ## 1. Mobile App – Getting Started
 
-### 1- App Launch Instructions
+###  App Launch Instructions
 
 Before running the Flutter application, make sure you have the following installed:
 
@@ -52,7 +52,7 @@ Before running the Flutter application, make sure you have the following install
 - **Emulator**:
   - You can use Xcode. you can download it from [here](https://apps.apple.com/sa/app/xcode/id497799835?mt=12).
   - Or you can use Android Studio, which you can download from [here](https://developer.android.com/studio).
----
+
 
 ### Installation and Launch Steps
 
@@ -76,7 +76,7 @@ It is recommended to use a physical machine or a powerful emulator for optimal p
 
 Be sure to enable the required APIs in Google Cloud Console and Firebase before launching.
 
-
+---
 ## 2- Dashboard – Launch Instructions
 
 The Wujed Dashboard is a local web-based admin panel that runs using MAMP.
@@ -85,7 +85,8 @@ Before running the dashboard, ensure you have:
 
 - **MAMP installed** : You can download it from [here](https://www.mamp.info/en/downloads/), or any other server.
 
--**A modern browser (Chrome or Safari)**
+- **A modern browser (Chrome or Safari)**
+  
 
 ### Installation and Launch Steps
 
