@@ -39,9 +39,9 @@ In addition to the mobile application, Wujed includes a dedicated **web-based da
 
 ---
   
-## 1. Mobile App – Getting Started
+##  Getting Started
 
-###  App Launch Instructions
+###  1. Mobile App 
 
 Before running the Flutter application, make sure you have the following installed:
 
@@ -77,7 +77,7 @@ It is recommended to use a physical machine or a powerful emulator for optimal p
 Be sure to enable the required APIs in Google Cloud Console and Firebase before launching.
 
 ---
-## 2- Dashboard – Launch Instructions
+### 2. Dashboard 
 
 The Wujed Dashboard is a local web-based admin panel that runs using MAMP.
 
