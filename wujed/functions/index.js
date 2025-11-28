@@ -1,3 +1,6 @@
+/* eslint-disable max-len */
+/* eslint-disable no-unused-vars */
+
 const {onCall} = require("firebase-functions/v2/https");
 const {onRequest} = require("firebase-functions/v2/https");
 const {onDocumentCreated} = require("firebase-functions/v2/firestore");
@@ -137,8 +140,7 @@ exports.retryClassification = onDocumentCreated(
     });
 
 
-
-///////////////////////////////////////////////////////////////// ( WUJED DASHBOARD START ) /////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////// ( WUJED DASHBOARD START ) /////////////////////////////////////////////////////////////////
 
 // OTP Settings
 const OTP_COLLECTION = "password_reset_otps";
@@ -159,7 +161,7 @@ exports.requestPasswordResetOtp = onCall(async (request) => {
     userRecord = await admin.auth().getUserByEmail(email);
   } catch (err) {
     // Don't leak info — pretend success
-    return { success: true };
+    return {success: true};
   }
 
   // Generate 6-digit OTP
@@ -182,7 +184,7 @@ exports.requestPasswordResetOtp = onCall(async (request) => {
   // TODO: Replace this with real email sending (SendGrid/Nodemailer/etc.)
   console.log(`Generated OTP for ${email}: ${otp}`);
 
-  return { success: true };
+  return {success: true};
 });
 
 exports.verifyPasswordResetOtp = onCall(async (request) => {
@@ -200,7 +202,7 @@ exports.verifyPasswordResetOtp = onCall(async (request) => {
   const snap = await docRef.get();
 
   if (!snap.exists) {
-    return { valid: false, reason: "not_found" };
+    return {valid: false, reason: "not_found"};
   }
 
   const data = snap.data();
@@ -209,28 +211,28 @@ exports.verifyPasswordResetOtp = onCall(async (request) => {
   // OTP expired?
   if (now > data.expiresAt) {
     await docRef.delete();
-    return { valid: false, reason: "expired" };
+    return {valid: false, reason: "expired"};
   }
 
   // Too many failed attempts?
   const attempts = data.attempts || 0;
   if (attempts >= OTP_MAX_ATTEMPTS) {
     await docRef.delete();
-    return { valid: false, reason: "too_many_attempts" };
+    return {valid: false, reason: "too_many_attempts"};
   }
 
   // Compare hash
   const otpHash = crypto.createHash("sha256").update(otp).digest("hex");
   if (otpHash !== data.otpHash) {
-    await docRef.update({ attempts: attempts + 1 });
-    return { valid: false, reason: "mismatch" };
+    await docRef.update({attempts: attempts + 1});
+    return {valid: false, reason: "mismatch"};
   }
 
   // Success — delete OTP
   await docRef.delete();
 
-  return { valid: true };
+  return {valid: true};
 });
 
 
-///////////////////////////////////////////////////////////////// ( WUJED DASHBOARD END ) /////////////////////////////////////////////////////////////////
+// /////////////////////////////////////////////////////////////// ( WUJED DASHBOARD END ) /////////////////////////////////////////////////////////////////
