@@ -10,7 +10,7 @@ In addition to the mobile application, Wujed includes a dedicated **web-based da
 
 ## Technologies Used
 
-### **Programming Languages**
+### ** Programming Languages **
 - Dart  
 - Python  
 - HTML  
@@ -19,10 +19,10 @@ In addition to the mobile application, Wujed includes a dedicated **web-based da
 - JSON
 - Node.js
 
-### **Frameworks **
+### ** Frameworks **
 - Flutter Framework
 
-### **Database & Cloud Services**
+### ** Database & Cloud Services **
 - Firebase Authentication  
 - Cloud Firestore  
 - Firebase Storage  
@@ -30,11 +30,11 @@ In addition to the mobile application, Wujed includes a dedicated **web-based da
 - Firebase Cloud Messaging (Notifications)  
 - Firebase App Check (Security)
 
-### **AI & Machine Learning**
+### ** AI & Machine Learning **
 - Google Vision API  
 - OpenAI NLP API
 
-### **Maps**
+### ** Maps**
 - Google Maps API
 
 ---
