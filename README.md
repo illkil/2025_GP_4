@@ -92,11 +92,9 @@ Before running the dashboard, ensure you have:
 
 1. Move Dashboard Folder to MAMP
 Move your dashboard folder to:
-- macOS
-Applications/MAMP/htdocs/
-- Windows
-C:\MAMP\htdocs\
-- Ex: C:\MAMP\htdocs\2025_GP_4\Wujed Dashboard
+- **macOS**: Applications/MAMP/htdocs/
+- **Windows**: C:\MAMP\htdocs\
+ Ex: C:\MAMP\htdocs\2025_GP_4\Wujed Dashboard
 
 2. Start MAMP Server
 Open the MAMP application, then click: Start Servers
