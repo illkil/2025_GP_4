@@ -1,10 +1,8 @@
 # Wujed – AI-Powered Lost & Found System
 
-Wujed is an intelligent digital platform designed to help the residents of Riyadh recover lost items more efficiently.  
-The system enables users to report lost or found items by uploading a photo, adding a short description, and providing the location.  
-Using artificial intelligence, Wujed compares text and image features to identify potential matches between reports. When a match is found, both users receive instant notifications and can communicate through a secure in-app chat to confirm the item and arrange its return.
+Wujed is an AI-powered Lost & Found system designed to help people in Riyadh quickly recover their lost belongings. Instead of relying on slow, outdated methods like social media posts or physical lost-and-found boxes, Wujed provides a smart digital platform where users can report lost or found items along with a title, description, location, and images. Using AI for text and image analysis, the system automatically suggests potential matches between lost and found reports. Users can accept or reject these matches, and once confirmed, both sides can securely chat to verify ownership and arrange item return. By combining intelligent technology with a user-friendly experience, Wujed aims to increase recovery rates, encourage community participation, and demonstrate how AI can effectively solve real everyday problems. 
 
-In addition to the mobile application, Wujed includes a dedicated **web-based dashboard** for administrators. This dashboard allows the system team to monitor flagged reports and review AI-generated rejected matches, improving the platform’s accuracy and reliability.
+In addition to the mobile application, Wujed includes a dedicated **web-based dashboard** for administrators. This dashboard allows the system team to monitor flagged reports and review AI-generated matches that were rejected by users, improving the platform’s accuracy and reliability.
 
 
 
@@ -50,8 +48,8 @@ Before running the Flutter application, make sure you have the following install
 - **Integrated Development Environment (IDE)**: We recommend using Visual Studio Code (VS Code) for developing Flutter applications. If you don't have it installed, you can download it from [here](https://code.visualstudio.com/download).
 
 - **Emulator**:
-  - You can use Xcode. you can download it from [here](https://apps.apple.com/sa/app/xcode/id497799835?mt=12).
-  - Or you can use Android Studio, which you can download from [here](https://developer.android.com/studio).
+  - For IOS devices you can use Xcode. download it from [here](https://apps.apple.com/sa/app/xcode/id497799835?mt=12).
+  - Or you can use Android Studio for Windows, which you can download from [here](https://developer.android.com/studio).
 
 
 ### Installation and Launch Steps
@@ -102,9 +100,11 @@ Move your dashboard folder to:
 Open the MAMP application, then click: Start Servers
 
 3. Open the Dashboard in Browser
-After servers start, open your browser and go to: http://localhost:8888/2025_GP_4/WujedDashboard/Wujed.html
+After servers start, open your browser and go to: [http://localhost:8888//WujedDashboard/Wujed.html](http://localhost:8888/Wujed%20Dashboard/Wujed.html)
 
 ### Notes
 If the dashboard does not load data, ensure Apache is running on port 8888.
+
+Confirm that the URL is currect.
 
 Confirm your Firebase config inside dashboard files is correct.
