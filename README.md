@@ -72,8 +72,6 @@ $ flutter run
 
 It is recommended to use a physical machine or a powerful emulator for optimal performance.
 
-Be sure to enable the required APIs in Google Cloud Console and Firebase before launching.
-
 
 ## 2. Dashboard - Getting Started
 
@@ -106,5 +104,3 @@ After servers start, open your browser and go to: [http://localhost:8888//WujedD
 If the dashboard does not load data, ensure Apache is running on port 8888.
 
 Confirm that the URL is currect.
-
-Confirm your Firebase config inside dashboard files is correct.
