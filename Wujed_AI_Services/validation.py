@@ -118,15 +118,12 @@ def analyze_images_for_objects(image_urls: list[str]) -> dict:
             per_image_results.append({
                 "url": image_url,
                 "objects": 0,
-                "used_labels_fallback": False,
                 "note": f"download_failed: {error}",
             })
             continue
 
         notes = []
-        is_blurry = None
         objects_count = 0
-        used_labels_fallback = False
 
         try:
             vision_image = vision.Image(content=image_content)
@@ -137,26 +134,11 @@ def analyze_images_for_objects(image_urls: list[str]) -> dict:
             notes.append(f"object_localization_failed: {e}")
             localized_objects = []
 
-        if objects_count == 0:
-            try:
-                label_resp = vision_client.label_detection(image=vision_image)
-                labels = label_resp.label_annotations or []
-
-                if labels:
-                    objects_count = 1  # treat as "some object exists"
-                    used_labels_fallback = True
-                    notes.append("fallback_labels_used")
-                else:
-                    notes.append("no_labels_found")
-            except Exception as e:
-                notes.append(f"label_detection_failed: {e}")
-
         result = {
-            "file": image_url,
+            "url": image_url,
             "objects": objects_count,
-            "blurry": is_blurry,
-            "used_labels_fallback": used_labels_fallback,
         }
+        
         if notes:
             result["notes"] = notes
 

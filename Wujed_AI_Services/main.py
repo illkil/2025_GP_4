@@ -54,7 +54,7 @@ def classify(request: ClassifyRequest):
     # If report was not valid return immediately, do not go through categorization
     if not accepted:
         return {
-            "accepted": False,
+            "accepted": accepted,
             "reason": reject_reason,
             "category": None,
             "labels": [],
@@ -109,7 +109,7 @@ def classify(request: ClassifyRequest):
 
     # 3) FINAL RESPONSE
     return {
-        "accepted": True,
+        "accepted": accepted,
         "reason": reject_reason,
         "category": category,
         "labels": unique_labels,
