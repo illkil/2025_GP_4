@@ -18,7 +18,8 @@ In addition to the mobile application, Wujed includes a dedicated **web-based da
 - Node.js
 
 ### **Frameworks**
-- Flutter Framework
+- Flutter
+- FastAPI
 
 ### **Database & Cloud Services**
 - Firebase Authentication  
